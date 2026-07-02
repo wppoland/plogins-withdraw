@@ -9,7 +9,7 @@ Stable tag: 0.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Let customers submit a full or partial right-of-withdrawal request for their WooCommerce orders (EU Directive 2023/2673), with an admin log and emails.
+Full or partial EU right-of-withdrawal requests (Directive 2023/2673) for WooCommerce orders, with an admin log and email notifications.
 
 == Description ==
 

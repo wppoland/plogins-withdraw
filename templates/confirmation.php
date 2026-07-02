@@ -26,8 +26,8 @@ defined('ABSPATH') || exit;
         ?>
     </p>
     <ul class="withdraw-form__summary">
-        <?php foreach ($items as $it) : ?>
-            <li><?php echo esc_html((string) $it['name']); ?> &times;<?php echo (int) $it['qty']; ?></li>
+        <?php foreach ($items as $withdraw_item) : ?>
+            <li><?php echo esc_html((string) $withdraw_item['name']); ?> &times;<?php echo (int) $withdraw_item['qty']; ?></li>
         <?php endforeach; ?>
     </ul>
 </div>

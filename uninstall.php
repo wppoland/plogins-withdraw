@@ -15,6 +15,6 @@ global $wpdb;
 delete_option('withdraw_settings');
 delete_option('withdraw_schema_version');
 
-$table = $wpdb->prefix . 'withdraw_requests';
+$withdraw_table = $wpdb->prefix . 'withdraw_requests';
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-$wpdb->query("DROP TABLE IF EXISTS {$table}");
+$wpdb->query("DROP TABLE IF EXISTS {$withdraw_table}");

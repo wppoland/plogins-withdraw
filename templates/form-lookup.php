@@ -15,7 +15,7 @@ declare(strict_types=1);
 defined('ABSPATH') || exit;
 
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- pre-fill only, no state change.
-$wd_order = isset($_GET['wd_order']) ? absint(wp_unslash($_GET['wd_order'])) : 0;
+$withdraw_order_id = isset($_GET['wd_order']) ? absint(wp_unslash($_GET['wd_order'])) : 0;
 ?>
 <div class="withdraw-form">
     <?php if ($intro !== '') : ?>
@@ -40,7 +40,7 @@ $wd_order = isset($_GET['wd_order']) ? absint(wp_unslash($_GET['wd_order'])) : 0
         <?php wp_nonce_field('withdraw_lookup', 'withdraw_nonce'); ?>
         <p class="withdraw-form__field">
             <label for="withdraw_order"><?php echo esc_html__('Order number', 'plogins-withdraw'); ?></label>
-            <input type="text" inputmode="numeric" id="withdraw_order" name="withdraw_order" value="<?php echo $wd_order > 0 ? esc_attr((string) $wd_order) : ''; ?>" required>
+            <input type="text" inputmode="numeric" id="withdraw_order" name="withdraw_order" value="<?php echo $withdraw_order_id > 0 ? esc_attr((string) $withdraw_order_id) : ''; ?>" required>
         </p>
         <p class="withdraw-form__field">
             <label for="withdraw_email"><?php echo esc_html__('Billing email', 'plogins-withdraw'); ?></label>

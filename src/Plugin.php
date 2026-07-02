@@ -43,7 +43,8 @@ final class Plugin
         // activation runs only on the main site (each site seeds on first boot).
         $this->container->get(Migrator::class)->maybeMigrate();
 
-        $this->loadTextDomain();
+        // Translations load automatically on WordPress.org since WP 4.6, no
+        // load_plugin_textdomain() call needed.
 
         /** @var array<class-string<HasHooks>> $hooks */
         $hooks = require WITHDRAW_DIR . 'config/hooks.php';
@@ -60,14 +61,5 @@ final class Plugin
          * @param Plugin $plugin The booted plugin instance.
          */
         do_action('withdraw/booted', $this);
-    }
-
-    private function loadTextDomain(): void
-    {
-        load_plugin_textdomain(
-            'plogins-withdraw',
-            false,
-            dirname(plugin_basename(WITHDRAW_FILE)) . '/languages',
-        );
     }
 }

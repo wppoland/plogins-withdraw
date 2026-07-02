@@ -50,18 +50,18 @@ defined('ABSPATH') || exit;
                 </tr>
             </thead>
             <tbody>
-            <?php foreach ($order->get_items() as $itemId => $item) :
-                if (! $item instanceof \WC_Order_Item_Product) {
+            <?php foreach ($order->get_items() as $withdraw_item_id => $withdraw_item) :
+                if (! $withdraw_item instanceof \WC_Order_Item_Product) {
                     continue;
                 }
-                $max = (int) $item->get_quantity(); ?>
+                $withdraw_max = (int) $withdraw_item->get_quantity(); ?>
                 <tr>
-                    <td><?php echo esc_html($item->get_name()); ?></td>
-                    <td><?php echo (int) $max; ?></td>
+                    <td><?php echo esc_html($withdraw_item->get_name()); ?></td>
+                    <td><?php echo (int) $withdraw_max; ?></td>
                     <td>
-                        <input type="number" min="0" max="<?php echo esc_attr((string) $max); ?>" value="0"
-                            name="withdraw_qty[<?php echo (int) $itemId; ?>]"
-                            aria-label="<?php echo esc_attr(sprintf(/* translators: %s: product */ __('Withdraw quantity for %s', 'plogins-withdraw'), $item->get_name())); ?>">
+                        <input type="number" min="0" max="<?php echo esc_attr((string) $withdraw_max); ?>" value="0"
+                            name="withdraw_qty[<?php echo (int) $withdraw_item_id; ?>]"
+                            aria-label="<?php echo esc_attr(sprintf(/* translators: %s: product */ __('Withdraw quantity for %s', 'plogins-withdraw'), $withdraw_item->get_name())); ?>">
                     </td>
                 </tr>
             <?php endforeach; ?>
