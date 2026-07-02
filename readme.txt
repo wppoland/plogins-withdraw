@@ -19,15 +19,15 @@ It is a **request-and-log** plugin: it records the customer's withdrawal declara
 
 = What it does =
 
-* **Withdrawal form** — the `[withdraw_form]` shortcode renders a two-step form: look up an order by number and billing email (works for guests too), then select items and quantities and submit the withdrawal declaration.
-* **Full or partial withdrawal** — the customer chooses how many of each item to withdraw from.
-* **Withdrawal button in My Account** — a "Withdraw from this order" button appears under the order details and links to your withdrawal page with the order pre-filled.
-* **Withdrawal-period check** — configurable period (statutory minimum 14 days), measured from delivery (order completion) or, if never completed, from the order date.
-* **Admin log** — a WooCommerce → Withdrawal Requests screen lists every request with its items, customer and status (pending, accepted, rejected, processed), filterable by status.
-* **Emails** — automatic confirmation to the customer and notification to the shop.
-* **Model withdrawal text** — an editable block on the form for the statutory model withdrawal form (Annex I.B).
-* **Guest friendly** — no account needed; the order-number + billing-email lookup works for guest orders.
-* **HPOS + Blocks compatible** — reads orders through the WooCommerce order API.
+* **Withdrawal form** â the `[withdraw_form]` shortcode renders a two-step form: look up an order by number and billing email (works for guests too), then select items and quantities and submit the withdrawal declaration.
+* **Full or partial withdrawal** â the customer chooses how many of each item to withdraw from.
+* **Withdrawal button in My Account** â a "Withdraw from this order" button appears under the order details and links to your withdrawal page with the order pre-filled.
+* **Withdrawal-period check** â configurable period (statutory minimum 14 days), measured from delivery (order completion) or, if never completed, from the order date.
+* **Admin log** â a WooCommerce â Withdrawal Requests screen lists every request with its items, customer and status (pending, accepted, rejected, processed), filterable by status.
+* **Emails** â automatic confirmation to the customer and notification to the shop.
+* **Model withdrawal text** â an editable block on the form for the statutory model withdrawal form (Annex I.B).
+* **Guest friendly** â no account needed; the order-number + billing-email lookup works for guest orders.
+* **HPOS + Blocks compatible** â reads orders through the WooCommerce order API.
 
 = Requirements =
 
@@ -40,7 +40,7 @@ It is a **request-and-log** plugin: it records the customer's withdrawal declara
 1. Install and activate WooCommerce.
 2. Install and activate Plogins Withdraw.
 3. Create a page and add the `[withdraw_form]` shortcode.
-4. Go to **WooCommerce → Withdrawal**, select that page as the withdrawal form page, set the withdrawal period and eligible order statuses, and adjust the notification email and legal texts.
+4. Go to **WooCommerce â Withdrawal**, select that page as the withdrawal form page, set the withdrawal period and eligible order statuses, and adjust the notification email and legal texts.
 
 == Frequently Asked Questions ==
 
@@ -55,6 +55,12 @@ No. The plugin provides the technical withdrawal function and editable legal tex
 
 = Is it compatible with HPOS? =
 Yes. Orders are read through the WooCommerce order API, which is HPOS-compatible.
+
+== Screenshots ==
+
+1. The withdrawal request form: order lookup by number and billing email (guest-friendly), with the 14-day right-of-withdrawal notice.
+2. Item selection: full or partial withdrawal with per-item quantities, the model withdrawal text and the declaration.
+3. Settings (WooCommerce → Withdrawal): withdrawal period, form page, eligible statuses, notification email and legal texts, with the request log.
 
 == Changelog ==
 
