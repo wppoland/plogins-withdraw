@@ -1,0 +1,33 @@
+{
+    "name": "wppoland/plogins-withdraw",
+    "description": "EU right-of-withdrawal button and form for WooCommerce (Directive 2023/2673): full or partial withdrawal requests, admin log and email notifications.",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "php": ">=8.1"
+    },
+    "require-dev": {
+        "wp-coding-standards/wpcs": "^3.0",
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+        "phpstan/phpstan": "^1.10",
+        "szepeviktor/phpstan-wordpress": "^1.3",
+        "php-stubs/woocommerce-stubs": "10.8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Withdraw\\": "src/"
+        }
+    },
+    "scripts": {
+        "cs": "phpcs --standard=phpcs.xml.dist",
+        "cs:fix": "phpcbf --standard=phpcs.xml.dist",
+        "analyse": "phpstan analyse -c phpstan.neon.dist --memory-limit=2G"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        },
+        "optimize-autoloader": true,
+        "sort-packages": true
+    }
+}

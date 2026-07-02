@@ -1,0 +1,13 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Plogins Withdraw 0.1.0\n"
+"Report-Msgid-Bugs-To: https://plogins.com/plogins-withdraw/\n"
+"Language-Team: WPPoland <hello@wppoland.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Domain: plogins-withdraw\n"
+
+# Strings are extracted at build time via `wp i18n make-pot`. This header keeps
+# the languages/ directory valid until the first extraction run.

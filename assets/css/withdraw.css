@@ -1,0 +1,103 @@
+/* Plogins Withdraw - customer-facing withdrawal form. Neutral, theme-friendly. */
+.withdraw-form {
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.withdraw-form__intro {
+    margin-bottom: 0.75rem;
+}
+
+.withdraw-form__legal {
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.25rem;
+    border-left: 3px solid currentColor;
+    background: rgba(0, 0, 0, 0.03);
+    font-size: 0.95em;
+}
+
+.withdraw-form__error {
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #b32d2e;
+    border-radius: 6px;
+    color: #b32d2e;
+    background: rgba(179, 45, 46, 0.06);
+}
+
+.withdraw-form__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-bottom: 1rem;
+}
+
+.withdraw-form__field label {
+    font-weight: 600;
+}
+
+.withdraw-form__field input,
+.withdraw-form__field textarea {
+    width: 100%;
+    padding: 0.55rem 0.7rem;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+}
+
+.withdraw-form__heading {
+    margin-bottom: 0.5rem;
+}
+
+.withdraw-form__deadline {
+    margin-bottom: 1rem;
+    font-size: 0.95em;
+    opacity: 0.85;
+}
+
+.withdraw-form__items {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.25rem;
+}
+
+.withdraw-form__items th,
+.withdraw-form__items td {
+    padding: 0.5rem 0.6rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    text-align: left;
+    vertical-align: middle;
+}
+
+.withdraw-form__items input[type="number"] {
+    width: 5rem;
+    padding: 0.35rem 0.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+}
+
+.withdraw-form__model {
+    padding: 0.75rem 1rem;
+    margin: 1rem 0;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.03);
+    font-size: 0.9em;
+}
+
+.withdraw-form__consent {
+    margin: 1rem 0;
+}
+
+.withdraw-form__consent label {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-start;
+}
+
+.withdraw-form__summary {
+    margin-top: 0.75rem;
+    padding-left: 1.25rem;
+}
+
+.withdraw-order-action {
+    margin-top: 1rem;
+}
