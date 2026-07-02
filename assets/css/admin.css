@@ -1,0 +1,115 @@
+.withdraw-settings .withdraw-intro { max-width: 46rem; color: #50575e; }
+
+.withdraw-settings h1 .withdraw-logo {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    vertical-align: -4px;
+    border-radius: 6px;
+    background: #020617;
+    position: relative;
+}
+.withdraw-settings h1 .withdraw-logo::before {
+    content: "";
+    position: absolute;
+    inset: 5px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    border-left-color: transparent;
+}
+.withdraw-settings h1 .withdraw-logo::after {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 5px;
+    width: 0;
+    height: 0;
+    border: 4px solid transparent;
+    border-right-color: #fbbf24;
+}
+
+.withdraw-counts {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 12px 0 4px;
+    padding: 8px 12px;
+    background: #f6f7f7;
+    border: 1px solid #dcdcde;
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+.withdraw-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 16px;
+    margin: 16px 0;
+    max-width: 1040px;
+}
+
+.withdraw-card {
+    background: #fff;
+    border: 1px solid #dcdcde;
+    border-radius: 10px;
+    padding: 16px 18px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .04);
+}
+.withdraw-card--wide { grid-column: 1 / -1; }
+.withdraw-card > header { display: flex; flex-direction: column; gap: 8px; margin-bottom: 8px; }
+.withdraw-card h2 { margin: 0; font-size: 15px; }
+
+.withdraw-fields { border-top: 1px solid #f0f0f1; padding-top: 12px; }
+.withdraw-fields p { margin: 0 0 12px; }
+.withdraw-fields label { display: inline-block; min-width: 0; margin-right: 6px; font-weight: 500; }
+.withdraw-fields select, .withdraw-fields input[type="number"] { min-width: 120px; }
+
+.withdraw-statuses label { display: inline-block; margin: 0 12px 6px 0; font-weight: 400; }
+
+.withdraw-note {
+    color: #996800;
+    background: #fcf9e8;
+    border: 1px solid #f5e6ab;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 12px;
+}
+.withdraw-note[hidden] { display: none; }
+
+.withdraw-help {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    margin-left: 6px;
+    border-radius: 50%;
+    background: #e0e7ff;
+    color: #3730a3;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: help;
+    position: relative;
+}
+.withdraw-help:hover, .withdraw-help:focus { background: #c7d2fe; outline: none; }
+.withdraw-help::after {
+    content: attr(data-withdraw-help);
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 8px);
+    transform: translateX(-50%);
+    width: 240px;
+    background: #1d2327;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.4;
+    padding: 8px 10px;
+    border-radius: 6px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .12s ease;
+    z-index: 20;
+    pointer-events: none;
+}
+.withdraw-help:hover::after, .withdraw-help:focus::after { opacity: 1; visibility: visible; }

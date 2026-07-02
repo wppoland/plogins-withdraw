@@ -8,10 +8,13 @@ use Withdraw\Contract\HasHooks;
 use Withdraw\Migrator;
 use Withdraw\Service\RequestRepository;
 
+use const Withdraw\VERSION;
+
 defined('ABSPATH') || exit;
 
 /**
- * Settings page (WooCommerce → Withdrawal) for the `withdraw_settings` option.
+ * A single, sectioned settings screen (WooCommerce → Withdrawal) for the
+ * `withdraw_settings` option, with inline help on every field.
  */
 final class Settings implements HasHooks
 {
@@ -22,6 +25,7 @@ final class Settings implements HasHooks
     {
         add_action('admin_menu', [$this, 'addMenuPage']);
         add_action('admin_init', [$this, 'registerSettings']);
+        add_action('admin_enqueue_scripts', [$this, 'enqueueAssets']);
     }
 
     public function addMenuPage(): void
@@ -34,6 +38,16 @@ final class Settings implements HasHooks
             self::PAGE,
             [$this, 'renderPage'],
         );
+    }
+
+    public function enqueueAssets(string $hook): void
+    {
+        if ($hook !== 'woocommerce_page_' . self::PAGE) {
+            return;
+        }
+
+        wp_enqueue_style('withdraw-admin', WITHDRAW_URL . 'assets/css/admin.css', [], VERSION);
+        wp_enqueue_script('withdraw-admin', WITHDRAW_URL . 'assets/js/admin.js', [], VERSION, true);
     }
 
     public function registerSettings(): void
@@ -84,11 +98,17 @@ final class Settings implements HasHooks
         }
         $s      = $this->settings();
         $counts = (new RequestRepository())->counts();
+
+        /** A small help tooltip. */
+        $help = static function (string $text): void {
+            echo '<span class="withdraw-help" tabindex="0" aria-label="' . esc_attr($text) . '" data-withdraw-help="' . esc_attr($text) . '">?</span>';
+        };
         ?>
-        <div class="wrap">
-            <h1><?php echo esc_html__('Right of Withdrawal', 'plogins-withdraw'); ?></h1>
-            <p><?php echo esc_html__('Complies with EU Directive 2023/2673 (Art. 11a): an easy withdrawal function letting customers declare a full or partial withdrawal for their orders. Requests are logged under Withdrawal → Requests.', 'plogins-withdraw'); ?></p>
-            <p>
+        <div class="wrap withdraw-settings">
+            <h1><span class="withdraw-logo" aria-hidden="true"></span> <?php echo esc_html__('Right of Withdrawal', 'plogins-withdraw'); ?></h1>
+            <p class="withdraw-intro"><?php echo esc_html__('Complies with EU Directive 2023/2673 (Art. 11a): an easy withdrawal function letting customers declare a full or partial withdrawal for their orders. Requests are logged under WooCommerce → Withdrawal Requests.', 'plogins-withdraw'); ?></p>
+
+            <p class="withdraw-counts">
                 <strong><?php echo esc_html__('Requests:', 'plogins-withdraw'); ?></strong>
                 <?php
                 echo esc_html(sprintf(
@@ -102,54 +122,92 @@ final class Settings implements HasHooks
                 ?>
                 &middot; <a href="<?php echo esc_url(admin_url('admin.php?page=' . RequestsAdmin::PAGE)); ?>"><?php echo esc_html__('View requests', 'plogins-withdraw'); ?></a>
             </p>
+
             <form method="post" action="options.php">
                 <?php settings_fields(self::PAGE); ?>
-                <table class="form-table" role="presentation">
-                    <tr>
-                        <th scope="row"><label for="wd-period"><?php echo esc_html__('Withdrawal period (days)', 'plogins-withdraw'); ?></label></th>
-                        <td><input type="number" id="wd-period" min="1" max="365" name="<?php echo esc_attr(self::OPTION); ?>[period_days]" value="<?php echo esc_attr((string) $s['period_days']); ?>"> <span class="description"><?php echo esc_html__('Statutory minimum is 14 days from delivery.', 'plogins-withdraw'); ?></span></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="wd-page"><?php echo esc_html__('Withdrawal form page', 'plogins-withdraw'); ?></label></th>
-                        <td>
-                            <?php
-                            wp_dropdown_pages([
-                                'name'              => esc_attr(self::OPTION) . '[form_page_id]',
-                                'id'                => 'wd-page',
-                                'selected'          => (int) $s['form_page_id'],
-                                'show_option_none'  => esc_html__('— Select —', 'plogins-withdraw'),
-                                'option_none_value' => '0',
-                            ]);
-                            ?>
-                            <p class="description"><?php echo esc_html__('Create a page with the [withdraw_form] shortcode, then select it here so the My Account button can link to it.', 'plogins-withdraw'); ?></p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><?php echo esc_html__('Eligible order statuses', 'plogins-withdraw'); ?></th>
-                        <td>
-                            <?php foreach (wc_get_order_statuses() as $key => $label) :
-                                $slug = preg_replace('/^wc-/', '', $key); ?>
-                                <label style="display:inline-block;margin:0 12px 6px 0">
-                                    <input type="checkbox" name="<?php echo esc_attr(self::OPTION); ?>[eligible_statuses][]" value="<?php echo esc_attr($slug); ?>" <?php checked(in_array($slug, (array) $s['eligible_statuses'], true)); ?>>
-                                    <?php echo esc_html($label); ?>
-                                </label>
-                            <?php endforeach; ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="wd-email"><?php echo esc_html__('Notification email', 'plogins-withdraw'); ?></label></th>
-                        <td><input type="email" id="wd-email" class="regular-text" name="<?php echo esc_attr(self::OPTION); ?>[notify_email]" value="<?php echo esc_attr((string) $s['notify_email']); ?>" placeholder="<?php echo esc_attr(get_option('admin_email')); ?>"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="wd-intro"><?php echo esc_html__('Form intro text', 'plogins-withdraw'); ?></label></th>
-                        <td><textarea id="wd-intro" class="large-text" rows="3" name="<?php echo esc_attr(self::OPTION); ?>[intro_text]"><?php echo esc_textarea((string) $s['intro_text']); ?></textarea></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="wd-model"><?php echo esc_html__('Model withdrawal text', 'plogins-withdraw'); ?></label></th>
-                        <td><textarea id="wd-model" class="large-text" rows="4" name="<?php echo esc_attr(self::OPTION); ?>[model_form_text]"><?php echo esc_textarea((string) $s['model_form_text']); ?></textarea>
-                        <p class="description"><?php echo esc_html__('Shown on the form. Adapt to the statutory model withdrawal form (Annex I.B).', 'plogins-withdraw'); ?></p></td>
-                    </tr>
-                </table>
+
+                <div class="withdraw-cards">
+
+                    <section class="withdraw-card">
+                        <header><h2><?php echo esc_html__('General', 'plogins-withdraw'); ?></h2></header>
+                        <div class="withdraw-fields">
+                            <p>
+                                <label for="wd-period"><?php echo esc_html__('Withdrawal period (days)', 'plogins-withdraw'); ?></label>
+                                <input type="number" id="wd-period" min="1" max="365" name="<?php echo esc_attr(self::OPTION); ?>[period_days]" value="<?php echo esc_attr((string) $s['period_days']); ?>">
+                                <?php $help(__('Statutory minimum is 14 days from delivery. The window starts when the order is marked completed, or at order creation if it never was.', 'plogins-withdraw')); ?>
+                            </p>
+                        </div>
+                    </section>
+
+                    <section class="withdraw-card">
+                        <header><h2><?php echo esc_html__('Form page', 'plogins-withdraw'); ?></h2></header>
+                        <div class="withdraw-fields">
+                            <p>
+                                <label for="wd-page"><?php echo esc_html__('Withdrawal form page', 'plogins-withdraw'); ?></label>
+                                <?php
+                                wp_dropdown_pages([
+                                    'name'              => esc_attr(self::OPTION) . '[form_page_id]',
+                                    'id'                => 'wd-page',
+                                    'selected'          => (int) $s['form_page_id'],
+                                    'show_option_none'  => esc_html__('Select a page', 'plogins-withdraw'),
+                                    'option_none_value' => '0',
+                                ]);
+                                $help(__('Create a page with the [withdraw_form] shortcode, then select it here so the My Account button can link to it.', 'plogins-withdraw'));
+                                ?>
+                            </p>
+                        </div>
+                    </section>
+
+                    <section class="withdraw-card">
+                        <header>
+                            <h2>
+                                <?php echo esc_html__('Eligibility', 'plogins-withdraw'); ?>
+                                <?php $help(__('Customers can only submit a withdrawal for orders in one of these statuses. If none are checked, Completed and Processing are used.', 'plogins-withdraw')); ?>
+                            </h2>
+                        </header>
+                        <div class="withdraw-fields">
+                            <p class="withdraw-statuses" data-withdraw-statuses>
+                                <?php foreach (wc_get_order_statuses() as $key => $label) :
+                                    $slug = preg_replace('/^wc-/', '', $key); ?>
+                                    <label>
+                                        <input type="checkbox" name="<?php echo esc_attr(self::OPTION); ?>[eligible_statuses][]" value="<?php echo esc_attr($slug); ?>" <?php checked(in_array($slug, (array) $s['eligible_statuses'], true)); ?>>
+                                        <?php echo esc_html($label); ?>
+                                    </label>
+                                <?php endforeach; ?>
+                            </p>
+                            <p class="withdraw-note" data-withdraw-statuses-note hidden><?php echo esc_html__('No status checked: Completed and Processing will be saved instead.', 'plogins-withdraw'); ?></p>
+                        </div>
+                    </section>
+
+                    <section class="withdraw-card">
+                        <header><h2><?php echo esc_html__('Emails', 'plogins-withdraw'); ?></h2></header>
+                        <div class="withdraw-fields">
+                            <p>
+                                <label for="wd-email"><?php echo esc_html__('Notification email', 'plogins-withdraw'); ?></label>
+                                <input type="email" id="wd-email" class="regular-text" name="<?php echo esc_attr(self::OPTION); ?>[notify_email]" value="<?php echo esc_attr((string) $s['notify_email']); ?>" placeholder="<?php echo esc_attr(get_option('admin_email')); ?>">
+                                <?php $help(__('Where new-request notifications are sent. Leave empty to use the site admin email. The customer always gets a confirmation at their own address.', 'plogins-withdraw')); ?>
+                            </p>
+                        </div>
+                    </section>
+
+                    <section class="withdraw-card withdraw-card--wide">
+                        <header><h2><?php echo esc_html__('Legal texts', 'plogins-withdraw'); ?></h2></header>
+                        <div class="withdraw-fields">
+                            <p>
+                                <label for="wd-intro"><?php echo esc_html__('Form intro text', 'plogins-withdraw'); ?></label>
+                                <?php $help(__('Shown above the order lookup step of the withdrawal form.', 'plogins-withdraw')); ?><br>
+                                <textarea id="wd-intro" class="large-text" rows="3" name="<?php echo esc_attr(self::OPTION); ?>[intro_text]"><?php echo esc_textarea((string) $s['intro_text']); ?></textarea>
+                            </p>
+                            <p>
+                                <label for="wd-model"><?php echo esc_html__('Model withdrawal text', 'plogins-withdraw'); ?></label>
+                                <?php $help(__('Shown on the form. Adapt to the statutory model withdrawal form (Annex I.B).', 'plogins-withdraw')); ?><br>
+                                <textarea id="wd-model" class="large-text" rows="4" name="<?php echo esc_attr(self::OPTION); ?>[model_form_text]"><?php echo esc_textarea((string) $s['model_form_text']); ?></textarea>
+                            </p>
+                        </div>
+                    </section>
+
+                </div>
+
                 <?php submit_button(); ?>
             </form>
         </div>
