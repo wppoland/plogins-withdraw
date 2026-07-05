@@ -7,7 +7,6 @@ defined('ABSPATH') || exit;
 use Withdraw\Admin\RequestsAdmin;
 use Withdraw\Admin\Settings;
 use Withdraw\Frontend\MyAccount;
-use Withdraw\Service\ElementorWidgets;
 use Withdraw\Service\WithdrawalService;
 
 /**
@@ -21,10 +20,8 @@ return is_admin()
         WithdrawalService::class, // shortcode + POST handling also work in admin-preview contexts
         Settings::class,
         RequestsAdmin::class,
-        ElementorWidgets::class,
     ]
     : [
         WithdrawalService::class,
         MyAccount::class,
-        ElementorWidgets::class,
     ];

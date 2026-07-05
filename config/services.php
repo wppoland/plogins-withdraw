@@ -9,7 +9,6 @@ defined('ABSPATH') || exit;
 use Withdraw\Admin\RequestsAdmin;
 use Withdraw\Admin\Settings;
 use Withdraw\Frontend\MyAccount;
-use Withdraw\Service\ElementorWidgets;
 use Withdraw\Service\RequestRepository;
 use Withdraw\Service\WithdrawalService;
 
@@ -26,9 +25,6 @@ return static function (Container $c): void {
         $c->get(RequestRepository::class),
     ));
     $c->singleton(MyAccount::class, static fn (): MyAccount => new MyAccount());
-
-    // Elementor integration (self-guards on the elementor/widgets/register hook).
-    $c->singleton(ElementorWidgets::class, static fn (): ElementorWidgets => new ElementorWidgets());
 
     if (is_admin()) {
         $c->singleton(Settings::class, static fn (): Settings => new Settings());
