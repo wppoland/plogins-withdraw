@@ -108,11 +108,11 @@ final class RequestRepository
         $params[] = $offset;
         array_unshift($params, $table);
 
-        // phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
-        $rows = $wpdb->get_results($wpdb->prepare(
-            "SELECT * FROM %i WHERE {$where} ORDER BY created_at DESC LIMIT %d OFFSET %d",
-            $params,
-        ));
+        // $where is built only from hard-coded SQL fragments (' AND status = %s', ' AND (customer_email LIKE %s OR order_id = %d)') with placeholders; every bound value goes through $params into $wpdb->prepare(). No user input is interpolated.
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $where contains only trusted hard-coded fragments with placeholders; values bound via $params.
+        $sql = "SELECT * FROM %i WHERE {$where} ORDER BY created_at DESC LIMIT %d OFFSET %d"; // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $where is trusted hard-coded SQL with placeholders only.
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.NotPrepared -- $sql is trusted hard-coded SQL with placeholders; values bound via $params through prepare().
+        $rows = $wpdb->get_results($wpdb->prepare($sql, $params));
 
         return is_array($rows) ? $rows : [];
     }
