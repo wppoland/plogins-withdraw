@@ -63,8 +63,8 @@ final class RequestRepository
     {
         global $wpdb;
         $table = Migrator::table();
-        // phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-        $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$table} WHERE id = %d", $id));
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+        $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM %i WHERE id = %d", $table, $id));
 
         return $row ?: null;
     }
@@ -74,9 +74,10 @@ final class RequestRepository
     {
         global $wpdb;
         $table = Migrator::table();
-        // phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery
         return (int) $wpdb->get_var($wpdb->prepare(
-            "SELECT COUNT(*) FROM {$table} WHERE order_id = %d AND status IN ('pending','accepted')",
+            "SELECT COUNT(*) FROM %i WHERE order_id = %d AND status IN ('pending','accepted')",
+            $table,
             $orderId,
         ));
     }
@@ -105,10 +106,11 @@ final class RequestRepository
         }
         $params[] = $limit;
         $params[] = $offset;
+        array_unshift($params, $table);
 
         // phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
         $rows = $wpdb->get_results($wpdb->prepare(
-            "SELECT * FROM {$table} WHERE {$where} ORDER BY created_at DESC LIMIT %d OFFSET %d",
+            "SELECT * FROM %i WHERE {$where} ORDER BY created_at DESC LIMIT %d OFFSET %d",
             $params,
         ));
 
@@ -120,8 +122,8 @@ final class RequestRepository
     {
         global $wpdb;
         $table = Migrator::table();
-        // phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-        $rows = $wpdb->get_results("SELECT status, COUNT(*) AS n FROM {$table} GROUP BY status");
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+        $rows = $wpdb->get_results($wpdb->prepare("SELECT status, COUNT(*) AS n FROM %i GROUP BY status", $table));
 
         $out = array_fill_keys(self::STATUSES, 0);
         foreach ((array) $rows as $r) {
