@@ -6,7 +6,7 @@ declare(strict_types=1);
  * Plugin Name:       Plogins Withdraw - Right of Withdrawal Button for WooCommerce
  * Plugin URI:        https://plogins.com/plogins-withdraw/
  * Description:       EU right-of-withdrawal button and form (Directive 2023/2673, Art. 11a): let customers submit full or partial withdrawal requests for their orders, with an admin log and email notifications.
- * Version:           0.1.1
+ * Version:           1.0.1
  * Requires at least: 6.5
  * Requires PHP:      8.1
  * Tested up to:      7.0
@@ -26,7 +26,7 @@ namespace Withdraw;
 
 defined('ABSPATH') || exit;
 
-const VERSION = '0.1.1';
+const VERSION = '1.0.1';
 
 define('WITHDRAW_FILE', __FILE__);
 define('WITHDRAW_DIR', plugin_dir_path(__FILE__));
