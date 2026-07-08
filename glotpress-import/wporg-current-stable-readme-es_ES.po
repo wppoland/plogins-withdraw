@@ -1,0 +1,58 @@
+# wp.org Stable Readme translation (es_ES)
+msgid ""
+msgstr ""
+"Project-Id-Version: withdraw Stable Readme\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: plogins-i18n\n"
+
+msgid "Requires Plugins: woocommerce"
+msgstr "Requiere complementos: woocommerce"
+
+msgid "Full or partial EU right-of-withdrawal requests (Directive 2023/2673) for WooCommerce orders, with an admin log and email notifications."
+msgstr "Solicitudes de derecho de desistimiento total o parcial de la UE (Directiva 2023/2673) para pedidos de WooCommerce, con un registro de administrador y notificaciones por correo electrónico."
+
+msgid "Plogins Withdraw adds an easy withdrawal function to WooCommerce, aligned with <strong>EU Directive 2023/2673</strong> (the \"withdrawal button\", Art. 11a): a clear way for customers to declare that they withdraw from a distance contract, in full or per item, within the statutory withdrawal period."
+msgstr "Plogins Withdraw añade una función de retiro sencilla a WooCommerce, alineada con la <strong>Directiva de la UE 2023/2673</strong> (el \"botón de retiro\", Art. 11a): una forma clara para que los clientes declaren que desisten de un contrato a distancia, en su totalidad o por artículo, dentro del período de retiro legal."
+
+msgid "It is a <strong>request-and-log</strong> plugin: it records the customer's withdrawal declaration, emails a confirmation to the customer and a notification to the shop, and tracks the request status in the admin. It never moves money on its own, you process any refund in the normal WooCommerce order screen, matching the legal model where the customer declares and the trader acts."
+msgstr "Es un complemento de <strong>solicitud y registro</strong>: registra la declaración de retiro del cliente, envía por correo electrónico una confirmación al cliente y una notificación a la tienda, y rastrea el estado de la solicitud en el administrador. Nunca mueve dinero por sí solo, procesa cualquier reembolso en la pantalla de pedido normal de WooCommerce, coincidiendo con el modelo legal donde el cliente declara y el comerciante actúa."
+
+msgid "* <strong>Withdrawal form</strong>: the `[withdraw_form]` shortcode renders a two-step form: look up an order by number and billing email (works for guests too), then select items and quantities and submit the withdrawal declaration.\n* <strong>Full or partial withdrawal</strong>: the customer chooses how many of each item to withdraw from.\n* <strong>Withdrawal button in My Account</strong>: a \"Withdraw from this order\" button appears under the order details and links to your withdrawal page with the order pre-filled.\n* <strong>Withdrawal-period check</strong>: configurable period (statutory minimum 14 days), measured from delivery (order completion) or, if never completed, from the order date.\n* <strong>Admin log</strong>: a WooCommerce → Withdrawal Requests screen lists every request with its items, customer and status (pending, accepted, rejected, processed), filterable by status.\n* <strong>Emails</strong>: automatic confirmation to the customer and notification to the shop.\n* <strong>Model withdrawal text</strong>: an editable block on the form for the statutory model withdrawal form (Annex I.B).\n* <strong>Guest friendly</strong>: no account needed; the order-number + billing-email lookup works for guest orders.\n* <strong>HPOS + Blocks compatible</strong>: reads orders through the WooCommerce order API."
+msgstr "* <strong>Formulario de retiro</strong>: el código abreviado `[withdraw_form]` genera un formulario de dos pasos: busque un pedido por número y correo electrónico de facturación (también funciona para invitados), luego seleccione artículos y cantidades y envíe la declaración de retiro.\n* <strong>Retiro total o parcial</strong>: el cliente elige de cuántos de cada artículo desea retirar.\n* <strong>Botón de retiro en Mi cuenta</strong>: aparece un botón \"Retirar de este pedido\" debajo de los detalles del pedido y enlaces a su página de retiro con el pedido precompletado.\n* <strong>Verificación del período de desistimiento</strong>: período configurable (mínimo legal 14 días), medido desde la entrega (finalización del pedido) o, si nunca se completa, desde la fecha del pedido.\n* <strong>Registro de administración</strong>: una pantalla de Solicitudes de retiro de WooCommerce → enumera cada solicitud con sus artículos, cliente y estado (pendiente, aceptado, rechazado, procesado), filtrable por estado.\n* <strong>Emails</strong>: confirmación automática al cliente y notificación a la tienda.\n* <strong>Texto del modelo de desistimiento</strong>: bloque editable en el formulario del modelo de formulario de desistimiento reglamentario (Anexo I.B).\n* <strong>Apto para huéspedes</strong>: no se necesita cuenta; la búsqueda de número de pedido + correo electrónico de facturación funciona para pedidos de invitados.\n* <strong>Compatible con HPOS + Blocks</strong>: lee pedidos a través de la API de pedidos de WooCommerce."
+
+msgid "* WordPress 6.5 or later\n* PHP 8.1 or later\n* WooCommerce 8.0 or later"
+msgstr "*WordPress 6.5 o posterior\n*PHP 8.1 o posterior\n* WooCommerce 8.0 o posterior"
+
+msgid "1. Install and activate WooCommerce.\n2. Install and activate Plogins Withdraw.\n3. Create a page and add the `[withdraw_form]` shortcode.\n4. Go to <strong>WooCommerce → Withdrawal</strong>, select that page as the withdrawal form page, set the withdrawal period and eligible order statuses, and adjust the notification email and legal texts."
+msgstr "1. Instale y active WooCommerce.\n2. Instale y active Plogins Withdraw.\n3. Cree una página y añade el código corto `[withdraw_form]`.\n4. Vaya a <strong>WooCommerce → Retiro</strong>, seleccione esa página como la página del formulario de retiro, establezca el período de retiro y los estados de los pedidos elegibles, y ajuste el correo electrónico de notificación y los textos legales."
+
+msgid "No. This records the withdrawal request and tracks its status. Process any refund in the normal WooCommerce order screen; the request status is managed on the Withdrawal Requests screen."
+msgstr "No. Esto registra la solicitud de retiro y rastrea su estado. Procese cualquier reembolso en la pantalla normal de pedidos de WooCommerce; el estado de la solicitud se gestiona en la pantalla Solicitudes de retiro."
+
+msgid "Yes. Customers look up their order with the order number and the billing email used at checkout, so guests can submit a withdrawal without an account."
+msgstr "Sí. Los clientes buscan su pedido con el número de pedido y el correo electrónico de facturación utilizado al realizar el pago, para que puedan realizar un retiro sin una cuenta."
+
+msgid "No. The plugin provides the technical withdrawal function and editable legal texts. Configure the period and wording to match your jurisdiction and the statutory model withdrawal form."
+msgstr "No. El complemento proporciona la función de retiro técnico y textos legales editables. Configure el período y la redacción para que coincidan con su jurisdicción y el modelo de formulario de retiro legal."
+
+msgid "Yes. Orders are read through the WooCommerce order API, which is HPOS-compatible."
+msgstr "Sí. Los pedidos se leen a través de la API de pedidos de WooCommerce, que es compatible con HPOS."
+
+msgid "1. The withdrawal request form: order lookup by number and billing email (guest-friendly), with the 14-day right-of-withdrawal notice.\n2. Item selection: full or partial withdrawal with per-item quantities, the model withdrawal text and the declaration.\n3. Settings (WooCommerce → Withdrawal): withdrawal period, form page, eligible statuses, notification email and legal texts, with the request log."
+msgstr "1. El formulario de solicitud de retiro: búsqueda de pedidos por número y correo electrónico de facturación (apto para huéspedes), con el aviso de derecho de retiro de 14 días.\n2. Selección de artículos: retiro total o parcial con cantidades por artículo, el texto del modelo de retiro y la declaración.\n3. Configuración (WooCommerce → Retiro): período de retiro, página del formulario, estados elegibles, correo electrónico de notificación y textos legales, con el registro de solicitudes."
+
+msgid "* First stable release."
+msgstr "* Primera versión estable."
+
+msgid "* Plugin Check: escaping/sanitisation/i18n/hygiene fixes (table-name identifiers now passed via %i placeholders in prepared statements)."
+msgstr "* Comprobación de complementos: correcciones de escape/desinfección/i18n/higiene (los identificadores de nombres de tablas ahora se pasan a través de marcadores de posición %i en declaraciones preparadas)."
+
+msgid "* Initial release: `[withdraw_form]` shortcode (order lookup + full/partial item selection), My Account withdrawal button, configurable withdrawal period and eligible statuses, admin request log with statuses, customer and shop emails, editable model withdrawal text. HPOS + Blocks compatible."
+msgstr "* Lanzamiento inicial: código abreviado `[withdraw_form]` (búsqueda de pedidos + selección completa/parcial de artículos), botón de retiro de Mi cuenta, período de retiro configurable y estados elegibles, registro de solicitudes de administrador con estados, correos electrónicos de clientes y tiendas, texto de retiro de modelo editable. Compatible con bloques HPOS +."
+
+msgid "Initial release."
+msgstr "Lanzamiento inicial."
+

@@ -1,0 +1,419 @@
+# Copyright (C) 2026 WPPoland
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Plogins Withdraw - Right of Withdrawal Button for WooCommerce 0.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/plogins-withdraw\n"
+"POT-Creation-Date: 2026-07-02T09:24:51+00:00\n"
+"PO-Revision-Date: 2026-07-07T18:00:00+00:00\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: Spanish\n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: plogins-withdraw\n"
+"X-Generator: WP-CLI 2.12.0\n"
+
+#. Plugin Name of the plugin
+#: plogins-withdraw.php
+msgid "Plogins Withdraw - Right of Withdrawal Button for WooCommerce"
+msgstr ""
+"Plogins Withdraw - Botón de derecho de desistimiento para WooCommerce"
+
+#. Plugin URI of the plugin
+#: plogins-withdraw.php
+msgid "https://plogins.com/plogins-withdraw/"
+msgstr "https://plogins.com/es/plogins-withdraw/"
+
+#. Description of the plugin
+#: plogins-withdraw.php
+msgid ""
+"EU right-of-withdrawal button and form (Directive 2023/2673, Art. 11a): let "
+"customers submit full or partial withdrawal requests for their orders, with "
+"an admin log and email notifications."
+msgstr ""
+"Botón y formulario de derecho de desistimiento de la UE (Directiva "
+"2023/2673, Art. 11a): permite a los clientes enviar solicitudes de retiro "
+"total o parcial de sus pedidos, con un registro de administrador y "
+"notificaciones por correo electrónico."
+
+#. Author of the plugin
+#: plogins-withdraw.php
+msgid "WPPoland"
+msgstr "WPPoland"
+
+#. Author URI of the plugin
+#: plogins-withdraw.php
+msgid "https://wppoland.com"
+msgstr "https://wppoland.com"
+
+#: plogins-withdraw.php:56
+msgid "Plogins Withdraw requires WooCommerce to be installed and active."
+msgstr "Plogins Withdraw requiere que WooCommerce esté instalado y activo."
+
+#: src/Admin/RequestsAdmin.php:35 src/Admin/RequestsAdmin.php:36
+#: src/Admin/RequestsAdmin.php:71
+msgid "Withdrawal Requests"
+msgstr "Solicitudes de desistimiento"
+
+#: src/Admin/RequestsAdmin.php:46
+msgid "Permission denied."
+msgstr "Permiso denegado."
+
+#: src/Admin/RequestsAdmin.php:74
+msgid "Status updated."
+msgstr "Estado actualizado."
+
+#: src/Admin/RequestsAdmin.php:77
+msgid "All"
+msgstr "Todos"
+
+#: src/Admin/RequestsAdmin.php:85
+msgid "ID"
+msgstr "ID"
+
+#: src/Admin/RequestsAdmin.php:86
+msgid "Order"
+msgstr "Orden"
+
+#: src/Admin/RequestsAdmin.php:87
+msgid "Customer"
+msgstr "Cliente"
+
+#: src/Admin/RequestsAdmin.php:88
+msgid "Items"
+msgstr "Artículos"
+
+#: src/Admin/RequestsAdmin.php:89
+msgid "Date"
+msgstr "Fecha"
+
+#: src/Admin/RequestsAdmin.php:90
+msgid "Status"
+msgstr "Estado"
+
+#: src/Admin/RequestsAdmin.php:95
+msgid "No withdrawal requests yet."
+msgstr "Aún no hay solicitudes de retiro."
+
+#: src/Admin/RequestsAdmin.php:120
+msgid "Save"
+msgstr "Guardar"
+
+#: src/Admin/Settings.php:35 src/Admin/Settings.php:36
+msgid "Withdrawal"
+msgstr "Retiro"
+
+#: src/Admin/Settings.php:108
+msgid "Right of Withdrawal"
+msgstr "Derecho de Retiro"
+
+#: src/Admin/Settings.php:109
+msgid ""
+"Complies with EU Directive 2023/2673 (Art. 11a): an easy withdrawal function"
+" letting customers declare a full or partial withdrawal for their orders. "
+"Requests are logged under WooCommerce → Withdrawal Requests."
+msgstr ""
+"Cumple con la Directiva de la UE 2023/2673 (Art. 11a): una función de retiro"
+" fácil que permite a los clientes declarar un retiro total o parcial de sus "
+"pedidos. Las solicitudes se registran en WooCommerce → Solicitudes de "
+"retiro."
+
+#: src/Admin/Settings.php:112
+msgid "Requests:"
+msgstr "Solicitudes:"
+
+#. translators: 1: pending, 2: accepted, 3: processed, 4: rejected
+#: src/Admin/Settings.php:116
+#, php-format
+msgid "%1$d pending, %2$d accepted, %3$d processed, %4$d rejected"
+msgstr "%1$d pendiente, %2$d aceptado, %3$d procesado, %4$d rechazado"
+
+#: src/Admin/Settings.php:123
+msgid "View requests"
+msgstr "Ver solicitudes"
+
+#: src/Admin/Settings.php:132
+msgid "General"
+msgstr "General"
+
+#: src/Admin/Settings.php:135
+msgid "Withdrawal period (days)"
+msgstr "Periodo de retiro (días)"
+
+#: src/Admin/Settings.php:137
+msgid ""
+"Statutory minimum is 14 days from delivery. The window starts when the order"
+" is marked completed, or at order creation if it never was."
+msgstr ""
+"El mínimo legal es de 14 días desde la entrega. La ventana comienza cuando "
+"el pedido se marca como completado, o en el momento de la creación del "
+"pedido si nunca lo estuvo."
+
+#: src/Admin/Settings.php:143
+msgid "Form page"
+msgstr "página de formulario"
+
+#: src/Admin/Settings.php:146
+msgid "Withdrawal form page"
+msgstr "Página del formulario de retiro"
+
+#: src/Admin/Settings.php:152
+msgid "Select a page"
+msgstr "Seleccione una página"
+
+#: src/Admin/Settings.php:155
+msgid ""
+"Create a page with the [withdraw_form] shortcode, then select it here so the"
+" My Account button can link to it."
+msgstr ""
+"Cree una página con el código abreviado [withdraw_form], luego selecciónela "
+"aquí para que el botón Mi cuenta pueda vincularla."
+
+#: src/Admin/Settings.php:164
+msgid "Eligibility"
+msgstr "Elegibilidad"
+
+#: src/Admin/Settings.php:165
+msgid ""
+"Customers can only submit a withdrawal for orders in one of these statuses. "
+"If none are checked, Completed and Processing are used."
+msgstr ""
+"Los clientes solo pueden enviar un retiro para pedidos en uno de estos "
+"estados. Si no se marca ninguno, se utilizan Completado y Procesando."
+
+#: src/Admin/Settings.php:178
+msgid "No status checked: Completed and Processing will be saved instead."
+msgstr ""
+"No se ha marcado ningún estado: en su lugar se guardará Completado y "
+"Procesando."
+
+#: src/Admin/Settings.php:183
+msgid "Emails"
+msgstr "Correos electrónicos"
+
+#: src/Admin/Settings.php:186
+msgid "Notification email"
+msgstr "Correo electrónico de notificación"
+
+#: src/Admin/Settings.php:188
+msgid ""
+"Where new-request notifications are sent. Leave empty to use the site admin "
+"email. The customer always gets a confirmation at their own address."
+msgstr ""
+"Dónde se envían las notificaciones de nuevas solicitudes. Déjelo vacío para "
+"usar el correo electrónico del administrador del sitio. El cliente siempre "
+"recibe una confirmación en su propia dirección."
+
+#: src/Admin/Settings.php:194
+msgid "Legal texts"
+msgstr "Textos legales"
+
+#: src/Admin/Settings.php:197
+msgid "Form intro text"
+msgstr "Texto de introducción del formulario"
+
+#: src/Admin/Settings.php:198
+msgid "Shown above the order lookup step of the withdrawal form."
+msgstr ""
+"Se muestra encima del paso de búsqueda de pedidos del formulario de retiro."
+
+#: src/Admin/Settings.php:202
+msgid "Model withdrawal text"
+msgstr "Texto de retirada del modelo"
+
+#: src/Admin/Settings.php:203
+msgid ""
+"Shown on the form. Adapt to the statutory model withdrawal form (Annex I.B)."
+msgstr ""
+"Se muestra en el formulario. Adáptese al modelo reglamentario de formulario "
+"de desistimiento (Anexo I.B)."
+
+#: src/Frontend/MyAccount.php:46
+msgid "Withdraw from this order"
+msgstr "Desistir de este pedido"
+
+#: src/Service/WithdrawalService.php:84 src/Service/WithdrawalService.php:115
+msgid "Security check failed. Please try again."
+msgstr "El control de seguridad falló. Por favor inténtalo de nuevo."
+
+#: src/Service/WithdrawalService.php:92 src/Service/WithdrawalService.php:122
+msgid "We could not find an order with that number and email."
+msgstr "No pudimos encontrar un pedido con ese número y correo electrónico."
+
+#: src/Service/WithdrawalService.php:125
+msgid "This order is no longer eligible for withdrawal."
+msgstr "Este pedido ya no es elegible para retiro."
+
+#: src/Service/WithdrawalService.php:150
+msgid "Please select at least one item to withdraw from."
+msgstr "Seleccione al menos un artículo del que desea retirar."
+
+#: src/Service/WithdrawalService.php:196
+msgid "This order is not in a status that can be withdrawn."
+msgstr "Este pedido no se encuentra en un estado que pueda retirarse."
+
+#: src/Service/WithdrawalService.php:206
+msgid "The withdrawal period for this order has ended."
+msgstr "El plazo de desistimiento de este pedido ha finalizado."
+
+#: src/Service/WithdrawalService.php:210
+msgid "A withdrawal request for this order is already being processed."
+msgstr "Ya se está procesando una solicitud de retiro para este pedido."
+
+#. translators: %s: order number
+#: src/Service/WithdrawalService.php:229
+#, php-format
+msgid "Your withdrawal request for order #%s"
+msgstr "Su solicitud de retiro para el pedido #%s"
+
+#. translators: 1: order number, 2: item list, 3: reason
+#: src/Service/WithdrawalService.php:234
+#, php-format
+msgid ""
+"We received your withdrawal request for order #%1$s.\n"
+"\n"
+"Items:\n"
+"%2$s\n"
+"\n"
+"Reason: %3$s\n"
+"\n"
+"We will confirm the next steps by email."
+msgstr ""
+"Recibimos su solicitud de retiro para el pedido n.° %1$s.\n"
+"\n"
+"Artículos:\n"
+"%2$s\n"
+"\n"
+"Razón: %3$s\n"
+"\n"
+"Le confirmaremos los próximos pasos por correo electrónico."
+
+#: src/Service/WithdrawalService.php:237 src/Service/WithdrawalService.php:255
+msgid "(none given)"
+msgstr "(ninguno proporcionado)"
+
+#. translators: 1: request id, 2: order number
+#: src/Service/WithdrawalService.php:245
+#, php-format
+msgid "New withdrawal request #%1$d for order #%2$s"
+msgstr "Nueva solicitud de retiro #%1$d para el pedido #%2$s"
+
+#. translators: 1: order number, 2: customer email, 3: item list, 4: reason
+#: src/Service/WithdrawalService.php:251
+#, php-format
+msgid ""
+"A customer submitted a withdrawal request.\n"
+"\n"
+"Order: #%1$s\n"
+"Customer: %2$s\n"
+"\n"
+"Items:\n"
+"%3$s\n"
+"\n"
+"Reason: %4$s"
+msgstr ""
+"Un cliente envió una solicitud de retiro.\n"
+"\n"
+"Orden: #%1$s\n"
+"Cliente: %2$s\n"
+"\n"
+"Artículos:\n"
+"%3$s\n"
+"\n"
+"Razón: %4$s"
+
+#: templates/confirmation.php:17
+msgid "Withdrawal request received"
+msgstr "Solicitud de retiro recibida"
+
+#. translators: 1: request id, 2: order number
+#: templates/confirmation.php:22
+#, php-format
+msgid ""
+"Your withdrawal request #%1$d for order #%2$s has been recorded. We have "
+"emailed you a confirmation and will follow up with the next steps."
+msgstr ""
+"Se ha registrado su solicitud de retiro #%1$d para el pedido #%2$s. Le hemos"
+" enviado una confirmación por correo electrónico y seguiremos con los "
+"siguientes pasos."
+
+#. translators: %s: order number
+#: templates/form-items.php:23
+#, php-format
+msgid "Withdraw from order #%s"
+msgstr "Retirar del pedido #%s"
+
+#. translators: %s: date
+#: templates/form-items.php:32
+#, php-format
+msgid "Withdrawal is possible until %s."
+msgstr "El retiro es posible hasta el %s."
+
+#: templates/form-items.php:47
+msgid "Product"
+msgstr "Producto"
+
+#: templates/form-items.php:48
+msgid "Ordered"
+msgstr "Cantidad pedida"
+
+#: templates/form-items.php:49
+msgid "Withdraw quantity"
+msgstr "Retirar cantidad"
+
+#. translators: %s: product
+#: templates/form-items.php:64
+#, php-format
+msgid "Withdraw quantity for %s"
+msgstr "Retirar cantidad para %s"
+
+#: templates/form-items.php:72
+msgid "Reason (optional)"
+msgstr "Razón (opcional)"
+
+#: templates/form-items.php:83
+msgid ""
+"I hereby give notice that I withdraw from my contract for the selected "
+"item(s)."
+msgstr ""
+"Por la presente notifico que desisto de mi contrato para los artículos "
+"seleccionados."
+
+#: templates/form-items.php:88
+msgid "Submit withdrawal"
+msgstr "Enviar retiro"
+
+#. translators: %d: number of days
+#: templates/form-lookup.php:28
+#, php-format
+msgid ""
+"You have the right to withdraw from this contract within %d days without "
+"giving any reason."
+msgstr ""
+"Tiene derecho a rescindir este contrato dentro de %d días sin dar ningún "
+"motivo."
+
+#: templates/form-lookup.php:42
+msgid "Order number"
+msgstr "Número de pedido"
+
+#: templates/form-lookup.php:46
+msgid "Billing email"
+msgstr "Correo electrónico de facturación"
+
+#: templates/form-lookup.php:50
+msgid "Continue"
+msgstr "Continuar"
+
+#~ msgid ""
+#~ "Complies with EU Directive 2023/2673 (Art. 11a): an easy withdrawal function"
+#~ " letting customers declare a full or partial withdrawal for their orders. "
+#~ "Requests are logged under WooCommerce  Withdrawal Requests."
+#~ msgstr ""
+#~ "Cumple con la Directiva de la UE 2023/2673 (Art. 11a): una función de retiro"
+#~ " fácil que permite a los clientes declarar un retiro total o parcial de sus "
+#~ "pedidos. Las solicitudes se registran en Solicitudes de retiro de "
+#~ "WooCommerce."
