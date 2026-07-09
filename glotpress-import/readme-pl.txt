@@ -5,29 +5,29 @@ Requires at least: 6.5
 Tested up to: 7.0
 Requires PHP: 8.1
 Wymaga wtyczek: woocommerce
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Pełne lub częściowe unijne prawo do odstąpienia od umowy (Dyrektywa 2023/2673) dla zamówień WooCommerce, z dziennikiem administratora i powiadomieniami e-mail.
+Pełne lub częściowe wnioski o unijne prawo do odstąpienia od umowy (Dyrektywa 2023/2673) dla zamówień WooCommerce, z dziennikiem w panelu administracyjnym i powiadomieniami e-mail.
 
 == Description ==
 
-Plogins Withdraw dodaje do WooCommerce łatwą funkcję odstąpienia od umowy, zgodną z <strong>dyrektywą UE 2023/2673</strong> („przycisk wypłaty”, art. 11a): przejrzysty sposób, w jaki klienci mogą zadeklarować, że odstępują od umowy zawartej na odległość, w całości lub na sztukę, w ustawowym terminie odstąpienia od umowy.
+Plogins Withdraw dodaje do WooCommerce łatwą funkcję odstąpienia od umowy, zgodną z <strong>unijną dyrektywą 2023/2673</strong> („przycisk odstąpienia”, art. 11a): przejrzysty sposób, w jaki klienci mogą zadeklarować odstąpienie od umowy zawartej na odległość, w całości lub dla poszczególnych pozycji, w ustawowym terminie odstąpienia.
 
-Jest to wtyczka <strong>request-and-log</strong>: rejestruje deklarację klienta o odstąpieniu od umowy, wysyła e-mail z potwierdzeniem do klienta i powiadomieniem do sklepu oraz śledzi status żądania w panelu administracyjnym. Nigdy nie przenosi pieniędzy samodzielnie, wszelkie zwroty przetwarzasz na normalnym ekranie zamówienia WooCommerce, zgodnie z modelem prawnym, w którym klient deklaruje, a przedsiębiorca działa.
+To wtyczka typu <strong>zgłoś i zarejestruj</strong>: rejestruje oświadczenie klienta o odstąpieniu, wysyła potwierdzenie e-mail do klienta i powiadomienie do sklepu oraz śledzi status wniosku w panelu administracyjnym. Nigdy nie przenosi pieniędzy samodzielnie — każdy zwrot środków przetwarzasz na zwykłym ekranie zamówienia WooCommerce, zgodnie z modelem prawnym, w którym klient składa oświadczenie, a przedsiębiorca działa.
 
 = What it does =
 
-* <strong>Formularz wypłaty</strong>: krótki kod `[withdraw_form]` wyświetla dwuetapowy formularz: wyszukaj zamówienie według numeru i adresu e-mail dotyczącego płatności (działa również w przypadku gości), następnie wybierz pozycje i ilości, a następnie prześlij deklarację wypłaty.
-* <strong>Całkowita lub częściowa wypłata</strong>: klient wybiera, z ilu sztuk każdego artykułu chce zrezygnować.
-* <strong>Przycisk wypłaty na Moim koncie</strong>: pod szczegółami zamówienia pojawia się przycisk „Wypłata z tego zamówienia” oraz linki do strony wypłaty z wstępnie wypełnionym zamówieniem.
-* <strong>Sprawdzanie okresu odstąpienia od umowy</strong>: konfigurowalny okres (ustawowe minimum 14 dni), liczony od dostawy (realizacji zamówienia) lub, jeśli nie został zrealizowany, od daty zamówienia.
-* <strong>Dziennik administratora</strong>: ekran WooCommerce → Żądania wypłaty zawiera listę wszystkich żądań wraz z ich pozycjami, klientami i statusem (oczekujące, zaakceptowane, odrzucone, przetworzone), z możliwością filtrowania według statusu.
-* <strong>E-maile</strong>: automatyczne potwierdzenie dla klienta i powiadomienie sklepu.
-* <strong>Wzórowy tekst odstąpienia</strong>: edytowalny blok na formularzu ustawowego wzoru formularza odstąpienia od umowy (Załącznik I.B).
-* <strong>Przyjazny dla gości</strong>: konto nie jest potrzebne; numer zamówienia + wyszukiwanie adresu e-mail rozliczeniowego działa w przypadku zamówień gości.
-* <strong>Kompatybilny z HPOS + Blocks</strong>: odczytuje zamówienia za pośrednictwem interfejsu API zamówień WooCommerce.
+* <strong>Formularz odstąpienia</strong>: shortcode `[withdraw_form]` wyświetla dwuetapowy formularz: wyszukaj zamówienie po numerze i adresie e-mail rozliczeniowym (działa też dla gości), następnie wybierz pozycje i ilości i wyślij oświadczenie o odstąpieniu.
+* <strong>Odstąpienie całkowite lub częściowe</strong>: klient wybiera, ile sztuk każdej pozycji chce zwrócić.
+* <strong>Przycisk odstąpienia w Moim koncie</strong>: pod szczegółami zamówienia pojawia się przycisk „Odstąp od tego zamówienia”, który prowadzi do Twojej strony odstąpienia z wypełnionym zamówieniem.
+* <strong>Sprawdzanie terminu odstąpienia</strong>: konfigurowalny okres (ustawowe minimum 14 dni), liczony od dostawy (realizacji zamówienia) lub, jeśli zamówienie nie zostało zrealizowane, od daty zamówienia.
+* <strong>Dziennik w panelu administracyjnym</strong>: ekran WooCommerce → Wnioski o odstąpienie zawiera listę wszystkich wniosków wraz z pozycjami, klientem i statusem (oczekujący, zaakceptowany, odrzucony, przetworzony), z filtrowaniem według statusu.
+* <strong>E-maile</strong>: automatyczne potwierdzenie dla klienta i powiadomienie do sklepu.
+* <strong>Wzorcowy tekst odstąpienia</strong>: edytowalny blok na formularzu z ustawowym wzorem formularza odstąpienia (Załącznik I.B).
+* <strong>Przyjazny dla gości</strong>: konto nie jest potrzebne; wyszukiwanie po numerze zamówienia i adresie e-mail rozliczeniowym działa dla zamówień gości.
+* <strong>Zgodny z HPOS + Blocks</strong>: odczytuje zamówienia przez API zamówień WooCommerce.
 
 = Requirements =
 
@@ -37,41 +37,48 @@ Jest to wtyczka <strong>request-and-log</strong>: rejestruje deklarację klienta
 
 == Installation ==
 
-1. Zainstaluj i aktywuj WooCommerce.
-2. Zainstaluj i aktywuj Plogins Withdraw.
-3. Utwórz stronę i dodaj krótki kod `[withdraw_form]`.
-4. Przejdź do <strong>WooCommerce → Wypłata</strong>, wybierz tę stronę jako stronę formularza wypłaty, ustaw okres odstąpienia od umowy i statusy kwalifikujących się zamówień, a także dostosuj e-mail z powiadomieniem i tekst prawny.
+1. Zainstaluj i włącz WooCommerce.
+2. Zainstaluj i włącz Plogins Withdraw.
+3. Utwórz stronę i dodaj shortcode `[withdraw_form]`.
+4. Przejdź do <strong>WooCommerce → Odstąpienie</strong>, wybierz tę stronę jako stronę formularza odstąpienia, ustaw termin odstąpienia i kwalifikujące się statusy zamówień oraz dostosuj e-mail powiadomienia i teksty prawne.
 
 == Frequently Asked Questions ==
 
 = Does it issue refunds automatically? =
-Nie. Rejestruje żądanie wypłaty i śledzi jego status. Przetwarzaj zwrot pieniędzy na normalnym ekranie zamówienia WooCommerce; statusem żądania zarządza się na ekranie Żądania wypłaty.
+Nie. Rejestruje wniosek o odstąpienie i śledzi jego status. Każdy zwrot środków przetwórz na zwykłym ekranie zamówienia WooCommerce; statusem wniosku zarządzasz na ekranie Wnioski o odstąpienie.
 
 = Does it work for guest orders? =
-Tak. Klienci sprawdzają swoje zamówienie, podając numer zamówienia i adres e-mail rozliczeniowy użyty przy kasie, dzięki czemu goście mogą dokonać wypłaty bez konta.
+Tak. Klienci wyszukują swoje zamówienie po numerze zamówienia i adresie e-mail rozliczeniowym użytym podczas składania zamówienia, dzięki czemu goście mogą złożyć oświadczenie o odstąpieniu bez konta.
 
 = Is this legal advice? =
-Nie. Wtyczka zapewnia funkcję wycofania technicznego i edytowalne teksty prawne. Skonfiguruj okres i treść tak, aby odpowiadały Twojej jurysdykcji i ustawowemu modelowi formularza odstąpienia od umowy.
+Nie. Wtyczka zapewnia techniczną funkcję odstąpienia i edytowalne teksty prawne. Skonfiguruj termin i treść tak, aby odpowiadały Twojej jurysdykcji i ustawowemu wzorowi formularza odstąpienia.
 
 = Is it compatible with HPOS? =
-Tak. Zamówienia są odczytywane poprzez API zamówień WooCommerce, które jest kompatybilne z HPOS.
+Tak. Zamówienia są odczytywane przez API zamówień WooCommerce, które jest zgodne z HPOS.
 
 == Screenshots ==
 
-1. Formularz wniosku o wypłatę: wyszukiwanie zamówienia według numeru i adresu e-mail rozliczeniowego (przyjazny dla gości), z 14-dniowym wyprzedzeniem dotyczącym prawa do odstąpienia od umowy.
-2. Wybór artykułu: wycofanie całkowite lub częściowe z podaniem ilości przypadających na sztukę, wzór tekstu wycofania i oświadczenie.
-3. Ustawienia (WooCommerce → Wypłata): okres odstąpienia od umowy, strona formularza, kwalifikujące się statusy, e-mail z powiadomieniem i teksty prawne, z dziennikiem żądań.
+1. Formularz wniosku o odstąpienie: wyszukiwanie zamówienia po numerze i adresie e-mail rozliczeniowym (przyjazny dla gości), z informacją o 14-dniowym prawie do odstąpienia.
+2. Wybór pozycji: odstąpienie całkowite lub częściowe z ilościami dla poszczególnych pozycji, wzorcowy tekst odstąpienia i oświadczenie.
+3. Ustawienia (WooCommerce → Odstąpienie): termin odstąpienia, strona formularza, kwalifikujące się statusy, e-mail powiadomienia i teksty prawne, z dziennikiem wniosków.
+
+== Translations ==
+
+Plogins Withdraw zawiera polskie, niemieckie i hiszpańskie tłumaczenia interfejsu wtyczki. Domena tekstowa to `plogins-withdraw`, więc pakiety językowe z WordPress.org mogą również nadpisywać lub rozszerzać te dołączone tłumaczenia.
 
 == Changelog ==
+
+= 1.0.2 =
+* Dodano dołączone polskie, niemieckie i hiszpańskie tłumaczenia interfejsu wtyczki.
 
 = 1.0.1 =
 * Pierwsza stabilna wersja.
 
 = 0.1.1 =
-* Sprawdzenie wtyczki: poprawki dotyczące ucieczki/sanizacji/i18n/higieny (identyfikatory nazw tabel są teraz przekazywane przez symbole zastępcze %i w przygotowanych instrukcjach).
+* Plugin Check: poprawki escapowania/sanityzacji/i18n/higieny (identyfikatory nazw tabel przekazywane teraz przez symbole zastępcze %i w przygotowanych zapytaniach).
 
 = 0.1.0 =
-* Pierwsza wersja: krótki kod `[withdraw_form]` (wyszukiwanie zamówienia + pełny/częściowy wybór przedmiotu), przycisk wypłaty na Moim koncie, konfigurowalny okres wypłaty i kwalifikujące się statusy, dziennik żądań administratora ze statusami, e-maile klientów i sklepów, edytowalny tekst wycofania modelu. Kompatybilny z HPOS + Blocks.
+* Pierwsze wydanie: shortcode `[withdraw_form]` (wyszukiwanie zamówienia + wybór pozycji w całości/części), przycisk odstąpienia w Moim koncie, konfigurowalny termin odstąpienia i kwalifikujące się statusy, dziennik wniosków w panelu administracyjnym ze statusami, e-maile do klienta i sklepu, edytowalny wzorcowy tekst odstąpienia. Zgodny z HPOS + Blocks.
 
 == Upgrade Notice ==
 
