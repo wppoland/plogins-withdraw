@@ -5,7 +5,7 @@ Requires at least: 6.5
 Tested up to: 7.0
 Requires PHP: 8.1
 Requires Plugins: woocommerce
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -67,6 +67,9 @@ Yes. Orders are read through the WooCommerce order API, which is HPOS-compatible
 Plogins Withdraw includes Polish, German and Spanish translations for the plugin interface. The text domain is `plogins-withdraw`, so WordPress.org language packs can also override or extend these bundled translations.
 
 == Changelog ==
+
+= 1.0.3 =
+* Corrected the German and Polish translations: "withdrawal" was rendered as "Auszahlung" (payout) in German and "wypłata" (payout) in Polish; both now use the correct right-of-withdrawal terms (Widerruf / odstąpienie od umowy). Also fixed a German grammar slip and standardised the Polish wording.
 
 = 1.0.2 =
 * Added bundled Polish, German and Spanish translations for the plugin interface.

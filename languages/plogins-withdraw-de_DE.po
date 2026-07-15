@@ -2,12 +2,13 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Plogins Withdraw - Right of Withdrawal Button for WooCommerce 0.1.0\n"
+"Project-Id-Version: Plogins Withdraw - Right of Withdrawal Button for "
+"WooCommerce 0.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/plogins-withdraw\n"
 "POT-Creation-Date: 2026-07-02T09:24:51+00:00\n"
 "PO-Revision-Date: 2026-07-02T09:24:51+00:00\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"Last-Translator: WPPoland <kontakt@wppoland.com>\n"
+"Language-Team: German <de@li.org>\n"
 "Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -95,7 +96,7 @@ msgstr "Status"
 
 #: src/Admin/RequestsAdmin.php:95
 msgid "No withdrawal requests yet."
-msgstr "Noch keine Auszahlungsanfragen."
+msgstr "Noch keine Widerrufsanträge."
 
 #: src/Admin/RequestsAdmin.php:120
 msgid "Save"
@@ -111,14 +112,14 @@ msgstr "Widerrufsrecht"
 
 #: src/Admin/Settings.php:109
 msgid ""
-"Complies with EU Directive 2023/2673 (Art. 11a): an easy withdrawal function"
-" letting customers declare a full or partial withdrawal for their orders. "
+"Complies with EU Directive 2023/2673 (Art. 11a): an easy withdrawal function "
+"letting customers declare a full or partial withdrawal for their orders. "
 "Requests are logged under WooCommerce → Withdrawal Requests."
 msgstr ""
 "Entspricht der EU-Richtlinie 2023/2673 (Art. 11a): eine einfache "
 "Widerrufsfunktion, mit der Kunden einen vollständigen oder teilweisen "
-"Widerruf ihrer Bestellung erklären können. Anfragen werden unter WooCommerce"
-" → Auszahlungsanfragen protokolliert."
+"Widerruf ihrer Bestellung erklären können. Anfragen werden unter WooCommerce "
+"→ Widerrufsanträge protokolliert."
 
 #: src/Admin/Settings.php:112
 msgid "Requests:"
@@ -144,8 +145,8 @@ msgstr "Widerrufsfrist (Tage)"
 
 #: src/Admin/Settings.php:137
 msgid ""
-"Statutory minimum is 14 days from delivery. The window starts when the order"
-" is marked completed, or at order creation if it never was."
+"Statutory minimum is 14 days from delivery. The window starts when the order "
+"is marked completed, or at order creation if it never was."
 msgstr ""
 "Das gesetzliche Minimum beträgt 14 Tage ab Lieferung. Das Fenster beginnt, "
 "wenn die Bestellung als abgeschlossen markiert wird, oder bei der "
@@ -165,8 +166,8 @@ msgstr "Wähle eine Seite aus"
 
 #: src/Admin/Settings.php:155
 msgid ""
-"Create a page with the [withdraw_form] shortcode, then select it here so the"
-" My Account button can link to it."
+"Create a page with the [withdraw_form] shortcode, then select it here so the "
+"My Account button can link to it."
 msgstr ""
 "Erstelle eine Seite mit dem Shortcode [withdraw_form] und wähle sie dann "
 "hier aus, damit die Schaltfläche „Mein Konto“ darauf verlinken kann."
@@ -187,8 +188,8 @@ msgstr ""
 #: src/Admin/Settings.php:178
 msgid "No status checked: Completed and Processing will be saved instead."
 msgstr ""
-"Kein Status geprüft: Stattdessen werden „Abgeschlossen“ und „In Bearbeitung“"
-" gespeichert."
+"Kein Status geprüft: Stattdessen werden „Abgeschlossen“ und „In Bearbeitung“ "
+"gespeichert."
 
 #: src/Admin/Settings.php:183
 msgid "Emails"
@@ -244,16 +245,16 @@ msgstr "Wir konnten keine Bestellung mit dieser Nummer und E-Mail finden."
 
 #: src/Service/WithdrawalService.php:125
 msgid "This order is no longer eligible for withdrawal."
-msgstr "Diese Bestellung kann nicht mehr zurückgezogen werden."
+msgstr "Diese Bestellung kann nicht mehr widerrufen werden."
 
 #: src/Service/WithdrawalService.php:150
 msgid "Please select at least one item to withdraw from."
 msgstr ""
-"Bitte wähle mindestens einen Artikel aus, von dem du zurücktreten möchten."
+"Bitte wähle mindestens einen Artikel aus, von dem du zurücktreten möchtest."
 
 #: src/Service/WithdrawalService.php:196
 msgid "This order is not in a status that can be withdrawn."
-msgstr "Der Status dieser Bestellung kann nicht widerrufen werden."
+msgstr "Diese Bestellung befindet sich nicht in einem widerrufbaren Status."
 
 #: src/Service/WithdrawalService.php:206
 msgid "The withdrawal period for this order has ended."
@@ -261,7 +262,7 @@ msgstr "Die Widerrufsfrist für diese Bestellung ist abgelaufen."
 
 #: src/Service/WithdrawalService.php:210
 msgid "A withdrawal request for this order is already being processed."
-msgstr "Eine Auszahlungsanfrage für diese Bestellung wird bereits bearbeitet."
+msgstr "Ein Widerrufsantrag für diese Bestellung wird bereits bearbeitet."
 
 #. translators: %s: order number
 #: src/Service/WithdrawalService.php:229
@@ -299,7 +300,7 @@ msgstr "(keine angegeben)"
 #: src/Service/WithdrawalService.php:245
 #, php-format
 msgid "New withdrawal request #%1$d for order #%2$s"
-msgstr "Neue Auszahlungsanfrage #%1$d für Bestellung #%2$s"
+msgstr "Neuer Widerrufsantrag #%1$d für Bestellung #%2$s"
 
 #. translators: 1: order number, 2: customer email, 3: item list, 4: reason
 #: src/Service/WithdrawalService.php:251
@@ -315,7 +316,7 @@ msgid ""
 "\n"
 "Reason: %4$s"
 msgstr ""
-"Ein Kunde hat einen Auszahlungsantrag eingereicht.\n"
+"Ein Kunde hat einen Widerrufsantrag eingereicht.\n"
 "\n"
 "Bestellung: #%1$s\n"
 "Kunde: %2$s\n"
@@ -327,7 +328,7 @@ msgstr ""
 
 #: templates/confirmation.php:17
 msgid "Withdrawal request received"
-msgstr "Auszahlungsantrag erhalten"
+msgstr "Widerrufsantrag erhalten"
 
 #. translators: 1: request id, 2: order number
 #: templates/confirmation.php:22
@@ -336,21 +337,21 @@ msgid ""
 "Your withdrawal request #%1$d for order #%2$s has been recorded. We have "
 "emailed you a confirmation and will follow up with the next steps."
 msgstr ""
-"deine Auszahlungsanfrage #%1$d für Bestellung #%2$s wurde aufgezeichnet. Wir"
-" haben dir eine Bestätigung per E-Mail gesendet und werden die nächsten "
+"Dein Widerrufsantrag #%1$d für Bestellung #%2$s wurde aufgezeichnet. Wir "
+"haben dir eine Bestätigung per E-Mail gesendet und werden die nächsten "
 "Schritte durchführen."
 
 #. translators: %s: order number
 #: templates/form-items.php:23
 #, php-format
 msgid "Withdraw from order #%s"
-msgstr "Von Bestellung Nr. %s zurückziehen"
+msgstr "Von Bestellung Nr. %s zurücktreten"
 
 #. translators: %s: date
 #: templates/form-items.php:32
 #, php-format
 msgid "Withdrawal is possible until %s."
-msgstr "Eine Auszahlung ist bis %s möglich."
+msgstr "Ein Widerruf ist bis %s möglich."
 
 #: templates/form-items.php:47
 msgid "Product"
@@ -368,7 +369,7 @@ msgstr "Zu widerrufende Menge"
 #: templates/form-items.php:64
 #, php-format
 msgid "Withdraw quantity for %s"
-msgstr "Entnahmemenge für %s"
+msgstr "Zu widerrufende Menge für %s"
 
 #: templates/form-items.php:72
 msgid "Reason (optional)"
@@ -391,8 +392,8 @@ msgid ""
 "You have the right to withdraw from this contract within %d days without "
 "giving any reason."
 msgstr ""
-"Du hast das Recht, binnen %d Tagen ohne Angabe von Gründen diesen Vertrag zu"
-" widerrufen."
+"Du hast das Recht, binnen %d Tagen ohne Angabe von Gründen diesen Vertrag zu "
+"widerrufen."
 
 #: templates/form-lookup.php:42
 msgid "Order number"
