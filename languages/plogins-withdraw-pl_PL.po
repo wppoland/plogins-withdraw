@@ -2,19 +2,17 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Plogins Withdraw - Right of Withdrawal Button for "
-"WooCommerce 0.1.0\n"
+"Project-Id-Version: Plogins Withdraw - Right of Withdrawal Button for WooCommerce 0.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/plogins-withdraw\n"
 "POT-Creation-Date: 2026-07-02T09:24:51+00:00\n"
 "PO-Revision-Date: 2026-07-02T09:24:51+00:00\n"
-"Last-Translator: WPPoland <kontakt@wppoland.com>\n"
+"Last-Translator: wppoland.com <hello@wppoland.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl_PL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Domain: plogins-withdraw\n"
 "X-Generator: WP-CLI 2.12.0\n"
 
@@ -114,8 +112,8 @@ msgstr "Prawo do odstąpienia od umowy"
 
 #: src/Admin/Settings.php:109
 msgid ""
-"Complies with EU Directive 2023/2673 (Art. 11a): an easy withdrawal function "
-"letting customers declare a full or partial withdrawal for their orders. "
+"Complies with EU Directive 2023/2673 (Art. 11a): an easy withdrawal function"
+" letting customers declare a full or partial withdrawal for their orders. "
 "Requests are logged under WooCommerce → Withdrawal Requests."
 msgstr ""
 "Zgodny z dyrektywą UE 2023/2673 (art. 11a): łatwa funkcja odstąpienia, "
@@ -147,8 +145,8 @@ msgstr "Okres odstąpienia (dni)"
 
 #: src/Admin/Settings.php:137
 msgid ""
-"Statutory minimum is 14 days from delivery. The window starts when the order "
-"is marked completed, or at order creation if it never was."
+"Statutory minimum is 14 days from delivery. The window starts when the order"
+" is marked completed, or at order creation if it never was."
 msgstr ""
 "Ustawowe minimum to 14 dni od dostawy. Okno rozpoczyna się w momencie "
 "oznaczenia zamówienia jako zrealizowanego lub w chwili utworzenia "
@@ -168,11 +166,11 @@ msgstr "Wybierz stronę"
 
 #: src/Admin/Settings.php:155
 msgid ""
-"Create a page with the [withdraw_form] shortcode, then select it here so the "
-"My Account button can link to it."
+"Create a page with the [withdraw_form] shortcode, then select it here so the"
+" My Account button can link to it."
 msgstr ""
-"Utwórz stronę z krótkim kodem [withdraw_form], a następnie wybierz ją tutaj, "
-"aby przycisk Moje konto mógł się z nią łączyć."
+"Utwórz stronę z krótkim kodem [withdraw_form], a następnie wybierz ją tutaj,"
+" aby przycisk Moje konto mógł się z nią łączyć."
 
 #: src/Admin/Settings.php:164
 msgid "Eligibility"
@@ -184,8 +182,8 @@ msgid ""
 "If none are checked, Completed and Processing are used."
 msgstr ""
 "Klienci mogą odstąpić od umowy wyłącznie w przypadku zamówień o jednym z "
-"tych statusów. Jeśli żadna nie jest zaznaczona, używane są opcje Ukończono i "
-"Przetwarzanie."
+"tych statusów. Jeśli żadna nie jest zaznaczona, używane są opcje Ukończono i"
+" Przetwarzanie."
 
 #: src/Admin/Settings.php:178
 msgid "No status checked: Completed and Processing will be saved instead."
@@ -206,9 +204,9 @@ msgid ""
 "Where new-request notifications are sent. Leave empty to use the site admin "
 "email. The customer always gets a confirmation at their own address."
 msgstr ""
-"Gdzie wysyłane są powiadomienia o nowych żądaniach. Pozostaw puste, aby użyć "
-"adresu e-mail administratora witryny. Klient zawsze otrzymuje potwierdzenie "
-"na swój adres."
+"Gdzie wysyłane są powiadomienia o nowych żądaniach. Pozostaw puste, aby użyć"
+" adresu e-mail administratora witryny. Klient zawsze otrzymuje potwierdzenie"
+" na swój adres."
 
 #: src/Admin/Settings.php:194
 msgid "Legal texts"
@@ -252,7 +250,8 @@ msgstr "To zamówienie nie podlega już odstąpieniu."
 
 #: src/Service/WithdrawalService.php:150
 msgid "Please select at least one item to withdraw from."
-msgstr "Proszę wybrać przynajmniej jedną pozycję, z której chcesz się wycofać."
+msgstr ""
+"Proszę wybrać przynajmniej jedną pozycję, z której chcesz się wycofać."
 
 #: src/Service/WithdrawalService.php:196
 msgid "This order is not in a status that can be withdrawn."
@@ -339,8 +338,8 @@ msgid ""
 "Your withdrawal request #%1$d for order #%2$s has been recorded. We have "
 "emailed you a confirmation and will follow up with the next steps."
 msgstr ""
-"Twój wniosek o odstąpienie #%1$d dla zamówienia #%2$s został zarejestrowany. "
-"Wysłaliśmy do Ciebie e-mail z potwierdzeniem i podejmiemy dalsze kroki."
+"Twój wniosek o odstąpienie #%1$d dla zamówienia #%2$s został zarejestrowany."
+" Wysłaliśmy do Ciebie e-mail z potwierdzeniem i podejmiemy dalsze kroki."
 
 #. translators: %s: order number
 #: templates/form-items.php:23

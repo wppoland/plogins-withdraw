@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: withdraw Stable Readme\n"
-"Last-Translator: WPPoland <kontakt@wppoland.com>\n"
+"Last-Translator: wppoland.com <hello@wppoland.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
