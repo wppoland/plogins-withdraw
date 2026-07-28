@@ -1,10 +1,10 @@
 # Plogins Withdraw
 
-EU right-of-withdrawal button and form for WooCommerce (**Directive 2023/2673**, Art. 11a). Lets customers declare a full or partial withdrawal from a distance contract, logs it in the admin, and emails the customer and the shop. Request-and-log only — the merchant refunds in the normal order screen.
+EU right-of-withdrawal button and form for WooCommerce (**Directive 2023/2673**, Art. 11a). Lets customers declare a full or partial withdrawal from a distance contract, logs it in the admin, and emails the customer and the shop. Request-and-log only, the merchant refunds in the normal order screen.
 
 ## Features
 
-- `[withdraw_form]` shortcode: two-step form — order lookup (number + billing email, guest-safe) → item/quantity selection + withdrawal declaration.
+- `[withdraw_form]` shortcode: two-step form, order lookup (number + billing email, guest-safe) → item/quantity selection + withdrawal declaration.
 - Full or partial (per-item) withdrawal.
 - "Withdraw from this order" button under My Account order details (the visible withdrawal button), pre-fills the order.
 - Configurable withdrawal period (default 14 days) from delivery/completion; eligible order statuses.

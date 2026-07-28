@@ -19,7 +19,7 @@ msgstr ""
 #. Plugin Name of the plugin
 #: plogins-withdraw.php
 msgid "Plogins Withdraw - Right of Withdrawal Button for WooCommerce"
-msgstr "Plogins Withdraw – Widerrufsrecht-Button für WooCommerce"
+msgstr "Plogins Withdraw, Widerrufsrecht-Button für WooCommerce"
 
 #. Plugin URI of the plugin
 #: plogins-withdraw.php

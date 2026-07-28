@@ -45,7 +45,7 @@ msgstr ""
 "Es handelt sich um ein <strong>Request-and-Log</strong>-Plugin: Es erfasst "
 "die Widerrufserklärung des Kunden, sendet eine Bestätigung per E-Mail an den"
 " Kunden und eine Benachrichtigung an den Shop und verfolgt den Status des "
-"Antrags im Adminbereich. Es bewegt niemals von selbst Geld — du bearbeitest "
+"Antrags im Adminbereich. Es bewegt niemals von selbst Geld, du bearbeitest "
 "jede Rückerstattung im normalen WooCommerce-Bestellbildschirm, entsprechend "
 "dem Rechtsmodell, bei dem der Kunde erklärt und der Händler handelt."
 

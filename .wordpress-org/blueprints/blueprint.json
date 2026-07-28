@@ -1,7 +1,7 @@
 {
   "$schema": "https://playground.wordpress.net/blueprint-schema.json",
   "meta": {
-    "title": "Plogins Withdraw - Right of Withdrawal Button for WooCommerce — Live Preview",
+    "title": "Plogins Withdraw - Right of Withdrawal Button for WooCommerce, Live Preview",
     "author": "WPPoland"
   },
   "landingPage": "/wp-admin/admin.php?page=plogins-withdraw",

@@ -15,7 +15,7 @@ Vollständige oder teilweise EU-Widerrufsanträge (Richtlinie 2023/2673) für Wo
 
 Plogins Withdraw fügt WooCommerce eine einfache Widerrufsfunktion hinzu, die an die <strong>EU-Richtlinie 2023/2673</strong> angepasst ist (der „Widerrufs-Button“, Art. 11a): eine klare Möglichkeit für Kunden, innerhalb der gesetzlichen Widerrufsfrist zu erklären, dass sie einen Fernabsatzvertrag ganz oder für einzelne Artikel widerrufen.
 
-Es handelt sich um ein <strong>Request-and-Log</strong>-Plugin: Es erfasst die Widerrufserklärung des Kunden, sendet eine Bestätigung per E-Mail an den Kunden und eine Benachrichtigung an den Shop und verfolgt den Status des Antrags im Adminbereich. Es bewegt niemals von selbst Geld — du bearbeitest jede Rückerstattung im normalen WooCommerce-Bestellbildschirm, entsprechend dem Rechtsmodell, bei dem der Kunde erklärt und der Händler handelt.
+Es handelt sich um ein <strong>Request-and-Log</strong>-Plugin: Es erfasst die Widerrufserklärung des Kunden, sendet eine Bestätigung per E-Mail an den Kunden und eine Benachrichtigung an den Shop und verfolgt den Status des Antrags im Adminbereich. Es bewegt niemals von selbst Geld, du bearbeitest jede Rückerstattung im normalen WooCommerce-Bestellbildschirm, entsprechend dem Rechtsmodell, bei dem der Kunde erklärt und der Händler handelt.
 
 = What it does =
 

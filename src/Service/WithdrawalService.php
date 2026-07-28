@@ -16,7 +16,7 @@ defined('ABSPATH') || exit;
  *   2. pick items/quantities + reason, then submit the withdrawal declaration.
  *
  * On submit it stores a request (RequestRepository) and emails the customer and
- * the shop. It never moves money — the merchant refunds in the order screen —
+ * the shop. It never moves money, the merchant refunds in the order screen, 
  * matching the legal model: the customer declares withdrawal, the shop acts.
  */
 final class WithdrawalService implements HasHooks

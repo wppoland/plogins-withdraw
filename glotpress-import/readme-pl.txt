@@ -15,7 +15,7 @@ Pełne lub częściowe wnioski o unijne prawo do odstąpienia od umowy (Dyrektyw
 
 Plogins Withdraw dodaje do WooCommerce łatwą funkcję odstąpienia od umowy, zgodną z <strong>unijną dyrektywą 2023/2673</strong> („przycisk odstąpienia”, art. 11a): przejrzysty sposób, w jaki klienci mogą zadeklarować odstąpienie od umowy zawartej na odległość, w całości lub dla poszczególnych pozycji, w ustawowym terminie odstąpienia.
 
-To wtyczka typu <strong>zgłoś i zarejestruj</strong>: rejestruje oświadczenie klienta o odstąpieniu, wysyła potwierdzenie e-mail do klienta i powiadomienie do sklepu oraz śledzi status wniosku w panelu administracyjnym. Nigdy nie przenosi pieniędzy samodzielnie — każdy zwrot środków przetwarzasz na zwykłym ekranie zamówienia WooCommerce, zgodnie z modelem prawnym, w którym klient składa oświadczenie, a przedsiębiorca działa.
+To wtyczka typu <strong>zgłoś i zarejestruj</strong>: rejestruje oświadczenie klienta o odstąpieniu, wysyła potwierdzenie e-mail do klienta i powiadomienie do sklepu oraz śledzi status wniosku w panelu administracyjnym. Nigdy nie przenosi pieniędzy samodzielnie, każdy zwrot środków przetwarzasz na zwykłym ekranie zamówienia WooCommerce, zgodnie z modelem prawnym, w którym klient składa oświadczenie, a przedsiębiorca działa.
 
 = What it does =
 
