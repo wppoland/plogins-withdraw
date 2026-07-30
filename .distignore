@@ -29,3 +29,9 @@
 # editor backups (never ship / never a badly_named_files reject)
 *~
 *.bak
+
+# wp.org builds translations from translate.wordpress.org, so shipping our own
+# .po/.mo in the package is a review issue. The .pot stays: it is what the
+# translators import from.
+/languages/*.po
+/languages/*.mo
