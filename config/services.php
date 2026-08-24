@@ -25,6 +25,9 @@ return static function (Container $c): void {
         $c->get(RequestRepository::class),
     ));
     $c->singleton(MyAccount::class, static fn (): MyAccount => new MyAccount());
+    $c->singleton(\Withdraw\Service\WithdrawPrivacyService::class, static fn (Container $c): \Withdraw\Service\WithdrawPrivacyService => new \Withdraw\Service\WithdrawPrivacyService(
+        $c->get(RequestRepository::class),
+    ));
 
     if (is_admin()) {
         $c->singleton(Settings::class, static fn (): Settings => new Settings());

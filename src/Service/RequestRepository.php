@@ -131,4 +131,47 @@ final class RequestRepository
         }
         return $out;
     }
+
+    /**
+     * @return list<object>
+     */
+    public function findByEmail(string $email, int $limit = 100, int $offset = 0): array
+    {
+        global $wpdb;
+        $table  = Migrator::table();
+        $limit  = max(1, $limit);
+        $offset = max(0, $offset);
+
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+        $rows = $wpdb->get_results(
+            $wpdb->prepare(
+                'SELECT * FROM %i WHERE customer_email = %s ORDER BY id ASC LIMIT %d OFFSET %d',
+                $table,
+                $email,
+                $limit,
+                $offset,
+            ),
+        );
+
+        return is_array($rows) ? $rows : [];
+    }
+
+    public function anonymizeByEmail(string $email): int
+    {
+        global $wpdb;
+        $table = Migrator::table();
+
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+        $updated = $wpdb->query(
+            $wpdb->prepare(
+                'UPDATE %i SET customer_email = %s, reason = %s WHERE customer_email = %s',
+                $table,
+                'anonymized@privacy.invalid',
+                '',
+                $email,
+            ),
+        );
+
+        return is_int($updated) ? $updated : 0;
+    }
 }

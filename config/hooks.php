@@ -18,10 +18,12 @@ use Withdraw\Service\WithdrawalService;
 return is_admin()
     ? [
         WithdrawalService::class, // shortcode + POST handling also work in admin-preview contexts
+        \Withdraw\Service\WithdrawPrivacyService::class,
         Settings::class,
         RequestsAdmin::class,
     ]
     : [
         WithdrawalService::class,
+        \Withdraw\Service\WithdrawPrivacyService::class,
         MyAccount::class,
     ];
