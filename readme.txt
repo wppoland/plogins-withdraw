@@ -68,6 +68,12 @@ Plogins Withdraw includes Polish, German and Spanish translations for the plugin
 
 == Changelog ==
 
+= 1.0.4 =
+* New: withdrawal declarations are now covered by the WordPress personal-data tools. A privacy export includes a shopper's declarations, and an erasure request removes them, so a subject access or deletion request can be answered from the standard screen instead of by hand.
+* Declared compatibility with WooCommerce 10.9.
+* Copy: replaced long dashes with plain punctuation across the interface.
+* Housekeeping: the release package no longer carries the translation catalogues, which come from the WordPress.org language packs.
+
 = 1.0.3 =
 * Corrected the German and Polish translations: "withdrawal" was rendered as "Auszahlung" (payout) in German and "wypłata" (payout) in Polish; both now use the correct right-of-withdrawal terms (Widerruf / odstąpienie od umowy). Also fixed a German grammar slip and standardised the Polish wording.
 
