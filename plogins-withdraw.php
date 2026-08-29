@@ -19,7 +19,7 @@ declare(strict_types=1);
  * Requires Plugins:  woocommerce
  *
  * WC requires at least: 8.0
- * WC tested up to:      10.9
+ * WC tested up to:      11.0
  */
 
 namespace Withdraw;
