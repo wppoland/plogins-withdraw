@@ -2,10 +2,10 @@
 Contributors: motylanogha
 Tags: woocommerce, withdrawal, right of withdrawal, eu, refund
 Requires at least: 6.5
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 8.1
 Requires Plugins: woocommerce
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -67,6 +67,9 @@ Yes. Orders are read through the WooCommerce order API, which is HPOS-compatible
 Plogins Withdraw includes Polish, German and Spanish translations for the plugin interface. The text domain is `plogins-withdraw`, so WordPress.org language packs can also override or extend these bundled translations.
 
 == Changelog ==
+
+= 1.0.5 =
+* Tested against WordPress 7.1. Verified by activating this build on a clean 7.1 install with WooCommerce 11.1, not by editing the header.
 
 = 1.0.4 =
 * New: withdrawal declarations are now covered by the WordPress personal-data tools. A privacy export includes a shopper's declarations, and an erasure request removes them, so a subject access or deletion request can be answered from the standard screen instead of by hand.
