@@ -50,11 +50,14 @@ declares and the trader acts. Tested on WordPress 7.1 with WooCommerce 11.1.
   name. GlotPress takes its originals from the released package, so shipping it
   stale would have made those five untranslatable.
 
-## Still to do (needs a WordPress environment)
+- Official **Plugin Check** (severity 7, errors) run against the built package in
+  wp-env with WooCommerce active: **PASS**, 0 errors. This is the reviewer's
+  actual gate, so it is the check that matters. See [[plugin-check-before-submit]].
 
-- Run the official **Plugin Check** in wp-env with WooCommerce active. Everything
-  above is static analysis; Plugin Check is the reviewer's actual gate. See
-  [[plugin-check-before-submit]].
+## Still to do
+
+- Upload the zip. That step needs a WordPress.org login and only one plugin can
+  sit in review at a time, so it is the user's to run.
 
 ## After approval
 
