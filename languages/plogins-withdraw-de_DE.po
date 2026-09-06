@@ -405,3 +405,31 @@ msgstr "Rechnungs-E-Mail"
 #: templates/form-lookup.php:50
 msgid "Continue"
 msgstr "Weiter"
+
+#: src/Service/WithdrawPrivacyService.php:74
+msgid "Order ID"
+msgstr "Bestell-ID"
+
+#: src/Service/WithdrawPrivacyService.php:76
+msgid "Reason"
+msgstr "Grund"
+
+#: src/Service/WithdrawPrivacyService.php:36
+#: src/Service/WithdrawPrivacyService.php:50
+#: src/Service/WithdrawPrivacyService.php:71
+msgid "Withdrawal Declarations"
+msgstr "Widerrufserklärungen"
+
+#. Plugin Name of the plugin
+#: plogins-withdraw.php
+msgid "Withdraw - Right of Withdrawal Button for WooCommerce"
+msgstr "Withdraw - Right of Withdrawal Button for WooCommerce"
+
+#: src/Service/WithdrawPrivacyService.php:99
+msgid ""
+"Customer personal email and reason cleared from withdrawal declarations; "
+"order references retained for statutory bookkeeping."
+msgstr ""
+"Persönliche E-Mail-Adresse und Grund der Kundin oder des Kunden wurden aus "
+"den Widerrufserklärungen entfernt; Bestellreferenzen bleiben für die "
+"gesetzliche Buchführung erhalten."
