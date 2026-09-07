@@ -68,6 +68,26 @@ Plogins Withdraw enthält polnische, deutsche und spanische Übersetzungen der P
 
 == Changelog ==
 
+= 1.0.7 =
+* Umbenannt in Plogins Withdraw, damit der Name mit der Marke beginnt und nicht mit einem allgemeinen Wort, wie es die Plugin-Prüfung angemerkt hat.
+* Der Header "Tested up to" wurde aus der Haupt-PHP-Datei entfernt. Er gehört ausschließlich in die readme.txt, wo er bereits steht; in beiden Dateien kann er die readme überschreiben und eine Kompatibilitätsversion anzeigen, die so nie gemeint war.
+
+= 1.0.6 =
+* Übersetzungen: die mitgelieferte `plogins-withdraw.pot` wurde aufgefrischt, sie war hinter dem Code zurückgeblieben. Fünf Texte aus dem Adminbereich für Widerrufserklärungen und aus der Datenlöschung fehlten, und der alte Pluginname stand noch darin. Mit dieser Vorlage arbeiten die Übersetzer.
+* Übersetzungen: der spanische Katalog wurde korrigiert, er nannte das Widerrufsrecht durchgehend "retiro". Das spanische Verbraucherrecht sagt *desistimiento*, und die eigene Beschreibung des Plugins verwendete diesen Begriff bereits, die Oberfläche jedoch nicht.
+
+= 1.0.5 =
+* Mit WordPress 7.1 getestet. Geprüft, indem dieser Build auf einer sauberen 7.1-Installation mit WooCommerce 11.1 aktiviert wurde, nicht durch Ändern des Headers.
+
+= 1.0.4 =
+* Neu: Widerrufserklärungen sind jetzt von den WordPress-Werkzeugen für personenbezogene Daten erfasst. Ein Datenexport enthält die Erklärungen einer Kundin oder eines Kunden, eine Löschanfrage entfernt sie, sodass eine Auskunfts- oder Löschanfrage über den Standardbildschirm statt von Hand beantwortet werden kann.
+* Kompatibilität mit WooCommerce 10.9 erklärt.
+* Texte: lange Gedankenstriche wurden in der gesamten Oberfläche durch einfache Satzzeichen ersetzt.
+* Aufräumen: das Release-Paket enthält die Übersetzungskataloge nicht mehr, sie kommen aus den Sprachpaketen von WordPress.org.
+
+= 1.0.3 =
+* Deutsche und polnische Übersetzung korrigiert: "withdrawal" war im Deutschen als "Auszahlung" und im Polnischen als "wypłata" wiedergegeben; beide verwenden jetzt die richtigen Begriffe für das Widerrufsrecht (Widerruf / odstąpienie od umowy). Außerdem wurde ein deutscher Grammatikfehler behoben und die polnische Wortwahl vereinheitlicht.
+
 = 1.0.2 =
 * Gebündelte polnische, deutsche und spanische Übersetzungen der Plugin-Oberfläche hinzugefügt.
 

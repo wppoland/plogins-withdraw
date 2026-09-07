@@ -68,6 +68,26 @@ Plogins Withdraw incluye traducciones al polaco, alemán y español de la interf
 
 == Changelog ==
 
+= 1.0.7 =
+* Renombrado a Plogins Withdraw para que el nombre empiece por la marca y no por una palabra genérica, tal como pidió la revisión del plugin.
+* Se ha quitado la cabecera "Tested up to" del archivo PHP principal. Su sitio es únicamente readme.txt, donde ya está; en ambos sitios puede sobrescribir el readme y mostrar una versión de compatibilidad que nunca se pretendió indicar.
+
+= 1.0.6 =
+* Traducciones: se ha actualizado el `plogins-withdraw.pot` incluido, que se había quedado atrás respecto al código. Le faltaban cinco textos de la pantalla de declaraciones de desistimiento y del borrado de datos, y aún llevaba el nombre anterior del plugin. Es la plantilla con la que trabajan los traductores.
+* Traducciones: se ha corregido el catálogo español, que llamaba "retiro" al derecho de desistimiento en todas partes. La ley de consumo española lo llama *desistimiento*, y la propia descripción del plugin ya usaba ese término mientras que la interfaz no.
+
+= 1.0.5 =
+* Probado con WordPress 7.1. Verificado activando esta versión en una instalación limpia de 7.1 con WooCommerce 11.1, no editando la cabecera.
+
+= 1.0.4 =
+* Nuevo: las declaraciones de desistimiento entran ahora en las herramientas de datos personales de WordPress. Una exportación de datos incluye las declaraciones de un comprador y una solicitud de borrado las elimina, así que una petición de acceso o de supresión se atiende desde la pantalla estándar y no a mano.
+* Declarada la compatibilidad con WooCommerce 10.9.
+* Textos: se han sustituido las rayas largas por puntuación simple en toda la interfaz.
+* Limpieza: el paquete de la versión ya no incluye los catálogos de traducción, que llegan desde los paquetes de idioma de WordPress.org.
+
+= 1.0.3 =
+* Corregidas las traducciones alemana y polaca: "withdrawal" aparecía como "Auszahlung" (pago) en alemán y "wypłata" (pago) en polaco; ambas usan ahora los términos correctos del derecho de desistimiento (Widerruf / odstąpienie od umowy). También se ha arreglado un fallo gramatical en alemán y unificado la redacción polaca.
+
 = 1.0.2 =
 * Se añadieron traducciones incluidas al polaco, alemán y español de la interfaz del complemento.
 

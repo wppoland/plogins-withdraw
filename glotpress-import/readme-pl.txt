@@ -68,6 +68,26 @@ Plogins Withdraw zawiera polskie, niemieckie i hiszpańskie tłumaczenia interfe
 
 == Changelog ==
 
+= 1.0.7 =
+* Zmiana nazwy na Plogins Withdraw, aby zaczynała się od marki, a nie od ogólnego słowa, zgodnie z uwagą z recenzji wtyczki.
+* Usunięto nagłówek "Tested up to" z głównego pliku PHP. Jego miejsce jest wyłącznie w readme.txt, gdzie już się znajduje; obecny w obu miejscach potrafi nadpisać readme i pokazać wersję zgodności, której nikt nie zamierzał podać.
+
+= 1.0.6 =
+* Tłumaczenia: odświeżono dołączony plik `plogins-withdraw.pot`, który został w tyle za kodem. Brakowało w nim pięciu tekstów z ekranu oświadczeń o odstąpieniu i z mechanizmu usuwania danych, a nazwa wtyczki była sprzed zmiany. To z tego szablonu pracują tłumacze.
+* Tłumaczenia: poprawiono katalog hiszpański, w którym prawo odstąpienia od umowy nazywano wszędzie "retiro". Hiszpańskie prawo konsumenckie mówi *desistimiento*, a własny opis wtyczki używał już tego terminu, podczas gdy interfejs nie.
+
+= 1.0.5 =
+* Sprawdzono zgodność z WordPress 7.1. Zweryfikowano przez uruchomienie tej wersji na czystej instalacji 7.1 z WooCommerce 11.1, a nie przez zmianę nagłówka.
+
+= 1.0.4 =
+* Nowość: oświadczenia o odstąpieniu są objęte narzędziami WordPressa do danych osobowych. Eksport danych obejmuje oświadczenia kupującego, a żądanie usunięcia je kasuje, więc wniosek o dostęp do danych lub o ich usunięcie można obsłużyć ze standardowego ekranu, a nie ręcznie.
+* Zadeklarowano zgodność z WooCommerce 10.9.
+* Teksty: długie myślniki zastąpiono zwykłą interpunkcją w całym interfejsie.
+* Porządki: paczka wydania nie zawiera już katalogów tłumaczeń, które pochodzą z paczek językowych WordPress.org.
+
+= 1.0.3 =
+* Poprawiono tłumaczenie niemieckie i polskie: "withdrawal" oddano jako "Auszahlung" (wypłata) po niemiecku i "wypłata" po polsku; oba używają teraz właściwych terminów dotyczących odstąpienia od umowy (Widerruf / odstąpienie od umowy). Poprawiono też błąd gramatyczny w niemieckim i ujednolicono polskie sformułowania.
+
 = 1.0.2 =
 * Dodano dołączone polskie, niemieckie i hiszpańskie tłumaczenia interfejsu wtyczki.
 
