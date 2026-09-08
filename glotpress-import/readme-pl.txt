@@ -1,4 +1,4 @@
-=== Plogins Withdraw - Right of Withdrawal Button for WooCommerce ===
+=== Plogins Withdraw - EU Right of Withdrawal & Returns for WooCommerce ===
 Contributors: motylanogha
 Tags: woocommerce, withdrawal, right of withdrawal, eu, refund
 Requires at least: 6.5

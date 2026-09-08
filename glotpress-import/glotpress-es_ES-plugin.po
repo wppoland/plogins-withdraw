@@ -1,5 +1,5 @@
-# Translation of Plugins - Plogins Withdraw &#8211; Right of Withdrawal Button for WooCommerce - Stable (latest release) in Spanish (Spain)
-# This file is distributed under the same license as the Plugins - Plogins Withdraw &#8211; Right of Withdrawal Button for WooCommerce - Stable (latest release) package.
+# Translation of Plugins - Plogins Withdraw &#8211; EU Right of Withdrawal & Returns for WooCommerce - Stable (latest release) in Spanish (Spain)
+# This file is distributed under the same license as the Plugins - Plogins Withdraw &#8211; EU Right of Withdrawal & Returns for WooCommerce - Stable (latest release) package.
 msgid ""
 msgstr ""
 "PO-Revision-Date: +0000\n"
@@ -9,7 +9,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: GlotPress/4.1.0\n"
 "Language: es\n"
-"Project-Id-Version: Plugins - Plogins Withdraw &#8211; Right of Withdrawal Button for WooCommerce - Stable (latest release)\n"
+"Project-Id-Version: Plugins - Plogins Withdraw &#8211; EU Right of Withdrawal & Returns for WooCommerce - Stable (latest release)\n"
 
 #: templates/form-lookup.php:50
 msgid "Continue"
@@ -356,5 +356,5 @@ msgstr "https://plogins.com/plogins-withdraw/"
 
 #. Plugin Name of the plugin
 #: plogins-withdraw.php
-msgid "Plogins Withdraw - Right of Withdrawal Button for WooCommerce"
+msgid "Plogins Withdraw - EU Right of Withdrawal & Returns for WooCommerce"
 msgstr "Plogins Withdraw - desistimiento y devoluciones para WooCommerce"

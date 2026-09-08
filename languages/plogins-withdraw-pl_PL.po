@@ -2,7 +2,7 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Plogins Withdraw - Right of Withdrawal Button for WooCommerce 0.1.0\n"
+"Project-Id-Version: Plogins Withdraw - EU Right of Withdrawal & Returns for WooCommerce 0.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/plogins-withdraw\n"
 "POT-Creation-Date: 2026-07-02T09:24:51+00:00\n"
 "PO-Revision-Date: 2026-07-02T09:24:51+00:00\n"
@@ -18,9 +18,8 @@ msgstr ""
 
 #. Plugin Name of the plugin
 #: plogins-withdraw.php
-msgid "Plogins Withdraw - Right of Withdrawal Button for WooCommerce"
-msgstr ""
-"Plogins Withdraw - Przycisk prawa do odstąpienia od umowy dla WooCommerce"
+msgid "Plogins Withdraw - EU Right of Withdrawal & Returns for WooCommerce"
+msgstr "Plogins Withdraw - odstąpienie od umowy i zwroty dla WooCommerce"
 
 #. Plugin URI of the plugin
 #: plogins-withdraw.php
@@ -422,11 +421,6 @@ msgstr "Powód"
 #: src/Service/WithdrawPrivacyService.php:71
 msgid "Withdrawal Declarations"
 msgstr "Oświadczenia o odstąpieniu"
-
-#. Plugin Name of the plugin
-#: plogins-withdraw.php
-msgid "Withdraw - Right of Withdrawal Button for WooCommerce"
-msgstr "Withdraw - Right of Withdrawal Button for WooCommerce"
 
 #: src/Service/WithdrawPrivacyService.php:99
 msgid ""

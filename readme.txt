@@ -1,11 +1,11 @@
-=== Plogins Withdraw - Right of Withdrawal Button for WooCommerce ===
+=== Plogins Withdraw - EU Right of Withdrawal & Returns for WooCommerce ===
 Contributors: motylanogha
 Tags: woocommerce, withdrawal, right of withdrawal, eu, refund
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
 Requires Plugins: woocommerce
-Stable tag: 1.6.0
+Stable tag: 1.6.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -90,6 +90,9 @@ Yes. Orders are read through the WooCommerce order API, which is HPOS-compatible
 Plogins Withdraw is fully translatable and ships the `plogins-withdraw.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.6.1 =
+* Renamed to "Plogins Withdraw - EU Right of Withdrawal & Returns for WooCommerce". The old name led on the word "button", which four other withdrawal plugins in the directory also use, and it undersold a plugin that carries the form, the request log, seven emails and the Annex I texts. The slug, the text domain and every setting are unchanged; nothing needs reconfiguring.
 
 = 1.6.0 =
 * Fixed: the form intro and the model withdrawal text shipped as English sentences in a config file and were printed to the customer word for word. A config default cannot be translated, so every non-English shop showed its customers English until an admin noticed and rewrote it by hand. Both are now generated and translatable.

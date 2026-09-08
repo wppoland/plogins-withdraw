@@ -2,7 +2,7 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Plogins Withdraw - Right of Withdrawal Button for WooCommerce 1.6.0\n"
+"Project-Id-Version: Plogins Withdraw - EU Right of Withdrawal & Returns for WooCommerce 1.6.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/plogins-withdraw\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 
 #. Plugin Name of the plugin
 #: plogins-withdraw.php
-msgid "Plogins Withdraw - Right of Withdrawal Button for WooCommerce"
+msgid "Plogins Withdraw - EU Right of Withdrawal & Returns for WooCommerce"
 msgstr ""
 
 #. Plugin URI of the plugin

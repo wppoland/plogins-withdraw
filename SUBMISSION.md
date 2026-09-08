@@ -34,7 +34,7 @@ declares and the trader acts. Tested on WordPress 7.1 with WooCommerce 11.1.
 
 ## Listing copy
 
-- **Display name:** Plogins Withdraw - Right of Withdrawal Button for WooCommerce
+- **Display name:** Plogins Withdraw - EU Right of Withdrawal & Returns for WooCommerce
 - **Full description / FAQ / changelog:** `readme.txt` (the directory renders this).
 
 ## Pre-submission checks run

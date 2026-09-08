@@ -1,5 +1,5 @@
-# Translation of Plugins - Plogins Withdraw &#8211; Right of Withdrawal Button for WooCommerce - Stable Readme (latest release) in Polish
-# This file is distributed under the same license as the Plugins - Plogins Withdraw &#8211; Right of Withdrawal Button for WooCommerce - Stable Readme (latest release) package.
+# Translation of Plugins - Plogins Withdraw &#8211; EU Right of Withdrawal & Returns for WooCommerce - Stable Readme (latest release) in Polish
+# This file is distributed under the same license as the Plugins - Plogins Withdraw &#8211; EU Right of Withdrawal & Returns for WooCommerce - Stable Readme (latest release) package.
 msgid ""
 msgstr ""
 "PO-Revision-Date: +0000\n"
@@ -9,7 +9,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
 "X-Generator: GlotPress/4.1.0\n"
 "Language: pl\n"
-"Project-Id-Version: Plugins - Plogins Withdraw &#8211; Right of Withdrawal Button for WooCommerce - Stable Readme (latest release)\n"
+"Project-Id-Version: Plugins - Plogins Withdraw &#8211; EU Right of Withdrawal & Returns for WooCommerce - Stable Readme (latest release)\n"
 
 #. Short description.
 #, gp-priority: high
@@ -18,7 +18,7 @@ msgstr "Pełne lub częściowe wnioski o odstąpienie od umowy (dyrektywa UE 202
 
 #. Plugin name.
 #, gp-priority: high
-msgid "Plogins Withdraw - Right of Withdrawal Button for WooCommerce"
+msgid "Plogins Withdraw - EU Right of Withdrawal & Returns for WooCommerce"
 msgstr "Plogins Withdraw - odstąpienie od umowy i zwroty dla WooCommerce"
 
 #. Found in faq paragraph.
