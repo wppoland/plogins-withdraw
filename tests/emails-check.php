@@ -272,6 +272,48 @@ $repo->updateStatus($id, 'processed');
 $done = $repo->find($id);
 $ok(ReturnPolicy::refundDeadline($done) === 0, 'a processed request owes nothing');
 
+/* --- 8b. the rejection reason ------------------------------------------- */
+
+$cols = $wpdb->get_col("DESC {$table}", 0);
+$ok(in_array('admin_note', (array) $cols, true), 'requests table has an admin_note column');
+
+$noteId = $repo->create($order->get_id(), 'buyer@example.test', $items, '', 'tok999', 'Anna Nowak', $declaration);
+$ok($repo->updateStatus($noteId, 'rejected', 'The parcel came back opened and used.'), 'a rejection with a note saves');
+
+$noteRow = $repo->find($noteId);
+$ok(is_object($noteRow) && (string) $noteRow->admin_note === 'The parcel came back opened and used.', 'the note is stored');
+
+$freshRequest();
+$drain();
+do_action('withdraw/status_changed', $noteId, 'rejected', 'pending');
+$rejected = $drain();
+$rejText  = html_entity_decode(wp_strip_all_tags($rejected[0]['message'] ?? ''), ENT_QUOTES);
+$ok(str_contains($rejText, 'came back opened and used'), 'the rejection email tells the customer why');
+
+// Re-saving the same status must not wipe a note nobody retyped.
+$repo->updateStatus($noteId, 'rejected');
+$kept = $repo->find($noteId);
+$ok(is_object($kept) && (string) $kept->admin_note === 'The parcel came back opened and used.', 'saving without a note keeps the stored one');
+
+/* --- 8c. the log can reach past row 100 --------------------------------- */
+
+$wpdb->query("TRUNCATE TABLE {$table}");
+for ($i = 1; $i <= 120; $i++) {
+    $repo->create($order->get_id(), 'bulk' . $i . '@example.test', $items, '', 'tok' . $i, 'Bulk ' . $i, $declaration);
+}
+
+$ok($repo->total() === 120, 'total() counts every row, got ' . $repo->total());
+$page5 = $repo->all(['limit' => 25, 'offset' => 100]);
+$ok(count($page5) === 20, 'the fifth page returns the last 20 rows, got ' . count($page5));
+
+$ok($repo->total(['search' => 'bulk7@example.test']) === 1, 'search narrows the count');
+$found = $repo->all(['search' => 'bulk7@example.test', 'limit' => 25]);
+$ok(count($found) === 1 && (string) $found[0]->customer_email === 'bulk7@example.test', 'search finds the row it counted');
+
+$repo->updateStatus((int) $found[0]->id, 'processed', 'done');
+$ok($repo->total(['status' => 'processed']) === 1, 'status and count agree');
+$ok($repo->total(['status' => 'processed', 'search' => 'nothing@example.test']) === 0, 'status and search combine');
+
 /* --- 9. the real POST, end to end --------------------------------------- */
 
 // Everything above drives the actions directly. This drives the form, because

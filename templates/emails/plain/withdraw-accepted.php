@@ -9,6 +9,7 @@
  * @var string         $order_number
  * @var int            $request_id
  * @var string         $body_text
+ * @var string         $admin_note
  * @var string         $declaration
  * @var int            $submitted_at
  * @var array<int, array{name:string, qty:int}> $items
@@ -37,6 +38,10 @@ $withdraw_deadline    = $return_deadline > 0 ? date_i18n($withdraw_date_format, 
 echo '= ' . esc_html(wp_strip_all_tags($email_heading)) . " =\n\n";
 
 echo esc_html($body_text) . "\n\n";
+
+if ($admin_note !== '') {
+    echo esc_html($admin_note) . "\n\n";
+}
 
 echo esc_html(sprintf(
     /* translators: 1: withdrawal request id, 2: order number */

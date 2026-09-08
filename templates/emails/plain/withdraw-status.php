@@ -8,6 +8,7 @@
  * @var string         $order_number
  * @var int            $request_id
  * @var string         $body_text
+ * @var string         $admin_note
  * @var string         $email_heading
  * @var string         $additional_content
  * @var bool           $plain_text
@@ -23,6 +24,10 @@ defined('ABSPATH') || exit;
 echo '= ' . esc_html(wp_strip_all_tags($email_heading)) . " =\n\n";
 
 echo esc_html($body_text) . "\n\n";
+
+if ($admin_note !== '') {
+    echo esc_html($admin_note) . "\n\n";
+}
 
 echo esc_html(sprintf(
     /* translators: 1: withdrawal request id, 2: order number */

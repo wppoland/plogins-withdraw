@@ -81,6 +81,10 @@ abstract class AbstractStatusEmail extends AbstractWithdrawEmail
         return [
             'body_text'  => $this->bodyText(),
             'request_id' => (int) ($this->request->id ?? 0),
+            // What the shop typed next to the status. Required before a
+            // rejection, optional otherwise, and printed either way: a customer
+            // told only that the answer is no cannot do anything with it.
+            'admin_note' => trim((string) ($this->request->admin_note ?? '')),
         ];
     }
 }

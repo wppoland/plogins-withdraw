@@ -15,6 +15,7 @@
  * @var string         $order_number
  * @var int            $request_id
  * @var string         $body_text
+ * @var string         $admin_note
  * @var string         $declaration
  * @var int            $submitted_at
  * @var array<int, array{name:string, qty:int}> $items
@@ -44,6 +45,10 @@ do_action('woocommerce_email_header', $email_heading, $email); // phpcs:ignore W
 ?>
 
 <p><?php echo esc_html($body_text); ?></p>
+
+<?php if ($admin_note !== '') : ?>
+    <p style="white-space:pre-wrap"><?php echo esc_html($admin_note); ?></p>
+<?php endif; ?>
 
 <h2><?php echo esc_html__('Your declaration', 'plogins-withdraw'); ?></h2>
 <table cellspacing="0" cellpadding="6" border="1" style="border-collapse:collapse;width:100%;margin:0 0 16px">

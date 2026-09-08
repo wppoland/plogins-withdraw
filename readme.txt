@@ -5,7 +5,7 @@ Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
 Requires Plugins: woocommerce
-Stable tag: 1.4.0
+Stable tag: 1.5.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,7 +23,8 @@ It is a **request-and-log** plugin: it records the customer's withdrawal declara
 * **Full or partial withdrawal**: the customer chooses how many of each item to withdraw from.
 * **Withdrawal button in My Account**: a "Withdraw from this order" button appears under the order details and links to your withdrawal page with the order pre-filled.
 * **Withdrawal-period check**: configurable period (statutory minimum 14 days), measured from delivery (order completion) or, if never completed, from the order date.
-* **Admin log**: a WooCommerce → Withdrawal Requests screen lists every request with its items, customer and status (pending, accepted, rejected, processed), filterable by status.
+* **Admin log**: a WooCommerce → Withdrawal Requests screen lists every request with its items, customer and status (pending, accepted, rejected, processed), filterable by status, searchable by email or order number and paged, with a detail screen per request showing the stored declaration and the reason the customer gave.
+* **A rejection has to say why**: the reason is required before a request can be rejected, is kept with the request, and is printed in the email the customer receives.
 * **WooCommerce emails**: seven of them, each with its own entry under WooCommerce → Settings → Emails, using your store template, logo and footer. The declaration acknowledgement, the shop notification, one per request status, and the guest access link. Any of them can be reworded, restyled or switched off on its own.
 * **The acknowledgement is a record**: it repeats the declaration back in the exact words the customer confirmed, stored at the time, with the date and time of submission, which is what Art. 11a(4) asks for.
 * **Return information (Art. 14(1))**: the acceptance message states where to send the goods, taken from a return address field or your store address, the deadline counted from the day the customer declared, and who bears the direct cost of the return. That last one says nothing until you choose it, because you may only charge the customer if you told them before the sale.
@@ -89,6 +90,14 @@ Yes. Orders are read through the WooCommerce order API, which is HPOS-compatible
 Plogins Withdraw is fully translatable and ships the `plogins-withdraw.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.5.0 =
+* Fixed: the request log stopped at the newest 100 rows with no way past them, so on a busy shop older declarations were unreachable from wp-admin. It now pages 25 at a time, and a bookmarked page that no longer exists lands on the last one instead of an empty table.
+* Fixed: the log accepted a search argument that nothing ever passed to it. There is now a search box, matching on customer email or order number, and it works together with the status filter.
+* New: a detail screen per request, reached from the ID column. It shows what the list could not: the reason the customer gave, the declaration they confirmed, both timestamps and your own refund deadline. The access token stays off the page, because it is a credential rather than a record.
+* New: a note field next to the status control, and a rejection now requires one. "Your withdrawal request could not be accepted" with no reason gives the customer nothing to act on and leaves you no record of why you refused. The note is printed in the email, for every status, so it also works as "your parcel arrived, the refund goes out on Tuesday".
+* Fixed: re-saving a status without retyping the note no longer wipes it, and editing the note alone no longer sends the customer a second identical message.
+* The status counts on the filter links are now real numbers rather than plain labels.
 
 = 1.4.0 =
 * New: every message the plugin sends is now a WooCommerce email. They use your store template, logo and footer, and each one has its own entry under WooCommerce, Settings, Emails where it can be reworded, restyled or switched off on its own. Seven of them: the declaration acknowledgement, the shop notification, one per request status, and the guest access link.

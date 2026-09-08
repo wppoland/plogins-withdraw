@@ -14,6 +14,7 @@
  * @var string         $order_number
  * @var int            $request_id
  * @var string         $body_text
+ * @var string         $admin_note
  * @var string         $email_heading
  * @var string         $additional_content
  * @var bool           $plain_text
@@ -30,6 +31,10 @@ do_action('woocommerce_email_header', $email_heading, $email); // phpcs:ignore W
 ?>
 
 <p><?php echo esc_html($body_text); ?></p>
+
+<?php if ($admin_note !== '') : ?>
+    <p style="white-space:pre-wrap"><?php echo esc_html($admin_note); ?></p>
+<?php endif; ?>
 
 <p>
     <?php

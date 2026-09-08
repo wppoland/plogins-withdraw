@@ -24,7 +24,7 @@ final class Migrator
      * have to travel together or the column silently never appears and every
      * insert naming it fails. This revision is the column's own gate.
      */
-    private const SCHEMA_REV = 2;
+    private const SCHEMA_REV = 3;
 
     public const OPTION_SETTINGS  = 'withdraw_settings';
 
@@ -69,8 +69,15 @@ final class Migrator
         // declared, so the art. 11a(4) acknowledgement repeats back what was
         // declared instead of words rebuilt later from a changed locale, a
         // renamed product or a reworded template. Same reasoning the plugin
-        // already applies to the art. 16(m) consent text. dbDelta adds the
-        // column to an existing table on the next version-gated run.
+        // already applies to the art. 16(m) consent text.
+        //
+        // `admin_note` is the shop's own note on the outcome. It is required
+        // before a request can be rejected, and the rejection email prints it,
+        // because "your withdrawal could not be accepted" with no reason is not
+        // an answer the customer can do anything with.
+        //
+        // dbDelta adds both columns to an existing table on the next run, which
+        // SCHEMA_REV forces even when the plugin version has not moved.
         $sql = "CREATE TABLE {$table} (
             id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             order_id bigint(20) unsigned NOT NULL,
@@ -80,6 +87,7 @@ final class Migrator
             items longtext NOT NULL,
             reason text NOT NULL,
             declaration longtext NOT NULL,
+            admin_note text NOT NULL,
             status varchar(20) NOT NULL DEFAULT 'pending',
             created_at datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
             updated_at datetime NOT NULL DEFAULT '0000-00-00 00:00:00',

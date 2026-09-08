@@ -52,18 +52,32 @@ final class RequestRepository
         return (int) $wpdb->insert_id;
     }
 
-    public function updateStatus(int $id, string $status): bool
+    /**
+     * Move a request to a new status, with the shop's note on the outcome.
+     *
+     * The note is written whenever one is supplied, and left alone when it is
+     * not, so re-saving a status without retyping the note does not wipe it.
+     */
+    public function updateStatus(int $id, string $status, ?string $note = null): bool
     {
         if (! in_array($status, self::STATUSES, true)) {
             return false;
         }
         global $wpdb;
 
+        $data    = ['status' => $status, 'updated_at' => current_time('mysql')];
+        $formats = ['%s', '%s'];
+
+        if ($note !== null) {
+            $data['admin_note'] = $note;
+            $formats[]          = '%s';
+        }
+
         return false !== $wpdb->update( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
             Migrator::table(),
-            ['status' => $status, 'updated_at' => current_time('mysql')],
+            $data,
             ['id' => $id],
-            ['%s', '%s'],
+            $formats,
             ['%d'],
         );
     }
@@ -125,6 +139,36 @@ final class RequestRepository
         $rows = $wpdb->get_results($wpdb->prepare($sql, $params));
 
         return is_array($rows) ? $rows : [];
+    }
+
+    /**
+     * How many rows a given all() call would match, ignoring limit and offset.
+     *
+     * Same WHERE, built the same way, because a pager that counts something
+     * other than what the list shows sends people to empty pages.
+     *
+     * @param array{status?:string, search?:string} $args
+     */
+    public function total(array $args = []): int
+    {
+        global $wpdb;
+        $table  = Migrator::table();
+        $where  = '1=1';
+        $params = [];
+
+        if (! empty($args['status']) && in_array($args['status'], self::STATUSES, true)) {
+            $where   .= ' AND status = %s';
+            $params[] = $args['status'];
+        }
+        if (! empty($args['search'])) {
+            $where   .= ' AND (customer_email LIKE %s OR order_id = %d)';
+            $params[] = '%' . $wpdb->esc_like((string) $args['search']) . '%';
+            $params[] = (int) $args['search'];
+        }
+        array_unshift($params, $table);
+
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $where contains only trusted hard-coded fragments with placeholders; values bound via $params.
+        return (int) $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM %i WHERE {$where}", $params));
     }
 
     /** @return array<string, int> status => count */
