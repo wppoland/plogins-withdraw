@@ -19,7 +19,7 @@ final class RequestRepository
     /**
      * @param array<int, array{product_id:int, name:string, qty:int}> $items
      */
-    public function create(int $orderId, string $email, array $items, string $reason, string $token): int
+    public function create(int $orderId, string $email, array $items, string $reason, string $token, string $name = ''): int
     {
         global $wpdb;
 
@@ -28,6 +28,7 @@ final class RequestRepository
             Migrator::table(),
             [
                 'order_id'       => $orderId,
+                'customer_name'  => $name,
                 'customer_email' => $email,
                 'token'          => $token,
                 'items'          => (string) wp_json_encode(array_values($items)),
@@ -36,7 +37,7 @@ final class RequestRepository
                 'created_at'     => $now,
                 'updated_at'     => $now,
             ],
-            ['%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s'],
+            ['%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s'],
         );
 
         return (int) $wpdb->insert_id;

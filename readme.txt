@@ -5,7 +5,7 @@ Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
 Requires Plugins: woocommerce
-Stable tag: 1.0.8
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -67,6 +67,13 @@ Yes. Orders are read through the WooCommerce order API, which is HPOS-compatible
 Plogins Withdraw is fully translatable and ships the `plogins-withdraw.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.1.0 =
+* New: a separate confirmation step. Choosing items and declaring withdrawal used to be one click. Article 11a(3) requires a confirmation control carrying no wording other than "confirm withdrawal", which only means something if the customer can read the declaration first, so the declaration is now shown back in full on a step of its own before anything is stored.
+* New: the declaration carries the customer's name, the contract it refers to and their electronic contact details, which is what Article 11a(2) asks a withdrawal statement to contain. The name is prefilled from the order and stored with the request.
+* New: the acknowledgement email is now a durable record under Article 11a(4). It repeats the declaration in full and states the date and time it was submitted, instead of only saying the request arrived.
+* New: `[withdraw_link]` shortcode and an optional footer link. Article 11a(1) requires the function to be easily accessible for the whole withdrawal period, and the My Account control only reaches a signed-in customer already looking at that order, so a guest had no way in.
+* Changed: the control now reads "Withdraw from contract here", the wording Article 11a(1) prescribes, instead of "Withdraw from this order".
 
 = 1.0.8 =
 * Fixed: a withdrawal could be recorded without the customer ever ticking the declaration. The checkbox carried only the browser's `required` attribute and the server never looked at it, so a request posted without it was stored as a valid declaration. That record is the whole point of the plugin, so it is now refused server-side and nothing is written.

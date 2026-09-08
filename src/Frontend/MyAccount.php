@@ -11,9 +11,13 @@ defined('ABSPATH') || exit;
 
 /**
  * Adds the required "easy withdrawal" entry point to the customer's order view:
- * a button under the order details linking to the withdrawal form page with the
- * order pre-filled. This is the visible "withdrawal button" the directive asks
- * for (Art. 11a) on top of the standalone [withdraw_form] page.
+ * a control under the order details linking to the withdrawal form page with
+ * the order pre-filled.
+ *
+ * The label is not ours to choose: art. 11a(1) requires "withdraw from contract
+ * here" or an unambiguous equivalent. It also requires the function to be
+ * available throughout the whole withdrawal period, which an order-view button
+ * alone does not achieve, so WithdrawLink carries the rest.
  */
 final class MyAccount implements HasHooks
 {
@@ -43,7 +47,7 @@ final class MyAccount implements HasHooks
         ?>
         <p class="withdraw-order-action">
             <a class="button withdraw-order-action__btn" href="<?php echo esc_url($url); ?>">
-                <?php echo esc_html__('Withdraw from this order', 'plogins-withdraw'); ?>
+                <?php echo esc_html__('Withdraw from contract here', 'plogins-withdraw'); ?>
             </a>
         </p>
         <?php

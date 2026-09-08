@@ -9,6 +9,7 @@ defined('ABSPATH') || exit;
 use Withdraw\Admin\RequestsAdmin;
 use Withdraw\Admin\Settings;
 use Withdraw\Frontend\MyAccount;
+use Withdraw\Frontend\WithdrawLink;
 use Withdraw\Service\RequestRepository;
 use Withdraw\Service\WithdrawalService;
 
@@ -25,6 +26,7 @@ return static function (Container $c): void {
         $c->get(RequestRepository::class),
     ));
     $c->singleton(MyAccount::class, static fn (): MyAccount => new MyAccount());
+    $c->singleton(WithdrawLink::class, static fn (): WithdrawLink => new WithdrawLink());
     $c->singleton(\Withdraw\Service\WithdrawPrivacyService::class, static fn (Container $c): \Withdraw\Service\WithdrawPrivacyService => new \Withdraw\Service\WithdrawPrivacyService(
         $c->get(RequestRepository::class),
     ));

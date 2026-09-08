@@ -36,10 +36,15 @@ defined('ABSPATH') || exit;
     </p>
 
     <form method="post" class="withdraw-form__form">
-        <input type="hidden" name="withdraw_step" value="confirm">
+        <input type="hidden" name="withdraw_step" value="review">
         <input type="hidden" name="withdraw_order" value="<?php echo (int) $order->get_id(); ?>">
         <input type="hidden" name="withdraw_email" value="<?php echo esc_attr($email); ?>">
-        <?php wp_nonce_field('withdraw_confirm', 'withdraw_nonce'); ?>
+        <?php wp_nonce_field('withdraw_review', 'withdraw_nonce'); ?>
+
+        <p class="withdraw-form__name">
+            <label for="withdraw-name"><?php echo esc_html__('Name on the contract', 'plogins-withdraw'); ?></label>
+            <input type="text" id="withdraw-name" name="withdraw_name" value="<?php echo esc_attr($name ?? ''); ?>" required>
+        </p>
 
         <table class="withdraw-form__items">
             <thead>
@@ -77,15 +82,8 @@ defined('ABSPATH') || exit;
             <p class="withdraw-form__model"><?php echo nl2br(esc_html($model)); ?></p>
         <?php endif; ?>
 
-        <p class="withdraw-form__consent">
-            <label>
-                <input type="checkbox" name="withdraw_declare" value="1" required>
-                <?php echo esc_html__('I hereby give notice that I withdraw from my contract for the selected item(s).', 'plogins-withdraw'); ?>
-            </label>
-        </p>
-
         <p class="withdraw-form__actions">
-            <button type="submit" class="button withdraw-form__submit"><?php echo esc_html__('Submit withdrawal', 'plogins-withdraw'); ?></button>
+            <button type="submit" class="button withdraw-form__submit"><?php echo esc_html__('Continue', 'plogins-withdraw'); ?></button>
         </p>
     </form>
 </div>

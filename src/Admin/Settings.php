@@ -78,6 +78,8 @@ final class Settings implements HasHooks
             'form_page_id'      => absint($in['form_page_id'] ?? 0),
             'eligible_statuses' => $statuses !== [] ? $statuses : ['completed', 'processing'],
             'notify_email'      => sanitize_email((string) ($in['notify_email'] ?? '')),
+            'footer_link'       => ! empty($in['footer_link']),
+            'link_text'         => sanitize_text_field((string) ($in['link_text'] ?? '')),
             'intro_text'        => sanitize_textarea_field((string) ($in['intro_text'] ?? '')),
             'model_form_text'   => sanitize_textarea_field((string) ($in['model_form_text'] ?? '')),
         ];
@@ -176,6 +178,24 @@ final class Settings implements HasHooks
                                 <?php endforeach; ?>
                             </p>
                             <p class="withdraw-note" data-withdraw-statuses-note hidden><?php echo esc_html__('No status checked: Completed and Processing will be saved instead.', 'plogins-withdraw'); ?></p>
+                        </div>
+                    </section>
+
+                    <section class="withdraw-card">
+                        <header><h2><?php echo esc_html__('Where the function appears', 'plogins-withdraw'); ?></h2></header>
+                        <div class="withdraw-fields">
+                            <p>
+                                <label>
+                                    <input type="checkbox" name="<?php echo esc_attr(self::OPTION); ?>[footer_link]" value="1" <?php checked(! empty($s['footer_link'])); ?>>
+                                    <?php echo esc_html__('Show a withdrawal link in the site footer', 'plogins-withdraw'); ?>
+                                </label>
+                                <?php $help(__('The order view only reaches a signed-in customer looking at that order. Article 11a asks for the function to be easily accessible for the whole withdrawal period, so a footer link, a menu item or the [withdraw_link] shortcode on a legal page covers the shoppers the order view does not.', 'plogins-withdraw')); ?>
+                            </p>
+                            <p>
+                                <label for="wd-link-text"><?php echo esc_html__('Link text', 'plogins-withdraw'); ?></label>
+                                <input type="text" id="wd-link-text" class="regular-text" name="<?php echo esc_attr(self::OPTION); ?>[link_text]" value="<?php echo esc_attr((string) $s['link_text']); ?>" placeholder="<?php echo esc_attr__('Withdraw from contract here', 'plogins-withdraw'); ?>">
+                                <?php $help(__('Leave empty for the statutory wording. Article 11a(1) prescribes "withdraw from contract here" or an unambiguous equivalent, so if you change it, keep it unambiguous.', 'plogins-withdraw')); ?>
+                            </p>
                         </div>
                     </section>
 

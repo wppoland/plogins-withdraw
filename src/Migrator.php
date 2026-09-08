@@ -52,6 +52,7 @@ final class Migrator
         $sql = "CREATE TABLE {$table} (
             id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             order_id bigint(20) unsigned NOT NULL,
+            customer_name varchar(191) NOT NULL DEFAULT '',
             customer_email varchar(191) NOT NULL DEFAULT '',
             token varchar(64) NOT NULL DEFAULT '',
             items longtext NOT NULL,

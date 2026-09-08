@@ -7,6 +7,7 @@ defined('ABSPATH') || exit;
 use Withdraw\Admin\RequestsAdmin;
 use Withdraw\Admin\Settings;
 use Withdraw\Frontend\MyAccount;
+use Withdraw\Frontend\WithdrawLink;
 use Withdraw\Service\WithdrawalService;
 
 /**
@@ -21,9 +22,11 @@ return is_admin()
         \Withdraw\Service\WithdrawPrivacyService::class,
         Settings::class,
         RequestsAdmin::class,
+        WithdrawLink::class,
     ]
     : [
         WithdrawalService::class,
         \Withdraw\Service\WithdrawPrivacyService::class,
         MyAccount::class,
+        WithdrawLink::class,
     ];
