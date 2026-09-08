@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Plogins Withdraw - Right of Withdrawal Button for WooCommerce 1.0.7\n"
+"Project-Id-Version: Plogins Withdraw - Right of Withdrawal Button for WooCommerce 1.0.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/withdraw\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-07T10:12:09+00:00\n"
+"POT-Creation-Date: 2026-09-08T06:23:38+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: plogins-withdraw\n"
@@ -45,53 +45,75 @@ msgstr ""
 
 #: src/Admin/RequestsAdmin.php:35
 #: src/Admin/RequestsAdmin.php:36
-#: src/Admin/RequestsAdmin.php:71
+#: src/Admin/RequestsAdmin.php:134
 msgid "Withdrawal Requests"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:46
+#: src/Admin/RequestsAdmin.php:62
+msgid "Your withdrawal has been accepted. Please send the goods back without undue delay and in any case within 14 days of this message. We will refund you using the same means of payment you used, unless we have expressly agreed otherwise."
+msgstr ""
+
+#: src/Admin/RequestsAdmin.php:63
+msgid "Your withdrawal request could not be accepted. If you believe this is a mistake, reply to this email and we will look at it again."
+msgstr ""
+
+#: src/Admin/RequestsAdmin.php:64
+msgid "Your withdrawal has been processed and the refund has been issued. Depending on your bank it can take a few working days to appear."
+msgstr ""
+
+#: src/Admin/RequestsAdmin.php:65
+msgid "Your withdrawal request is being reviewed. We will write again as soon as there is an outcome."
+msgstr ""
+
+#. translators: %d: order number
+#: src/Admin/RequestsAdmin.php:72
+#, php-format
+msgid "Your withdrawal request for order #%d"
+msgstr ""
+
+#: src/Admin/RequestsAdmin.php:108
 msgid "Permission denied."
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:74
+#: src/Admin/RequestsAdmin.php:137
 msgid "Status updated."
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:77
+#: src/Admin/RequestsAdmin.php:140
 msgid "All"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:85
+#: src/Admin/RequestsAdmin.php:148
 msgid "ID"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:86
+#: src/Admin/RequestsAdmin.php:149
 msgid "Order"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:87
+#: src/Admin/RequestsAdmin.php:150
 msgid "Customer"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:88
+#: src/Admin/RequestsAdmin.php:151
 msgid "Items"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:89
+#: src/Admin/RequestsAdmin.php:152
 #: src/Service/WithdrawPrivacyService.php:77
 msgid "Date"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:90
+#: src/Admin/RequestsAdmin.php:153
 #: src/Service/WithdrawPrivacyService.php:75
 msgid "Status"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:95
+#: src/Admin/RequestsAdmin.php:158
 msgid "No withdrawal requests yet."
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:120
+#: src/Admin/RequestsAdmin.php:183
 msgid "Save"
 msgstr ""
 
@@ -212,30 +234,34 @@ msgstr ""
 msgid "This order is no longer eligible for withdrawal."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:150
+#: src/Service/WithdrawalService.php:134
+msgid "Please tick the declaration to confirm you are withdrawing from the contract."
+msgstr ""
+
+#: src/Service/WithdrawalService.php:159
 msgid "Please select at least one item to withdraw from."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:196
+#: src/Service/WithdrawalService.php:205
 msgid "This order is not in a status that can be withdrawn."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:206
+#: src/Service/WithdrawalService.php:215
 msgid "The withdrawal period for this order has ended."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:210
+#: src/Service/WithdrawalService.php:219
 msgid "A withdrawal request for this order is already being processed."
 msgstr ""
 
 #. translators: %s: order number
-#: src/Service/WithdrawalService.php:229
+#: src/Service/WithdrawalService.php:238
 #, php-format
 msgid "Your withdrawal request for order #%s"
 msgstr ""
 
 #. translators: 1: order number, 2: item list, 3: reason
-#: src/Service/WithdrawalService.php:234
+#: src/Service/WithdrawalService.php:243
 #, php-format
 msgid ""
 "We received your withdrawal request for order #%1$s.\n"
@@ -248,19 +274,19 @@ msgid ""
 "We will confirm the next steps by email."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:237
-#: src/Service/WithdrawalService.php:255
+#: src/Service/WithdrawalService.php:246
+#: src/Service/WithdrawalService.php:264
 msgid "(none given)"
 msgstr ""
 
 #. translators: 1: request id, 2: order number
-#: src/Service/WithdrawalService.php:245
+#: src/Service/WithdrawalService.php:254
 #, php-format
 msgid "New withdrawal request #%1$d for order #%2$s"
 msgstr ""
 
 #. translators: 1: order number, 2: customer email, 3: item list, 4: reason
-#: src/Service/WithdrawalService.php:251
+#: src/Service/WithdrawalService.php:260
 #, php-format
 msgid ""
 "A customer submitted a withdrawal request.\n"

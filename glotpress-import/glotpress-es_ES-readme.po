@@ -1,0 +1,224 @@
+# Translation of Plugins - Plogins Withdraw &#8211; Right of Withdrawal Button for WooCommerce - Stable Readme (latest release) in Spanish (Spain)
+# This file is distributed under the same license as the Plugins - Plogins Withdraw &#8211; Right of Withdrawal Button for WooCommerce - Stable Readme (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: +0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/4.1.0\n"
+"Language: es\n"
+"Project-Id-Version: Plugins - Plogins Withdraw &#8211; Right of Withdrawal Button for WooCommerce - Stable Readme (latest release)\n"
+
+#. Short description.
+#, gp-priority: high
+msgid "Full or partial EU right-of-withdrawal requests (Directive 2023/2673) for WooCommerce orders, with an admin log and email notifications."
+msgstr "Solicitudes de desistimiento total o parcial de la UE (Directiva 2023/2673) para pedidos de WooCommerce, con un registro en el administrador y notificaciones por correo electrónico."
+
+#. Plugin name.
+#, gp-priority: high
+msgid "Plogins Withdraw - Right of Withdrawal Button for WooCommerce"
+msgstr "Plogins Withdraw - botón de desistimiento para WooCommerce"
+
+#. Found in faq paragraph.
+msgid "Yes. Orders are read through the WooCommerce order API, which is HPOS-compatible."
+msgstr "Sí. Los pedidos se leen a través de la API de pedidos de WooCommerce, que es compatible con HPOS."
+
+#. Found in faq paragraph.
+msgid "No. The plugin provides the technical withdrawal function and editable legal texts. Configure the period and wording to match your jurisdiction and the statutory model withdrawal form."
+msgstr "No. El plugin aporta la función técnica de desistimiento y textos legales editables. Configura el plazo y la redacción para que se ajusten a tu jurisdicción y al modelo legal de formulario de desistimiento."
+
+#. Found in faq paragraph.
+msgid "Yes. Customers look up their order with the order number and the billing email used at checkout, so guests can submit a withdrawal without an account."
+msgstr "Sí. Los clientes buscan su pedido con el número de pedido y el correo electrónico de facturación que usaron al finalizar la compra, así que los invitados pueden enviar un desistimiento sin tener cuenta."
+
+#. Found in faq paragraph.
+msgid "No. This records the withdrawal request and tracks its status. Process any refund in the normal WooCommerce order screen; the request status is managed on the Withdrawal Requests screen."
+msgstr "No. Registra la solicitud de desistimiento y hace seguimiento de su estado. El reembolso lo procesas en la pantalla de pedidos habitual de WooCommerce; el estado de la solicitud se gestiona en la pantalla Solicitudes de desistimiento."
+
+#. Found in faq header.
+msgid "Is it compatible with HPOS?"
+msgstr "¿Es compatible con HPOS?"
+
+#. Found in faq header.
+msgid "Is this legal advice?"
+msgstr "¿Esto es asesoramiento jurídico?"
+
+#. Found in faq header.
+msgid "Does it work for guest orders?"
+msgstr "¿Funciona con pedidos de invitados?"
+
+#. Found in faq header.
+msgid "Does it issue refunds automatically?"
+msgstr "¿Emite reembolsos automáticamente?"
+
+#. Found in installation list item.
+msgid "Go to <strong>WooCommerce → Withdrawal</strong>, select that page as the withdrawal form page, set the withdrawal period and eligible order statuses, and adjust the notification email and legal texts."
+msgstr "Ve a <strong>WooCommerce → Desistimiento</strong>, selecciona esa página como página del formulario de desistimiento, define el plazo de desistimiento y los estados de pedido admitidos, y ajusta el correo electrónico de notificación y los textos legales."
+
+#. Found in installation list item.
+msgid "Create a page and add the <code>[withdraw_form]</code> shortcode."
+msgstr "Crea una página y añade el shortcode <code>[withdraw_form]</code>."
+
+#. Found in installation list item.
+msgid "Install and activate Plogins Withdraw."
+msgstr "Instala y activa Plogins Withdraw."
+
+#. Found in installation list item.
+msgid "Install and activate WooCommerce."
+msgstr "Instala y activa WooCommerce."
+
+#. Found in description paragraph.
+msgid "Plogins Withdraw is fully translatable and ships the <code>plogins-withdraw.pot</code> template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files."
+msgstr "Plogins Withdraw es totalmente traducible e incluye la plantilla <code>plogins-withdraw.pot</code>. Las traducciones se entregan mediante los paquetes de idioma de WordPress.org desde translate.wordpress.org, que es donde se están aportando el polaco, el alemán y el español; el paquete en sí no lleva archivos de traducción compilados."
+
+#. Found in description paragraph.
+msgid "It is a <strong>request-and-log</strong> plugin: it records the customer's withdrawal declaration, emails a confirmation to the customer and a notification to the shop, and tracks the request status in the admin. It never moves money on its own, you process any refund in the normal WooCommerce order screen, matching the legal model where the customer declares and the trader acts."
+msgstr "Es un plugin de <strong>solicitud y registro</strong>: guarda la declaración de desistimiento del cliente, envía por correo electrónico una confirmación al cliente y un aviso a la tienda, y hace seguimiento del estado de la solicitud en el administrador. Nunca mueve dinero por su cuenta, el reembolso lo procesas tú en la pantalla de pedidos habitual de WooCommerce, siguiendo el modelo legal en el que el consumidor declara y el comerciante actúa."
+
+#. Found in description paragraph.
+msgid "Plogins Withdraw adds an easy withdrawal function to WooCommerce, aligned with <strong>EU Directive 2023/2673</strong> (the \"withdrawal button\", Art. 11a): a clear way for customers to declare that they withdraw from a distance contract, in full or per item, within the statutory withdrawal period."
+msgstr "Plogins Withdraw añade a WooCommerce una función de desistimiento sencilla, alineada con la <strong>Directiva de la UE 2023/2673</strong> (el «botón de desistimiento», art. 11a): una forma clara de que los clientes declaren que desisten de un contrato a distancia, en su totalidad o por artículo, dentro del plazo legal de desistimiento."
+
+#. Found in description list item.
+msgid "WooCommerce 8.0 or later"
+msgstr "WooCommerce 8.0 o superior"
+
+#. Found in description list item.
+msgid "PHP 8.1 or later"
+msgstr "PHP 8.1 o superior"
+
+#. Found in description list item.
+msgid "WordPress 6.5 or later"
+msgstr "WordPress 6.5 o superior"
+
+#. Found in description list item.
+msgid "<strong>HPOS + Blocks compatible</strong>: reads orders through the WooCommerce order API."
+msgstr "<strong>Compatible con HPOS y bloques</strong>: lee los pedidos a través de la API de pedidos de WooCommerce."
+
+#. Found in description list item.
+msgid "<strong>Guest friendly</strong>: no account needed; the order-number + billing-email lookup works for guest orders."
+msgstr "<strong>Apto para invitados</strong>: no hace falta cuenta; la búsqueda por número de pedido + correo electrónico de facturación funciona con pedidos de invitados."
+
+#. Found in description list item.
+msgid "<strong>Model withdrawal text</strong>: an editable block on the form for the statutory model withdrawal form (Annex I.B)."
+msgstr "<strong>Texto del modelo de desistimiento</strong>: un bloque editable en el formulario para el modelo legal de formulario de desistimiento (Anexo I.B)."
+
+#. Found in description list item.
+msgid "<strong>Emails</strong>: automatic confirmation to the customer and notification to the shop."
+msgstr "<strong>Correos electrónicos</strong>: confirmación automática al cliente y aviso a la tienda."
+
+#. Found in description list item.
+msgid "<strong>Admin log</strong>: a WooCommerce → Withdrawal Requests screen lists every request with its items, customer and status (pending, accepted, rejected, processed), filterable by status."
+msgstr "<strong>Registro en el administrador</strong>: la pantalla WooCommerce → Solicitudes de desistimiento lista cada solicitud con sus artículos, su cliente y su estado (pendiente, aceptada, rechazada, procesada), y se puede filtrar por estado."
+
+#. Found in description list item.
+msgid "<strong>Withdrawal-period check</strong>: configurable period (statutory minimum 14 days), measured from delivery (order completion) or, if never completed, from the order date."
+msgstr "<strong>Comprobación del plazo de desistimiento</strong>: plazo configurable (mínimo legal de 14 días), contado desde la entrega (pedido completado) o, si nunca se completó, desde la fecha del pedido."
+
+#. Found in description list item.
+msgid "<strong>Withdrawal button in My Account</strong>: a \"Withdraw from this order\" button appears under the order details and links to your withdrawal page with the order pre-filled."
+msgstr "<strong>Botón de desistimiento en Mi cuenta</strong>: bajo los detalles del pedido aparece un botón «Desistir de este pedido» que enlaza con tu página de desistimiento con el pedido ya rellenado."
+
+#. Found in description list item.
+msgid "<strong>Full or partial withdrawal</strong>: the customer chooses how many of each item to withdraw from."
+msgstr "<strong>Desistimiento total o parcial</strong>: el cliente elige de cuántas unidades de cada artículo desiste."
+
+#. Found in description list item.
+msgid "<strong>Withdrawal form</strong>: the <code>[withdraw_form]</code> shortcode renders a two-step form: look up an order by number and billing email (works for guests too), then select items and quantities and submit the withdrawal declaration."
+msgstr "<strong>Formulario de desistimiento</strong>: el shortcode <code>[withdraw_form]</code> muestra un formulario de dos pasos: buscar un pedido por número y correo electrónico de facturación (también funciona para invitados) y luego elegir los artículos y las cantidades y enviar la declaración de desistimiento."
+
+#. Found in description header.
+msgid "Translations"
+msgstr "Traducciones"
+
+#. Found in description header.
+msgid "Requirements"
+msgstr "Requisitos"
+
+#. Found in description header.
+msgid "What it does"
+msgstr "Qué hace"
+
+#. Screenshot description.
+msgid "Settings (WooCommerce → Withdrawal): withdrawal period, form page, eligible statuses, notification email and legal texts, with the request log."
+msgstr "Ajustes (WooCommerce → Desistimiento): plazo de desistimiento, página del formulario, estados admitidos, correo electrónico de notificación y textos legales, con el registro de solicitudes."
+
+#. Screenshot description.
+msgid "Item selection: full or partial withdrawal with per-item quantities, the model withdrawal text and the declaration."
+msgstr "Selección de artículos: desistimiento total o parcial con cantidades por artículo, el texto del modelo de desistimiento y la declaración."
+
+#. Screenshot description.
+msgid "The withdrawal request form: order lookup by number and billing email (guest-friendly), with the 14-day right-of-withdrawal notice."
+msgstr "El formulario de solicitud de desistimiento: búsqueda del pedido por número y correo electrónico de facturación (apto para invitados), con el aviso del derecho de desistimiento de 14 días."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid "Initial release: <code>[withdraw_form]</code> shortcode (order lookup + full/partial item selection), My Account withdrawal button, configurable withdrawal period and eligible statuses, admin request log with statuses, customer and shop emails, editable model withdrawal text. HPOS + Blocks compatible."
+msgstr "Versión inicial: shortcode <code>[withdraw_form]</code> (búsqueda del pedido + selección total o parcial de artículos), botón de desistimiento en Mi cuenta, plazo de desistimiento y estados admitidos configurables, registro de solicitudes en el administrador con estados, correos al cliente y a la tienda, texto del modelo de desistimiento editable. Compatible con HPOS y bloques."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid "Plugin Check: escaping/sanitisation/i18n/hygiene fixes (table-name identifiers now passed via %i placeholders in prepared statements)."
+msgstr "Plugin Check: correcciones de escapado, saneado, i18n e higiene (los identificadores de nombres de tabla ahora se pasan mediante marcadores %i en las consultas preparadas)."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid "First stable release."
+msgstr "Primera versión estable."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid "Added bundled Polish, German and Spanish translations for the plugin interface."
+msgstr "Añadidas traducciones incluidas al polaco, al alemán y al español para la interfaz del plugin."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid "Corrected the German and Polish translations: \"withdrawal\" was rendered as \"Auszahlung\" (payout) in German and \"wypłata\" (payout) in Polish; both now use the correct right-of-withdrawal terms (Widerruf / odstąpienie od umowy). Also fixed a German grammar slip and standardised the Polish wording."
+msgstr "Corregidas las traducciones al alemán y al polaco: «withdrawal» se había traducido como «Auszahlung» (pago) en alemán y como «wypłata» (pago) en polaco; ambas usan ahora los términos correctos del derecho de desistimiento (Widerruf / odstąpienie od umowy). También se corrigió un fallo gramatical en alemán y se unificó la redacción en polaco."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid "Housekeeping: the release package no longer carries the translation catalogues, which come from the WordPress.org language packs."
+msgstr "Mantenimiento: el paquete de la versión ya no incluye los catálogos de traducción, que llegan desde los paquetes de idioma de WordPress.org."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid "Copy: replaced long dashes with plain punctuation across the interface."
+msgstr "Textos: sustituidas las rayas largas por puntuación normal en toda la interfaz."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid "Declared compatibility with WooCommerce 10.9."
+msgstr "Declarada la compatibilidad con WooCommerce 10.9."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid "New: withdrawal declarations are now covered by the WordPress personal-data tools. A privacy export includes a shopper's declarations, and an erasure request removes them, so a subject access or deletion request can be answered from the standard screen instead of by hand."
+msgstr "Novedad: las declaraciones de desistimiento ya están cubiertas por las herramientas de datos personales de WordPress. Una exportación de privacidad incluye las declaraciones del comprador y una solicitud de borrado las elimina, así que una solicitud de acceso o de supresión se puede atender desde la pantalla estándar en lugar de a mano."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid "Tested against WordPress 7.1. Verified by activating this build on a clean 7.1 install with WooCommerce 11.1, not by editing the header."
+msgstr "Probado con WordPress 7.1. Comprobado activando esta versión en una instalación limpia de 7.1 con WooCommerce 11.1, no editando la cabecera."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid "Translations: corrected the Spanish catalogue, which called the right of withdrawal \"retiro\" throughout. Spanish consumer law calls it <em>desistimiento</em>, and the plugin's own description already used that term while its interface did not."
+msgstr "Traducciones: corregido el catálogo en español, que llamaba «retiro» al derecho de desistimiento en todo el texto. La legislación española de consumo lo llama <em>desistimiento</em>, y la propia descripción del plugin ya usaba ese término mientras que su interfaz no."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid "Translations: refreshed the bundled <code>plogins-withdraw.pot</code>, which had fallen behind the code. It was missing five strings from the withdrawal declarations admin screen and the privacy eraser, and still carried the plugin's pre-rename name. That template is what translators work from."
+msgstr "Traducciones: actualizada la plantilla incluida <code>plogins-withdraw.pot</code>, que se había quedado por detrás del código. Le faltaban cinco cadenas de la pantalla de administración de declaraciones de desistimiento y del borrado de datos de privacidad, y todavía llevaba el nombre anterior del plugin. Esa plantilla es con la que trabajan los traductores."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid "Removed the \"Tested up to\" header from the main PHP file. It belongs in readme.txt only, where it is already declared; in both places the header can override the readme and show a compatibility version that was never intended."
+msgstr "Eliminada la cabecera «Tested up to» del archivo PHP principal. Corresponde solo a readme.txt, donde ya está declarada; si está en los dos sitios, la cabecera puede prevalecer sobre el readme y mostrar una versión de compatibilidad que nunca se pretendió."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid "Renamed to Plogins Withdraw so the name leads with the brand rather than a generic word, as the plugin review asked."
+msgstr "Renombrado a Plogins Withdraw para que el nombre empiece por la marca y no por una palabra genérica, tal como pidió la revisión del plugin."

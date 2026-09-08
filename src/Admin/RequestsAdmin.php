@@ -40,6 +40,68 @@ final class RequestsAdmin implements HasHooks
         );
     }
 
+    /**
+     * Tell the customer what happened to their declaration.
+     *
+     * The confirmation the shopper already receives ends with "We will confirm
+     * the next steps by email", and nothing sent that email, so every request
+     * ended in silence on a promise the plugin had made. Sent on the status the
+     * merchant sets, which is also the moment art. 14 information is due.
+     */
+    private function notifyCustomer(int $id, string $status): void
+    {
+        $request = $this->repository->find($id);
+
+        if (! is_object($request) || empty($request->customer_email) || ! is_email((string) $request->customer_email)) {
+            return;
+        }
+
+        $orderNo = (int) $request->order_id;
+
+        $lines = [
+            'accepted' => __('Your withdrawal has been accepted. Please send the goods back without undue delay and in any case within 14 days of this message. We will refund you using the same means of payment you used, unless we have expressly agreed otherwise.', 'plogins-withdraw'),
+            'rejected' => __('Your withdrawal request could not be accepted. If you believe this is a mistake, reply to this email and we will look at it again.', 'plogins-withdraw'),
+            'processed' => __('Your withdrawal has been processed and the refund has been issued. Depending on your bank it can take a few working days to appear.', 'plogins-withdraw'),
+            'pending' => __('Your withdrawal request is being reviewed. We will write again as soon as there is an outcome.', 'plogins-withdraw'),
+        ];
+
+        $body = $lines[$status] ?? $lines['pending'];
+
+        $subject = sprintf(
+            /* translators: %d: order number */
+            __('Your withdrawal request for order #%d', 'plogins-withdraw'),
+            $orderNo,
+        );
+
+        /**
+         * Filters the status-change message sent to the customer.
+         *
+         * @param string $body    The message body.
+         * @param string $status  The new status.
+         * @param object $request The withdrawal request row.
+         */
+        $body = (string) apply_filters('withdraw/status_email_body', $body, $status, $request);
+
+        wp_mail((string) $request->customer_email, $subject, $body);
+    }
+
+    /**
+     * Link to an order in a way that survives HPOS.
+     *
+     * post.php?post=<id> only works while orders are posts. This plugin
+     * declares HPOS compatibility, and with custom order tables switched on
+     * every link in this log led to a 404.
+     */
+    private static function orderEditUrl(int $orderId): string
+    {
+        if (class_exists('\\Automattic\\WooCommerce\\Utilities\\OrderUtil')
+            && \Automattic\WooCommerce\Utilities\OrderUtil::custom_orders_table_usage_is_enabled()) {
+            return admin_url('admin.php?page=wc-orders&action=edit&id=' . $orderId);
+        }
+
+        return admin_url('post.php?post=' . $orderId . '&action=edit');
+    }
+
     public function handleStatusChange(): void
     {
         if (! current_user_can('manage_woocommerce')) {
@@ -51,6 +113,7 @@ final class RequestsAdmin implements HasHooks
         $status = isset($_POST['status']) ? sanitize_key(wp_unslash($_POST['status'])) : '';
         if ($id > 0) {
             $this->repository->updateStatus($id, $status);
+            $this->notifyCustomer($id, $status);
         }
 
         wp_safe_redirect(add_query_arg(['page' => self::PAGE, 'updated' => '1'], admin_url('admin.php')));
@@ -99,7 +162,7 @@ final class RequestsAdmin implements HasHooks
                         $items = is_array($items) ? $items : []; ?>
                         <tr>
                             <td>#<?php echo (int) $r->id; ?></td>
-                            <td><a href="<?php echo esc_url(admin_url('post.php?post=' . (int) $r->order_id . '&action=edit')); ?>">#<?php echo (int) $r->order_id; ?></a></td>
+                            <td><a href="<?php echo esc_url(self::orderEditUrl((int) $r->order_id)); ?>">#<?php echo (int) $r->order_id; ?></a></td>
                             <td><?php echo esc_html((string) $r->customer_email); ?></td>
                             <td>
                                 <?php foreach ($items as $it) : ?>

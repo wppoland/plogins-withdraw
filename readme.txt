@@ -5,7 +5,7 @@ Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
 Requires Plugins: woocommerce
-Stable tag: 1.0.7
+Stable tag: 1.0.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -67,6 +67,11 @@ Yes. Orders are read through the WooCommerce order API, which is HPOS-compatible
 Plogins Withdraw is fully translatable and ships the `plogins-withdraw.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.0.8 =
+* Fixed: a withdrawal could be recorded without the customer ever ticking the declaration. The checkbox carried only the browser's `required` attribute and the server never looked at it, so a request posted without it was stored as a valid declaration. That record is the whole point of the plugin, so it is now refused server-side and nothing is written.
+* Fixed: the order link in the request log used the classic post editor URL, which does not open an order once HPOS is on, while the plugin declares HPOS compatibility. It now picks the right URL for whichever order storage the shop uses.
+* Fixed: the confirmation sent to the customer ended with "We will confirm the next steps by email" and no code ever sent that email. Changing a request's status now writes to the customer, and the accepted message carries the 14-day return deadline and the refund method, which is information the trader owes anyway.
 
 = 1.0.7 =
 * Renamed to Plogins Withdraw so the name leads with the brand rather than a generic word, as the plugin review asked.

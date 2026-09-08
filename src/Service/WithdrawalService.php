@@ -125,6 +125,15 @@ final class WithdrawalService implements HasHooks
             return $this->renderLookupStep(__('This order is no longer eligible for withdrawal.', 'plogins-withdraw'));
         }
 
+        // The declaration checkbox carried only the HTML `required` attribute,
+        // which any client can skip. This record IS the customer's declaration
+        // under art. 11a, so storing one nobody ticked would make the log worth
+        // nothing as evidence. Checked on the server, where it counts.
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- nonce verified above.
+        if (empty($_POST['withdraw_declare'])) {
+            return $this->renderLookupStep(__('Please tick the declaration to confirm you are withdrawing from the contract.', 'plogins-withdraw'));
+        }
+
         // Selected quantities: withdraw_qty[<item_id>] => qty. Each value is cast
         // with absint() in the loop below; the nonce is verified above.
         // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
