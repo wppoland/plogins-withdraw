@@ -5,7 +5,7 @@ Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
 Requires Plugins: woocommerce
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -67,6 +67,11 @@ Yes. Orders are read through the WooCommerce order API, which is HPOS-compatible
 Plogins Withdraw is fully translatable and ships the `plogins-withdraw.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.2.0 =
+* Fixed: the form asked for the order number and then looked the order up by its database id. On a stock WooCommerce install those are the same value, so nothing looked wrong, but any plugin that renumbers orders breaks the pair: the shop printed a number in its own emails that its own withdrawal form then rejected. The lookup now resolves the displayed number, falling back to the id, with a `withdraw/resolve_order_number` filter for other numbering schemes.
+* Fixed: the status email addressed the order by its database id rather than the number the customer sees, for the same reason.
+* New: withdrawals are written into the order's own notes, both when the declaration arrives and when its status changes. The request log is a separate screen nobody has open; whoever opens the order next now sees what happened without knowing this plugin exists.
 
 = 1.1.0 =
 * New: a separate confirmation step. Choosing items and declaring withdrawal used to be one click. Article 11a(3) requires a confirmation control carrying no wording other than "confirm withdrawal", which only means something if the customer can read the declaration first, so the declaration is now shown back in full on a step of its own before anything is stored.

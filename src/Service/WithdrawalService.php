@@ -273,6 +273,18 @@ final class WithdrawalService implements HasHooks
          * @param \WC_Order $order       The order withdrawn from.
          * @param int       $submittedAt Submission timestamp, site time.
          */
+        $order->add_order_note(
+            sprintf(
+                /* translators: 1: request id, 2: item list */
+                __("Withdrawal declaration #%1\$d received.\n%2\$s", 'plogins-withdraw'),
+                $id,
+                implode("\n", array_map(
+                    static fn (array $i): string => sprintf('- %s x%d', $i['name'], $i['qty']),
+                    $items,
+                )),
+            ),
+        );
+
         do_action('withdraw/declared', $id, $order, $submittedAt);
 
         ob_start();
@@ -286,12 +298,67 @@ final class WithdrawalService implements HasHooks
 
     /* --------------------------------------------------------------------- */
 
+    /**
+     * Find an order by the number the shop shows, not by its database id.
+     *
+     * WooCommerce has no core lookup for this, because the number is whatever
+     * `woocommerce_order_number` filters it into. The two conventions that
+     * cover almost every renumbering plugin are a `_order_number` meta key and
+     * a plain numeric id, and the filter is there for anything else.
+     */
+    private function resolveOrderNumber(string $number): ?\WC_Order
+    {
+        /**
+         * Filters the order resolved from a customer-facing order number.
+         *
+         * Return a WC_Order to take over the lookup entirely.
+         *
+         * @param \WC_Order|null $order  Resolved order, null until something resolves it.
+         * @param string         $number The number the customer typed.
+         */
+        $filtered = apply_filters('withdraw/resolve_order_number', null, $number);
+
+        if ($filtered instanceof \WC_Order) {
+            return $filtered;
+        }
+
+        $found = wc_get_orders([
+            'limit'      => 1,
+            'return'     => 'ids',
+            'meta_key'   => '_order_number', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+            'meta_value' => $number,         // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+        ]);
+
+        if (! empty($found)) {
+            $order = wc_get_order((int) $found[0]);
+
+            return $order instanceof \WC_Order ? $order : null;
+        }
+
+        return null;
+    }
+
     private function lookupOrder(int $orderId, string $email): ?\WC_Order
     {
         if ($orderId < 1 || ! is_email($email)) {
             return null;
         }
         $order = wc_get_order($orderId);
+
+        // The form asks for the ORDER NUMBER, and every email and heading this
+        // plugin prints uses get_order_number(). On stock WooCommerce that is
+        // the id, so the two coincide and nobody notices. Any plugin that
+        // renumbers orders breaks the pair: the shop shows the customer a
+        // number its own form then rejects. Resolve the number properly before
+        // giving up.
+        if (! $order instanceof \WC_Order || (string) $order->get_order_number() !== (string) $orderId) {
+            $resolved = $this->resolveOrderNumber((string) $orderId);
+
+            if ($resolved instanceof \WC_Order) {
+                $order = $resolved;
+            }
+        }
+
         if (! $order instanceof \WC_Order) {
             return null;
         }

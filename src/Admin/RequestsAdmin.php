@@ -56,7 +56,10 @@ final class RequestsAdmin implements HasHooks
             return;
         }
 
-        $orderNo = (int) $request->order_id;
+        $orderId = (int) $request->order_id;
+        $order   = wc_get_order($orderId);
+        // Print what the shop shows the customer, not the row id.
+        $orderNo = $order instanceof \WC_Order ? $order->get_order_number() : (string) $orderId;
 
         $lines = [
             'accepted' => __('Your withdrawal has been accepted. Please send the goods back without undue delay and in any case within 14 days of this message. We will refund you using the same means of payment you used, unless we have expressly agreed otherwise.', 'plogins-withdraw'),
@@ -68,8 +71,8 @@ final class RequestsAdmin implements HasHooks
         $body = $lines[$status] ?? $lines['pending'];
 
         $subject = sprintf(
-            /* translators: %d: order number */
-            __('Your withdrawal request for order #%d', 'plogins-withdraw'),
+            /* translators: %s: order number */
+            __('Your withdrawal request for order #%s', 'plogins-withdraw'),
             $orderNo,
         );
 
@@ -83,6 +86,19 @@ final class RequestsAdmin implements HasHooks
         $body = (string) apply_filters('withdraw/status_email_body', $body, $status, $request);
 
         wp_mail((string) $request->customer_email, $subject, $body);
+
+        // Same reason the declaration writes a note: whoever opens the order
+        // next should see what happened without knowing this plugin exists.
+        if ($order instanceof \WC_Order) {
+            $order->add_order_note(
+                sprintf(
+                    /* translators: 1: request id, 2: new status */
+                    __('Withdrawal declaration #%1$d marked as %2$s.', 'plogins-withdraw'),
+                    $id,
+                    $status,
+                ),
+            );
+        }
     }
 
     /**
