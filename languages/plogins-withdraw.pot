@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Plogins Withdraw - Right of Withdrawal Button for WooCommerce 1.5.0\n"
+"Project-Id-Version: Plogins Withdraw - Right of Withdrawal Button for WooCommerce 1.6.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/plogins-withdraw\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-08T12:57:12+00:00\n"
+"POT-Creation-Date: 2026-09-08T13:05:35+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: plogins-withdraw\n"
@@ -248,251 +248,279 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: src/Admin/Settings.php:38
 #: src/Admin/Settings.php:39
+#: src/Admin/Settings.php:40
 msgid "Withdrawal"
 msgstr ""
 
-#: src/Admin/Settings.php:126
+#: src/Admin/Settings.php:130
 msgid "Right of Withdrawal"
 msgstr ""
 
-#: src/Admin/Settings.php:127
+#: src/Admin/Settings.php:131
 msgid "Complies with EU Directive 2023/2673 (Art. 11a): an easy withdrawal function letting customers declare a full or partial withdrawal for their orders. Requests are logged under WooCommerce → Withdrawal Requests."
 msgstr ""
 
-#: src/Admin/Settings.php:130
+#: src/Admin/Settings.php:134
 msgid "Requests:"
 msgstr ""
 
 #. translators: 1: pending, 2: accepted, 3: processed, 4: rejected
-#: src/Admin/Settings.php:134
+#: src/Admin/Settings.php:138
 #, php-format
 msgid "%1$d pending, %2$d accepted, %3$d processed, %4$d rejected"
 msgstr ""
 
-#: src/Admin/Settings.php:141
+#: src/Admin/Settings.php:145
 msgid "View requests"
 msgstr ""
 
-#: src/Admin/Settings.php:150
+#: src/Admin/Settings.php:154
 msgid "General"
 msgstr ""
 
-#: src/Admin/Settings.php:153
+#: src/Admin/Settings.php:157
 msgid "Withdrawal period (days)"
 msgstr ""
 
-#: src/Admin/Settings.php:155
+#: src/Admin/Settings.php:159
 msgid "Statutory minimum is 14 days from delivery. The window starts when the order is marked completed, or at order creation if it never was."
 msgstr ""
 
-#: src/Admin/Settings.php:161
+#: src/Admin/Settings.php:165
 msgid "Form page"
 msgstr ""
 
-#: src/Admin/Settings.php:164
+#: src/Admin/Settings.php:168
 msgid "Withdrawal form page"
 msgstr ""
 
-#: src/Admin/Settings.php:170
+#: src/Admin/Settings.php:174
 msgid "Select a page"
 msgstr ""
 
-#: src/Admin/Settings.php:173
+#: src/Admin/Settings.php:177
 msgid "Create a page with the [withdraw_form] shortcode, then select it here so the My Account button can link to it."
 msgstr ""
 
-#: src/Admin/Settings.php:182
+#: src/Admin/Settings.php:186
 msgid "Eligibility"
 msgstr ""
 
-#: src/Admin/Settings.php:183
+#: src/Admin/Settings.php:187
 msgid "Customers can only submit a withdrawal for orders in one of these statuses. If none are checked, Completed and Processing are used."
 msgstr ""
 
-#: src/Admin/Settings.php:196
+#: src/Admin/Settings.php:200
 msgid "No status checked: Completed and Processing will be saved instead."
 msgstr ""
 
-#: src/Admin/Settings.php:201
+#: src/Admin/Settings.php:205
 msgid "Where the function appears"
 msgstr ""
 
-#: src/Admin/Settings.php:206
+#: src/Admin/Settings.php:210
 msgid "Show a withdrawal link in the site footer"
 msgstr ""
 
-#: src/Admin/Settings.php:208
+#: src/Admin/Settings.php:212
 msgid "The order view only reaches a signed-in customer looking at that order. Article 11a asks for the function to be easily accessible for the whole withdrawal period, so a footer link, a menu item or the [withdraw_link] shortcode on a legal page covers the shoppers the order view does not."
 msgstr ""
 
-#: src/Admin/Settings.php:211
+#: src/Admin/Settings.php:215
 msgid "Link text"
 msgstr ""
 
-#: src/Admin/Settings.php:212
+#: src/Admin/Settings.php:216
 #: src/Frontend/MyAccount.php:50
-#: src/Frontend/WithdrawLink.php:58
+#: src/Frontend/WithdrawLink.php:65
 msgid "Withdraw from contract here"
 msgstr ""
 
-#: src/Admin/Settings.php:213
+#: src/Admin/Settings.php:217
 msgid "Leave empty for the statutory wording. Article 11a(1) prescribes \"withdraw from contract here\" or an unambiguous equivalent, so if you change it, keep it unambiguous."
 msgstr ""
 
-#: src/Admin/Settings.php:219
+#: src/Admin/Settings.php:223
 msgid "Guest access"
 msgstr ""
 
-#: src/Admin/Settings.php:224
+#: src/Admin/Settings.php:228
 msgid "Email a one-time link instead of opening the form straight away"
 msgstr ""
 
-#: src/Admin/Settings.php:226
+#: src/Admin/Settings.php:230
 msgid "Off by default: a customer opens the form with their order number and billing email. Turn this on and the form emails a one-time link to the order billing address instead, so knowing the order number is not enough. Signed-in customers reaching the form from My Account are never asked for a link. This makes the withdrawal function depend on your shop outgoing email working."
 msgstr ""
 
-#: src/Admin/Settings.php:229
+#: src/Admin/Settings.php:233
 msgid "This site is not served over HTTPS. The one-time link travels in a page address and in a form field, so anyone able to watch the connection can read it."
 msgstr ""
 
-#: src/Admin/Settings.php:235
+#: src/Admin/Settings.php:239
 msgid "Digital content"
 msgstr ""
 
-#: src/Admin/Settings.php:240
+#: src/Admin/Settings.php:244
 msgid "Ask for Article 16(m) consent at checkout for downloadable products"
 msgstr ""
 
-#: src/Admin/Settings.php:242
+#: src/Admin/Settings.php:246
 msgid "Adds one optional, unticked checkbox to the checkout when the cart contains a downloadable product. It carries both halves of Article 16(m): the request to start supply immediately and the acknowledgement of losing the right of withdrawal. Once a file has actually been downloaded, that item stops being withdrawable. Virtual products that are not downloadable are services and are not covered."
 msgstr ""
 
-#: src/Admin/Settings.php:245
+#: src/Admin/Settings.php:249
 msgid "The box is never required. A customer who declines keeps the right of withdrawal and still gets the download, because WooCommerce grants download access regardless. That is the law working as intended, not a fault: consent that is a condition of purchase is not freely given, and would not hold up as an exclusion."
 msgstr ""
 
-#: src/Admin/Settings.php:248
+#: src/Admin/Settings.php:252
 msgid "Turning this back off restores the right of withdrawal on past orders too. Granting a withdrawal you could have refused is always lawful; honouring consent from a feature you have switched off would be the surprising outcome."
 msgstr ""
 
-#: src/Admin/Settings.php:254
+#: src/Admin/Settings.php:258
 msgid "Emails"
 msgstr ""
 
-#: src/Admin/Settings.php:257
+#: src/Admin/Settings.php:261
 msgid "Notification email"
 msgstr ""
 
-#: src/Admin/Settings.php:259
+#: src/Admin/Settings.php:263
 msgid "Where new-request notifications are sent. Leave empty to use the site admin email. The customer always gets a confirmation at their own address."
 msgstr ""
 
-#: src/Admin/Settings.php:262
+#: src/Admin/Settings.php:266
 msgid "Every message this plugin sends is a WooCommerce email: same template, same logo, same footer as your order emails, and each one can be reworded or switched off on its own."
 msgstr ""
 
-#: src/Admin/Settings.php:269
+#: src/Admin/Settings.php:273
 msgid "(off)"
 msgstr ""
 
-#: src/Admin/Settings.php:278
+#: src/Admin/Settings.php:282
 msgid "Returns"
 msgstr ""
 
-#: src/Admin/Settings.php:281
+#: src/Admin/Settings.php:285
 msgid "Return address"
 msgstr ""
 
-#: src/Admin/Settings.php:282
+#: src/Admin/Settings.php:286
 msgid "Printed in the message that tells the customer their withdrawal was accepted. Leave empty to use your WooCommerce store address."
 msgstr ""
 
-#: src/Admin/Settings.php:286
+#: src/Admin/Settings.php:290
 msgid "Neither this field nor your WooCommerce store address is filled in, so the acceptance message will not say where to send the goods."
 msgstr ""
 
-#: src/Admin/Settings.php:289
+#: src/Admin/Settings.php:293
 msgid "Who pays to send the goods back"
 msgstr ""
 
-#: src/Admin/Settings.php:291
+#: src/Admin/Settings.php:295
 msgid "Say nothing"
 msgstr ""
 
-#: src/Admin/Settings.php:292
+#: src/Admin/Settings.php:296
 msgid "The customer"
 msgstr ""
 
-#: src/Admin/Settings.php:293
+#: src/Admin/Settings.php:297
 msgid "We do"
 msgstr ""
 
-#: src/Admin/Settings.php:295
+#: src/Admin/Settings.php:299
 msgid "Article 14(1) only lets you charge the customer for the return if you told them so before they bought, in your withdrawal information. If you did not, the cost is yours, which is why this says nothing until you choose."
 msgstr ""
 
-#: src/Admin/Settings.php:298
+#: src/Admin/Settings.php:302
 msgid "Return cost, extra wording"
 msgstr ""
 
-#: src/Admin/Settings.php:299
+#: src/Admin/Settings.php:303
 msgid "Optional, added after the sentence above. Article 6(1)(i) wants an estimate of the cost for goods that cannot normally be sent back by post."
 msgstr ""
 
-#: src/Admin/Settings.php:300
+#: src/Admin/Settings.php:304
 msgid "For example: bulky items are collected by courier, around 40 EUR."
 msgstr ""
 
 #. translators: %s: the sentence the customer will read
-#: src/Admin/Settings.php:308
+#: src/Admin/Settings.php:312
 #, php-format
 msgid "The customer will read: %s"
 msgstr ""
 
-#: src/Admin/Settings.php:311
+#: src/Admin/Settings.php:315
 msgid "The acceptance message will not mention who pays for the return."
 msgstr ""
 
-#: src/Admin/Settings.php:315
+#: src/Admin/Settings.php:319
 msgid "Your own clock: Article 13(1) gives you 14 days from the day the customer tells you they are withdrawing to refund them, including the standard delivery cost they paid. The request log shows that date and marks it when it passes."
 msgstr ""
 
-#: src/Admin/Settings.php:321
+#: src/Admin/Settings.php:325
 msgid "Legal texts"
 msgstr ""
 
-#: src/Admin/Settings.php:324
-msgid "Form intro text"
-msgstr ""
-
-#: src/Admin/Settings.php:325
-msgid "Shown above the order lookup step of the withdrawal form."
-msgstr ""
-
-#: src/Admin/Settings.php:329
-msgid "Model withdrawal text"
+#: src/Admin/Settings.php:328
+msgid "Seller name"
 msgstr ""
 
 #: src/Admin/Settings.php:330
-msgid "Shown on the form. Adapt to the statutory model withdrawal form (Annex I.B)."
+msgid "The trading name that appears in the model withdrawal form and the withdrawal instructions. Empty uses the site title. The address comes from your WooCommerce store address."
 msgstr ""
 
-#: src/Admin/Settings.php:334
-msgid "Digital content consent, extra wording"
+#: src/Admin/Settings.php:333
+msgid "Seller email"
 msgstr ""
 
 #: src/Admin/Settings.php:335
+msgid "Seller phone"
+msgstr ""
+
+#: src/Admin/Settings.php:337
+msgid "Annex I asks for a telephone number and email address where available, so a consumer can declare by any means."
+msgstr ""
+
+#: src/Admin/Settings.php:340
+msgid "Your WooCommerce store address is empty, so the model withdrawal form cannot state a geographical address. Fill it in under WooCommerce, Settings, General."
+msgstr ""
+
+#: src/Admin/Settings.php:343
+msgid "Form intro text"
+msgstr ""
+
+#: src/Admin/Settings.php:344
+msgid "Shown above the order lookup step. Leave empty for the wording below, which is translated with the rest of the plugin."
+msgstr ""
+
+#: src/Admin/Settings.php:348
+msgid "Model withdrawal text"
+msgstr ""
+
+#: src/Admin/Settings.php:349
+msgid "Shown on the items step. Leave empty and the plugin generates the statutory model withdrawal form (Annex I.B) from the seller details above, in the language of the site."
+msgstr ""
+
+#: src/Admin/Settings.php:353
+msgid "The model instructions on withdrawal (Annex I.A) are pre-contractual information, so they belong on a page of their own rather than on the form. Put the [withdraw_instructions] shortcode on your terms or returns page and the plugin generates them from the same details, including your withdrawal period."
+msgstr ""
+
+#: src/Admin/Settings.php:356
+msgid "Digital content consent, extra wording"
+msgstr ""
+
+#: src/Admin/Settings.php:357
 msgid "Optional, and added in front of the statutory sentence rather than replacing it. The plugin refuses withdrawal for downloaded items on the strength of the acknowledgement in that sentence, so wording that only promised immediate delivery would take away a right nobody gave up. Whatever the customer sees is stored with their order, so editing this later does not rewrite what earlier customers agreed to."
 msgstr ""
 
-#: src/Admin/Settings.php:336
+#: src/Admin/Settings.php:358
 msgid "For example: these files are available the moment your payment clears."
 msgstr ""
 
 #. translators: %s: the statutory Article 16(m) consent sentence
-#: src/Admin/Settings.php:342
+#: src/Admin/Settings.php:364
 #, php-format
 msgid "The checkbox always ends with: %s"
 msgstr ""
@@ -644,6 +672,10 @@ msgstr ""
 msgid "Withdrawal request under review"
 msgstr ""
 
+#: src/Frontend/WithdrawLink.php:89
+msgid "Right of withdrawal"
+msgstr ""
+
 #: src/Service/DigitalConsentService.php:119
 msgid "I ask you to begin supplying the digital content immediately and I acknowledge that I lose my right of withdrawal once the supply has begun."
 msgstr ""
@@ -662,6 +694,75 @@ msgstr ""
 
 #: src/Service/ReturnPolicy.php:158
 msgid "You bear the direct cost of returning the goods."
+msgstr ""
+
+#. translators: %s: the trader's name, address and contact details, each on its own line
+#: src/Service/StatutoryText.php:94
+#, php-format
+msgid ""
+"Model withdrawal form\n"
+"(complete and return this form only if you wish to withdraw from the contract)\n"
+"\n"
+"To:\n"
+"%s\n"
+"\n"
+"I hereby give notice that I withdraw from my contract of sale of the following goods:\n"
+"\n"
+"Ordered on / received on:\n"
+"\n"
+"Name of consumer:\n"
+"\n"
+"Address of consumer:\n"
+"\n"
+"Date:"
+msgstr ""
+
+#: src/Service/StatutoryText.php:95
+#: src/Service/StatutoryText.php:123
+msgid "(the seller's name and address)"
+msgstr ""
+
+#. translators: 1: number of days, 2: number of days
+#: src/Service/StatutoryText.php:115
+#, php-format
+msgid "You have the right to withdraw from this contract within %1$d days without giving any reason. The withdrawal period will expire after %2$d days from the day on which you acquire, or a third party other than the carrier and indicated by you acquires, physical possession of the goods."
+msgstr ""
+
+#. translators: %s: the trader's name, address and contact details
+#: src/Service/StatutoryText.php:122
+#, php-format
+msgid ""
+"To exercise the right of withdrawal, you must inform us of your decision to withdraw from this contract by an unequivocal statement. Our details are:\n"
+"\n"
+"%s"
+msgstr ""
+
+#: src/Service/StatutoryText.php:126
+msgid "You may use the model withdrawal form below, or the withdrawal function on this site, but it is not obligatory. To meet the withdrawal deadline, it is enough for you to send your communication concerning your exercise of the right of withdrawal before the withdrawal period has expired."
+msgstr ""
+
+#: src/Service/StatutoryText.php:128
+msgid "Effects of withdrawal"
+msgstr ""
+
+#: src/Service/StatutoryText.php:130
+msgid "If you withdraw from this contract, we shall reimburse to you all payments received from you, including the costs of delivery, with the exception of the supplementary costs resulting from your choice of a type of delivery other than the least expensive type of standard delivery offered by us, without undue delay and in any event not later than 14 days from the day on which we are informed about your decision to withdraw from this contract. We will carry out such reimbursement using the same means of payment as you used for the initial transaction, unless you have expressly agreed otherwise; in any event, you will not incur any fees as a result of such reimbursement."
+msgstr ""
+
+#: src/Service/StatutoryText.php:132
+msgid "We may withhold reimbursement until we have received the goods back or you have supplied evidence of having sent back the goods, whichever is the earliest."
+msgstr ""
+
+#: src/Service/StatutoryText.php:134
+msgid "You shall send back the goods or hand them over to us without undue delay and in any event not later than 14 days from the day on which you communicate your withdrawal from this contract to us. The deadline is met if you send back the goods before the period of 14 days has expired."
+msgstr ""
+
+#: src/Service/StatutoryText.php:145
+msgid "You are only liable for any diminished value of the goods resulting from handling other than what is necessary to establish the nature, characteristics and functioning of the goods."
+msgstr ""
+
+#: src/Service/StatutoryText.php:165
+msgid "Use this form to withdraw from your purchase. Select the items you are withdrawing from, then confirm the declaration on the next step."
 msgstr ""
 
 #: src/Service/WithdrawalService.php:140

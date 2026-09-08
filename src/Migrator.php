@@ -28,6 +28,23 @@ final class Migrator
 
     public const OPTION_SETTINGS  = 'withdraw_settings';
 
+    /** Set once the English placeholder texts have been swept, so it runs once. */
+    private const OPTION_TEXTS_SWEPT = 'withdraw_texts_swept';
+
+    /**
+     * The English sentences that shipped as defaults up to 1.5.0 and were
+     * printed to the customer word for word.
+     *
+     * Matched exactly, so only a shop that never touched them is cleared. A
+     * cleared value means "use the generated, translatable text".
+     *
+     * @var array<string, string>
+     */
+    private const LEGACY_TEXTS = [
+        'intro_text'      => 'Use this form to withdraw from your purchase. Select the items you want to withdraw from and submit the declaration.',
+        'model_form_text' => 'Model withdrawal form. To [seller name and address]: I hereby give notice that I withdraw from my contract for the sale of the following goods. Ordered on / received on. Name of consumer. Date.',
+    ];
+
     public static function table(): string
     {
         global $wpdb;
@@ -42,6 +59,8 @@ final class Migrator
             add_option(self::OPTION_SETTINGS, $defaults);
         }
 
+        $this->sweepLegacyTexts();
+
         $revIsStale = (int) get_option(self::OPTION_SCHEMA_REV, 0) < self::SCHEMA_REV;
 
         if (! $revIsStale && version_compare((string) get_option(self::OPTION_VERSION, ''), VERSION, '>=')) {
@@ -51,6 +70,36 @@ final class Migrator
         $this->createTable();
         update_option(self::OPTION_VERSION, VERSION);
         update_option(self::OPTION_SCHEMA_REV, self::SCHEMA_REV);
+    }
+
+    /**
+     * Clear the English placeholders a shop never edited.
+     *
+     * Only an exact match is cleared. A shop that wrote its own wording, or
+     * translated the placeholder by hand, keeps every character of it; a shop
+     * that left the default gets text in its own language instead of English.
+     */
+    private function sweepLegacyTexts(): void
+    {
+        if (get_option(self::OPTION_TEXTS_SWEPT, '') === '1') {
+            return;
+        }
+
+        $stored = get_option(self::OPTION_SETTINGS, []);
+        if (is_array($stored)) {
+            $changed = false;
+            foreach (self::LEGACY_TEXTS as $key => $legacy) {
+                if (isset($stored[$key]) && trim((string) $stored[$key]) === $legacy) {
+                    $stored[$key] = '';
+                    $changed      = true;
+                }
+            }
+            if ($changed) {
+                update_option(self::OPTION_SETTINGS, $stored);
+            }
+        }
+
+        update_option(self::OPTION_TEXTS_SWEPT, '1');
     }
 
     private function createTable(): void

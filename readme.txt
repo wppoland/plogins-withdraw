@@ -5,7 +5,7 @@ Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
 Requires Plugins: woocommerce
-Stable tag: 1.5.0
+Stable tag: 1.6.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,7 +31,7 @@ It is a **request-and-log** plugin: it records the customer's withdrawal declara
 * **Your own refund deadline (Art. 13(1))**: the request log shows the date you owe the refund by, 14 days from the declaration, and marks it once it has passed.
 * **Digital content consent (Art. 16(m))**: optional. One unticked checkbox at checkout, on both the classic and the block checkout, asking the customer to start supply immediately and acknowledging that the right of withdrawal is lost once it has. What was agreed, when, in which exact words and for which products is stored with the order and confirmed back on the order screen and in the order email. Once WooCommerce has actually served a download, that item drops out of the withdrawal form, server side.
 * **Emailed one-time link (optional)**: off by default. With it on, step one asks for the order number and billing email and emails a single-use link to the address on the order instead of opening the form, so knowing an order number is not enough to read what somebody bought. The answer is the same whether the order exists or not, requests are rate limited, and signed-in customers arriving from My Account skip the link entirely.
-* **Model withdrawal text**: an editable block on the form for the statutory model withdrawal form (Annex I.B).
+* **The statutory texts, generated**: the model withdrawal form (Annex I.B) is built from your seller details and printed on the form, and `[withdraw_instructions]` renders the model instructions on withdrawal (Annex I.A) for your terms page, both translatable and both in step with your configured withdrawal period. Type your own wording and it wins.
 * **Guest friendly**: no account needed; the order-number + billing-email lookup works for guest orders.
 * **HPOS + Blocks compatible**: reads orders through the WooCommerce order API.
 
@@ -90,6 +90,14 @@ Yes. Orders are read through the WooCommerce order API, which is HPOS-compatible
 Plogins Withdraw is fully translatable and ships the `plogins-withdraw.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.6.0 =
+* Fixed: the form intro and the model withdrawal text shipped as English sentences in a config file and were printed to the customer word for word. A config default cannot be translated, so every non-English shop showed its customers English until an admin noticed and rewrote it by hand. Both are now generated and translatable.
+* New: the model withdrawal form (Annex I.B) is built from your own details, the seller name, the WooCommerce store address, the email and the phone, in the language of the site. Leave the setting empty to use it; anything you type still wins.
+* New: seller name, email and phone settings for those texts. Empty falls back to the site title and the admin email, so the form always names somebody. The screen warns when the WooCommerce store address is empty, because without it there is no geographical address to state.
+* New: a `[withdraw_instructions]` shortcode rendering the model instructions on withdrawal (Annex I.A) for your terms or returns page, generated from the same details and from your withdrawal period, so it cannot drift out of step with what the form enforces. Attributes `heading="no"` and `form="no"` trim it. The `withdraw/model_instructions` filter is there for the service-contract and digital-content paragraphs a particular catalogue needs.
+* The return-cost sentence appears in those instructions only once you have set the rule. It is the very notice Article 6(1)(i) requires before the contract, so generating it by default would create the notice a shop then relies on.
+* On update, an intro or model text left exactly as it shipped is cleared so the generated wording takes over. Anything you edited, including a hand translation, is matched exactly and kept.
 
 = 1.5.0 =
 * Fixed: the request log stopped at the newest 100 rows with no way past them, so on a busy shop older declarations were unreachable from wp-admin. It now pages 25 at a time, and a bookmarked page that no longer exists lands on the last one instead of an empty table.

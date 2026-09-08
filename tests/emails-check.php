@@ -367,6 +367,52 @@ $ok($branches === 2, 'EmailService is registered in both hook branches, found ' 
 $loaded = require WITHDRAW_DIR . 'config/hooks.php';
 $ok(in_array(\Withdraw\Service\EmailService::class, (array) $loaded, true), 'the branch this request loaded includes it');
 
+/* --- 10b. the statutory texts are generated, not English placeholders ---- */
+
+update_option('woocommerce_store_address', 'ul. Testowa 1');
+$sellerSettings = array_merge($settings, [
+    'seller_name'     => 'Sklep Testowy Sp. z o.o.',
+    'seller_email'    => 'sklep@example.test',
+    'seller_phone'    => '+48 22 000 00 00',
+    'intro_text'      => '',
+    'model_form_text' => '',
+    'period_days'     => 30,
+]);
+update_option(Migrator::OPTION_SETTINGS, $sellerSettings);
+
+$model = \Withdraw\Service\StatutoryText::modelForm();
+$ok(str_contains($model, 'Sklep Testowy Sp. z o.o.'), 'the model form names the seller');
+$ok(str_contains($model, 'ul. Testowa 1'), 'the model form carries a geographical address');
+$ok(str_contains($model, 'sklep@example.test'), 'the model form carries the contact email');
+$ok(! str_contains($model, '[seller name and address]'), 'the English placeholder is gone');
+
+$instructions = \Withdraw\Service\StatutoryText::instructions();
+$ok(str_contains($instructions, 'within 30 days'), 'the instructions state the configured period, not a hardcoded 14');
+$ok(str_contains($instructions, 'diminished value'), 'the instructions carry the Annex I(A) liability paragraph');
+
+// The return-cost sentence is pre-contractual information, so it may only
+// appear once the shop has actually stated the rule.
+update_option(Migrator::OPTION_SETTINGS, array_merge($sellerSettings, ['return_cost' => 'not_stated']));
+$ok(! str_contains(\Withdraw\Service\StatutoryText::instructions(), 'bear the direct cost'), 'with no cost rule set, the instructions do not claim one');
+
+update_option(Migrator::OPTION_SETTINGS, array_merge($sellerSettings, ['return_cost' => 'customer']));
+$ok(str_contains(\Withdraw\Service\StatutoryText::instructions(), 'You bear the direct cost'), 'with the rule set, the instructions state it');
+
+$shortcode = do_shortcode('[withdraw_instructions]');
+$ok(str_contains($shortcode, 'Right of withdrawal'), 'the shortcode renders a heading');
+$ok(str_contains($shortcode, 'Sklep Testowy'), 'the shortcode renders the seller');
+$ok(! str_contains(do_shortcode('[withdraw_instructions heading="no" form="no"]'), 'Model withdrawal form'), 'the attributes drop the heading and the model form');
+
+// A shop that never edited the English default gets it cleared; one that wrote
+// its own keeps every character.
+$legacy = 'Use this form to withdraw from your purchase. Select the items you want to withdraw from and submit the declaration.';
+update_option(Migrator::OPTION_SETTINGS, array_merge($settings, ['intro_text' => $legacy, 'model_form_text' => 'Our own wording.']));
+delete_option('withdraw_texts_swept');
+(new Migrator())->maybeMigrate();
+$after = get_option(Migrator::OPTION_SETTINGS, []);
+$ok(($after['intro_text'] ?? 'x') === '', 'the untouched English intro was cleared');
+$ok(($after['model_form_text'] ?? '') === 'Our own wording.', 'a shop own wording survives the sweep');
+
 /* --- 11. no raw wp_mail left anywhere ------------------------------------ */
 
 $raw = 0;

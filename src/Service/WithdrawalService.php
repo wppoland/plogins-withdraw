@@ -121,7 +121,7 @@ final class WithdrawalService implements HasHooks
         $vars = [
             'error'    => $error,
             'period'   => (int) $s['period_days'],
-            'intro'    => (string) $s['intro_text'],
+            'intro'    => $this->text((string) $s['intro_text'], [StatutoryText::class, 'intro']),
             'magic'    => ! empty($s['magic_link']),
             'nonce'    => wp_create_nonce('withdraw_lookup'),
         ];
@@ -164,7 +164,7 @@ final class WithdrawalService implements HasHooks
             'name'     => trim($order->get_billing_first_name() . ' ' . $order->get_billing_last_name()),
             'deadline' => $eligibility['deadline'],
             'excluded' => $eligibility['excluded'],
-            'model'    => (string) $s['model_form_text'],
+            'model'    => $this->text((string) $s['model_form_text'], [StatutoryText::class, 'modelForm']),
             'nonce'    => wp_create_nonce('withdraw_review'),
         ]);
         return (string) ob_get_clean();
@@ -775,6 +775,18 @@ final class WithdrawalService implements HasHooks
         }
 
         return $count;
+    }
+
+    /**
+     * The shop's own wording, or the generated statutory text when it has none.
+     *
+     * @param callable(): string $fallback
+     */
+    private function text(string $configured, callable $fallback): string
+    {
+        $configured = trim($configured);
+
+        return $configured !== '' ? $configured : $fallback();
     }
 
     /** @param array<string, mixed> $vars */

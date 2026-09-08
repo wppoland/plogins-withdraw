@@ -6,6 +6,7 @@ namespace Withdraw\Frontend;
 
 use Withdraw\Contract\HasHooks;
 use Withdraw\Migrator;
+use Withdraw\Service\StatutoryText;
 
 defined('ABSPATH') || exit;
 
@@ -19,12 +20,18 @@ defined('ABSPATH') || exit;
  *
  * This adds two answers. A `[withdraw_link]` shortcode the shop can drop into a
  * menu, footer or legal page, and an optional site-wide footer link.
+ *
+ * It also carries `[withdraw_instructions]`, the model instructions on
+ * withdrawal from Annex I(A) to Directive 2011/83/EU, which art. 6(1)(h) makes
+ * pre-contractual information rather than anything the withdrawal form can
+ * supply after the fact.
  */
 final class WithdrawLink implements HasHooks
 {
     public function registerHooks(): void
     {
         add_shortcode('withdraw_link', [$this, 'renderShortcode']);
+        add_shortcode('withdraw_instructions', [$this, 'renderInstructions']);
         add_action('wp_footer', [$this, 'renderFooterLink']);
     }
 
@@ -56,6 +63,41 @@ final class WithdrawLink implements HasHooks
         // may reword it, which the directive allows as long as the alternative
         // is unambiguous, so this is deliberately not locked down.
         return $custom !== '' ? $custom : __('Withdraw from contract here', 'plogins-withdraw');
+    }
+
+    /**
+     * The model instructions on withdrawal, Annex I(A).
+     *
+     * Generated from the shop's own details and its withdrawal period, so it
+     * cannot drift out of step with the setting the form actually enforces.
+     *
+     * Attributes: `heading="no"` drops the heading, for a page that already has
+     * one; `form="no"` drops the model form printed underneath it.
+     *
+     * @param array<string, string>|string $atts
+     */
+    public function renderInstructions($atts = []): string
+    {
+        $atts = shortcode_atts([
+            'heading' => 'yes',
+            'form'    => 'yes',
+        ], is_array($atts) ? $atts : [], 'withdraw_instructions');
+
+        $out = '<div class="withdraw-instructions">';
+
+        if ($atts['heading'] !== 'no') {
+            $out .= '<h2>' . esc_html__('Right of withdrawal', 'plogins-withdraw') . '</h2>';
+        }
+
+        $out .= wpautop(esc_html(StatutoryText::instructions()));
+
+        if ($atts['form'] !== 'no') {
+            $out .= '<pre class="withdraw-model-form" style="white-space:pre-wrap">'
+                . esc_html(StatutoryText::modelForm())
+                . '</pre>';
+        }
+
+        return $out . '</div>';
     }
 
     /**

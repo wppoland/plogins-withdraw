@@ -49,6 +49,17 @@ return [
     // Optional, printed inside the cost paragraph. Art. 6(1)(i) wants an
     // estimate for goods that cannot normally be returned by post.
     'return_cost_note'  => '',
-    'intro_text'        => 'Use this form to withdraw from your purchase. Select the items you want to withdraw from and submit the declaration.',
-    'model_form_text'   => "Model withdrawal form. To [seller name and address]: I hereby give notice that I withdraw from my contract for the sale of the following goods. Ordered on / received on. Name of consumer. Date.",
+    // The trader, for Annex I(A) and I(B). Empty falls back to the site title,
+    // the WooCommerce store address and the admin email, so the generated texts
+    // always name somebody.
+    'seller_name'       => '',
+    'seller_email'      => '',
+    'seller_phone'      => '',
+    // Both empty on purpose. They used to hold English sentences printed to the
+    // customer word for word, and a string in a config file cannot be
+    // translated, so every non-English shop showed English until an admin
+    // rewrote it. Empty now means "use the generated, translatable text", and a
+    // shop that types its own still wins.
+    'intro_text'        => '',
+    'model_form_text'   => '',
 ];

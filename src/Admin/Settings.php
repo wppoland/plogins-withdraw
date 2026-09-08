@@ -10,6 +10,7 @@ use Withdraw\Service\DigitalConsentService;
 use Withdraw\Service\EmailService;
 use Withdraw\Service\RequestRepository;
 use Withdraw\Service\ReturnPolicy;
+use Withdraw\Service\StatutoryText;
 
 use const Withdraw\VERSION;
 
@@ -96,6 +97,9 @@ final class Settings implements HasHooks
                 ? (string) $in['return_cost']
                 : 'not_stated',
             'return_cost_note'  => sanitize_textarea_field((string) ($in['return_cost_note'] ?? '')),
+            'seller_name'       => sanitize_text_field((string) ($in['seller_name'] ?? '')),
+            'seller_email'      => sanitize_email((string) ($in['seller_email'] ?? '')),
+            'seller_phone'      => sanitize_text_field((string) ($in['seller_phone'] ?? '')),
             'intro_text'        => sanitize_textarea_field((string) ($in['intro_text'] ?? '')),
             'model_form_text'   => sanitize_textarea_field((string) ($in['model_form_text'] ?? '')),
         ];
@@ -321,14 +325,32 @@ final class Settings implements HasHooks
                         <header><h2><?php echo esc_html__('Legal texts', 'plogins-withdraw'); ?></h2></header>
                         <div class="withdraw-fields">
                             <p>
+                                <label for="wd-seller-name"><?php echo esc_html__('Seller name', 'plogins-withdraw'); ?></label>
+                                <input type="text" id="wd-seller-name" class="regular-text" name="<?php echo esc_attr(self::OPTION); ?>[seller_name]" value="<?php echo esc_attr((string) $s['seller_name']); ?>" placeholder="<?php echo esc_attr(get_option('blogname')); ?>">
+                                <?php $help(__('The trading name that appears in the model withdrawal form and the withdrawal instructions. Empty uses the site title. The address comes from your WooCommerce store address.', 'plogins-withdraw')); ?>
+                            </p>
+                            <p>
+                                <label for="wd-seller-email"><?php echo esc_html__('Seller email', 'plogins-withdraw'); ?></label>
+                                <input type="email" id="wd-seller-email" class="regular-text" name="<?php echo esc_attr(self::OPTION); ?>[seller_email]" value="<?php echo esc_attr((string) $s['seller_email']); ?>" placeholder="<?php echo esc_attr(get_option('admin_email')); ?>">
+                                <label for="wd-seller-phone"><?php echo esc_html__('Seller phone', 'plogins-withdraw'); ?></label>
+                                <input type="text" id="wd-seller-phone" class="regular-text" name="<?php echo esc_attr(self::OPTION); ?>[seller_phone]" value="<?php echo esc_attr((string) $s['seller_phone']); ?>">
+                                <?php $help(__('Annex I asks for a telephone number and email address where available, so a consumer can declare by any means.', 'plogins-withdraw')); ?>
+                            </p>
+                            <?php if (! StatutoryText::sellerIsComplete()) : ?>
+                                <p class="withdraw-note"><?php echo esc_html__('Your WooCommerce store address is empty, so the model withdrawal form cannot state a geographical address. Fill it in under WooCommerce, Settings, General.', 'plogins-withdraw'); ?></p>
+                            <?php endif; ?>
+                            <p>
                                 <label for="wd-intro"><?php echo esc_html__('Form intro text', 'plogins-withdraw'); ?></label>
-                                <?php $help(__('Shown above the order lookup step of the withdrawal form.', 'plogins-withdraw')); ?><br>
-                                <textarea id="wd-intro" class="large-text" rows="3" name="<?php echo esc_attr(self::OPTION); ?>[intro_text]"><?php echo esc_textarea((string) $s['intro_text']); ?></textarea>
+                                <?php $help(__('Shown above the order lookup step. Leave empty for the wording below, which is translated with the rest of the plugin.', 'plogins-withdraw')); ?><br>
+                                <textarea id="wd-intro" class="large-text" rows="3" name="<?php echo esc_attr(self::OPTION); ?>[intro_text]" placeholder="<?php echo esc_attr(StatutoryText::intro()); ?>"><?php echo esc_textarea((string) $s['intro_text']); ?></textarea>
                             </p>
                             <p>
                                 <label for="wd-model"><?php echo esc_html__('Model withdrawal text', 'plogins-withdraw'); ?></label>
-                                <?php $help(__('Shown on the form. Adapt to the statutory model withdrawal form (Annex I.B).', 'plogins-withdraw')); ?><br>
-                                <textarea id="wd-model" class="large-text" rows="4" name="<?php echo esc_attr(self::OPTION); ?>[model_form_text]"><?php echo esc_textarea((string) $s['model_form_text']); ?></textarea>
+                                <?php $help(__('Shown on the items step. Leave empty and the plugin generates the statutory model withdrawal form (Annex I.B) from the seller details above, in the language of the site.', 'plogins-withdraw')); ?><br>
+                                <textarea id="wd-model" class="large-text" rows="6" name="<?php echo esc_attr(self::OPTION); ?>[model_form_text]" placeholder="<?php echo esc_attr(StatutoryText::modelForm()); ?>"><?php echo esc_textarea((string) $s['model_form_text']); ?></textarea>
+                            </p>
+                            <p class="withdraw-note">
+                                <?php echo esc_html__('The model instructions on withdrawal (Annex I.A) are pre-contractual information, so they belong on a page of their own rather than on the form. Put the [withdraw_instructions] shortcode on your terms or returns page and the plugin generates them from the same details, including your withdrawal period.', 'plogins-withdraw'); ?>
                             </p>
                             <p>
                                 <label for="wd-consent-intro"><?php echo esc_html__('Digital content consent, extra wording', 'plogins-withdraw'); ?></label>
