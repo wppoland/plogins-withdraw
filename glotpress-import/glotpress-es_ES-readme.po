@@ -19,7 +19,7 @@ msgstr "Solicitudes de desistimiento total o parcial de la UE (Directiva 2023/26
 #. Plugin name.
 #, gp-priority: high
 msgid "Plogins Withdraw - Right of Withdrawal Button for WooCommerce"
-msgstr "Plogins Withdraw - botón de desistimiento para WooCommerce"
+msgstr "Plogins Withdraw - desistimiento y devoluciones para WooCommerce"
 
 #. Found in faq paragraph.
 msgid "Yes. Orders are read through the WooCommerce order API, which is HPOS-compatible."

@@ -19,7 +19,7 @@ msgstr "EU-Widerrufsanträge (Richtlinie 2023/2673) für WooCommerce-Bestellunge
 #. Plugin name.
 #, gp-priority: high
 msgid "Plogins Withdraw - Right of Withdrawal Button for WooCommerce"
-msgstr "Plogins Withdraw - Widerrufsbutton für WooCommerce"
+msgstr "Plogins Withdraw - Widerruf und Rücksendungen für WooCommerce"
 
 #. Found in faq paragraph.
 msgid "Yes. Orders are read through the WooCommerce order API, which is HPOS-compatible."

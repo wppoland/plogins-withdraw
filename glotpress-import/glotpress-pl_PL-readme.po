@@ -19,7 +19,7 @@ msgstr "Pełne lub częściowe wnioski o odstąpienie od umowy (dyrektywa UE 202
 #. Plugin name.
 #, gp-priority: high
 msgid "Plogins Withdraw - Right of Withdrawal Button for WooCommerce"
-msgstr "Plogins Withdraw - przycisk odstąpienia od umowy dla WooCommerce"
+msgstr "Plogins Withdraw - odstąpienie od umowy i zwroty dla WooCommerce"
 
 #. Found in faq paragraph.
 msgid "Yes. Orders are read through the WooCommerce order API, which is HPOS-compatible."

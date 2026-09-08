@@ -357,4 +357,4 @@ msgstr "https://plogins.com/plogins-withdraw/"
 #. Plugin Name of the plugin
 #: plogins-withdraw.php
 msgid "Plogins Withdraw - Right of Withdrawal Button for WooCommerce"
-msgstr "Plogins Withdraw - botón de desistimiento para WooCommerce"
+msgstr "Plogins Withdraw - desistimiento y devoluciones para WooCommerce"
