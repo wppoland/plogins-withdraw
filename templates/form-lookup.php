@@ -7,6 +7,7 @@
  * @var string $error
  * @var int    $period
  * @var string $intro
+ * @var bool   $magic   true when the form emails a one-time link instead
  * @var string $nonce
  */
 
@@ -20,6 +21,9 @@ $withdraw_order_id = isset($_GET['wd_order']) ? absint(wp_unslash($_GET['wd_orde
 <div class="withdraw-form">
     <?php if ($intro !== '') : ?>
         <p class="withdraw-form__intro"><?php echo esc_html($intro); ?></p>
+    <?php endif; ?>
+    <?php if ($magic) : ?>
+        <p class="withdraw-form__lede"><?php echo esc_html__('Enter your order number and billing email. We will send a one-time link to that address.', 'plogins-withdraw'); ?></p>
     <?php endif; ?>
     <p class="withdraw-form__legal">
         <?php
@@ -36,7 +40,7 @@ $withdraw_order_id = isset($_GET['wd_order']) ? absint(wp_unslash($_GET['wd_orde
     <?php endif; ?>
 
     <form method="post" class="withdraw-form__form">
-        <input type="hidden" name="withdraw_step" value="items">
+        <input type="hidden" name="withdraw_step" value="<?php echo esc_attr($magic ? 'link' : 'items'); ?>">
         <?php wp_nonce_field('withdraw_lookup', 'withdraw_nonce'); ?>
         <p class="withdraw-form__field">
             <label for="withdraw_order"><?php echo esc_html__('Order number', 'plogins-withdraw'); ?></label>

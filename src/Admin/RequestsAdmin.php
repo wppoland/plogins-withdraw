@@ -128,8 +128,18 @@ final class RequestsAdmin implements HasHooks
         $id     = isset($_POST['request_id']) ? absint(wp_unslash($_POST['request_id'])) : 0;
         $status = isset($_POST['status']) ? sanitize_key(wp_unslash($_POST['status'])) : '';
         if ($id > 0) {
-            $this->repository->updateStatus($id, $status);
-            $this->notifyCustomer($id, $status);
+            // Two things were wrong here. updateStatus() returns false for a
+            // status outside its whitelist, and this ignored that, so an
+            // invalid post still mailed the customer the generic "being
+            // reviewed" body for a write that never happened. And saving the
+            // same status twice sent a second identical email, because nothing
+            // asked whether anything had actually changed.
+            $before = $this->repository->find($id);
+            $was    = is_object($before) && isset($before->status) ? (string) $before->status : '';
+
+            if ($was !== $status && $this->repository->updateStatus($id, $status)) {
+                $this->notifyCustomer($id, $status);
+            }
         }
 
         wp_safe_redirect(add_query_arg(['page' => self::PAGE, 'updated' => '1'], admin_url('admin.php')));

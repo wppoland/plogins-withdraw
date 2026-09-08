@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 defined('ABSPATH') || exit;
 
+use Withdraw\Admin\OrderConsentPanel;
 use Withdraw\Admin\RequestsAdmin;
 use Withdraw\Admin\Settings;
 use Withdraw\Frontend\MyAccount;
 use Withdraw\Frontend\WithdrawLink;
+use Withdraw\Service\DigitalConsentService;
 use Withdraw\Service\WithdrawalService;
 
 /**
@@ -20,6 +22,11 @@ return is_admin()
     ? [
         WithdrawalService::class, // shortcode + POST handling also work in admin-preview contexts
         \Withdraw\Service\WithdrawPrivacyService::class,
+        // Also in wp-admin: the checkout block editor asks for the registered
+        // additional fields, so a field registered only on the front end would
+        // be missing from the editor's own view of the checkout.
+        DigitalConsentService::class,
+        OrderConsentPanel::class,
         Settings::class,
         RequestsAdmin::class,
         WithdrawLink::class,
@@ -27,6 +34,9 @@ return is_admin()
     : [
         WithdrawalService::class,
         \Withdraw\Service\WithdrawPrivacyService::class,
+        // Store API requests are not is_admin(), so the Blocks capture lives
+        // in this branch as well.
+        DigitalConsentService::class,
         MyAccount::class,
         WithdrawLink::class,
     ];

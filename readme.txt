@@ -5,7 +5,7 @@ Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
 Requires Plugins: woocommerce
-Stable tag: 1.2.0
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,8 @@ It is a **request-and-log** plugin: it records the customer's withdrawal declara
 * **Withdrawal-period check**: configurable period (statutory minimum 14 days), measured from delivery (order completion) or, if never completed, from the order date.
 * **Admin log**: a WooCommerce → Withdrawal Requests screen lists every request with its items, customer and status (pending, accepted, rejected, processed), filterable by status.
 * **Emails**: automatic confirmation to the customer and notification to the shop.
+* **Digital content consent (Art. 16(m))**: optional. One unticked checkbox at checkout, on both the classic and the block checkout, asking the customer to start supply immediately and acknowledging that the right of withdrawal is lost once it has. What was agreed, when, in which exact words and for which products is stored with the order and confirmed back on the order screen and in the order email. Once WooCommerce has actually served a download, that item drops out of the withdrawal form, server side.
+* **Emailed one-time link (optional)**: off by default. With it on, step one asks for the order number and billing email and emails a single-use link to the address on the order instead of opening the form, so knowing an order number is not enough to read what somebody bought. The answer is the same whether the order exists or not, requests are rate limited, and signed-in customers arriving from My Account skip the link entirely.
 * **Model withdrawal text**: an editable block on the form for the statutory model withdrawal form (Annex I.B).
 * **Guest friendly**: no account needed; the order-number + billing-email lookup works for guest orders.
 * **HPOS + Blocks compatible**: reads orders through the WooCommerce order API.
@@ -50,8 +52,17 @@ No. This records the withdrawal request and tracks its status. Process any refun
 = Does it work for guest orders? =
 Yes. Customers look up their order with the order number and the billing email used at checkout, so guests can submit a withdrawal without an account.
 
+= Should I turn the emailed one-time link on? =
+Only if your outgoing email is reliable, which is why it ships off. With it off, anyone holding an order number and the billing address can open the form, which is the same pair WooCommerce itself accepts for guest order tracking. With it on, the form emails a single-use link valid for one hour instead, so the address has to actually be reachable by the person asking. That makes the withdrawal function depend on your shop being able to send mail: if SMTP breaks, a guest cannot withdraw at all.
+
 = Is this legal advice? =
 No. The plugin provides the technical withdrawal function and editable legal texts. Configure the period and wording to match your jurisdiction and the statutory model withdrawal form.
+
+= What does the digital content consent do, and does it block anything? =
+It is off until you turn it on, and even then it never blocks a purchase. The checkbox is optional and never pre-ticked, because consent that is a condition of buying is not freely given and would not hold up as an exclusion. A customer who leaves it unticked still receives the download and still keeps the right of withdrawal. The exclusion only applies to items the customer consented to AND that WooCommerce has recorded as downloaded.
+
+= My files are delivered by email or by an external portal. Will the exclusion work? =
+No, not on its own. The plugin decides that supply has begun by reading WooCommerce download logs, so a file WooCommerce never served reads as not downloaded and the item stays withdrawable. Erring towards the customer is deliberate. If you deliver outside WooCommerce, the `withdraw/digital_supply_begun` filter lets you supply the truth.
 
 = Is it compatible with HPOS? =
 Yes. Orders are read through the WooCommerce order API, which is HPOS-compatible.
@@ -67,6 +78,19 @@ Yes. Orders are read through the WooCommerce order API, which is HPOS-compatible
 Plogins Withdraw is fully translatable and ships the `plogins-withdraw.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.3.0 =
+* Fixed: saving a request's status twice sent the customer a second identical email, and a status outside the allowed list still mailed them the generic "being reviewed" message for a write the database had refused. Both introduced with the status emails in 1.0.8.
+* New: Article 16(m) consent for digital content, off by default. When switched on, a cart holding a downloadable product gets one optional, unticked checkbox at checkout carrying both halves of the statement: the request to begin supply immediately and the acknowledgement that the right of withdrawal is lost once supply has begun. It renders on the classic checkout and on the block checkout, and the block version hides itself on carts with no downloadable item.
+* New: the consent is recorded on the order with the moment it was given, the exact wording shown at the time, and the products that were downloadable when the order was placed, so editing the wording later cannot rewrite what an earlier customer agreed to. Nothing is written unless the order really holds a downloadable item, whatever the checkout posted.
+* New: the consent is confirmed back to the customer on the order screen and in the order email. Article 16(m) only excludes the right if the trader also gave that confirmation, so it is part of the feature rather than an option.
+* New: an order screen panel showing whether consent was given, declined or never offered, in which words, and whether each covered product has actually been downloaded, which is what decides whether the exclusion applies at all.
+* New: once supply has begun for a consented item, that item is dropped from the withdrawal form and refused on the server, not merely hidden. If every item in the order is covered, the order is refused with its own reason. WooCommerce cannot see downloads it did not serve, so files delivered by email or an external portal always read as not begun and stay withdrawable; the `withdraw/digital_supply_begun` filter is there for those shops.
+
+* New: an optional emailed one-time link for guest access, off by default. Turned on, the lookup step mails a single-use token to the billing address on the order rather than opening the form, answers identically whether the order exists or not, and rate limits requests per address and per IP. Only the hash of a token is stored, tokens expire after an hour, and one is spent when a declaration is actually submitted. Leave it off and the form behaves exactly as it did.
+* New: on the keyed flow the form no longer emits an order or address field the customer could edit, so whoever holds a link cannot redirect the acknowledgement email somewhere else, and a link stops working if the shop changes the order's billing address after sending it.
+* Fixed: the panel shown after requesting a link printed a nonce that nothing ever verified, on a button that did not send a second link. The nonce is gone and the button says what it does.
+* Fixed: the rate limiter restarted its window on every attempt, so it never drained while attempts kept coming. Anyone who knew a customer's billing address could have kept that address over the cap indefinitely, silently, because the flow answers the same either way. The window is now fixed.
 
 = 1.2.0 =
 * Fixed: the form asked for the order number and then looked the order up by its database id. On a stock WooCommerce install those are the same value, so nothing looked wrong, but any plugin that renumbers orders breaks the pair: the shop printed a number in its own emails that its own withdrawal form then rejected. The lookup now resolves the displayed number, falling back to the id, with a `withdraw/resolve_order_number` filter for other numbering schemes.

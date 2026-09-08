@@ -12,6 +12,8 @@
  * @var string    $name
  * @var array     $items
  * @var string    $reason
+ * @var string    $key       one-time link token, '' when the flow was not entered with one
+ * @var bool      $legacy    true only on the order-number + email flow
  * @var string    $statement
  * @var string    $nonce
  *
@@ -42,8 +44,16 @@ defined('ABSPATH') || exit;
 
     <form method="post" class="withdraw-form__form">
         <input type="hidden" name="withdraw_step" value="confirm">
-        <input type="hidden" name="withdraw_order" value="<?php echo (int) $order->get_id(); ?>">
-        <input type="hidden" name="withdraw_email" value="<?php echo esc_attr($email); ?>">
+        <?php if ($key !== '') : ?>
+            <?php // Same reason as the items step: nothing identifying the customer
+                  // is left where the customer can edit it. ?>
+            <input type="hidden" name="withdraw_key" value="<?php echo esc_attr($key); ?>">
+        <?php else : ?>
+            <input type="hidden" name="withdraw_order" value="<?php echo (int) $order->get_id(); ?>">
+            <?php if ($legacy) : ?>
+                <input type="hidden" name="withdraw_email" value="<?php echo esc_attr($email); ?>">
+            <?php endif; ?>
+        <?php endif; ?>
         <input type="hidden" name="withdraw_name" value="<?php echo esc_attr($name); ?>">
         <input type="hidden" name="withdraw_reason" value="<?php echo esc_attr($reason); ?>">
         <?php foreach ($items as $withdraw_item) : ?>

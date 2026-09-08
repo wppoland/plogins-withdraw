@@ -21,14 +21,39 @@ defined('ABSPATH') || exit;
  */
 final class WithdrawalService implements HasHooks
 {
-    public function __construct(private readonly RequestRepository $repository)
-    {
+    public function __construct(
+        private readonly RequestRepository $repository,
+        private readonly AccessLink $links,
+        private readonly DigitalConsentService $consent,
+    ) {
     }
 
     public function registerHooks(): void
     {
         add_shortcode('withdraw_form', [$this, 'renderShortcode']);
         add_action('wp_enqueue_scripts', [$this, 'enqueueAssets']);
+        add_filter('wp_robots', [$this, 'filterRobots']);
+    }
+
+    /**
+     * Keep keyed URLs out of search indexes. A crawler that stores one has
+     * stored a working credential for as long as it lives.
+     *
+     * @param array<string, mixed> $robots
+     * @return array<string, mixed>
+     */
+    public function filterRobots(array $robots): array
+    {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- presence check only, no state read or changed.
+        if (! isset($_GET['wd_key'])) {
+            return $robots;
+        }
+
+        unset($robots['index'], $robots['follow']);
+        $robots['noindex']  = true;
+        $robots['nofollow'] = true;
+
+        return $robots;
     }
 
     /** @return array<string, mixed> */
@@ -64,6 +89,26 @@ final class WithdrawalService implements HasHooks
         if ('items' === $step) {
             return $this->renderItemsStep();
         }
+        if ('link' === $step) {
+            return $this->handleLinkRequest();
+        }
+
+        if ($step === '') {
+            // A click on an emailed link is a plain GET. The token is the
+            // credential, the request changes nothing, and anyone who can make a
+            // victim load the URL already holds the URL, so no nonce applies.
+            if ($this->keyFromRequest() !== '') {
+                return $this->renderItemsStep();
+            }
+            // WooCommerce has already authenticated a signed-in owner, so mailing
+            // them a link would be friction with no security gain. Only while the
+            // emailed-link flow is on: with it off this path is unreachable and a
+            // shop sees exactly what it sees today.
+            if (! empty($this->settings()['magic_link']) && $this->ownerOrder() instanceof \WC_Order) {
+                return $this->renderItemsStep();
+            }
+        }
+
         return $this->renderLookupStep();
     }
 
@@ -77,6 +122,7 @@ final class WithdrawalService implements HasHooks
             'error'    => $error,
             'period'   => (int) $s['period_days'],
             'intro'    => (string) $s['intro_text'],
+            'magic'    => ! empty($s['magic_link']),
             'nonce'    => wp_create_nonce('withdraw_lookup'),
         ];
         $this->template('form-lookup.php', $vars);
@@ -85,17 +131,23 @@ final class WithdrawalService implements HasHooks
 
     private function renderItemsStep(): string
     {
-        if (! isset($_POST['withdraw_nonce']) || ! wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['withdraw_nonce'])), 'withdraw_lookup')) {
-            return $this->renderLookupStep(__('Security check failed. Please try again.', 'plogins-withdraw'));
+        // The posted lookup step still verifies its nonce exactly as before. A
+        // keyed link arrives as a GET and carries no form, so there is no nonce
+        // to check and nothing a nonce would protect.
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- the nonce is verified on the next line.
+        if (isset($_POST['withdraw_step'])) {
+            if (! isset($_POST['withdraw_nonce']) || ! wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['withdraw_nonce'])), 'withdraw_lookup')) {
+                return $this->renderLookupStep(__('Security check failed. Please try again.', 'plogins-withdraw'));
+            }
         }
 
-        $orderId = isset($_POST['withdraw_order']) ? absint(wp_unslash($_POST['withdraw_order'])) : 0;
-        $email   = isset($_POST['withdraw_email']) ? sanitize_email(wp_unslash($_POST['withdraw_email'])) : '';
-
-        $order = $this->lookupOrder($orderId, $email);
-        if (! $order instanceof \WC_Order) {
-            return $this->renderLookupStep(__('We could not find an order with that number and email.', 'plogins-withdraw'));
+        $error = '';
+        $auth  = $this->authorizeOrder($error);
+        if ($auth === null) {
+            return $this->renderLookupStep($error);
         }
+
+        $order = $auth['order'];
 
         $eligibility = $this->eligibility($order);
         if (! $eligibility['eligible']) {
@@ -106,9 +158,12 @@ final class WithdrawalService implements HasHooks
         ob_start();
         $this->template('form-items.php', [
             'order'    => $order,
-            'email'    => $email,
+            'email'    => $auth['email'],
+            'key'      => $auth['key'],
+            'legacy'   => $auth['legacy'],
             'name'     => trim($order->get_billing_first_name() . ' ' . $order->get_billing_last_name()),
             'deadline' => $eligibility['deadline'],
+            'excluded' => $eligibility['excluded'],
             'model'    => (string) $s['model_form_text'],
             'nonce'    => wp_create_nonce('withdraw_review'),
         ]);
@@ -129,13 +184,14 @@ final class WithdrawalService implements HasHooks
             return $this->renderLookupStep(__('Security check failed. Please try again.', 'plogins-withdraw'));
         }
 
-        $orderId = isset($_POST['withdraw_order']) ? absint(wp_unslash($_POST['withdraw_order'])) : 0;
-        $email   = isset($_POST['withdraw_email']) ? sanitize_email(wp_unslash($_POST['withdraw_email'])) : '';
-        $order   = $this->lookupOrder($orderId, $email);
-
-        if (! $order instanceof \WC_Order) {
-            return $this->renderLookupStep(__('We could not find an order with that number and email.', 'plogins-withdraw'));
+        $error = '';
+        $auth  = $this->authorizeOrder($error);
+        if ($auth === null) {
+            return $this->renderLookupStep($error);
         }
+
+        $order = $auth['order'];
+        $email = $auth['email'];
 
         $eligibility = $this->eligibility($order);
         if (! $eligibility['eligible']) {
@@ -147,7 +203,7 @@ final class WithdrawalService implements HasHooks
             return $this->renderLookupStep(__('Please give the name on the contract so the declaration identifies who is withdrawing.', 'plogins-withdraw'));
         }
 
-        $items = $this->selectedItems($order);
+        $items = $this->selectedItems($order, $eligibility['excluded']);
         if ($items === []) {
             return $this->renderLookupStep(__('Please select at least one item to withdraw from.', 'plogins-withdraw'));
         }
@@ -161,6 +217,8 @@ final class WithdrawalService implements HasHooks
             'name'   => $name,
             'items'  => $items,
             'reason' => $reason,
+            'key'    => $auth['key'],
+            'legacy' => $auth['legacy'],
             'statement' => $this->statement($order, $name, $email, $items),
             'nonce'  => wp_create_nonce('withdraw_confirm'),
         ]);
@@ -189,11 +247,18 @@ final class WithdrawalService implements HasHooks
     }
 
     /**
-     * Quantities the customer picked, clamped to what the order actually holds.
+     * Quantities the customer picked, clamped to what the order actually holds
+     * and stripped of anything the Art. 16(m) exclusion covers.
      *
+     * Dropping the excluded ids HERE is the enforcement point. Leaving the row
+     * out of the table is presentation, and a posted quantity does not have to
+     * come from a table we rendered. If nothing survives, the caller's existing
+     * "select at least one item" error fires.
+     *
+     * @param list<int> $excluded
      * @return list<array{item_id:int,product_id:int,name:string,qty:int}>
      */
-    private function selectedItems(\WC_Order $order): array
+    private function selectedItems(\WC_Order $order, array $excluded = []): array
     {
         // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- nonce verified by the caller, values cast with absint below.
         $rawQty = isset($_POST['withdraw_qty']) && is_array($_POST['withdraw_qty']) ? wp_unslash($_POST['withdraw_qty']) : [];
@@ -201,6 +266,9 @@ final class WithdrawalService implements HasHooks
 
         foreach ($order->get_items() as $itemId => $item) {
             if (! $item instanceof \WC_Order_Item_Product) {
+                continue;
+            }
+            if (in_array((int) $itemId, $excluded, true)) {
                 continue;
             }
             $qty = isset($rawQty[$itemId]) ? absint($rawQty[$itemId]) : 0;
@@ -224,13 +292,17 @@ final class WithdrawalService implements HasHooks
             return $this->renderLookupStep(__('Security check failed. Please try again.', 'plogins-withdraw'));
         }
 
-        $orderId = isset($_POST['withdraw_order']) ? absint(wp_unslash($_POST['withdraw_order'])) : 0;
-        $email   = isset($_POST['withdraw_email']) ? sanitize_email(wp_unslash($_POST['withdraw_email'])) : '';
-        $order   = $this->lookupOrder($orderId, $email);
-        if (! $order instanceof \WC_Order) {
-            return $this->renderLookupStep(__('We could not find an order with that number and email.', 'plogins-withdraw'));
+        $error = '';
+        $auth  = $this->authorizeOrder($error);
+        if ($auth === null) {
+            return $this->renderLookupStep($error);
         }
-        if (! $this->eligibility($order)['eligible']) {
+
+        $order = $auth['order'];
+        $email = $auth['email'];
+
+        $eligibility = $this->eligibility($order);
+        if (! $eligibility['eligible']) {
             return $this->renderLookupStep(__('This order is no longer eligible for withdrawal.', 'plogins-withdraw'));
         }
 
@@ -243,7 +315,7 @@ final class WithdrawalService implements HasHooks
             return $this->renderLookupStep(__('Please tick the declaration to confirm you are withdrawing from the contract.', 'plogins-withdraw'));
         }
 
-        $items = $this->selectedItems($order);
+        $items = $this->selectedItems($order, $eligibility['excluded']);
 
         if ($items === []) {
             return $this->renderLookupStep(__('Please select at least one item to withdraw from.', 'plogins-withdraw'));
@@ -263,6 +335,14 @@ final class WithdrawalService implements HasHooks
         $submittedAt = current_time('timestamp');
 
         $id = $this->repository->create($order->get_id(), $email, $items, $reason, $token, $name);
+
+        // Single use means one completed withdrawal per link, not one page view.
+        // Consuming on first view would kill the link on step two, break the back
+        // button, and be tripped by Outlook Safe Links, Gmail image proxies and
+        // browser prefetchers long before the customer clicks.
+        if ($auth['key'] !== '') {
+            $this->links->consume($auth['key']);
+        }
 
         $this->notify($order, $email, $items, $reason, $id, $name, $submittedAt);
 
@@ -294,6 +374,289 @@ final class WithdrawalService implements HasHooks
             'id'    => $id,
         ]);
         return (string) ob_get_clean();
+    }
+
+    /* --------------------------------------------------------------------- */
+
+    /**
+     * Step 1 when the emailed-link flow is on: take an order number and an
+     * address, and answer the same way whatever the truth is.
+     */
+    private function handleLinkRequest(): string
+    {
+        if (empty($this->settings()['magic_link'])) {
+            // The step only exists while the setting is on. Enforced here and not
+            // only in the template, because a template is markup and a POST does
+            // not have to come from one.
+            return $this->renderLookupStep();
+        }
+
+        if (! isset($_POST['withdraw_nonce']) || ! wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['withdraw_nonce'])), 'withdraw_lookup')) {
+            return $this->renderLookupStep(__('Security check failed. Please try again.', 'plogins-withdraw'));
+        }
+
+        $orderId = isset($_POST['withdraw_order']) ? absint(wp_unslash($_POST['withdraw_order'])) : 0;
+        $email   = isset($_POST['withdraw_email']) ? sanitize_email(wp_unslash($_POST['withdraw_email'])) : '';
+
+        if (! is_email($email)) {
+            // Deliberately not neutralised: a malformed address cannot be the
+            // billing address of any order, so saying so leaks nothing and saves
+            // the customer an hour of waiting for a mail that was never sent.
+            return $this->renderLookupStep(__('Enter a valid email address.', 'plogins-withdraw'));
+        }
+
+        // Counted before anything is decided. A counter that only advanced on a
+        // hit would itself be an oracle for whether the order exists.
+        //
+        // What the page SAYS is identical either way. What it cannot hide is how
+        // long it took: wp_mail() blocks, and on a shop sending through SMTP a
+        // hit answers measurably slower than a miss. Deferring the send does not
+        // fix it under PHP-FPM without fastcgi_finish_request, and padding the
+        // response with a delay is worse. The throttle is what makes the channel
+        // useless in practice: an attacker gets a handful of measurements an hour
+        // per address and per address they still need the billing address to be
+        // right for the timing to differ at all.
+        if (! $this->links->throttled($email)) {
+            $order = $this->lookupOrder($orderId, $email);
+            if ($order instanceof \WC_Order) {
+                $this->mailLink($order);
+            }
+        }
+
+        // Eligibility is deliberately not checked before sending. The customer
+        // sees the real reason ("the withdrawal period has ended") after
+        // clicking; refusing here would either make this panel a lie or add a
+        // second observable outcome.
+        ob_start();
+        $this->template('link-sent.php', [
+            'minutes' => max(1, (int) round($this->links->ttl() / MINUTE_IN_SECONDS)),
+        ]);
+        return (string) ob_get_clean();
+    }
+
+    /**
+     * The one place that decides whose order this is, server-side.
+     *
+     * Resolution order: a link token, then a signed-in customer who owns the
+     * order, then, only while the emailed-link flow is off, today's order number
+     * plus billing email.
+     *
+     * When authority came from a token or from ownership, `withdraw_email` is
+     * never read. Taking the address from a posted field on an authorised flow
+     * would let whoever holds a link redirect the art. 11a(4) acknowledgement to
+     * an address of their choosing.
+     *
+     * @param string $error Filled with the message to show when this returns null.
+     * @return array{order:\WC_Order, email:string, key:string, legacy:bool}|null
+     */
+    private function authorizeOrder(string &$error = ''): ?array
+    {
+        $expired = __('This link has expired or has already been used. Request a new one.', 'plogins-withdraw');
+        $magic   = ! empty($this->settings()['magic_link']);
+
+        // Tried whatever the setting says, so a link issued moments before the
+        // shop switched the flow off still opens the form instead of dying.
+        $key = $this->keyFromRequest();
+        if ($key !== '') {
+            $payload = $this->links->resolve($key);
+            if ($payload === null) {
+                $error = $expired;
+                return null;
+            }
+
+            $order = wc_get_order($payload['order_id']);
+            if (! $order instanceof \WC_Order) {
+                $error = $expired;
+                return null;
+            }
+
+            // The shop may have edited the billing address after the link went
+            // out, in which case the link no longer points at the person it was
+            // mailed to. Treat it as expired rather than let it keep working.
+            if (strtolower(trim($order->get_billing_email())) !== strtolower(trim($payload['email']))) {
+                $error = $expired;
+                return null;
+            }
+
+            return [
+                'order'  => $order,
+                'email'  => (string) $order->get_billing_email(),
+                'key'    => $key,
+                'legacy' => false,
+            ];
+        }
+
+        // Only while the emailed-link flow is on. With it off, a shop keeps the
+        // order number plus billing email it has today, for signed-in customers
+        // as well, so an update changes nothing anybody can observe.
+        if ($magic) {
+            $owned = $this->ownerOrder();
+            if ($owned instanceof \WC_Order) {
+                return [
+                    'order'  => $owned,
+                    'email'  => (string) $owned->get_billing_email(),
+                    'key'    => '',
+                    'legacy' => false,
+                ];
+            }
+        }
+
+        if (! $magic) {
+            // phpcs:ignore WordPress.Security.NonceVerification.Missing -- every caller verifies its own step nonce first.
+            $orderId = isset($_POST['withdraw_order']) ? absint(wp_unslash($_POST['withdraw_order'])) : 0;
+            // phpcs:ignore WordPress.Security.NonceVerification.Missing -- as above.
+            $email   = isset($_POST['withdraw_email']) ? sanitize_email(wp_unslash($_POST['withdraw_email'])) : '';
+            $order   = $this->lookupOrder($orderId, $email);
+
+            if ($order instanceof \WC_Order) {
+                return [
+                    'order'  => $order,
+                    // The address ON THE ORDER, not the posted string that was
+                    // just matched against it. lookupOrder() compares the two
+                    // case-insensitively and after trimming, so the two are not
+                    // guaranteed to be the same bytes, and the art. 11a(4)
+                    // acknowledgement has to go to the address of record. All
+                    // three branches now answer with the same thing.
+                    'email'  => (string) $order->get_billing_email(),
+                    'key'    => '',
+                    'legacy' => true,
+                ];
+            }
+        }
+
+        $error = __('We could not find an order with that number and email.', 'plogins-withdraw');
+
+        return null;
+    }
+
+    /**
+     * The order in the request, but only if the signed-in customer owns it.
+     *
+     * The My Account button is a UI affordance, not authority: a non-owner who
+     * builds the same URL fails here and falls back to the lookup form. Guest
+     * orders carry customer_id 0, so a registered user with the same address does
+     * not match either, which is correct because the order was never theirs.
+     */
+    private function ownerOrder(): ?\WC_Order
+    {
+        $userId = get_current_user_id();
+        if ($userId < 1) {
+            return null;
+        }
+
+        $orderId = $this->orderIdFromRequest();
+        if ($orderId < 1) {
+            return null;
+        }
+
+        $order = wc_get_order($orderId);
+        if (! $order instanceof \WC_Order || (int) $order->get_customer_id() !== $userId) {
+            return null;
+        }
+
+        return $order;
+    }
+
+    private function keyFromRequest(): string
+    {
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- the token is the credential; every POST step verifies its own nonce separately.
+        if (isset($_POST['withdraw_key'])) {
+            // phpcs:ignore WordPress.Security.NonceVerification.Missing -- as above.
+            return $this->links->sanitizeToken(sanitize_text_field(wp_unslash($_POST['withdraw_key'])));
+        }
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- as above.
+        if (isset($_GET['wd_key'])) {
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- as above.
+            return $this->links->sanitizeToken(sanitize_text_field(wp_unslash($_GET['wd_key'])));
+        }
+
+        return '';
+    }
+
+    private function orderIdFromRequest(): int
+    {
+        // phpcs:ignore WordPress.Security.NonceVerification -- an id alone grants nothing; ownership is checked by the caller.
+        if (isset($_POST['withdraw_order'])) {
+            // phpcs:ignore WordPress.Security.NonceVerification.Missing -- as above.
+            return absint(wp_unslash($_POST['withdraw_order']));
+        }
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- as above.
+        if (isset($_GET['wd_order'])) {
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- as above.
+            return absint(wp_unslash($_GET['wd_order']));
+        }
+
+        return 0;
+    }
+
+    /**
+     * Where a link should point.
+     *
+     * Taken from the page the shortcode is actually rendering on, so a shop that
+     * never filled in the form page setting still gets working links. The setting
+     * and the home page are fallbacks for the non-singular case.
+     */
+    private function formUrl(): string
+    {
+        $pageId = is_singular() ? (int) get_queried_object_id() : 0;
+        if ($pageId < 1) {
+            $pageId = (int) $this->settings()['form_page_id'];
+        }
+
+        $permalink = $pageId > 0 ? get_permalink($pageId) : false;
+
+        return is_string($permalink) && $permalink !== '' ? $permalink : home_url('/');
+    }
+
+    /**
+     * Mail a one-time link to the order's billing address.
+     *
+     * Nothing is reported back to the visitor, not even a failed wp_mail: telling
+     * them would say the order exists. If an SMTP plugin is broken, a guest
+     * cannot withdraw at all, which is why the setting is off by default and the
+     * admin help says so.
+     */
+    private function mailLink(\WC_Order $order): void
+    {
+        $email = (string) $order->get_billing_email();
+        if (! is_email($email)) {
+            return; // Manually created orders can have no address to mail.
+        }
+
+        $url     = add_query_arg('wd_key', $this->links->issue($order->get_id(), $email), $this->formUrl());
+        $minutes = max(1, (int) round($this->links->ttl() / MINUTE_IN_SECONDS));
+
+        $mail = [
+            'subject' => sprintf(
+                /* translators: %s: order number */
+                __('Your withdrawal link for order #%s', 'plogins-withdraw'),
+                $order->get_order_number(),
+            ),
+            'body' => sprintf(
+                /* translators: 1: order number, 2: link URL, 3: number of minutes the link stays valid */
+                __("Somebody asked to withdraw from order #%1\$s.\n\nOpen this link to fill in the withdrawal form:\n%2\$s\n\nThis link works for %3\$d minutes and can be used once.\n\nIf you did not ask for this, you can ignore this message. Nothing has been submitted.", 'plogins-withdraw'),
+                $order->get_order_number(),
+                $url,
+                $minutes,
+            ),
+            'headers' => [],
+        ];
+
+        /**
+         * Filters the one-time withdrawal link email.
+         *
+         * @param array{subject:string, body:string, headers:array<int, string>} $mail
+         * @param \WC_Order $order The order the link was issued for.
+         * @param string    $url   The link itself.
+         */
+        $mail = apply_filters('withdraw/magic_link_email', $mail, $order, $url);
+
+        wp_mail(
+            $email,
+            (string) ($mail['subject'] ?? ''),
+            (string) ($mail['body'] ?? ''),
+            is_array($mail['headers'] ?? null) ? $mail['headers'] : [],
+        );
     }
 
     /* --------------------------------------------------------------------- */
@@ -370,7 +733,7 @@ final class WithdrawalService implements HasHooks
     }
 
     /**
-     * @return array{eligible:bool, reason:string, deadline:int}
+     * @return array{eligible:bool, reason:string, deadline:int, excluded:list<int>}
      */
     private function eligibility(\WC_Order $order): array
     {
@@ -378,7 +741,7 @@ final class WithdrawalService implements HasHooks
 
         $allowed = (array) $s['eligible_statuses'];
         if (! in_array($order->get_status(), $allowed, true)) {
-            return ['eligible' => false, 'reason' => __('This order is not in a status that can be withdrawn.', 'plogins-withdraw'), 'deadline' => 0];
+            return ['eligible' => false, 'reason' => __('This order is not in a status that can be withdrawn.', 'plogins-withdraw'), 'deadline' => 0, 'excluded' => []];
         }
 
         // The withdrawal window starts at completion (delivery proxy) or, if the
@@ -388,14 +751,41 @@ final class WithdrawalService implements HasHooks
         $deadline  = $start + ((int) $s['period_days'] * DAY_IN_SECONDS);
 
         if (time() > $deadline) {
-            return ['eligible' => false, 'reason' => __('The withdrawal period for this order has ended.', 'plogins-withdraw'), 'deadline' => $deadline];
+            return ['eligible' => false, 'reason' => __('The withdrawal period for this order has ended.', 'plogins-withdraw'), 'deadline' => $deadline, 'excluded' => []];
         }
 
         if ($this->repository->openCountForOrder($order->get_id()) > 0) {
-            return ['eligible' => false, 'reason' => __('A withdrawal request for this order is already being processed.', 'plogins-withdraw'), 'deadline' => $deadline];
+            return ['eligible' => false, 'reason' => __('A withdrawal request for this order is already being processed.', 'plogins-withdraw'), 'deadline' => $deadline, 'excluded' => []];
         }
 
-        return ['eligible' => true, 'reason' => '', 'deadline' => $deadline];
+        // Art. 16(m). Empty unless the shop turned the feature on, the customer
+        // consented AND supply has actually begun, so with the setting off this
+        // is what it has always been.
+        $excluded = $this->consent->excludedItemIds($order);
+
+        if ($excluded !== [] && count($excluded) === $this->lineItemCount($order)) {
+            return [
+                'eligible' => false,
+                'reason'   => __('This order is for digital content you asked us to supply immediately, and supply has begun, so the right of withdrawal no longer applies to it.', 'plogins-withdraw'),
+                'deadline' => $deadline,
+                'excluded' => $excluded,
+            ];
+        }
+
+        return ['eligible' => true, 'reason' => '', 'deadline' => $deadline, 'excluded' => $excluded];
+    }
+
+    /** Product line items, the only rows the form ever offers. */
+    private function lineItemCount(\WC_Order $order): int
+    {
+        $count = 0;
+        foreach ($order->get_items() as $item) {
+            if ($item instanceof \WC_Order_Item_Product) {
+                ++$count;
+            }
+        }
+
+        return $count;
     }
 
     /**

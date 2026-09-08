@@ -25,6 +25,14 @@
     background: rgba(179, 45, 46, 0.06);
 }
 
+.withdraw-form__sent {
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.03);
+}
+
 .withdraw-form__field {
     display: flex;
     flex-direction: column;
@@ -100,4 +108,28 @@
 
 .withdraw-order-action {
     margin-top: 1rem;
+}
+
+.withdraw-form__excluded {
+    padding: 0.75rem 1rem;
+    margin: 0 0 1.25rem;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.03);
+    font-size: 0.9em;
+}
+
+.withdraw-checkout-consent__row label {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-start;
+}
+
+.withdraw-consent-notice {
+    margin-top: 1.5rem;
+}
+
+.withdraw-consent-notice__still,
+.withdraw-consent-notice__when {
+    font-size: 0.9em;
+    opacity: 0.85;
 }

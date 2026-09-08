@@ -6,6 +6,7 @@ namespace Withdraw\Admin;
 
 use Withdraw\Contract\HasHooks;
 use Withdraw\Migrator;
+use Withdraw\Service\DigitalConsentService;
 use Withdraw\Service\RequestRepository;
 
 use const Withdraw\VERSION;
@@ -79,6 +80,11 @@ final class Settings implements HasHooks
             'eligible_statuses' => $statuses !== [] ? $statuses : ['completed', 'processing'],
             'notify_email'      => sanitize_email((string) ($in['notify_email'] ?? '')),
             'footer_link'       => ! empty($in['footer_link']),
+            'magic_link'        => ! empty($in['magic_link']),
+            // This method rebuilds the option from scratch, so a key missing
+            // here is a field the screen accepts and then silently discards.
+            'digital_consent'       => ! empty($in['digital_consent']),
+            'digital_consent_intro' => sanitize_textarea_field((string) ($in['digital_consent_intro'] ?? '')),
             'link_text'         => sanitize_text_field((string) ($in['link_text'] ?? '')),
             'intro_text'        => sanitize_textarea_field((string) ($in['intro_text'] ?? '')),
             'model_form_text'   => sanitize_textarea_field((string) ($in['model_form_text'] ?? '')),
@@ -200,6 +206,41 @@ final class Settings implements HasHooks
                     </section>
 
                     <section class="withdraw-card">
+                        <header><h2><?php echo esc_html__('Guest access', 'plogins-withdraw'); ?></h2></header>
+                        <div class="withdraw-fields">
+                            <p>
+                                <label>
+                                    <input type="checkbox" name="<?php echo esc_attr(self::OPTION); ?>[magic_link]" value="1" <?php checked(! empty($s['magic_link'])); ?>>
+                                    <?php echo esc_html__('Email a one-time link instead of opening the form straight away', 'plogins-withdraw'); ?>
+                                </label>
+                                <?php $help(__('Off by default: a customer opens the form with their order number and billing email. Turn this on and the form emails a one-time link to the order billing address instead, so knowing the order number is not enough. Signed-in customers reaching the form from My Account are never asked for a link. This makes the withdrawal function depend on your shop outgoing email working.', 'plogins-withdraw')); ?>
+                            </p>
+                            <?php if (! is_ssl()) : ?>
+                                <p class="withdraw-note"><?php echo esc_html__('This site is not served over HTTPS. The one-time link travels in a page address and in a form field, so anyone able to watch the connection can read it.', 'plogins-withdraw'); ?></p>
+                            <?php endif; ?>
+                        </div>
+                    </section>
+
+                    <section class="withdraw-card">
+                        <header><h2><?php echo esc_html__('Digital content', 'plogins-withdraw'); ?></h2></header>
+                        <div class="withdraw-fields">
+                            <p>
+                                <label>
+                                    <input type="checkbox" name="<?php echo esc_attr(self::OPTION); ?>[digital_consent]" value="1" <?php checked(! empty($s['digital_consent'])); ?>>
+                                    <?php echo esc_html__('Ask for Article 16(m) consent at checkout for downloadable products', 'plogins-withdraw'); ?>
+                                </label>
+                                <?php $help(__('Adds one optional, unticked checkbox to the checkout when the cart contains a downloadable product. It carries both halves of Article 16(m): the request to start supply immediately and the acknowledgement of losing the right of withdrawal. Once a file has actually been downloaded, that item stops being withdrawable. Virtual products that are not downloadable are services and are not covered.', 'plogins-withdraw')); ?>
+                            </p>
+                            <p class="withdraw-note">
+                                <?php echo esc_html__('The box is never required. A customer who declines keeps the right of withdrawal and still gets the download, because WooCommerce grants download access regardless. That is the law working as intended, not a fault: consent that is a condition of purchase is not freely given, and would not hold up as an exclusion.', 'plogins-withdraw'); ?>
+                            </p>
+                            <p class="withdraw-note">
+                                <?php echo esc_html__('Turning this back off restores the right of withdrawal on past orders too. Granting a withdrawal you could have refused is always lawful; honouring consent from a feature you have switched off would be the surprising outcome.', 'plogins-withdraw'); ?>
+                            </p>
+                        </div>
+                    </section>
+
+                    <section class="withdraw-card">
                         <header><h2><?php echo esc_html__('Emails', 'plogins-withdraw'); ?></h2></header>
                         <div class="withdraw-fields">
                             <p>
@@ -222,6 +263,20 @@ final class Settings implements HasHooks
                                 <label for="wd-model"><?php echo esc_html__('Model withdrawal text', 'plogins-withdraw'); ?></label>
                                 <?php $help(__('Shown on the form. Adapt to the statutory model withdrawal form (Annex I.B).', 'plogins-withdraw')); ?><br>
                                 <textarea id="wd-model" class="large-text" rows="4" name="<?php echo esc_attr(self::OPTION); ?>[model_form_text]"><?php echo esc_textarea((string) $s['model_form_text']); ?></textarea>
+                            </p>
+                            <p>
+                                <label for="wd-consent-intro"><?php echo esc_html__('Digital content consent, extra wording', 'plogins-withdraw'); ?></label>
+                                <?php $help(__('Optional, and added in front of the statutory sentence rather than replacing it. The plugin refuses withdrawal for downloaded items on the strength of the acknowledgement in that sentence, so wording that only promised immediate delivery would take away a right nobody gave up. Whatever the customer sees is stored with their order, so editing this later does not rewrite what earlier customers agreed to.', 'plogins-withdraw')); ?><br>
+                                <textarea id="wd-consent-intro" class="large-text" rows="3" name="<?php echo esc_attr(self::OPTION); ?>[digital_consent_intro]" placeholder="<?php echo esc_attr__('For example: these files are available the moment your payment clears.', 'plogins-withdraw'); ?>"><?php echo esc_textarea((string) $s['digital_consent_intro']); ?></textarea>
+                            </p>
+                            <p class="withdraw-note">
+                                <?php
+                                echo esc_html(sprintf(
+                                    /* translators: %s: the statutory Article 16(m) consent sentence */
+                                    __('The checkbox always ends with: %s', 'plogins-withdraw'),
+                                    DigitalConsentService::statutoryConsentText(),
+                                ));
+                                ?>
                             </p>
                         </div>
                     </section>
