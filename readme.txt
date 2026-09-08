@@ -5,11 +5,11 @@ Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
 Requires Plugins: woocommerce
-Stable tag: 1.3.0
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Full or partial EU right-of-withdrawal requests (Directive 2023/2673) for WooCommerce orders, with an admin log and email notifications.
+Full or partial EU right-of-withdrawal requests (Directive 2023/2673) for WooCommerce orders, with an admin log and WooCommerce emails.
 
 == Description ==
 
@@ -19,12 +19,15 @@ It is a **request-and-log** plugin: it records the customer's withdrawal declara
 
 = What it does =
 
-* **Withdrawal form**: the `[withdraw_form]` shortcode renders a two-step form: look up an order by number and billing email (works for guests too), then select items and quantities and submit the withdrawal declaration.
+* **Withdrawal form**: the `[withdraw_form]` shortcode renders the whole flow: look up an order by number and billing email (works for guests too), select items and quantities, then confirm on a step of its own, because Art. 11a(3) wants the confirmation to be a separate control labelled only "confirm withdrawal".
 * **Full or partial withdrawal**: the customer chooses how many of each item to withdraw from.
 * **Withdrawal button in My Account**: a "Withdraw from this order" button appears under the order details and links to your withdrawal page with the order pre-filled.
 * **Withdrawal-period check**: configurable period (statutory minimum 14 days), measured from delivery (order completion) or, if never completed, from the order date.
 * **Admin log**: a WooCommerce → Withdrawal Requests screen lists every request with its items, customer and status (pending, accepted, rejected, processed), filterable by status.
-* **Emails**: automatic confirmation to the customer and notification to the shop.
+* **WooCommerce emails**: seven of them, each with its own entry under WooCommerce → Settings → Emails, using your store template, logo and footer. The declaration acknowledgement, the shop notification, one per request status, and the guest access link. Any of them can be reworded, restyled or switched off on its own.
+* **The acknowledgement is a record**: it repeats the declaration back in the exact words the customer confirmed, stored at the time, with the date and time of submission, which is what Art. 11a(4) asks for.
+* **Return information (Art. 14(1))**: the acceptance message states where to send the goods, taken from a return address field or your store address, the deadline counted from the day the customer declared, and who bears the direct cost of the return. That last one says nothing until you choose it, because you may only charge the customer if you told them before the sale.
+* **Your own refund deadline (Art. 13(1))**: the request log shows the date you owe the refund by, 14 days from the declaration, and marks it once it has passed.
 * **Digital content consent (Art. 16(m))**: optional. One unticked checkbox at checkout, on both the classic and the block checkout, asking the customer to start supply immediately and acknowledging that the right of withdrawal is lost once it has. What was agreed, when, in which exact words and for which products is stored with the order and confirmed back on the order screen and in the order email. Once WooCommerce has actually served a download, that item drops out of the withdrawal form, server side.
 * **Emailed one-time link (optional)**: off by default. With it on, step one asks for the order number and billing email and emails a single-use link to the address on the order instead of opening the form, so knowing an order number is not enough to read what somebody bought. The answer is the same whether the order exists or not, requests are rate limited, and signed-in customers arriving from My Account skip the link entirely.
 * **Model withdrawal text**: an editable block on the form for the statutory model withdrawal form (Annex I.B).
@@ -43,6 +46,8 @@ It is a **request-and-log** plugin: it records the customer's withdrawal declara
 2. Install and activate Plogins Withdraw.
 3. Create a page and add the `[withdraw_form]` shortcode.
 4. Go to **WooCommerce → Withdrawal**, select that page as the withdrawal form page, set the withdrawal period and eligible order statuses, and adjust the notification email and legal texts.
+5. Still on that screen, fill in the return address and say who pays to send goods back, so the acceptance message can carry the Art. 14(1) information.
+6. Optionally reword or restyle any of the messages under **WooCommerce → Settings → Emails**.
 
 == Frequently Asked Questions ==
 
@@ -64,6 +69,12 @@ It is off until you turn it on, and even then it never blocks a purchase. The ch
 = My files are delivered by email or by an external portal. Will the exclusion work? =
 No, not on its own. The plugin decides that supply has begun by reading WooCommerce download logs, so a file WooCommerce never served reads as not downloaded and the item stays withdrawable. Erring towards the customer is deliberate. If you deliver outside WooCommerce, the `withdraw/digital_supply_begun` filter lets you supply the truth.
 
+= Does the customer hear from me when I accept or reject a request? =
+Yes. Each of the four request statuses has its own WooCommerce email, sent when you change the status in the request log. The acceptance one also carries the return address, the return deadline and who pays for the return. Switch any of them off under WooCommerce → Settings → Emails if you would rather write yourself.
+
+= Who pays to send the goods back? =
+Whoever you say, and the plugin says nothing until you choose. Article 14(1) only lets you put the direct cost of the return on the customer if you told them so before the contract, in your withdrawal information. If you did not, it is yours, so a plugin that assumed the customer pays would be making a claim on your behalf that might not hold.
+
 = Is it compatible with HPOS? =
 Yes. Orders are read through the WooCommerce order API, which is HPOS-compatible.
 
@@ -78,6 +89,15 @@ Yes. Orders are read through the WooCommerce order API, which is HPOS-compatible
 Plogins Withdraw is fully translatable and ships the `plogins-withdraw.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.4.0 =
+* New: every message the plugin sends is now a WooCommerce email. They use your store template, logo and footer, and each one has its own entry under WooCommerce, Settings, Emails where it can be reworded, restyled or switched off on its own. Seven of them: the declaration acknowledgement, the shop notification, one per request status, and the guest access link.
+* New: the shop notification keeps its own recipient field. Left empty it uses the notification address already set under WooCommerce, Withdrawal, so nothing moves for a shop that never opens the emails screen.
+* New: the acknowledgement stores the declaration as the customer confirmed it and repeats back those exact words, rather than rebuilding the sentence when the mail is sent. A later translation, a renamed product or a reworded template can no longer change what a past customer is told they declared.
+* New: the acceptance message carries the Article 14(1) information. Where to send the goods back, taken from a new return address field or from your WooCommerce store address, the deadline counted from the day the customer declared rather than from the day you accepted, and who bears the direct cost of the return.
+* New: a setting for who pays to send the goods back. It says nothing until you choose, because Article 14(1) only lets you charge the customer if you told them so before the sale, and a default that assumed otherwise would have the plugin make a claim on your behalf that may not hold.
+* New: the request log shows your own Article 13(1) deadline, 14 days from the day the customer told you they were withdrawing, and marks it in red once it has passed. It counts from the declaration, not from your acceptance, which is the clock the law actually puts you on.
+* Changed: the acceptance message no longer says the 14 days run from that message. They run from the declaration, so a shop that took a week to accept was quietly giving the customer a week too long.
 
 = 1.3.0 =
 * Fixed: saving a request's status twice sent the customer a second identical email, and a status outside the allowed list still mailed them the generic "being reviewed" message for a write the database had refused. Both introduced with the status emails in 1.0.8.

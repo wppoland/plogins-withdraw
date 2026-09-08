@@ -33,6 +33,22 @@ return [
     // labels a link; this one decides whether a right is lost.
     'digital_consent_intro' => '',
     'link_text'         => '',
+    // Art. 14(1): where the goods go back. Empty resolves to the WooCommerce
+    // store address, which the shop already publishes, so the default states
+    // nothing the shop has not stated itself.
+    'return_address'    => '',
+    // Art. 14(1) and 6(1)(i): who bears the direct cost of returning the goods.
+    // 'not_stated' prints no cost sentence at all, which is exactly what the
+    // acceptance message says today, so an update changes nothing until the
+    // shop chooses. 'customer' would have the plugin assert, on the shop's
+    // behalf, a claim that only holds if the consumer was informed before the
+    // contract, and if they were not the cost falls on the trader. 'shop' would
+    // be legally safe but would tell every existing shop's customers that
+    // return postage is free. Whitelisted server side in Settings::sanitize().
+    'return_cost'       => 'not_stated',
+    // Optional, printed inside the cost paragraph. Art. 6(1)(i) wants an
+    // estimate for goods that cannot normally be returned by post.
+    'return_cost_note'  => '',
     'intro_text'        => 'Use this form to withdraw from your purchase. Select the items you want to withdraw from and submit the declaration.',
     'model_form_text'   => "Model withdrawal form. To [seller name and address]: I hereby give notice that I withdraw from my contract for the sale of the following goods. Ordered on / received on. Name of consumer. Date.",
 ];

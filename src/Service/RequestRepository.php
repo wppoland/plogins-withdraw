@@ -17,9 +17,17 @@ final class RequestRepository
     public const STATUSES = ['pending', 'accepted', 'rejected', 'processed'];
 
     /**
+     * Store a declaration.
+     *
+     * `$declaration` is the exact text the consumer was shown and confirmed. It
+     * is frozen here rather than rebuilt at send time, because art. 11a(4) makes
+     * the acknowledgement the consumer's proof: it has to repeat back the words
+     * that were on screen, not words a later locale, a renamed product or a
+     * reworded template would produce.
+     *
      * @param array<int, array{product_id:int, name:string, qty:int}> $items
      */
-    public function create(int $orderId, string $email, array $items, string $reason, string $token, string $name = ''): int
+    public function create(int $orderId, string $email, array $items, string $reason, string $token, string $name = '', string $declaration = ''): int
     {
         global $wpdb;
 
@@ -33,11 +41,12 @@ final class RequestRepository
                 'token'          => $token,
                 'items'          => (string) wp_json_encode(array_values($items)),
                 'reason'         => $reason,
+                'declaration'    => $declaration,
                 'status'         => 'pending',
                 'created_at'     => $now,
                 'updated_at'     => $now,
             ],
-            ['%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s'],
+            ['%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s'],
         );
 
         return (int) $wpdb->insert_id;

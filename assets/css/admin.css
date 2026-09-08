@@ -126,3 +126,11 @@
     scroll-behavior: auto !important;
   }
 }
+
+.withdraw-email-list {
+    margin: 0 0 12px;
+    padding-left: 18px;
+    list-style: disc;
+}
+.withdraw-email-list li { margin: 0 0 4px; }
+.withdraw-email-list em { color: #646970; font-style: normal; }

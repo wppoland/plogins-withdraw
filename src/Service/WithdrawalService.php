@@ -334,7 +334,13 @@ final class WithdrawalService implements HasHooks
         // stored row and the email, rather than being re-read later.
         $submittedAt = current_time('timestamp');
 
-        $id = $this->repository->create($order->get_id(), $email, $items, $reason, $token, $name);
+        // The declaration is frozen as the consumer saw it on the review step.
+        // Art. 11a(4) makes the acknowledgement their proof, so it has to repeat
+        // back those words, not words a later locale or a renamed product would
+        // produce.
+        $declaration = $this->statement($order, $name, $email, $items);
+
+        $id = $this->repository->create($order->get_id(), $email, $items, $reason, $token, $name, $declaration);
 
         // Single use means one completed withdrawal per link, not one page view.
         // Consuming on first view would kill the link on step two, break the back
@@ -344,15 +350,6 @@ final class WithdrawalService implements HasHooks
             $this->links->consume($auth['key']);
         }
 
-        $this->notify($order, $email, $items, $reason, $id, $name, $submittedAt);
-
-        /**
-         * Fires once a withdrawal declaration has been recorded.
-         *
-         * @param int       $id          Request id.
-         * @param \WC_Order $order       The order withdrawn from.
-         * @param int       $submittedAt Submission timestamp, site time.
-         */
         $order->add_order_note(
             sprintf(
                 /* translators: 1: request id, 2: item list */
@@ -365,6 +362,17 @@ final class WithdrawalService implements HasHooks
             ),
         );
 
+        /**
+         * Fires once a withdrawal declaration has been recorded.
+         *
+         * Both messages the declaration produces, the consumer's art. 11a(4)
+         * acknowledgement and the shop notification, are WooCommerce emails
+         * listening on this action.
+         *
+         * @param int       $id          Request id.
+         * @param \WC_Order $order       The order withdrawn from.
+         * @param int       $submittedAt Submission timestamp, site time.
+         */
         do_action('withdraw/declared', $id, $order, $submittedAt);
 
         ob_start();
@@ -409,7 +417,7 @@ final class WithdrawalService implements HasHooks
         // hit would itself be an oracle for whether the order exists.
         //
         // What the page SAYS is identical either way. What it cannot hide is how
-        // long it took: wp_mail() blocks, and on a shop sending through SMTP a
+        // long it took: sending mail blocks, and on a shop sending through SMTP a
         // hit answers measurably slower than a miss. Deferring the send does not
         // fix it under PHP-FPM without fastcgi_finish_request, and padding the
         // response with a delay is worse. The throttle is what makes the channel
@@ -609,9 +617,9 @@ final class WithdrawalService implements HasHooks
     }
 
     /**
-     * Mail a one-time link to the order's billing address.
+     * Issue a one-time link and let the WooCommerce email carry it.
      *
-     * Nothing is reported back to the visitor, not even a failed wp_mail: telling
+     * Nothing is reported back to the visitor, not even a failed send: telling
      * them would say the order exists. If an SMTP plugin is broken, a guest
      * cannot withdraw at all, which is why the setting is off by default and the
      * admin help says so.
@@ -626,37 +634,18 @@ final class WithdrawalService implements HasHooks
         $url     = add_query_arg('wd_key', $this->links->issue($order->get_id(), $email), $this->formUrl());
         $minutes = max(1, (int) round($this->links->ttl() / MINUTE_IN_SECONDS));
 
-        $mail = [
-            'subject' => sprintf(
-                /* translators: %s: order number */
-                __('Your withdrawal link for order #%s', 'plogins-withdraw'),
-                $order->get_order_number(),
-            ),
-            'body' => sprintf(
-                /* translators: 1: order number, 2: link URL, 3: number of minutes the link stays valid */
-                __("Somebody asked to withdraw from order #%1\$s.\n\nOpen this link to fill in the withdrawal form:\n%2\$s\n\nThis link works for %3\$d minutes and can be used once.\n\nIf you did not ask for this, you can ignore this message. Nothing has been submitted.", 'plogins-withdraw'),
-                $order->get_order_number(),
-                $url,
-                $minutes,
-            ),
-            'headers' => [],
-        ];
-
         /**
-         * Filters the one-time withdrawal link email.
+         * Fires once a one-time withdrawal link has been issued.
          *
-         * @param array{subject:string, body:string, headers:array<int, string>} $mail
-         * @param \WC_Order $order The order the link was issued for.
-         * @param string    $url   The link itself.
+         * The message itself is a WooCommerce email listening on this action, so
+         * the shop can restyle or switch it off like any other. Its wording is
+         * still filterable through `withdraw/magic_link_email`.
+         *
+         * @param \WC_Order $order   The order the link was issued for.
+         * @param string    $url     The link itself.
+         * @param int       $minutes How long the link stays valid.
          */
-        $mail = apply_filters('withdraw/magic_link_email', $mail, $order, $url);
-
-        wp_mail(
-            $email,
-            (string) ($mail['subject'] ?? ''),
-            (string) ($mail['body'] ?? ''),
-            is_array($mail['headers'] ?? null) ? $mail['headers'] : [],
-        );
+        do_action('withdraw/link_issued', $order, $url, $minutes);
     }
 
     /* --------------------------------------------------------------------- */
@@ -786,55 +775,6 @@ final class WithdrawalService implements HasHooks
         }
 
         return $count;
-    }
-
-    /**
-     * @param array<int, array{product_id:int, name:string, qty:int}> $items
-     */
-    private function notify(\WC_Order $order, string $email, array $items, string $reason, int $id, string $name = '', ?int $submittedAt = null): void
-    {
-        $submittedAt = $submittedAt ?? current_time('timestamp');
-        $s        = $this->settings();
-        $lines    = array_map(static fn (array $i): string => sprintf('- %s x%d', $i['name'], $i['qty']), $items);
-        $itemList = implode("\n", $lines);
-        $orderNo  = $order->get_order_number();
-
-        // Customer confirmation.
-        $customerSubject = sprintf(
-            /* translators: %s: order number */
-            __('Your withdrawal request for order #%s', 'plogins-withdraw'),
-            $orderNo,
-        );
-        // Art. 11a(4): the acknowledgement is the consumer's proof, on a durable
-        // medium, so it repeats the declaration back in full and states the date
-        // AND time it was submitted. A bare "we got it" would not do that job.
-        $customerBody = sprintf(
-            /* translators: 1: order number, 2: submission date and time, 3: the declaration text, 4: reason */
-            __("We received your withdrawal declaration for order #%1\$s.\n\nSubmitted on %2\$s.\n\nYour declaration:\n%3\$s\n\nReason given: %4\$s\n\nKeep this message: it is your confirmation that the declaration reached us, and the date above is the date it takes effect from.", 'plogins-withdraw'),
-            $orderNo,
-            date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $submittedAt),
-            $this->statement($order, $name !== '' ? $name : $email, $email, $items),
-            $reason !== '' ? $reason : __('(none given)', 'plogins-withdraw'),
-        );
-        wp_mail($email, $customerSubject, $customerBody);
-
-        // Shop notification.
-        $adminEmail = ! empty($s['notify_email']) ? (string) $s['notify_email'] : get_option('admin_email');
-        $adminSubject = sprintf(
-            /* translators: 1: request id, 2: order number */
-            __('New withdrawal request #%1$d for order #%2$s', 'plogins-withdraw'),
-            $id,
-            $orderNo,
-        );
-        $adminBody = sprintf(
-            /* translators: 1: order number, 2: customer email, 3: item list, 4: reason */
-            __("A customer submitted a withdrawal request.\n\nOrder: #%1\$s\nCustomer: %2\$s\n\nItems:\n%3\$s\n\nReason: %4\$s", 'plogins-withdraw'),
-            $orderNo,
-            $email,
-            $itemList,
-            $reason !== '' ? $reason : __('(none given)', 'plogins-withdraw'),
-        );
-        wp_mail($adminEmail, $adminSubject, $adminBody);
     }
 
     /** @param array<string, mixed> $vars */

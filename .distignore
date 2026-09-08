@@ -35,3 +35,4 @@
 # translators import from.
 /languages/*.po
 /languages/*.mo
+/STATUS.md

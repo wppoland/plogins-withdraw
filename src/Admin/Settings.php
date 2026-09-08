@@ -7,7 +7,9 @@ namespace Withdraw\Admin;
 use Withdraw\Contract\HasHooks;
 use Withdraw\Migrator;
 use Withdraw\Service\DigitalConsentService;
+use Withdraw\Service\EmailService;
 use Withdraw\Service\RequestRepository;
+use Withdraw\Service\ReturnPolicy;
 
 use const Withdraw\VERSION;
 
@@ -86,6 +88,14 @@ final class Settings implements HasHooks
             'digital_consent'       => ! empty($in['digital_consent']),
             'digital_consent_intro' => sanitize_textarea_field((string) ($in['digital_consent_intro'] ?? '')),
             'link_text'         => sanitize_text_field((string) ($in['link_text'] ?? '')),
+            'return_address'    => sanitize_textarea_field((string) ($in['return_address'] ?? '')),
+            // Whitelisted rather than sanitised: an unknown value falls back to
+            // saying nothing, which is the only answer that cannot assert a cost
+            // rule on the shop's behalf.
+            'return_cost'       => in_array((string) ($in['return_cost'] ?? ''), ReturnPolicy::COSTS, true)
+                ? (string) $in['return_cost']
+                : 'not_stated',
+            'return_cost_note'  => sanitize_textarea_field((string) ($in['return_cost_note'] ?? '')),
             'intro_text'        => sanitize_textarea_field((string) ($in['intro_text'] ?? '')),
             'model_form_text'   => sanitize_textarea_field((string) ($in['model_form_text'] ?? '')),
         ];
@@ -247,6 +257,62 @@ final class Settings implements HasHooks
                                 <label for="wd-email"><?php echo esc_html__('Notification email', 'plogins-withdraw'); ?></label>
                                 <input type="email" id="wd-email" class="regular-text" name="<?php echo esc_attr(self::OPTION); ?>[notify_email]" value="<?php echo esc_attr((string) $s['notify_email']); ?>" placeholder="<?php echo esc_attr(get_option('admin_email')); ?>">
                                 <?php $help(__('Where new-request notifications are sent. Leave empty to use the site admin email. The customer always gets a confirmation at their own address.', 'plogins-withdraw')); ?>
+                            </p>
+                            <p class="withdraw-note">
+                                <?php echo esc_html__('Every message this plugin sends is a WooCommerce email: same template, same logo, same footer as your order emails, and each one can be reworded or switched off on its own.', 'plogins-withdraw'); ?>
+                            </p>
+                            <ul class="withdraw-email-list">
+                                <?php foreach (EmailService::catalogue() as $wd_email_id => $wd_email_title) : ?>
+                                    <li>
+                                        <a href="<?php echo esc_url(EmailService::settingsUrl($wd_email_id)); ?>"><?php echo esc_html($wd_email_title); ?></a>
+                                        <?php if (! EmailService::isEnabled($wd_email_id)) : ?>
+                                            <em><?php echo esc_html__('(off)', 'plogins-withdraw'); ?></em>
+                                        <?php endif; ?>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section class="withdraw-card">
+                        <header><h2><?php echo esc_html__('Returns', 'plogins-withdraw'); ?></h2></header>
+                        <div class="withdraw-fields">
+                            <p>
+                                <label for="wd-return-address"><?php echo esc_html__('Return address', 'plogins-withdraw'); ?></label>
+                                <?php $help(__('Printed in the message that tells the customer their withdrawal was accepted. Leave empty to use your WooCommerce store address.', 'plogins-withdraw')); ?><br>
+                                <textarea id="wd-return-address" class="large-text" rows="4" name="<?php echo esc_attr(self::OPTION); ?>[return_address]" placeholder="<?php echo esc_attr(ReturnPolicy::storeAddress()); ?>"><?php echo esc_textarea((string) $s['return_address']); ?></textarea>
+                            </p>
+                            <?php if (trim((string) $s['return_address']) === '' && ReturnPolicy::storeAddress() === '') : ?>
+                                <p class="withdraw-note"><?php echo esc_html__('Neither this field nor your WooCommerce store address is filled in, so the acceptance message will not say where to send the goods.', 'plogins-withdraw'); ?></p>
+                            <?php endif; ?>
+                            <p>
+                                <label for="wd-return-cost"><?php echo esc_html__('Who pays to send the goods back', 'plogins-withdraw'); ?></label>
+                                <select id="wd-return-cost" name="<?php echo esc_attr(self::OPTION); ?>[return_cost]">
+                                    <option value="not_stated" <?php selected((string) $s['return_cost'], 'not_stated'); ?>><?php echo esc_html__('Say nothing', 'plogins-withdraw'); ?></option>
+                                    <option value="customer" <?php selected((string) $s['return_cost'], 'customer'); ?>><?php echo esc_html__('The customer', 'plogins-withdraw'); ?></option>
+                                    <option value="shop" <?php selected((string) $s['return_cost'], 'shop'); ?>><?php echo esc_html__('We do', 'plogins-withdraw'); ?></option>
+                                </select>
+                                <?php $help(__('Article 14(1) only lets you charge the customer for the return if you told them so before they bought, in your withdrawal information. If you did not, the cost is yours, which is why this says nothing until you choose.', 'plogins-withdraw')); ?>
+                            </p>
+                            <p>
+                                <label for="wd-return-cost-note"><?php echo esc_html__('Return cost, extra wording', 'plogins-withdraw'); ?></label>
+                                <?php $help(__('Optional, added after the sentence above. Article 6(1)(i) wants an estimate of the cost for goods that cannot normally be sent back by post.', 'plogins-withdraw')); ?><br>
+                                <textarea id="wd-return-cost-note" class="large-text" rows="2" name="<?php echo esc_attr(self::OPTION); ?>[return_cost_note]" placeholder="<?php echo esc_attr__('For example: bulky items are collected by courier, around 40 EUR.', 'plogins-withdraw'); ?>"><?php echo esc_textarea((string) $s['return_cost_note']); ?></textarea>
+                            </p>
+                            <p class="withdraw-note">
+                                <?php
+                                $wd_cost_preview = ReturnPolicy::costSentence();
+                                echo esc_html($wd_cost_preview !== ''
+                                    ? sprintf(
+                                        /* translators: %s: the sentence the customer will read */
+                                        __('The customer will read: %s', 'plogins-withdraw'),
+                                        $wd_cost_preview,
+                                    )
+                                    : __('The acceptance message will not mention who pays for the return.', 'plogins-withdraw'));
+                                ?>
+                            </p>
+                            <p class="withdraw-note">
+                                <?php echo esc_html__('Your own clock: Article 13(1) gives you 14 days from the day the customer tells you they are withdrawing to refund them, including the standard delivery cost they paid. The request log shows that date and marks it when it passes.', 'plogins-withdraw'); ?>
                             </p>
                         </div>
                     </section>

@@ -6,6 +6,7 @@ namespace Withdraw\Admin;
 
 use Withdraw\Contract\HasHooks;
 use Withdraw\Service\RequestRepository;
+use Withdraw\Service\ReturnPolicy;
 
 defined('ABSPATH') || exit;
 
@@ -41,54 +42,33 @@ final class RequestsAdmin implements HasHooks
     }
 
     /**
-     * Tell the customer what happened to their declaration.
+     * Announce a status change, and leave a trace on the order.
      *
-     * The confirmation the shopper already receives ends with "We will confirm
-     * the next steps by email", and nothing sent that email, so every request
-     * ended in silence on a promise the plugin had made. Sent on the status the
-     * merchant sets, which is also the moment art. 14 information is due.
+     * The message itself is four WooCommerce emails listening on this action,
+     * one per status, so a shop can reword a rejection without touching a
+     * refund confirmation. WC()->mailer() is loaded on the same action at
+     * priority 1 by EmailService, which is what makes those listeners exist by
+     * the time this fires: admin-post.php never builds the mailer on its own.
      */
-    private function notifyCustomer(int $id, string $status): void
+    private function announceStatusChange(int $id, string $status, string $previousStatus): void
     {
         $request = $this->repository->find($id);
-
-        if (! is_object($request) || empty($request->customer_email) || ! is_email((string) $request->customer_email)) {
+        if (! is_object($request)) {
             return;
         }
 
-        $orderId = (int) $request->order_id;
-        $order   = wc_get_order($orderId);
-        // Print what the shop shows the customer, not the row id.
-        $orderNo = $order instanceof \WC_Order ? $order->get_order_number() : (string) $orderId;
-
-        $lines = [
-            'accepted' => __('Your withdrawal has been accepted. Please send the goods back without undue delay and in any case within 14 days of this message. We will refund you using the same means of payment you used, unless we have expressly agreed otherwise.', 'plogins-withdraw'),
-            'rejected' => __('Your withdrawal request could not be accepted. If you believe this is a mistake, reply to this email and we will look at it again.', 'plogins-withdraw'),
-            'processed' => __('Your withdrawal has been processed and the refund has been issued. Depending on your bank it can take a few working days to appear.', 'plogins-withdraw'),
-            'pending' => __('Your withdrawal request is being reviewed. We will write again as soon as there is an outcome.', 'plogins-withdraw'),
-        ];
-
-        $body = $lines[$status] ?? $lines['pending'];
-
-        $subject = sprintf(
-            /* translators: %s: order number */
-            __('Your withdrawal request for order #%s', 'plogins-withdraw'),
-            $orderNo,
-        );
-
         /**
-         * Filters the status-change message sent to the customer.
+         * Fires after a withdrawal request changes status.
          *
-         * @param string $body    The message body.
-         * @param string $status  The new status.
-         * @param object $request The withdrawal request row.
+         * @param int    $id             Request id.
+         * @param string $status         The status just saved.
+         * @param string $previousStatus The status it had before.
          */
-        $body = (string) apply_filters('withdraw/status_email_body', $body, $status, $request);
-
-        wp_mail((string) $request->customer_email, $subject, $body);
+        do_action('withdraw/status_changed', $id, $status, $previousStatus);
 
         // Same reason the declaration writes a note: whoever opens the order
         // next should see what happened without knowing this plugin exists.
+        $order = wc_get_order((int) $request->order_id);
         if ($order instanceof \WC_Order) {
             $order->add_order_note(
                 sprintf(
@@ -138,7 +118,7 @@ final class RequestsAdmin implements HasHooks
             $was    = is_object($before) && isset($before->status) ? (string) $before->status : '';
 
             if ($was !== $status && $this->repository->updateStatus($id, $status)) {
-                $this->notifyCustomer($id, $status);
+                $this->announceStatusChange($id, $status, $was);
             }
         }
 
@@ -176,16 +156,19 @@ final class RequestsAdmin implements HasHooks
                         <th><?php echo esc_html__('Customer', 'plogins-withdraw'); ?></th>
                         <th><?php echo esc_html__('Items', 'plogins-withdraw'); ?></th>
                         <th><?php echo esc_html__('Date', 'plogins-withdraw'); ?></th>
+                        <th><?php echo esc_html__('Refund due', 'plogins-withdraw'); ?></th>
                         <th><?php echo esc_html__('Status', 'plogins-withdraw'); ?></th>
                     </tr>
                 </thead>
                 <tbody>
                 <?php if ($rows === []) : ?>
-                    <tr><td colspan="6"><?php echo esc_html__('No withdrawal requests yet.', 'plogins-withdraw'); ?></td></tr>
+                    <tr><td colspan="7"><?php echo esc_html__('No withdrawal requests yet.', 'plogins-withdraw'); ?></td></tr>
                 <?php else : ?>
                     <?php foreach ($rows as $r) :
                         $items = json_decode((string) $r->items, true);
-                        $items = is_array($items) ? $items : []; ?>
+                        $items = is_array($items) ? $items : [];
+                        $refundDue = ReturnPolicy::refundDeadline($r);
+                        $refundLate = ReturnPolicy::refundOverdue($r); ?>
                         <tr>
                             <td>#<?php echo (int) $r->id; ?></td>
                             <td><a href="<?php echo esc_url(self::orderEditUrl((int) $r->order_id)); ?>">#<?php echo (int) $r->order_id; ?></a></td>
@@ -196,6 +179,16 @@ final class RequestsAdmin implements HasHooks
                                 <?php endforeach; ?>
                             </td>
                             <td><?php echo esc_html(mysql2date(get_option('date_format') . ' H:i', (string) $r->created_at)); ?></td>
+                            <td>
+                                <?php if ($refundDue === 0) : ?>
+                                    &mdash;
+                                <?php elseif ($refundLate) : ?>
+                                    <strong style="color:#b32d2e"><?php echo esc_html(date_i18n((string) get_option('date_format'), $refundDue)); ?></strong><br>
+                                    <span style="color:#b32d2e"><?php echo esc_html__('Overdue', 'plogins-withdraw'); ?></span>
+                                <?php else : ?>
+                                    <?php echo esc_html(date_i18n((string) get_option('date_format'), $refundDue)); ?>
+                                <?php endif; ?>
+                            </td>
                             <td>
                                 <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="display:flex;gap:6px">
                                     <?php wp_nonce_field('withdraw_set_status'); ?>

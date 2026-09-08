@@ -10,6 +10,7 @@ use Withdraw\Admin\Settings;
 use Withdraw\Frontend\MyAccount;
 use Withdraw\Frontend\WithdrawLink;
 use Withdraw\Service\DigitalConsentService;
+use Withdraw\Service\EmailService;
 use Withdraw\Service\WithdrawalService;
 
 /**
@@ -21,6 +22,11 @@ use Withdraw\Service\WithdrawalService;
 return is_admin()
     ? [
         WithdrawalService::class, // shortcode + POST handling also work in admin-preview contexts
+        // In BOTH branches on purpose. The declaration is submitted on the
+        // storefront, which is not is_admin(), and the status change posts to
+        // admin-post.php, which is. A service registered in one branch would
+        // leave the other half of the emails with nothing listening.
+        EmailService::class,
         \Withdraw\Service\WithdrawPrivacyService::class,
         // Also in wp-admin: the checkout block editor asks for the registered
         // additional fields, so a field registered only on the front end would
@@ -33,6 +39,7 @@ return is_admin()
     ]
     : [
         WithdrawalService::class,
+        EmailService::class,
         \Withdraw\Service\WithdrawPrivacyService::class,
         // Store API requests are not is_admin(), so the Blocks capture lives
         // in this branch as well.
