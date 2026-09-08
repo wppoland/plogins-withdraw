@@ -1,6 +1,6 @@
 # Plogins Withdraw, stan prac
 
-Ostatnia aktualizacja: 2026-09-08
+Ostatnia aktualizacja: 2026-09-08 (po wydaniu 1.4.0)
 
 ## Wydane
 
@@ -15,54 +15,32 @@ Ostatnia aktualizacja: 2026-09-08
 - `AccessLink`: token 16 bajtow, w bazie tylko SHA-256, TTL 60 minut, zuzywany dopiero po
   zlozeniu oswiadczenia.
 
-## W toku, ROBOTA NIEZATWIERDZONA W GIT
+## Maile WooCommerce, ZROBIONE w 1.4.0
 
-Baza porownania: **`5726641`**. Workflow `wf_c5fb45d0-460` (maile WC + zegar art. 13)
-**przerwal sie na limicie sesji**: 2 agentow projektowych skonczylo, 4 budujacych
-i weryfikujacych padlo. W drzewie roboczym lezy polowa implementacji, ktorej
-**nikt nie uruchomil**.
+Workflow `wf_c5fb45d0-460` padl na limicie sesji po dwoch agentach projektowych i zostawil
+polowe implementacji. Dokonczone recznie, wydane jako 1.4.0 (commit 219e84c, wp.org
+potwierdzone). Projekt zostal w `../_drafts/withdraw-email-art13-design.md`.
 
-Projekt do dokonczenia: `../_drafts/withdraw-email-art13-design.md` (pelny opis obu projektow).
+Co weszlo:
+- 7 klas `WC_Email` w `src/Email/` plus 10 szablonow w `templates/emails/`,
+  kazdy z wlasna sekcja w WooCommerce, Ustawienia, E-maile.
+- `EmailService` wpiety w `config/services.php` i w OBA branche `config/hooks.php`.
+- Zadnego `wp_mail()` w `src/`. Trzy nowe akcje: `withdraw/declared` (byla),
+  `withdraw/status_changed`, `withdraw/link_issued`.
+- Kolumna `declaration`: tresc oswiadczenia zamrozona w chwili zlozenia.
+- Art. 14 ust. 1: `return_address`, `return_cost` (domyslnie `not_stated`),
+  `return_cost_note` plus `ReturnPolicy`.
+- Art. 13 ust. 1: kolumna "Refund due" w rejestrze, 14 dni od oswiadczenia, na czerwono po terminie.
+- Dokumentacja EN i PL poprawiona i wdrozona (przy okazji trzy stare falszywe twierdzenia).
 
-Jest:
-- `src/Email/` 9 klas (AbstractWithdrawEmail, AbstractStatusEmail, Acknowledgement,
-  NewRequest, Accepted, Rejected, Processed, UnderReview, AccessLink),
-- `templates/emails/withdraw-accepted.php`, `withdraw-acknowledgement.php`,
-  `templates/emails/plain/withdraw-acknowledgement.php`,
-- `src/Service/EmailService.php` (napisany, **nigdzie niepodpiety**),
-- `src/Service/ReturnPolicy.php`,
-- kolumna `declaration` (`config/defaults.php`, `src/Migrator.php`,
-  `src/Service/RequestRepository.php::create()` przyjmuje `$declaration`),
-- ustawienia `return_address`, `return_cost` (domyslnie `not_stated`), `return_cost_note`.
+Weryfikacja: `tests/emails-check.php`, 42 asercje, ALL GREEN.
+Uruchomienie: `wp eval-file wp-content/plugins/plogins-withdraw/tests/emails-check.php` w wp-env.
+Test resetuje singleton `WC_Emails` przez refleksje, bo WP-CLI buduje mailer przy starcie
+i bez tego pulapka z leniwym mailerem nie moze w ogole wystapic. Dwa pierwsze przebiegi
+przechodzily mierzac cos innego.
 
-Brakuje:
-- szablonow `withdraw-new-request.php`, `withdraw-status.php`, `withdraw-access-link.php`
-  i wariantow `plain/` dla wszystkich poza acknowledgement,
-- wpisu `EmailService` w `config/services.php` i w **obu** galeziach `config/hooks.php`
-  (POST na sklepie nie jest `is_admin()`, `admin-post.php` jest),
-- akcji `withdraw/status_changed` i `withdraw/link_issued`,
-- usuniecia czterech zywych `wp_mail()`: `WithdrawalService.php` 654, 819, 837
-  i `RequestsAdmin.php` 88,
-- przekazania oswiadczenia do `RequestRepository::create()` z `handleSubmit()`,
-- calego zegara 14 dni z art. 13 (agent padl przed napisaniem czegokolwiek),
-- sanityzacji `return_cost` po stronie serwera (`Settings::sanitize()`),
-- pola `recipient` w `NewRequestEmail` z migracja z `notify_email`.
-
-## Pulapki, ktore musza byc sprawdzone zanim to pojdzie
-
-1. **`WC()->mailer()` boot.** Wlasna klasa `WC_Email` rejestrujaca trigger w konstruktorze
-   nigdy nie wystrzeli, jesli nic tego konstruktora nie zbuduje. `WC()->mailer()` musi byc
-   wywolane na priorytecie 1 na **wlasnej** akcji. Wzorzec: `polski/src/Service/EmailService.php`.
-   Kosztowalo polski trzy wydania.
-2. **Nie wieszac na `woocommerce_init`.** Wtyczka bootuje na `init` p. 10, a WooCommerce
-   odpala `woocommerce_init` z `init` p. 0, wiec handler tam dodany to martwy kod.
-3. **Zakaz regresji art. 11a ust. 4.** Potwierdzenie ma dalej niesc pelna tresc oswiadczenia
-   oraz date i godzine zlozenia. To juz jest wydane prawo.
-4. **`return_cost` domyslnie `not_stated` i tak ma zostac.** Art. 14 ust. 1 w zw. z art. 6
-   ust. 1 lit. i: konsument placi za odeslanie tylko jesli przedsiebiorca poinformowal go
-   o tym wczesniej. Domyslne `customer` kazaloby klientom placic za cos, do czego sklep
-   moze nie miec prawa.
-5. **Art. 13 ust. 2**: zwrot obejmuje takze koszt standardowej dostawy, nie sama cene towaru.
+Plugin Check na zbudowanej paczce: 2 ostrzezenia, oba to znany falszywy alarm
+`Prefix_Scanner` na nazwach hookow ze slashem (`withdraw/magic_link`, `withdraw/status`).
 
 ## Backlog po mailach
 
