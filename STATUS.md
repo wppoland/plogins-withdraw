@@ -1,6 +1,6 @@
 # Plogins Withdraw, stan prac
 
-Ostatnia aktualizacja: 2026-09-08 (po wydaniu 1.4.0)
+Ostatnia aktualizacja: 2026-09-08 (po wydaniu 1.6.0)
 
 ## Wydane
 
@@ -42,7 +42,34 @@ przechodzily mierzac cos innego.
 Plugin Check na zbudowanej paczce: 2 ostrzezenia, oba to znany falszywy alarm
 `Prefix_Scanner` na nazwach hookow ze slashem (`withdraw/magic_link`, `withdraw/status`).
 
-## Backlog po mailach
+## 1.5.0, rejestr wnioskow
+
+- Paginacja po 25, wczesniej lista konczyla sie na 100 najnowszych i starszych nie dalo sie otworzyc.
+- Wyszukiwarka po e-mailu i numerze zamowienia. Argument `search` byl przyjmowany przez
+  `RequestRepository::all()` odkad powstal i nikt go nigdy nie przekazywal.
+- Ekran szczegolow wniosku: uzasadnienie, oswiadczenie, obie daty, termin zwrotu. Bez tokenu.
+- Notatka przy statusie, WYMAGANA przy odrzuceniu, drukowana w mailu przy kazdym statusie.
+- `RequestRepository::total()` liczy tym samym WHERE co `all()`, zeby pager nie prowadzil
+  na puste strony.
+
+## 1.6.0, teksty ustawowe
+
+- `StatutoryText`: zalacznik I lit. B (wzor oswiadczenia) i lit. A (wzor pouczenia) generowane
+  z danych sprzedawcy, tlumaczone, z ustawionym okresem odstapienia.
+- Nowy shortcode `[withdraw_instructions]` (atrybuty `heading`, `form`) plus filtr
+  `withdraw/model_instructions`.
+- Ustawienia `seller_name`, `seller_email`, `seller_phone`.
+- `intro_text` i `model_form_text` domyslnie PUSTE. Wczesniej byly angielskimi zdaniami
+  z pliku konfiguracyjnego, drukowanymi klientowi doslownie razem z `[seller name and address]`,
+  a stringa z configu nie da sie przetlumaczyc.
+- Migracja `sweepLegacyTexts()` czysci te teksty TYLKO przy dokladnym dopasowaniu, wiec
+  wlasne brzmienie sklepu i reczne tlumaczenie przezywaja.
+- Zdanie o koszcie zwrotu trafia do pouczenia dopiero po ustawieniu reguly: samo w sobie jest
+  pouczeniem z art. 6 ust. 1 lit. i, na ktore sklep powoluje sie pozniej.
+
+Weryfikacja calosci: `tests/emails-check.php`, 72 asercje, ALL GREEN.
+
+## Backlog
 
 - Wyniki per pozycja i obowiazkowy powod odrzucenia.
 - Zalacznik I(A) i I(B) jako generowana tresc z `SellerIdentity`.
