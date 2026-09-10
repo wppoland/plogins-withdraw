@@ -47,7 +47,7 @@ final class MyAccount implements HasHooks
         ?>
         <p class="withdraw-order-action">
             <a class="button withdraw-order-action__btn" href="<?php echo esc_url($url); ?>">
-                <?php echo esc_html__('Withdraw from contract here', 'plogins-withdraw'); ?>
+                <?php echo esc_html(WithdrawLink::label($s)); ?>
             </a>
         </p>
         <?php

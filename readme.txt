@@ -5,7 +5,7 @@ Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
 Requires Plugins: woocommerce
-Stable tag: 1.6.1
+Stable tag: 1.6.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -90,6 +90,9 @@ Yes. Orders are read through the WooCommerce order API, which is HPOS-compatible
 Plogins Withdraw is fully translatable and ships the `plogins-withdraw.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.6.2 =
+* Fixed: the **Link text** setting did not reach the button on the My Account order view. That button printed the statutory English sentence directly, so a shop that reworded the link saw its own wording on the shortcode and the footer link and the untouched default on the order. All three now resolve the label the same way.
 
 = 1.6.1 =
 * Renamed to "Plogins Withdraw - EU Right of Withdrawal & Returns for WooCommerce". The old name led on the word "button", which four other withdrawal plugins in the directory also use, and it undersold a plugin that carries the form, the request log, seven emails and the Annex I texts. The slug, the text domain and every setting are unchanged; nothing needs reconfiguring.

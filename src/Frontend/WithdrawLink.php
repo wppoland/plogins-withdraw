@@ -55,9 +55,19 @@ final class WithdrawLink implements HasHooks
         return (string) (get_permalink($pageId) ?: '');
     }
 
-    private function label(): string
+    /**
+     * The label on every control that opens the withdrawal form.
+     *
+     * Static and shared, because the same rule has to hold on the My Account
+     * order view too. It did not: that button printed the statutory English
+     * sentence directly, so a shop that reworded the link saw its wording on
+     * the shortcode and the footer and the untouched default on the order.
+     *
+     * @param array<string, mixed> $settings
+     */
+    public static function label(array $settings): string
     {
-        $custom = trim((string) $this->settings()['link_text']);
+        $custom = trim((string) ($settings['link_text'] ?? ''));
 
         // The statutory wording is the default and stays translatable. A shop
         // may reword it, which the directive allows as long as the alternative
@@ -117,7 +127,7 @@ final class WithdrawLink implements HasHooks
             '<a class="%1$s" href="%2$s">%3$s</a>',
             esc_attr((string) $atts['class']),
             esc_url($url),
-            esc_html($this->label()),
+            esc_html(self::label($this->settings())),
         );
     }
 
@@ -136,7 +146,7 @@ final class WithdrawLink implements HasHooks
         printf(
             '<p class="withdraw-footer-link"><a href="%1$s">%2$s</a></p>',
             esc_url($url),
-            esc_html($this->label()),
+            esc_html(self::label($this->settings())),
         );
     }
 }
