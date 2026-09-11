@@ -258,7 +258,7 @@ msgid "Right of Withdrawal"
 msgstr ""
 
 #: src/Admin/Settings.php:131
-msgid "Complies with EU Directive 2023/2673 (Art. 11a): an easy withdrawal function letting customers declare a full or partial withdrawal for their orders. Requests are logged under WooCommerce → Withdrawal Requests."
+msgid "Complies with EU Directive 2023/2673 (Art. 11a): an easy withdrawal function letting customers declare a full or partial withdrawal for their orders. Requests are logged under WooCommerce > Withdrawal Requests."
 msgstr ""
 
 #: src/Admin/Settings.php:134

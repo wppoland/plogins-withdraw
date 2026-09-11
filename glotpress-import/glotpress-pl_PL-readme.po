@@ -54,8 +54,8 @@ msgid "Does it issue refunds automatically?"
 msgstr "Czy wtyczka automatycznie realizuje zwrot płatności?"
 
 #. Found in installation list item.
-msgid "Go to <strong>WooCommerce → Withdrawal</strong>, select that page as the withdrawal form page, set the withdrawal period and eligible order statuses, and adjust the notification email and legal texts."
-msgstr "Przejdź do <strong>WooCommerce → Odstąpienie od umowy</strong>, wskaż tę stronę jako stronę formularza odstąpienia od umowy, ustaw termin na odstąpienie od umowy oraz statusy zamówień uprawniające do odstąpienia, a następnie dostosuj adres e-mail powiadomień i teksty prawne."
+msgid "Go to <strong>WooCommerce > Withdrawal</strong>, select that page as the withdrawal form page, set the withdrawal period and eligible order statuses, and adjust the notification email and legal texts."
+msgstr "Przejdź do <strong>WooCommerce > Odstąpienie od umowy</strong>, wskaż tę stronę jako stronę formularza odstąpienia od umowy, ustaw termin na odstąpienie od umowy oraz statusy zamówień uprawniające do odstąpienia, a następnie dostosuj adres e-mail powiadomień i teksty prawne."
 
 #. Found in installation list item.
 msgid "Create a page and add the <code>[withdraw_form]</code> shortcode."
@@ -110,8 +110,8 @@ msgid "<strong>Emails</strong>: automatic confirmation to the customer and notif
 msgstr "<strong>E-maile</strong>: automatyczne potwierdzenie dla klienta i powiadomienie dla sklepu."
 
 #. Found in description list item.
-msgid "<strong>Admin log</strong>: a WooCommerce → Withdrawal Requests screen lists every request with its items, customer and status (pending, accepted, rejected, processed), filterable by status."
-msgstr "<strong>Rejestr w panelu</strong>: ekran WooCommerce → Wnioski o odstąpienie od umowy pokazuje każdy wniosek wraz z pozycjami, klientem i statusem (oczekujący, zaakceptowany, odrzucony, przetworzony), z filtrowaniem po statusie."
+msgid "<strong>Admin log</strong>: a WooCommerce > Withdrawal Requests screen lists every request with its items, customer and status (pending, accepted, rejected, processed), filterable by status."
+msgstr "<strong>Rejestr w panelu</strong>: ekran WooCommerce > Wnioski o odstąpienie od umowy pokazuje każdy wniosek wraz z pozycjami, klientem i statusem (oczekujący, zaakceptowany, odrzucony, przetworzony), z filtrowaniem po statusie."
 
 #. Found in description list item.
 msgid "<strong>Withdrawal-period check</strong>: configurable period (statutory minimum 14 days), measured from delivery (order completion) or, if never completed, from the order date."
@@ -142,8 +142,8 @@ msgid "What it does"
 msgstr "Co robi wtyczka"
 
 #. Screenshot description.
-msgid "Settings (WooCommerce → Withdrawal): withdrawal period, form page, eligible statuses, notification email and legal texts, with the request log."
-msgstr "Ustawienia (WooCommerce → Odstąpienie od umowy): termin na odstąpienie od umowy, strona formularza, uprawnione statusy, adres e-mail powiadomień i teksty prawne, wraz z rejestrem wniosków."
+msgid "Settings (WooCommerce > Withdrawal): withdrawal period, form page, eligible statuses, notification email and legal texts, with the request log."
+msgstr "Ustawienia (WooCommerce > Odstąpienie od umowy): termin na odstąpienie od umowy, strona formularza, uprawnione statusy, adres e-mail powiadomień i teksty prawne, wraz z rejestrem wniosków."
 
 #. Screenshot description.
 msgid "Item selection: full or partial withdrawal with per-item quantities, the model withdrawal text and the declaration."

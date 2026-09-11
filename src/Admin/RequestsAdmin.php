@@ -11,7 +11,7 @@ use Withdraw\Service\ReturnPolicy;
 defined('ABSPATH') || exit;
 
 /**
- * Admin log of withdrawal requests (WooCommerce → Withdrawal Requests) with a
+ * Admin log of withdrawal requests (WooCommerce > Withdrawal Requests) with a
  * per-row status control. Read-only on the money side: the merchant refunds in
  * the normal order screen; this tracks the request lifecycle.
  */

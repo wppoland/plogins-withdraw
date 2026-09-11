@@ -54,8 +54,8 @@ msgid "Does it issue refunds automatically?"
 msgstr "¿Emite reembolsos automáticamente?"
 
 #. Found in installation list item.
-msgid "Go to <strong>WooCommerce → Withdrawal</strong>, select that page as the withdrawal form page, set the withdrawal period and eligible order statuses, and adjust the notification email and legal texts."
-msgstr "Ve a <strong>WooCommerce → Desistimiento</strong>, selecciona esa página como página del formulario de desistimiento, define el plazo de desistimiento y los estados de pedido admitidos, y ajusta el correo electrónico de notificación y los textos legales."
+msgid "Go to <strong>WooCommerce > Withdrawal</strong>, select that page as the withdrawal form page, set the withdrawal period and eligible order statuses, and adjust the notification email and legal texts."
+msgstr "Ve a <strong>WooCommerce > Desistimiento</strong>, selecciona esa página como página del formulario de desistimiento, define el plazo de desistimiento y los estados de pedido admitidos, y ajusta el correo electrónico de notificación y los textos legales."
 
 #. Found in installation list item.
 msgid "Create a page and add the <code>[withdraw_form]</code> shortcode."
@@ -110,8 +110,8 @@ msgid "<strong>Emails</strong>: automatic confirmation to the customer and notif
 msgstr "<strong>Correos electrónicos</strong>: confirmación automática al cliente y aviso a la tienda."
 
 #. Found in description list item.
-msgid "<strong>Admin log</strong>: a WooCommerce → Withdrawal Requests screen lists every request with its items, customer and status (pending, accepted, rejected, processed), filterable by status."
-msgstr "<strong>Registro en el administrador</strong>: la pantalla WooCommerce → Solicitudes de desistimiento lista cada solicitud con sus artículos, su cliente y su estado (pendiente, aceptada, rechazada, procesada), y se puede filtrar por estado."
+msgid "<strong>Admin log</strong>: a WooCommerce > Withdrawal Requests screen lists every request with its items, customer and status (pending, accepted, rejected, processed), filterable by status."
+msgstr "<strong>Registro en el administrador</strong>: la pantalla WooCommerce > Solicitudes de desistimiento lista cada solicitud con sus artículos, su cliente y su estado (pendiente, aceptada, rechazada, procesada), y se puede filtrar por estado."
 
 #. Found in description list item.
 msgid "<strong>Withdrawal-period check</strong>: configurable period (statutory minimum 14 days), measured from delivery (order completion) or, if never completed, from the order date."
@@ -142,8 +142,8 @@ msgid "What it does"
 msgstr "Qué hace"
 
 #. Screenshot description.
-msgid "Settings (WooCommerce → Withdrawal): withdrawal period, form page, eligible statuses, notification email and legal texts, with the request log."
-msgstr "Ajustes (WooCommerce → Desistimiento): plazo de desistimiento, página del formulario, estados admitidos, correo electrónico de notificación y textos legales, con el registro de solicitudes."
+msgid "Settings (WooCommerce > Withdrawal): withdrawal period, form page, eligible statuses, notification email and legal texts, with the request log."
+msgstr "Ajustes (WooCommerce > Desistimiento): plazo de desistimiento, página del formulario, estados admitidos, correo electrónico de notificación y textos legales, con el registro de solicitudes."
 
 #. Screenshot description.
 msgid "Item selection: full or partial withdrawal with per-item quantities, the model withdrawal text and the declaration."

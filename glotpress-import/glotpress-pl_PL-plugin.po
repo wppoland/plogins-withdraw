@@ -253,8 +253,8 @@ msgid "Requests:"
 msgstr "Wnioski:"
 
 #: src/Admin/Settings.php:109
-msgid "Complies with EU Directive 2023/2673 (Art. 11a): an easy withdrawal function letting customers declare a full or partial withdrawal for their orders. Requests are logged under WooCommerce → Withdrawal Requests."
-msgstr "Zgodna z dyrektywą UE 2023/2673 (art. 11a): łatwa funkcja odstąpienia od umowy, która pozwala klientom zadeklarować całkowite lub częściowe odstąpienie od umowy dla swoich zamówień. Wnioski są rejestrowane w WooCommerce → Wnioski o odstąpienie od umowy."
+msgid "Complies with EU Directive 2023/2673 (Art. 11a): an easy withdrawal function letting customers declare a full or partial withdrawal for their orders. Requests are logged under WooCommerce > Withdrawal Requests."
+msgstr "Zgodna z dyrektywą UE 2023/2673 (art. 11a): łatwa funkcja odstąpienia od umowy, która pozwala klientom zadeklarować całkowite lub częściowe odstąpienie od umowy dla swoich zamówień. Wnioski są rejestrowane w WooCommerce > Wnioski o odstąpienie od umowy."
 
 #: src/Admin/Settings.php:108
 msgid "Right of Withdrawal"

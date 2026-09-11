@@ -23,7 +23,7 @@ Es un complemento de <strong>solicitud y registro</strong>: registra la declarac
 * <strong>Desistimiento total o parcial</strong>: el cliente elige de cuántas unidades de cada artículo desea desistir.
 * <strong>Botón de desistimiento en Mi cuenta</strong>: aparece un botón «Desistir de este pedido» debajo de los detalles del pedido y enlaza con tu página de desistimiento con el pedido ya rellenado.
 * <strong>Comprobación del plazo de desistimiento</strong>: plazo configurable (mínimo legal de 14 días), medido desde la entrega (finalización del pedido) o, si nunca se completa, desde la fecha del pedido.
-* <strong>Registro en la administración</strong>: la pantalla WooCommerce → Solicitudes de desistimiento enumera cada solicitud con sus artículos, cliente y estado (pendiente, aceptada, rechazada, procesada), y se puede filtrar por estado.
+* <strong>Registro en la administración</strong>: la pantalla WooCommerce > Solicitudes de desistimiento enumera cada solicitud con sus artículos, cliente y estado (pendiente, aceptada, rechazada, procesada), y se puede filtrar por estado.
 * <strong>Correos electrónicos</strong>: confirmación automática al cliente y notificación a la tienda.
 * <strong>Texto de desistimiento modelo</strong>: un bloque editable en el formulario para el modelo legal de formulario de desistimiento (Anexo I.B).
 * <strong>Apto para invitados</strong>: no se necesita cuenta; la búsqueda por número de pedido y correo electrónico de facturación funciona para pedidos de invitados.
@@ -40,7 +40,7 @@ Es un complemento de <strong>solicitud y registro</strong>: registra la declarac
 1. Instala y activa WooCommerce.
 2. Instala y activa Plogins Withdraw.
 3. Crea una página y añade el shortcode `[withdraw_form]`.
-4. Ve a <strong>WooCommerce → Desistimiento</strong>, selecciona esa página como la página del formulario de desistimiento, establece el plazo de desistimiento y los estados de pedido válidos, y ajusta el correo electrónico de notificación y los textos legales.
+4. Ve a <strong>WooCommerce > Desistimiento</strong>, selecciona esa página como la página del formulario de desistimiento, establece el plazo de desistimiento y los estados de pedido válidos, y ajusta el correo electrónico de notificación y los textos legales.
 
 == Frequently Asked Questions ==
 
@@ -60,7 +60,7 @@ Sí. Los pedidos se leen a través de la API de pedidos de WooCommerce, que es c
 
 1. El formulario de solicitud de desistimiento: búsqueda de pedidos por número y correo electrónico de facturación (apto para invitados), con el aviso del derecho de desistimiento de 14 días.
 2. Selección de artículos: desistimiento total o parcial con cantidades por artículo, el texto de desistimiento modelo y la declaración.
-3. Ajustes (WooCommerce → Desistimiento): plazo de desistimiento, página del formulario, estados válidos, correo electrónico de notificación y textos legales, con el registro de solicitudes.
+3. Ajustes (WooCommerce > Desistimiento): plazo de desistimiento, página del formulario, estados válidos, correo electrónico de notificación y textos legales, con el registro de solicitudes.
 
 == Translations ==
 

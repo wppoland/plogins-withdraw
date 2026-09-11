@@ -54,8 +54,8 @@ msgid "Does it issue refunds automatically?"
 msgstr "Werden Rückerstattungen automatisch ausgelöst?"
 
 #. Found in installation list item.
-msgid "Go to <strong>WooCommerce → Withdrawal</strong>, select that page as the withdrawal form page, set the withdrawal period and eligible order statuses, and adjust the notification email and legal texts."
-msgstr "Gehen Sie zu <strong>WooCommerce → Widerruf</strong>, wählen Sie diese Seite als Seite mit dem Widerrufsformular aus, legen Sie die Widerrufsfrist und die berechtigten Bestellstatus fest und passen Sie die Benachrichtigungs-E-Mail sowie die Rechtstexte an."
+msgid "Go to <strong>WooCommerce > Withdrawal</strong>, select that page as the withdrawal form page, set the withdrawal period and eligible order statuses, and adjust the notification email and legal texts."
+msgstr "Gehen Sie zu <strong>WooCommerce > Widerruf</strong>, wählen Sie diese Seite als Seite mit dem Widerrufsformular aus, legen Sie die Widerrufsfrist und die berechtigten Bestellstatus fest und passen Sie die Benachrichtigungs-E-Mail sowie die Rechtstexte an."
 
 #. Found in installation list item.
 msgid "Create a page and add the <code>[withdraw_form]</code> shortcode."
@@ -110,8 +110,8 @@ msgid "<strong>Emails</strong>: automatic confirmation to the customer and notif
 msgstr "<strong>E-Mails</strong>: automatische Bestätigung an die Kundschaft und Benachrichtigung an den Shop."
 
 #. Found in description list item.
-msgid "<strong>Admin log</strong>: a WooCommerce → Withdrawal Requests screen lists every request with its items, customer and status (pending, accepted, rejected, processed), filterable by status."
-msgstr "<strong>Admin-Protokoll</strong>: Die Seite WooCommerce → Widerrufsanträge listet jeden Antrag mit Artikeln, Kundendaten und Status auf (ausstehend, akzeptiert, abgelehnt, bearbeitet), filterbar nach Status."
+msgid "<strong>Admin log</strong>: a WooCommerce > Withdrawal Requests screen lists every request with its items, customer and status (pending, accepted, rejected, processed), filterable by status."
+msgstr "<strong>Admin-Protokoll</strong>: Die Seite WooCommerce > Widerrufsanträge listet jeden Antrag mit Artikeln, Kundendaten und Status auf (ausstehend, akzeptiert, abgelehnt, bearbeitet), filterbar nach Status."
 
 #. Found in description list item.
 msgid "<strong>Withdrawal-period check</strong>: configurable period (statutory minimum 14 days), measured from delivery (order completion) or, if never completed, from the order date."
@@ -142,8 +142,8 @@ msgid "What it does"
 msgstr "Was das Plugin kann"
 
 #. Screenshot description.
-msgid "Settings (WooCommerce → Withdrawal): withdrawal period, form page, eligible statuses, notification email and legal texts, with the request log."
-msgstr "Einstellungen (WooCommerce → Widerruf): Widerrufsfrist, Formularseite, berechtigte Status, Benachrichtigungs-E-Mail und Rechtstexte, mit dem Antragsprotokoll."
+msgid "Settings (WooCommerce > Withdrawal): withdrawal period, form page, eligible statuses, notification email and legal texts, with the request log."
+msgstr "Einstellungen (WooCommerce > Widerruf): Widerrufsfrist, Formularseite, berechtigte Status, Benachrichtigungs-E-Mail und Rechtstexte, mit dem Antragsprotokoll."
 
 #. Screenshot description.
 msgid "Item selection: full or partial withdrawal with per-item quantities, the model withdrawal text and the declaration."

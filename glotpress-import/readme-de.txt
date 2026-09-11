@@ -23,7 +23,7 @@ Es handelt sich um ein <strong>Request-and-Log</strong>-Plugin: Es erfasst die W
 * <strong>Vollständiger oder teilweiser Widerruf</strong>: Der Kunde wählt, wie viele Einheiten jedes Artikels er widerrufen möchte.
 * <strong>Widerrufs-Button in „Mein Konto“</strong>: Unter den Bestelldetails erscheint ein Button „Von dieser Bestellung widerrufen“, der auf deine Widerrufsseite mit der bereits ausgefüllten Bestellung verlinkt.
 * <strong>Prüfung der Widerrufsfrist</strong>: konfigurierbarer Zeitraum (gesetzlich mindestens 14 Tage), gemessen ab Lieferung (Abschluss der Bestellung) oder, falls nie abgeschlossen, ab dem Bestelldatum.
-* <strong>Admin-Protokoll</strong>: Der Bildschirm WooCommerce → Widerrufsanträge listet jeden Antrag mit seinen Artikeln, dem Kunden und dem Status (ausstehend, akzeptiert, abgelehnt, verarbeitet) auf und lässt sich nach Status filtern.
+* <strong>Admin-Protokoll</strong>: Der Bildschirm WooCommerce > Widerrufsanträge listet jeden Antrag mit seinen Artikeln, dem Kunden und dem Status (ausstehend, akzeptiert, abgelehnt, verarbeitet) auf und lässt sich nach Status filtern.
 * <strong>E-Mails</strong>: automatische Bestätigung an den Kunden und Benachrichtigung an den Shop.
 * <strong>Muster-Widerrufstext</strong>: ein bearbeitbarer Block im Formular für das gesetzliche Muster-Widerrufsformular (Anhang I.B).
 * <strong>Gastfreundlich</strong>: kein Konto erforderlich; die Suche nach Bestellnummer und Rechnungs-E-Mail funktioniert für Gastbestellungen.
@@ -40,7 +40,7 @@ Es handelt sich um ein <strong>Request-and-Log</strong>-Plugin: Es erfasst die W
 1. Installiere und aktiviere WooCommerce.
 2. Installiere und aktiviere Plogins Withdraw.
 3. Erstelle eine Seite und füge den Shortcode `[withdraw_form]` hinzu.
-4. Gehe zu <strong>WooCommerce → Widerruf</strong>, wähle diese Seite als Seite des Widerrufsformulars aus, lege die Widerrufsfrist und die berechtigten Bestellstatus fest und passe die Benachrichtigungs-E-Mail und die Rechtstexte an.
+4. Gehe zu <strong>WooCommerce > Widerruf</strong>, wähle diese Seite als Seite des Widerrufsformulars aus, lege die Widerrufsfrist und die berechtigten Bestellstatus fest und passe die Benachrichtigungs-E-Mail und die Rechtstexte an.
 
 == Frequently Asked Questions ==
 
@@ -60,7 +60,7 @@ Ja. Bestellungen werden über die WooCommerce-Bestell-API gelesen, die HPOS-komp
 
 1. Das Widerrufsantragsformular: Bestellsuche nach Nummer und Rechnungs-E-Mail (gastfreundlich), mit der 14-tägigen Widerrufsbelehrung.
 2. Artikelauswahl: vollständiger oder teilweiser Widerruf mit Mengen pro Artikel, dem Muster-Widerrufstext und der Erklärung.
-3. Einstellungen (WooCommerce → Widerruf): Widerrufsfrist, Formularseite, berechtigte Status, Benachrichtigungs-E-Mail und Rechtstexte, mit dem Antragsprotokoll.
+3. Einstellungen (WooCommerce > Widerruf): Widerrufsfrist, Formularseite, berechtigte Status, Benachrichtigungs-E-Mail und Rechtstexte, mit dem Antragsprotokoll.
 
 == Translations ==
 

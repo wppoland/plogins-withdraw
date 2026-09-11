@@ -17,7 +17,7 @@ use const Withdraw\VERSION;
 defined('ABSPATH') || exit;
 
 /**
- * A single, sectioned settings screen (WooCommerce → Withdrawal) for the
+ * A single, sectioned settings screen (WooCommerce > Withdrawal) for the
  * `withdraw_settings` option, with inline help on every field.
  */
 final class Settings implements HasHooks
@@ -128,7 +128,7 @@ final class Settings implements HasHooks
         ?>
         <div class="wrap withdraw-settings">
             <h1><span class="withdraw-logo" aria-hidden="true"></span> <?php echo esc_html__('Right of Withdrawal', 'plogins-withdraw'); ?></h1>
-            <p class="withdraw-intro"><?php echo esc_html__('Complies with EU Directive 2023/2673 (Art. 11a): an easy withdrawal function letting customers declare a full or partial withdrawal for their orders. Requests are logged under WooCommerce → Withdrawal Requests.', 'plogins-withdraw'); ?></p>
+            <p class="withdraw-intro"><?php echo esc_html__('Complies with EU Directive 2023/2673 (Art. 11a): an easy withdrawal function letting customers declare a full or partial withdrawal for their orders. Requests are logged under WooCommerce > Withdrawal Requests.', 'plogins-withdraw'); ?></p>
 
             <p class="withdraw-counts">
                 <strong><?php echo esc_html__('Requests:', 'plogins-withdraw'); ?></strong>

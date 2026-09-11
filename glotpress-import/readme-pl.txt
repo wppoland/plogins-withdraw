@@ -23,7 +23,7 @@ To wtyczka typu <strong>zgłoś i zarejestruj</strong>: rejestruje oświadczenie
 * <strong>Odstąpienie całkowite lub częściowe</strong>: klient wybiera, ile sztuk każdej pozycji chce zwrócić.
 * <strong>Przycisk odstąpienia w Moim koncie</strong>: pod szczegółami zamówienia pojawia się przycisk „Odstąp od tego zamówienia”, który prowadzi do Twojej strony odstąpienia z wypełnionym zamówieniem.
 * <strong>Sprawdzanie terminu odstąpienia</strong>: konfigurowalny okres (ustawowe minimum 14 dni), liczony od dostawy (realizacji zamówienia) lub, jeśli zamówienie nie zostało zrealizowane, od daty zamówienia.
-* <strong>Dziennik w panelu administracyjnym</strong>: ekran WooCommerce → Wnioski o odstąpienie zawiera listę wszystkich wniosków wraz z pozycjami, klientem i statusem (oczekujący, zaakceptowany, odrzucony, przetworzony), z filtrowaniem według statusu.
+* <strong>Dziennik w panelu administracyjnym</strong>: ekran WooCommerce > Wnioski o odstąpienie zawiera listę wszystkich wniosków wraz z pozycjami, klientem i statusem (oczekujący, zaakceptowany, odrzucony, przetworzony), z filtrowaniem według statusu.
 * <strong>E-maile</strong>: automatyczne potwierdzenie dla klienta i powiadomienie do sklepu.
 * <strong>Wzorcowy tekst odstąpienia</strong>: edytowalny blok na formularzu z ustawowym wzorem formularza odstąpienia (Załącznik I.B).
 * <strong>Przyjazny dla gości</strong>: konto nie jest potrzebne; wyszukiwanie po numerze zamówienia i adresie e-mail rozliczeniowym działa dla zamówień gości.
@@ -40,7 +40,7 @@ To wtyczka typu <strong>zgłoś i zarejestruj</strong>: rejestruje oświadczenie
 1. Zainstaluj i włącz WooCommerce.
 2. Zainstaluj i włącz Plogins Withdraw.
 3. Utwórz stronę i dodaj shortcode `[withdraw_form]`.
-4. Przejdź do <strong>WooCommerce → Odstąpienie</strong>, wybierz tę stronę jako stronę formularza odstąpienia, ustaw termin odstąpienia i kwalifikujące się statusy zamówień oraz dostosuj e-mail powiadomienia i teksty prawne.
+4. Przejdź do <strong>WooCommerce > Odstąpienie</strong>, wybierz tę stronę jako stronę formularza odstąpienia, ustaw termin odstąpienia i kwalifikujące się statusy zamówień oraz dostosuj e-mail powiadomienia i teksty prawne.
 
 == Frequently Asked Questions ==
 
@@ -60,7 +60,7 @@ Tak. Zamówienia są odczytywane przez API zamówień WooCommerce, które jest z
 
 1. Formularz wniosku o odstąpienie: wyszukiwanie zamówienia po numerze i adresie e-mail rozliczeniowym (przyjazny dla gości), z informacją o 14-dniowym prawie do odstąpienia.
 2. Wybór pozycji: odstąpienie całkowite lub częściowe z ilościami dla poszczególnych pozycji, wzorcowy tekst odstąpienia i oświadczenie.
-3. Ustawienia (WooCommerce → Odstąpienie): termin odstąpienia, strona formularza, kwalifikujące się statusy, e-mail powiadomienia i teksty prawne, z dziennikiem wniosków.
+3. Ustawienia (WooCommerce > Odstąpienie): termin odstąpienia, strona formularza, kwalifikujące się statusy, e-mail powiadomienia i teksty prawne, z dziennikiem wniosków.
 
 == Translations ==
 
