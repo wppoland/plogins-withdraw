@@ -161,14 +161,14 @@ msgstr "Página del formulario de desistimiento"
 
 #: src/Admin/Settings.php:152
 msgid "Select a page"
-msgstr "Seleccione una página"
+msgstr "Selecciona una página"
 
 #: src/Admin/Settings.php:155
 msgid ""
 "Create a page with the [withdraw_form] shortcode, then select it here so the"
 " My Account button can link to it."
 msgstr ""
-"Cree una página con el código abreviado [withdraw_form], luego selecciónela "
+"Crea una página con el código abreviado [withdraw_form], luego selecciónala "
 "aquí para que el botón Mi cuenta pueda vincularla."
 
 #: src/Admin/Settings.php:164
@@ -202,7 +202,7 @@ msgid ""
 "Where new-request notifications are sent. Leave empty to use the site admin "
 "email. The customer always gets a confirmation at their own address."
 msgstr ""
-"Dónde se envían las notificaciones de nuevas solicitudes. Déjelo vacío para "
+"Dónde se envían las notificaciones de nuevas solicitudes. Déjalo vacío para "
 "usar el correo electrónico del administrador del sitio. El cliente siempre "
 "recibe una confirmación en su propia dirección."
 
@@ -228,7 +228,7 @@ msgstr "Texto de retirada del modelo"
 msgid ""
 "Shown on the form. Adapt to the statutory model withdrawal form (Annex I.B)."
 msgstr ""
-"Se muestra en el formulario. Adáptese al modelo reglamentario de formulario "
+"Se muestra en el formulario. Adáptate al modelo reglamentario de formulario "
 "de desistimiento (Anexo I.B)."
 
 #: src/Frontend/MyAccount.php:46
@@ -249,7 +249,7 @@ msgstr "Este pedido ya no es elegible para el desistimiento."
 
 #: src/Service/WithdrawalService.php:150
 msgid "Please select at least one item to withdraw from."
-msgstr "Seleccione al menos un artículo del que desea desistir."
+msgstr "Selecciona al menos un artículo del que deseas desistir."
 
 #: src/Service/WithdrawalService.php:196
 msgid "This order is not in a status that can be withdrawn."
@@ -269,7 +269,7 @@ msgstr ""
 #: src/Service/WithdrawalService.php:229
 #, php-format
 msgid "Your withdrawal request for order #%s"
-msgstr "Su solicitud de desistimiento para el pedido #%s"
+msgstr "Tu solicitud de desistimiento para el pedido #%s"
 
 #. translators: 1: order number, 2: item list, 3: reason
 #: src/Service/WithdrawalService.php:234
@@ -284,14 +284,14 @@ msgid ""
 "\n"
 "We will confirm the next steps by email."
 msgstr ""
-"Recibimos su solicitud de desistimiento para el pedido n.° %1$s.\n"
+"Recibimos tu solicitud de desistimiento para el pedido n.° %1$s.\n"
 "\n"
 "Artículos:\n"
 "%2$s\n"
 "\n"
 "Razón: %3$s\n"
 "\n"
-"Le confirmaremos los próximos pasos por correo electrónico."
+"Te confirmaremos los próximos pasos por correo electrónico."
 
 #: src/Service/WithdrawalService.php:237 src/Service/WithdrawalService.php:255
 msgid "(none given)"
@@ -338,8 +338,8 @@ msgid ""
 "Your withdrawal request #%1$d for order #%2$s has been recorded. We have "
 "emailed you a confirmation and will follow up with the next steps."
 msgstr ""
-"Se ha registrado su solicitud de desistimiento #%1$d para el pedido #%2$s. "
-"Le hemos enviado una confirmación por correo electrónico y seguiremos con "
+"Se ha registrado tu solicitud de desistimiento #%1$d para el pedido #%2$s. "
+"Te hemos enviado una confirmación por correo electrónico y seguiremos con "
 "los siguientes pasos."
 
 #. translators: %s: order number
@@ -395,7 +395,7 @@ msgid ""
 "You have the right to withdraw from this contract within %d days without "
 "giving any reason."
 msgstr ""
-"Tiene derecho a rescindir este contrato dentro de %d días sin dar ningún "
+"Tienes derecho a rescindir este contrato dentro de %d días sin dar ningún "
 "motivo."
 
 #: templates/form-lookup.php:42
