@@ -260,8 +260,8 @@ final class WithdrawalService implements HasHooks
      */
     private function selectedItems(\WC_Order $order, array $excluded = []): array
     {
-        // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- nonce verified by the caller, values cast with absint below.
-        $rawQty = isset($_POST['withdraw_qty']) && is_array($_POST['withdraw_qty']) ? wp_unslash($_POST['withdraw_qty']) : [];
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- nonce verified by the caller.
+        $rawQty = isset($_POST['withdraw_qty']) && is_array($_POST['withdraw_qty']) ? map_deep(wp_unslash($_POST['withdraw_qty']), 'absint') : [];
         $items  = [];
 
         foreach ($order->get_items() as $itemId => $item) {
