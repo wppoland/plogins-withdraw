@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Plogins Withdraw - EU Right of Withdrawal & Returns for "
 "WooCommerce 0.1.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/plogins-withdraw\n"
-"POT-Creation-Date: 2026-09-08T13:05:35+00:00\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/withdraw\n"
+"POT-Creation-Date: 2026-09-26T04:48:59+00:00\n"
 "PO-Revision-Date: 2026-07-07T18:00:00+00:00\n"
 "Last-Translator: motylanogha <szatkowski.mariusz@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -19,8 +19,8 @@ msgstr ""
 
 #. Plugin Name of the plugin
 #: plogins-withdraw.php
-msgid "Plogins Withdraw - EU Right of Withdrawal & Returns for WooCommerce"
-msgstr "Plogins Withdraw - desistimiento y devoluciones para WooCommerce"
+msgid "Withdraw - EU Right of Withdrawal & Returns for WooCommerce"
+msgstr "Withdraw - desistimiento y devoluciones para WooCommerce"
 
 #. Plugin URI of the plugin
 #: plogins-withdraw.php
@@ -366,8 +366,7 @@ msgstr ""
 msgid "Link text"
 msgstr ""
 
-#: src/Admin/Settings.php:216 src/Frontend/MyAccount.php:50
-#: src/Frontend/WithdrawLink.php:65
+#: src/Admin/Settings.php:216 src/Frontend/WithdrawLink.php:75
 msgid "Withdraw from contract here"
 msgstr ""
 
@@ -663,7 +662,8 @@ msgid ""
 "cannot withdraw at all."
 msgstr ""
 
-#. translators: 1: order number, 2: link URL, 3: number of minutes the link stays valid
+#. translators: 1: order number, 2: link URL, 3: number of minutes the link
+#. stays valid
 #: src/Email/AccessLinkEmail.php:75
 #, php-format
 msgid ""
@@ -733,7 +733,8 @@ msgstr ""
 msgid "Recipient(s)"
 msgstr ""
 
-#. translators: %s: the address this message goes to when the field is left empty
+#. translators: %s: the address this message goes to when the field is left
+#. empty
 #: src/Email/NewRequestEmail.php:79
 #, php-format
 msgid ""
@@ -801,7 +802,7 @@ msgstr ""
 msgid "Withdrawal request under review"
 msgstr ""
 
-#: src/Frontend/WithdrawLink.php:89
+#: src/Frontend/WithdrawLink.php:99
 msgid "Right of withdrawal"
 msgstr ""
 
@@ -827,7 +828,8 @@ msgstr ""
 msgid "You bear the direct cost of returning the goods."
 msgstr ""
 
-#. translators: %s: the trader's name, address and contact details, each on its own line
+#. translators: %s: the trader's name, address and contact details, each on
+#. its own line
 #: src/Service/StatutoryText.php:94
 #, php-format
 msgid ""
@@ -943,7 +945,8 @@ msgstr ""
 msgid "Please select at least one item to withdraw from."
 msgstr "Selecciona al menos un artículo del que deseas desistir."
 
-#. translators: 1: item list, 2: order number, 3: order date, 4: consumer name, 5: consumer email
+#. translators: 1: item list, 2: order number, 3: order date, 4: consumer
+#. name, 5: consumer email
 #: src/Service/WithdrawalService.php:240
 #, php-format
 msgid ""
@@ -1129,7 +1132,8 @@ msgstr ""
 msgid "Your declaration"
 msgstr ""
 
-#. translators: %s: the reason the customer gave, or a placeholder when none was given
+#. translators: %s: the reason the customer gave, or a placeholder when none
+#. was given
 #: templates/emails/plain/withdraw-acknowledgement.php:64
 #: templates/emails/plain/withdraw-new-request.php:75
 #: templates/emails/withdraw-acknowledgement.php:83

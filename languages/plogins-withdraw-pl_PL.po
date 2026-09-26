@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Plogins Withdraw - EU Right of Withdrawal & Returns for "
 "WooCommerce 0.1.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/plogins-withdraw\n"
-"POT-Creation-Date: 2026-09-08T13:05:35+00:00\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/withdraw\n"
+"POT-Creation-Date: 2026-09-26T04:48:59+00:00\n"
 "PO-Revision-Date: 2026-07-02T09:24:51+00:00\n"
 "Last-Translator: motylanogha <szatkowski.mariusz@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -20,8 +20,8 @@ msgstr ""
 
 #. Plugin Name of the plugin
 #: plogins-withdraw.php
-msgid "Plogins Withdraw - EU Right of Withdrawal & Returns for WooCommerce"
-msgstr "Plogins Withdraw - odstąpienie od umowy i zwroty dla WooCommerce"
+msgid "Withdraw - EU Right of Withdrawal & Returns for WooCommerce"
+msgstr "Withdraw - odstąpienie od umowy i zwroty dla WooCommerce"
 
 #. Plugin URI of the plugin
 #: plogins-withdraw.php
@@ -87,7 +87,11 @@ msgid ""
 "The exclusion only applies to items whose supply has begun. WooCommerce "
 "cannot see downloads it did not serve itself, so files delivered by email or "
 "through an external portal always read as not downloaded."
-msgstr "Wyłączenie dotyczy tylko pozycji, których dostarczanie już się rozpoczęło. WooCommerce nie widzi pobrań, których sam nie obsłużył, więc pliki wysłane e-mailem lub udostępnione przez zewnętrzny portal zawsze figurują jako niepobrane."
+msgstr ""
+"Wyłączenie dotyczy tylko pozycji, których dostarczanie już się rozpoczęło. "
+"WooCommerce nie widzi pobrań, których sam nie obsłużył, więc pliki wysłane e-"
+"mailem lub udostępnione przez zewnętrzny portal zawsze figurują jako "
+"niepobrane."
 
 #: src/Admin/RequestsAdmin.php:36 src/Admin/RequestsAdmin.php:37
 #: src/Admin/RequestsAdmin.php:192
@@ -199,7 +203,10 @@ msgid ""
 "Say why before rejecting. The reason is printed in the email the customer "
 "receives, and it is what your own records will show if the decision is ever "
 "questioned."
-msgstr "Podaj powód przed odrzuceniem. Trafia on do e-maila, który otrzymuje klient, i to on będzie widoczny w Twojej dokumentacji, jeśli decyzja zostanie kiedyś zakwestionowana."
+msgstr ""
+"Podaj powód przed odrzuceniem. Trafia on do e-maila, który otrzymuje klient, "
+"i to on będzie widoczny w Twojej dokumentacji, jeśli decyzja zostanie kiedyś "
+"zakwestionowana."
 
 #: src/Admin/RequestsAdmin.php:373 templates/emails/withdraw-new-request.php:53
 #: templates/form-items.php:56
@@ -223,7 +230,9 @@ msgstr "Nic do zwrotu."
 msgid ""
 "Article 13(1): 14 days from the day the customer told you, and the refund "
 "includes the standard delivery cost they paid."
-msgstr "Art. 13 ust. 1: 14 dni od dnia, w którym klient Cię powiadomił, a zwrot obejmuje zapłacony przez niego standardowy koszt dostawy."
+msgstr ""
+"Art. 13 ust. 1: 14 dni od dnia, w którym klient Cię powiadomił, a zwrot "
+"obejmuje zapłacony przez niego standardowy koszt dostawy."
 
 #: src/Admin/RequestsAdmin.php:412
 msgid "Reason given"
@@ -241,7 +250,9 @@ msgstr "Oświadczenie"
 msgid ""
 "Recorded before 1.4.0, when the declaration was not stored. The "
 "acknowledgement email sent at the time carries it."
-msgstr "Zapisane przed wersją 1.4.0, gdy treść oświadczenia nie była przechowywana. Zawiera ją wysłany wtedy e-mail z potwierdzeniem."
+msgstr ""
+"Zapisane przed wersją 1.4.0, gdy treść oświadczenia nie była przechowywana. "
+"Zawiera ją wysłany wtedy e-mail z potwierdzeniem."
 
 #: src/Admin/RequestsAdmin.php:436
 msgid "Status and your note"
@@ -250,7 +261,8 @@ msgstr "Stan i Twoja notatka"
 #: src/Admin/RequestsAdmin.php:466
 msgid ""
 "Why. Required to reject, and printed in the email the customer receives."
-msgstr "Powód. Wymagany do odrzucenia i trafia do e-maila, który otrzymuje klient."
+msgstr ""
+"Powód. Wymagany do odrzucenia i trafia do e-maila, który otrzymuje klient."
 
 #: src/Admin/RequestsAdmin.php:468
 msgid "Why (needed to reject)"
@@ -363,14 +375,18 @@ msgid ""
 "Article 11a asks for the function to be easily accessible for the whole "
 "withdrawal period, so a footer link, a menu item or the [withdraw_link] "
 "shortcode on a legal page covers the shoppers the order view does not."
-msgstr "Widok zamówienia dociera tylko do zalogowanego klienta, który je ogląda. Art. 11a wymaga, aby funkcja była łatwo dostępna przez cały okres odstąpienia, więc odnośnik w stopce, pozycja w menu lub krótki kod [withdraw_link] na stronie z informacjami prawnymi obejmuje tych kupujących, do których widok zamówienia nie dociera."
+msgstr ""
+"Widok zamówienia dociera tylko do zalogowanego klienta, który je ogląda. "
+"Art. 11a wymaga, aby funkcja była łatwo dostępna przez cały okres "
+"odstąpienia, więc odnośnik w stopce, pozycja w menu lub krótki kod "
+"[withdraw_link] na stronie z informacjami prawnymi obejmuje tych kupujących, "
+"do których widok zamówienia nie dociera."
 
 #: src/Admin/Settings.php:215
 msgid "Link text"
 msgstr "Tekst odnośnika"
 
-#: src/Admin/Settings.php:216 src/Frontend/MyAccount.php:50
-#: src/Frontend/WithdrawLink.php:65
+#: src/Admin/Settings.php:216 src/Frontend/WithdrawLink.php:75
 msgid "Withdraw from contract here"
 msgstr "Odstąp od umowy tutaj"
 
@@ -379,7 +395,10 @@ msgid ""
 "Leave empty for the statutory wording. Article 11a(1) prescribes \"withdraw "
 "from contract here\" or an unambiguous equivalent, so if you change it, keep "
 "it unambiguous."
-msgstr "Pozostaw puste, aby użyć ustawowego brzmienia. Art. 11a ust. 1 przewiduje sformułowanie \"odstąp od umowy tutaj\" lub jednoznaczny odpowiednik, więc jeśli je zmieniasz, zachowaj jednoznaczność."
+msgstr ""
+"Pozostaw puste, aby użyć ustawowego brzmienia. Art. 11a ust. 1 przewiduje "
+"sformułowanie \"odstąp od umowy tutaj\" lub jednoznaczny odpowiednik, więc "
+"jeśli je zmieniasz, zachowaj jednoznaczność."
 
 #: src/Admin/Settings.php:223
 msgid "Guest access"
@@ -387,7 +406,8 @@ msgstr "Dostęp dla gości"
 
 #: src/Admin/Settings.php:228
 msgid "Email a one-time link instead of opening the form straight away"
-msgstr "Wyślij jednorazowy odnośnik e-mailem zamiast od razu otwierać formularz"
+msgstr ""
+"Wyślij jednorazowy odnośnik e-mailem zamiast od razu otwierać formularz"
 
 #: src/Admin/Settings.php:230
 msgid ""
@@ -397,14 +417,23 @@ msgid ""
 "in customers reaching the form from My Account are never asked for a link. "
 "This makes the withdrawal function depend on your shop outgoing email "
 "working."
-msgstr "Domyślnie wyłączone: klient otwiera formularz, podając numer zamówienia i e-mail rozliczeniowy. Po włączeniu formularz wysyła jednorazowy odnośnik na adres rozliczeniowy z zamówienia, więc sama znajomość numeru zamówienia nie wystarczy. Zalogowani klienci, którzy trafiają do formularza z Mojego konta, nigdy nie są proszeni o odnośnik. To uzależnia funkcję odstąpienia od działania poczty wychodzącej Twojego sklepu."
+msgstr ""
+"Domyślnie wyłączone: klient otwiera formularz, podając numer zamówienia i e-"
+"mail rozliczeniowy. Po włączeniu formularz wysyła jednorazowy odnośnik na "
+"adres rozliczeniowy z zamówienia, więc sama znajomość numeru zamówienia nie "
+"wystarczy. Zalogowani klienci, którzy trafiają do formularza z Mojego konta, "
+"nigdy nie są proszeni o odnośnik. To uzależnia funkcję odstąpienia od "
+"działania poczty wychodzącej Twojego sklepu."
 
 #: src/Admin/Settings.php:233
 msgid ""
 "This site is not served over HTTPS. The one-time link travels in a page "
 "address and in a form field, so anyone able to watch the connection can read "
 "it."
-msgstr "Ta witryna nie działa przez HTTPS. Jednorazowy odnośnik podróżuje w adresie strony i w polu formularza, więc każdy, kto może podglądać połączenie, jest w stanie go odczytać."
+msgstr ""
+"Ta witryna nie działa przez HTTPS. Jednorazowy odnośnik podróżuje w adresie "
+"strony i w polu formularza, więc każdy, kto może podglądać połączenie, jest "
+"w stanie go odczytać."
 
 #: src/Admin/Settings.php:239
 msgid "Digital content"
@@ -422,7 +451,13 @@ msgid ""
 "withdrawal. Once a file has actually been downloaded, that item stops being "
 "withdrawable. Virtual products that are not downloadable are services and "
 "are not covered."
-msgstr "Dodaje w kasie jedno opcjonalne, niezaznaczone pole wyboru, gdy koszyk zawiera produkt do pobrania. Niesie ono obie części art. 16 lit. m: żądanie natychmiastowego rozpoczęcia dostarczania oraz potwierdzenie utraty prawa do odstąpienia. Gdy plik zostanie faktycznie pobrany, ta pozycja przestaje podlegać odstąpieniu. Produkty wirtualne, których nie da się pobrać, są usługami i nie są objęte."
+msgstr ""
+"Dodaje w kasie jedno opcjonalne, niezaznaczone pole wyboru, gdy koszyk "
+"zawiera produkt do pobrania. Niesie ono obie części art. 16 lit. m: żądanie "
+"natychmiastowego rozpoczęcia dostarczania oraz potwierdzenie utraty prawa do "
+"odstąpienia. Gdy plik zostanie faktycznie pobrany, ta pozycja przestaje "
+"podlegać odstąpieniu. Produkty wirtualne, których nie da się pobrać, są "
+"usługami i nie są objęte."
 
 #: src/Admin/Settings.php:249
 msgid ""
@@ -431,14 +466,23 @@ msgid ""
 "access regardless. That is the law working as intended, not a fault: consent "
 "that is a condition of purchase is not freely given, and would not hold up "
 "as an exclusion."
-msgstr "Pole nigdy nie jest obowiązkowe. Klient, który odmówi, zachowuje prawo do odstąpienia i tak czy tak otrzyma plik do pobrania, ponieważ WooCommerce przyznaje dostęp do plików niezależnie od zgody. Tak właśnie ma działać prawo, to nie usterka: zgoda będąca warunkiem zakupu nie jest dobrowolna i nie obroniłaby się jako wyłączenie."
+msgstr ""
+"Pole nigdy nie jest obowiązkowe. Klient, który odmówi, zachowuje prawo do "
+"odstąpienia i tak czy tak otrzyma plik do pobrania, ponieważ WooCommerce "
+"przyznaje dostęp do plików niezależnie od zgody. Tak właśnie ma działać "
+"prawo, to nie usterka: zgoda będąca warunkiem zakupu nie jest dobrowolna i "
+"nie obroniłaby się jako wyłączenie."
 
 #: src/Admin/Settings.php:252
 msgid ""
 "Turning this back off restores the right of withdrawal on past orders too. "
 "Granting a withdrawal you could have refused is always lawful; honouring "
 "consent from a feature you have switched off would be the surprising outcome."
-msgstr "Ponowne wyłączenie przywraca prawo do odstąpienia także dla wcześniejszych zamówień. Przyznanie odstąpienia, którego mogłeś odmówić, jest zawsze zgodne z prawem; honorowanie zgody pochodzącej z funkcji, którą wyłączyłeś, byłoby zaskakującym skutkiem."
+msgstr ""
+"Ponowne wyłączenie przywraca prawo do odstąpienia także dla wcześniejszych "
+"zamówień. Przyznanie odstąpienia, którego mogłeś odmówić, jest zawsze zgodne "
+"z prawem; honorowanie zgody pochodzącej z funkcji, którą wyłączyłeś, byłoby "
+"zaskakującym skutkiem."
 
 #: src/Admin/Settings.php:258
 msgid "Emails"
@@ -462,7 +506,10 @@ msgid ""
 "Every message this plugin sends is a WooCommerce email: same template, same "
 "logo, same footer as your order emails, and each one can be reworded or "
 "switched off on its own."
-msgstr "Każda wiadomość wysyłana przez tę wtyczkę jest e-mailem WooCommerce: ten sam szablon, to samo logo i ta sama stopka co w e-mailach o zamówieniach, a każdą z nich można osobno przeredagować lub wyłączyć."
+msgstr ""
+"Każda wiadomość wysyłana przez tę wtyczkę jest e-mailem WooCommerce: ten sam "
+"szablon, to samo logo i ta sama stopka co w e-mailach o zamówieniach, a "
+"każdą z nich można osobno przeredagować lub wyłączyć."
 
 #: src/Admin/Settings.php:273
 msgid "(off)"
@@ -480,13 +527,17 @@ msgstr "Adres do zwrotu"
 msgid ""
 "Printed in the message that tells the customer their withdrawal was "
 "accepted. Leave empty to use your WooCommerce store address."
-msgstr "Umieszczany w wiadomości informującej klienta o przyjęciu odstąpienia. Pozostaw puste, aby użyć adresu sklepu z WooCommerce."
+msgstr ""
+"Umieszczany w wiadomości informującej klienta o przyjęciu odstąpienia. "
+"Pozostaw puste, aby użyć adresu sklepu z WooCommerce."
 
 #: src/Admin/Settings.php:290
 msgid ""
 "Neither this field nor your WooCommerce store address is filled in, so the "
 "acceptance message will not say where to send the goods."
-msgstr "Ani to pole, ani adres sklepu w WooCommerce nie są wypełnione, więc wiadomość o przyjęciu nie wskaże, dokąd odesłać towar."
+msgstr ""
+"Ani to pole, ani adres sklepu w WooCommerce nie są wypełnione, więc "
+"wiadomość o przyjęciu nie wskaże, dokąd odesłać towar."
 
 #: src/Admin/Settings.php:293
 msgid "Who pays to send the goods back"
@@ -509,7 +560,11 @@ msgid ""
 "Article 14(1) only lets you charge the customer for the return if you told "
 "them so before they bought, in your withdrawal information. If you did not, "
 "the cost is yours, which is why this says nothing until you choose."
-msgstr "Art. 14 ust. 1 pozwala obciążyć klienta kosztem zwrotu tylko wtedy, gdy poinformowałeś go o tym przed zakupem, w swojej informacji o odstąpieniu. Jeśli tego nie zrobiłeś, koszt jest po Twojej stronie, dlatego dopóki nie wybierzesz, nie pojawia się żadna informacja."
+msgstr ""
+"Art. 14 ust. 1 pozwala obciążyć klienta kosztem zwrotu tylko wtedy, gdy "
+"poinformowałeś go o tym przed zakupem, w swojej informacji o odstąpieniu. "
+"Jeśli tego nie zrobiłeś, koszt jest po Twojej stronie, dlatego dopóki nie "
+"wybierzesz, nie pojawia się żadna informacja."
 
 #: src/Admin/Settings.php:302
 msgid "Return cost, extra wording"
@@ -519,11 +574,14 @@ msgstr "Koszt zwrotu, dodatkowe brzmienie"
 msgid ""
 "Optional, added after the sentence above. Article 6(1)(i) wants an estimate "
 "of the cost for goods that cannot normally be sent back by post."
-msgstr "Opcjonalne, dodawane po powyższym zdaniu. Art. 6 ust. 1 lit. i wymaga oszacowania kosztu dla towarów, których zwykle nie da się odesłać pocztą."
+msgstr ""
+"Opcjonalne, dodawane po powyższym zdaniu. Art. 6 ust. 1 lit. i wymaga "
+"oszacowania kosztu dla towarów, których zwykle nie da się odesłać pocztą."
 
 #: src/Admin/Settings.php:304
 msgid "For example: bulky items are collected by courier, around 40 EUR."
-msgstr "Na przykład: towary wielkogabarytowe odbiera kurier, koszt około 40 EUR."
+msgstr ""
+"Na przykład: towary wielkogabarytowe odbiera kurier, koszt około 40 EUR."
 
 #. translators: %s: the sentence the customer will read
 #: src/Admin/Settings.php:312
@@ -541,7 +599,11 @@ msgid ""
 "tells you they are withdrawing to refund them, including the standard "
 "delivery cost they paid. The request log shows that date and marks it when "
 "it passes."
-msgstr "Twój własny zegar: art. 13 ust. 1 daje Ci 14 dni od dnia, w którym klient informuje Cię o odstąpieniu, na zwrot płatności wraz ze standardowym kosztem dostawy, który zapłacił. Dziennik wniosków pokazuje tę datę i oznacza ją, gdy minie."
+msgstr ""
+"Twój własny zegar: art. 13 ust. 1 daje Ci 14 dni od dnia, w którym klient "
+"informuje Cię o odstąpieniu, na zwrot płatności wraz ze standardowym kosztem "
+"dostawy, który zapłacił. Dziennik wniosków pokazuje tę datę i oznacza ją, "
+"gdy minie."
 
 #: src/Admin/Settings.php:325
 msgid "Legal texts"
@@ -556,7 +618,10 @@ msgid ""
 "The trading name that appears in the model withdrawal form and the "
 "withdrawal instructions. Empty uses the site title. The address comes from "
 "your WooCommerce store address."
-msgstr "Nazwa handlowa, która pojawia się we wzorze formularza odstąpienia i w pouczeniu o odstąpieniu. Puste pole oznacza użycie tytułu witryny. Adres pochodzi z adresu sklepu w WooCommerce."
+msgstr ""
+"Nazwa handlowa, która pojawia się we wzorze formularza odstąpienia i w "
+"pouczeniu o odstąpieniu. Puste pole oznacza użycie tytułu witryny. Adres "
+"pochodzi z adresu sklepu w WooCommerce."
 
 #: src/Admin/Settings.php:333
 msgid "Seller email"
@@ -570,14 +635,18 @@ msgstr "Telefon sprzedawcy"
 msgid ""
 "Annex I asks for a telephone number and email address where available, so a "
 "consumer can declare by any means."
-msgstr "Załącznik I wymaga podania numeru telefonu i adresu e-mail, o ile są dostępne, aby konsument mógł złożyć oświadczenie w dowolny sposób."
+msgstr ""
+"Załącznik I wymaga podania numeru telefonu i adresu e-mail, o ile są "
+"dostępne, aby konsument mógł złożyć oświadczenie w dowolny sposób."
 
 #: src/Admin/Settings.php:340
 msgid ""
 "Your WooCommerce store address is empty, so the model withdrawal form cannot "
 "state a geographical address. Fill it in under WooCommerce, Settings, "
 "General."
-msgstr "Adres sklepu w WooCommerce jest pusty, więc wzór formularza odstąpienia nie może podać adresu pocztowego. Uzupełnij go w WooCommerce, Ustawienia, Ogólne."
+msgstr ""
+"Adres sklepu w WooCommerce jest pusty, więc wzór formularza odstąpienia nie "
+"może podać adresu pocztowego. Uzupełnij go w WooCommerce, Ustawienia, Ogólne."
 
 #: src/Admin/Settings.php:343
 msgid "Form intro text"
@@ -587,7 +656,9 @@ msgstr "Tekst wprowadzający do formularza"
 msgid ""
 "Shown above the order lookup step. Leave empty for the wording below, which "
 "is translated with the rest of the plugin."
-msgstr "Wyświetlane nad krokiem wyszukiwania zamówienia. Pozostaw puste, aby użyć brzmienia poniżej, tłumaczonego razem z resztą wtyczki."
+msgstr ""
+"Wyświetlane nad krokiem wyszukiwania zamówienia. Pozostaw puste, aby użyć "
+"brzmienia poniżej, tłumaczonego razem z resztą wtyczki."
 
 #: src/Admin/Settings.php:348
 msgid "Model withdrawal text"
@@ -598,7 +669,10 @@ msgid ""
 "Shown on the items step. Leave empty and the plugin generates the statutory "
 "model withdrawal form (Annex I.B) from the seller details above, in the "
 "language of the site."
-msgstr "Wyświetlane na kroku z pozycjami. Pozostaw puste, a wtyczka wygeneruje ustawowy wzór formularza odstąpienia (załącznik I.B) z powyższych danych sprzedawcy, w języku witryny."
+msgstr ""
+"Wyświetlane na kroku z pozycjami. Pozostaw puste, a wtyczka wygeneruje "
+"ustawowy wzór formularza odstąpienia (załącznik I.B) z powyższych danych "
+"sprzedawcy, w języku witryny."
 
 #: src/Admin/Settings.php:353
 msgid ""
@@ -607,7 +681,12 @@ msgid ""
 "Put the [withdraw_instructions] shortcode on your terms or returns page and "
 "the plugin generates them from the same details, including your withdrawal "
 "period."
-msgstr "Wzór pouczenia o odstąpieniu (załącznik I.A) to informacja przedumowna, więc jego miejsce jest na osobnej stronie, a nie w formularzu. Umieść krótki kod [withdraw_instructions] na stronie regulaminu lub zwrotów, a wtyczka wygeneruje pouczenie z tych samych danych, łącznie z Twoim okresem odstąpienia."
+msgstr ""
+"Wzór pouczenia o odstąpieniu (załącznik I.A) to informacja przedumowna, więc "
+"jego miejsce jest na osobnej stronie, a nie w formularzu. Umieść krótki kod "
+"[withdraw_instructions] na stronie regulaminu lub zwrotów, a wtyczka "
+"wygeneruje pouczenie z tych samych danych, łącznie z Twoim okresem "
+"odstąpienia."
 
 #: src/Admin/Settings.php:356
 msgid "Digital content consent, extra wording"
@@ -621,11 +700,18 @@ msgid ""
 "immediate delivery would take away a right nobody gave up. Whatever the "
 "customer sees is stored with their order, so editing this later does not "
 "rewrite what earlier customers agreed to."
-msgstr "Opcjonalne i dodawane przed ustawowym zdaniem, a nie zamiast niego. Wtyczka odmawia odstąpienia dla pobranych pozycji na podstawie potwierdzenia zawartego w tym zdaniu, więc brzmienie obiecujące jedynie natychmiastową dostawę odbierałoby prawo, którego nikt się nie zrzekł. To, co widzi klient, jest zapisywane razem z jego zamówieniem, więc późniejsza edycja nie zmienia tego, na co zgodzili się wcześniejsi klienci."
+msgstr ""
+"Opcjonalne i dodawane przed ustawowym zdaniem, a nie zamiast niego. Wtyczka "
+"odmawia odstąpienia dla pobranych pozycji na podstawie potwierdzenia "
+"zawartego w tym zdaniu, więc brzmienie obiecujące jedynie natychmiastową "
+"dostawę odbierałoby prawo, którego nikt się nie zrzekł. To, co widzi klient, "
+"jest zapisywane razem z jego zamówieniem, więc późniejsza edycja nie zmienia "
+"tego, na co zgodzili się wcześniejsi klienci."
 
 #: src/Admin/Settings.php:358
 msgid "For example: these files are available the moment your payment clears."
-msgstr "Na przykład: te pliki są dostępne w chwili zaksięgowania Twojej płatności."
+msgstr ""
+"Na przykład: te pliki są dostępne w chwili zaksięgowania Twojej płatności."
 
 #. translators: %s: the statutory Article 16(m) consent sentence
 #: src/Admin/Settings.php:364
@@ -644,7 +730,10 @@ msgid ""
 "deadline, the return address and who bears the cost of sending the goods "
 "back, which is what Article 14(1) asks for. Set the address and the cost "
 "rule under WooCommerce, Withdrawal."
-msgstr "Wysyłany do klienta, gdy przyjmujesz odstąpienie. Podaje termin odesłania towaru, adres do zwrotu i to, kto ponosi koszt odesłania, czego wymaga art. 14 ust. 1. Adres i zasadę kosztów ustawisz w WooCommerce, Odstąpienie."
+msgstr ""
+"Wysyłany do klienta, gdy przyjmujesz odstąpienie. Podaje termin odesłania "
+"towaru, adres do zwrotu i to, kto ponosi koszt odesłania, czego wymaga art. "
+"14 ust. 1. Adres i zasadę kosztów ustawisz w WooCommerce, Odstąpienie."
 
 #: src/Email/AcceptedEmail.php:48
 msgid "Your withdrawal has been accepted."
@@ -664,9 +753,14 @@ msgid ""
 "the order. Only used while \"Email a one-time link\" is on under "
 "WooCommerce, Withdrawal. With that setting on and this message off, a guest "
 "cannot withdraw at all."
-msgstr "Jednorazowy odnośnik otwierający formularz odstąpienia, wysyłany na adres z zamówienia. Używany tylko wtedy, gdy w WooCommerce, Odstąpienie włączona jest opcja \"Wyślij jednorazowy odnośnik e-mailem\". Przy tym ustawieniu włączonym i tej wiadomości wyłączonej gość w ogóle nie może odstąpić."
+msgstr ""
+"Jednorazowy odnośnik otwierający formularz odstąpienia, wysyłany na adres z "
+"zamówienia. Używany tylko wtedy, gdy w WooCommerce, Odstąpienie włączona "
+"jest opcja \"Wyślij jednorazowy odnośnik e-mailem\". Przy tym ustawieniu "
+"włączonym i tej wiadomości wyłączonej gość w ogóle nie może odstąpić."
 
-#. translators: 1: order number, 2: link URL, 3: number of minutes the link stays valid
+#. translators: 1: order number, 2: link URL, 3: number of minutes the link
+#. stays valid
 #: src/Email/AccessLinkEmail.php:75
 #, php-format
 msgid ""
@@ -679,7 +773,16 @@ msgid ""
 "\n"
 "If you did not ask for this, you can ignore this message. Nothing has been "
 "submitted."
-msgstr "Ktoś poprosił o odstąpienie od zamówienia #%1$s.\n\nOtwórz ten odnośnik, aby wypełnić formularz odstąpienia:\n%2$s\n\nOdnośnik działa przez %3$d minut i można go użyć jeden raz.\n\nJeśli o to nie prosiłeś, możesz zignorować tę wiadomość. Nic nie zostało wysłane."
+msgstr ""
+"Ktoś poprosił o odstąpienie od zamówienia #%1$s.\n"
+"\n"
+"Otwórz ten odnośnik, aby wypełnić formularz odstąpienia:\n"
+"%2$s\n"
+"\n"
+"Odnośnik działa przez %3$d minut i można go użyć jeden raz.\n"
+"\n"
+"Jeśli o to nie prosiłeś, możesz zignorować tę wiadomość. Nic nie zostało "
+"wysłane."
 
 #: src/Email/AccessLinkEmail.php:115
 msgid "Your withdrawal link for order #{order_number}"
@@ -700,7 +803,10 @@ msgid ""
 "repeats the declaration back and states when it was submitted, which is what "
 "Article 11a(4) asks for, so switch it off only if you already send an "
 "acknowledgement of your own."
-msgstr "Wysyłany do klienta w chwili zarejestrowania oświadczenia o odstąpieniu. Powtarza treść oświadczenia i podaje datę jego złożenia, czego wymaga art. 11a ust. 4, więc wyłącz go tylko wtedy, gdy wysyłasz własne potwierdzenie."
+msgstr ""
+"Wysyłany do klienta w chwili zarejestrowania oświadczenia o odstąpieniu. "
+"Powtarza treść oświadczenia i podaje datę jego złożenia, czego wymaga art. "
+"11a ust. 4, więc wyłącz go tylko wtedy, gdy wysyłasz własne potwierdzenie."
 
 #. translators: %d: withdrawal request id
 #: src/Email/AcknowledgementEmail.php:68
@@ -708,7 +814,9 @@ msgstr "Wysyłany do klienta w chwili zarejestrowania oświadczenia o odstąpien
 msgid ""
 "The withdrawal acknowledgement for declaration #%d could not be delivered. "
 "The declaration itself is recorded."
-msgstr "Nie udało się dostarczyć potwierdzenia odstąpienia dla oświadczenia #%d. Samo oświadczenie zostało zarejestrowane."
+msgstr ""
+"Nie udało się dostarczyć potwierdzenia odstąpienia dla oświadczenia #%d. "
+"Samo oświadczenie zostało zarejestrowane."
 
 #: src/Email/AcknowledgementEmail.php:78 src/Email/ProcessedEmail.php:33
 #: src/Email/RejectedEmail.php:33 src/Email/UnderReviewEmail.php:38
@@ -719,7 +827,9 @@ msgstr "Twój wniosek o odstąpienie od zamówienia #{order_number}"
 msgid ""
 "Keep this message: it is your confirmation that the declaration reached us, "
 "and the date above is the date it takes effect from."
-msgstr "Zachowaj tę wiadomość: jest potwierdzeniem, że oświadczenie do nas dotarło, a data powyżej to dzień, od którego ono obowiązuje."
+msgstr ""
+"Zachowaj tę wiadomość: jest potwierdzeniem, że oświadczenie do nas dotarło, "
+"a data powyżej to dzień, od którego ono obowiązuje."
 
 #: src/Email/NewRequestEmail.php:25 src/Email/NewRequestEmail.php:106
 msgid "New withdrawal request"
@@ -730,24 +840,32 @@ msgid ""
 "Sent to the shop when a customer declares a withdrawal. The admin log under "
 "WooCommerce, Withdrawal Requests lists every request whether or not this "
 "message is switched on."
-msgstr "Wysyłany do sklepu, gdy klient składa oświadczenie o odstąpieniu. Dziennik administratora w WooCommerce, Wnioski o odstąpienie wymienia każdy wniosek niezależnie od tego, czy ta wiadomość jest włączona."
+msgstr ""
+"Wysyłany do sklepu, gdy klient składa oświadczenie o odstąpieniu. Dziennik "
+"administratora w WooCommerce, Wnioski o odstąpienie wymienia każdy wniosek "
+"niezależnie od tego, czy ta wiadomość jest włączona."
 
 #: src/Email/NewRequestEmail.php:76
 msgid "Recipient(s)"
 msgstr "Odbiorcy"
 
-#. translators: %s: the address this message goes to when the field is left empty
+#. translators: %s: the address this message goes to when the field is left
+#. empty
 #: src/Email/NewRequestEmail.php:79
 #, php-format
 msgid ""
 "Comma-separated. Leave blank to use %s, which is the notification address "
 "set under WooCommerce, Withdrawal."
-msgstr "Oddzielone przecinkami. Pozostaw puste, aby użyć %s, czyli adresu powiadomień ustawionego w WooCommerce, Odstąpienie."
+msgstr ""
+"Oddzielone przecinkami. Pozostaw puste, aby użyć %s, czyli adresu "
+"powiadomień ustawionego w WooCommerce, Odstąpienie."
 
 #: src/Email/NewRequestEmail.php:101
 msgid ""
 "[{site_title}] New withdrawal request #{request_id} for order #{order_number}"
-msgstr "[{site_title}] Nowy wniosek o odstąpienie #{request_id} dla zamówienia #{order_number}"
+msgstr ""
+"[{site_title}] Nowy wniosek o odstąpienie #{request_id} dla zamówienia "
+"#{order_number}"
 
 #: src/Email/ProcessedEmail.php:15 src/Email/ProcessedEmail.php:38
 #: src/Service/EmailService.php:113
@@ -759,13 +877,19 @@ msgid ""
 "Sent to the customer when you mark a withdrawal request as processed. The "
 "refund itself is made in the normal order screen; this only tells the "
 "customer it happened."
-msgstr "Wysyłany do klienta, gdy oznaczasz wniosek o odstąpienie jako rozpatrzony. Sam zwrot płatności wykonujesz na zwykłym ekranie zamówienia; ta wiadomość tylko informuje klienta, że to się stało."
+msgstr ""
+"Wysyłany do klienta, gdy oznaczasz wniosek o odstąpienie jako rozpatrzony. "
+"Sam zwrot płatności wykonujesz na zwykłym ekranie zamówienia; ta wiadomość "
+"tylko informuje klienta, że to się stało."
 
 #: src/Email/ProcessedEmail.php:28
 msgid ""
 "Your withdrawal has been processed and the refund has been issued. Depending "
 "on your bank it can take a few working days to appear."
-msgstr "Twoje odstąpienie zostało rozpatrzone, a zwrot płatności wykonany. W zależności od banku może on pojawić się na koncie w ciągu kilku dni roboczych."
+msgstr ""
+"Twoje odstąpienie zostało rozpatrzone, a zwrot płatności wykonany. W "
+"zależności od banku może on pojawić się na koncie w ciągu kilku dni "
+"roboczych."
 
 #: src/Email/RejectedEmail.php:15 src/Service/EmailService.php:112
 msgid "Withdrawal rejected"
@@ -773,13 +897,16 @@ msgstr "Odstąpienie odrzucone"
 
 #: src/Email/RejectedEmail.php:16
 msgid "Sent to the customer when you mark a withdrawal request as rejected."
-msgstr "Wysyłany do klienta, gdy oznaczasz wniosek o odstąpienie jako odrzucony."
+msgstr ""
+"Wysyłany do klienta, gdy oznaczasz wniosek o odstąpienie jako odrzucony."
 
 #: src/Email/RejectedEmail.php:28
 msgid ""
 "Your withdrawal request could not be accepted. If you believe this is a "
 "mistake, reply to this email and we will look at it again."
-msgstr "Twojego wniosku o odstąpienie nie udało się przyjąć. Jeśli uważasz, że to pomyłka, odpowiedz na tę wiadomość, a przyjrzymy się jej ponownie."
+msgstr ""
+"Twojego wniosku o odstąpienie nie udało się przyjąć. Jeśli uważasz, że to "
+"pomyłka, odpowiedz na tę wiadomość, a przyjrzymy się jej ponownie."
 
 #: src/Email/RejectedEmail.php:38
 msgid "Withdrawal request rejected"
@@ -792,19 +919,22 @@ msgstr "Odstąpienie w trakcie rozpatrywania"
 #: src/Email/UnderReviewEmail.php:21
 msgid ""
 "Sent to the customer when you move a withdrawal request back to pending."
-msgstr "Wysyłany do klienta, gdy cofasz wniosek o odstąpienie do stanu oczekującego."
+msgstr ""
+"Wysyłany do klienta, gdy cofasz wniosek o odstąpienie do stanu oczekującego."
 
 #: src/Email/UnderReviewEmail.php:33
 msgid ""
 "Your withdrawal request is being reviewed. We will write again as soon as "
 "there is an outcome."
-msgstr "Twój wniosek o odstąpienie jest rozpatrywany. Napiszemy ponownie, gdy tylko będzie rozstrzygnięcie."
+msgstr ""
+"Twój wniosek o odstąpienie jest rozpatrywany. Napiszemy ponownie, gdy tylko "
+"będzie rozstrzygnięcie."
 
 #: src/Email/UnderReviewEmail.php:43
 msgid "Withdrawal request under review"
 msgstr "Wniosek o odstąpienie w trakcie rozpatrywania"
 
-#: src/Frontend/WithdrawLink.php:89
+#: src/Frontend/WithdrawLink.php:99
 msgid "Right of withdrawal"
 msgstr "Prawo do odstąpienia od umowy"
 
@@ -812,7 +942,10 @@ msgstr "Prawo do odstąpienia od umowy"
 msgid ""
 "I ask you to begin supplying the digital content immediately and I "
 "acknowledge that I lose my right of withdrawal once the supply has begun."
-msgstr "Żądam natychmiastowego rozpoczęcia dostarczania treści cyfrowych i przyjmuję do wiadomości, że z chwilą rozpoczęcia dostarczania tracę prawo do odstąpienia od umowy."
+msgstr ""
+"Żądam natychmiastowego rozpoczęcia dostarczania treści cyfrowych i przyjmuję "
+"do wiadomości, że z chwilą rozpoczęcia dostarczania tracę prawo do "
+"odstąpienia od umowy."
 
 #: src/Service/DigitalConsentService.php:181
 msgid "Whether the cart contains at least one downloadable product."
@@ -830,7 +963,8 @@ msgstr "Bezpośredni koszt odesłania towaru ponosimy my."
 msgid "You bear the direct cost of returning the goods."
 msgstr "Bezpośredni koszt odesłania towaru ponosisz Ty."
 
-#. translators: %s: the trader's name, address and contact details, each on its own line
+#. translators: %s: the trader's name, address and contact details, each on
+#. its own line
 #: src/Service/StatutoryText.php:94
 #, php-format
 msgid ""
@@ -851,7 +985,24 @@ msgid ""
 "Address of consumer:\n"
 "\n"
 "Date:"
-msgstr "Wzór formularza odstąpienia od umowy\n(formularz ten należy wypełnić i odesłać tylko w przypadku chęci odstąpienia od umowy)\n\nAdresat:\n%s\n\nNiniejszym informuję o moim odstąpieniu od umowy sprzedaży następujących towarów:\n\nData zamówienia / data odbioru:\n\nImię i nazwisko konsumenta:\n\nAdres konsumenta:\n\nData:"
+msgstr ""
+"Wzór formularza odstąpienia od umowy\n"
+"(formularz ten należy wypełnić i odesłać tylko w przypadku chęci odstąpienia "
+"od umowy)\n"
+"\n"
+"Adresat:\n"
+"%s\n"
+"\n"
+"Niniejszym informuję o moim odstąpieniu od umowy sprzedaży następujących "
+"towarów:\n"
+"\n"
+"Data zamówienia / data odbioru:\n"
+"\n"
+"Imię i nazwisko konsumenta:\n"
+"\n"
+"Adres konsumenta:\n"
+"\n"
+"Data:"
 
 #: src/Service/StatutoryText.php:95 src/Service/StatutoryText.php:123
 msgid "(the seller's name and address)"
@@ -865,7 +1016,12 @@ msgid ""
 "giving any reason. The withdrawal period will expire after %2$d days from "
 "the day on which you acquire, or a third party other than the carrier and "
 "indicated by you acquires, physical possession of the goods."
-msgstr "Mają Państwo prawo odstąpić od niniejszej umowy w terminie %1$d dni bez podania jakiejkolwiek przyczyny. Termin do odstąpienia od umowy wygasa po upływie %2$d dni od dnia, w którym weszli Państwo w posiadanie towarów lub w którym osoba trzecia inna niż przewoźnik i wskazana przez Państwa weszła w posiadanie towarów."
+msgstr ""
+"Mają Państwo prawo odstąpić od niniejszej umowy w terminie %1$d dni bez "
+"podania jakiejkolwiek przyczyny. Termin do odstąpienia od umowy wygasa po "
+"upływie %2$d dni od dnia, w którym weszli Państwo w posiadanie towarów lub w "
+"którym osoba trzecia inna niż przewoźnik i wskazana przez Państwa weszła w "
+"posiadanie towarów."
 
 #. translators: %s: the trader's name, address and contact details
 #: src/Service/StatutoryText.php:122
@@ -875,7 +1031,12 @@ msgid ""
 "withdraw from this contract by an unequivocal statement. Our details are:\n"
 "\n"
 "%s"
-msgstr "Aby skorzystać z prawa odstąpienia od umowy, muszą Państwo poinformować nas o swojej decyzji o odstąpieniu od niniejszej umowy w drodze jednoznacznego oświadczenia. Nasze dane:\n\n%s"
+msgstr ""
+"Aby skorzystać z prawa odstąpienia od umowy, muszą Państwo poinformować nas "
+"o swojej decyzji o odstąpieniu od niniejszej umowy w drodze jednoznacznego "
+"oświadczenia. Nasze dane:\n"
+"\n"
+"%s"
 
 #: src/Service/StatutoryText.php:126
 msgid ""
@@ -883,7 +1044,12 @@ msgid ""
 "this site, but it is not obligatory. To meet the withdrawal deadline, it is "
 "enough for you to send your communication concerning your exercise of the "
 "right of withdrawal before the withdrawal period has expired."
-msgstr "Mogą Państwo skorzystać ze wzoru formularza odstąpienia od umowy poniżej lub z funkcji odstąpienia na tej stronie, jednak nie jest to obowiązkowe. Aby zachować termin do odstąpienia od umowy, wystarczy, aby wysłali Państwo informację dotyczącą wykonania przysługującego Państwu prawa odstąpienia przed upływem terminu do odstąpienia od umowy."
+msgstr ""
+"Mogą Państwo skorzystać ze wzoru formularza odstąpienia od umowy poniżej lub "
+"z funkcji odstąpienia na tej stronie, jednak nie jest to obowiązkowe. Aby "
+"zachować termin do odstąpienia od umowy, wystarczy, aby wysłali Państwo "
+"informację dotyczącą wykonania przysługującego Państwu prawa odstąpienia "
+"przed upływem terminu do odstąpienia od umowy."
 
 #: src/Service/StatutoryText.php:128
 msgid "Effects of withdrawal"
@@ -901,14 +1067,28 @@ msgid ""
 "used for the initial transaction, unless you have expressly agreed "
 "otherwise; in any event, you will not incur any fees as a result of such "
 "reimbursement."
-msgstr "W przypadku odstąpienia od niniejszej umowy zwracamy Państwu wszystkie otrzymane od Państwa płatności, w tym koszty dostarczenia towaru, z wyjątkiem dodatkowych kosztów wynikających z wybranego przez Państwa sposobu dostarczenia innego niż najtańszy zwykły sposób dostarczenia oferowany przez nas, niezwłocznie, a w każdym przypadku nie później niż 14 dni od dnia, w którym zostaliśmy poinformowani o Państwa decyzji o wykonaniu prawa odstąpienia od niniejszej umowy. Zwrotu płatności dokonamy przy użyciu takich samych sposobów płatności, jakie zostały przez Państwa użyte w pierwotnej transakcji, chyba że wyraźnie zgodzili się Państwo na inne rozwiązanie; w każdym przypadku nie poniosą Państwo żadnych opłat w związku z tym zwrotem."
+msgstr ""
+"W przypadku odstąpienia od niniejszej umowy zwracamy Państwu wszystkie "
+"otrzymane od Państwa płatności, w tym koszty dostarczenia towaru, z "
+"wyjątkiem dodatkowych kosztów wynikających z wybranego przez Państwa sposobu "
+"dostarczenia innego niż najtańszy zwykły sposób dostarczenia oferowany przez "
+"nas, niezwłocznie, a w każdym przypadku nie później niż 14 dni od dnia, w "
+"którym zostaliśmy poinformowani o Państwa decyzji o wykonaniu prawa "
+"odstąpienia od niniejszej umowy. Zwrotu płatności dokonamy przy użyciu "
+"takich samych sposobów płatności, jakie zostały przez Państwa użyte w "
+"pierwotnej transakcji, chyba że wyraźnie zgodzili się Państwo na inne "
+"rozwiązanie; w każdym przypadku nie poniosą Państwo żadnych opłat w związku "
+"z tym zwrotem."
 
 #: src/Service/StatutoryText.php:132
 msgid ""
 "We may withhold reimbursement until we have received the goods back or you "
 "have supplied evidence of having sent back the goods, whichever is the "
 "earliest."
-msgstr "Możemy wstrzymać się ze zwrotem płatności do czasu otrzymania towaru lub do czasu dostarczenia nam dowodu jego odesłania, w zależności od tego, które zdarzenie nastąpi wcześniej."
+msgstr ""
+"Możemy wstrzymać się ze zwrotem płatności do czasu otrzymania towaru lub do "
+"czasu dostarczenia nam dowodu jego odesłania, w zależności od tego, które "
+"zdarzenie nastąpi wcześniej."
 
 #: src/Service/StatutoryText.php:134
 msgid ""
@@ -916,20 +1096,29 @@ msgid ""
 "and in any event not later than 14 days from the day on which you "
 "communicate your withdrawal from this contract to us. The deadline is met if "
 "you send back the goods before the period of 14 days has expired."
-msgstr "Proszę odesłać lub przekazać nam towar niezwłocznie, a w każdym razie nie później niż 14 dni od dnia, w którym poinformowali nas Państwo o odstąpieniu od niniejszej umowy. Termin jest zachowany, jeżeli odeślą Państwo towar przed upływem terminu 14 dni."
+msgstr ""
+"Proszę odesłać lub przekazać nam towar niezwłocznie, a w każdym razie nie "
+"później niż 14 dni od dnia, w którym poinformowali nas Państwo o odstąpieniu "
+"od niniejszej umowy. Termin jest zachowany, jeżeli odeślą Państwo towar "
+"przed upływem terminu 14 dni."
 
 #: src/Service/StatutoryText.php:145
 msgid ""
 "You are only liable for any diminished value of the goods resulting from "
 "handling other than what is necessary to establish the nature, "
 "characteristics and functioning of the goods."
-msgstr "Odpowiadają Państwo tylko za zmniejszenie wartości towaru wynikające z korzystania z niego w sposób inny niż było to konieczne do stwierdzenia charakteru, cech i funkcjonowania towaru."
+msgstr ""
+"Odpowiadają Państwo tylko za zmniejszenie wartości towaru wynikające z "
+"korzystania z niego w sposób inny niż było to konieczne do stwierdzenia "
+"charakteru, cech i funkcjonowania towaru."
 
 #: src/Service/StatutoryText.php:165
 msgid ""
 "Use this form to withdraw from your purchase. Select the items you are "
 "withdrawing from, then confirm the declaration on the next step."
-msgstr "Skorzystaj z tego formularza, aby odstąpić od zakupu. Wybierz pozycje, od których odstępujesz, a następnie potwierdź oświadczenie w kolejnym kroku."
+msgstr ""
+"Skorzystaj z tego formularza, aby odstąpić od zakupu. Wybierz pozycje, od "
+"których odstępujesz, a następnie potwierdź oświadczenie w kolejnym kroku."
 
 #: src/Service/WithdrawalService.php:140 src/Service/WithdrawalService.php:184
 #: src/Service/WithdrawalService.php:292 src/Service/WithdrawalService.php:403
@@ -940,13 +1129,16 @@ msgstr "Weryfikacja bezpieczeństwa nie powiodła się. Spróbuj ponownie."
 msgid ""
 "Please give the name on the contract so the declaration identifies who is "
 "withdrawing."
-msgstr "Podaj imię i nazwisko widniejące na umowie, aby oświadczenie wskazywało, kto odstępuje."
+msgstr ""
+"Podaj imię i nazwisko widniejące na umowie, aby oświadczenie wskazywało, kto "
+"odstępuje."
 
 #: src/Service/WithdrawalService.php:208 src/Service/WithdrawalService.php:321
 msgid "Please select at least one item to withdraw from."
 msgstr "Proszę wybrać przynajmniej jedną pozycję, z której chcesz się wycofać."
 
-#. translators: 1: item list, 2: order number, 3: order date, 4: consumer name, 5: consumer email
+#. translators: 1: item list, 2: order number, 3: order date, 4: consumer
+#. name, 5: consumer email
 #: src/Service/WithdrawalService.php:240
 #, php-format
 msgid ""
@@ -957,7 +1149,14 @@ msgid ""
 "Ordered under order #%2$s of %3$s.\n"
 "Name of consumer: %4$s\n"
 "Contact: %5$s"
-msgstr "Niniejszym informuję o moim odstąpieniu od umowy sprzedaży następujących towarów:\n%1$s\n\nZamówione w ramach zamówienia #%2$s z dnia %3$s.\nImię i nazwisko konsumenta: %4$s\nKontakt: %5$s"
+msgstr ""
+"Niniejszym informuję o moim odstąpieniu od umowy sprzedaży następujących "
+"towarów:\n"
+"%1$s\n"
+"\n"
+"Zamówione w ramach zamówienia #%2$s z dnia %3$s.\n"
+"Imię i nazwisko konsumenta: %4$s\n"
+"Kontakt: %5$s"
 
 #: src/Service/WithdrawalService.php:306
 msgid "This order is no longer eligible for withdrawal."
@@ -974,7 +1173,9 @@ msgstr "Zaznacz oświadczenie, aby potwierdzić, że odstępujesz od umowy."
 msgid ""
 "Withdrawal declaration #%1$d received.\n"
 "%2$s"
-msgstr "Otrzymano oświadczenie o odstąpieniu #%1$d.\n%2$s"
+msgstr ""
+"Otrzymano oświadczenie o odstąpieniu #%1$d.\n"
+"%2$s"
 
 #: src/Service/WithdrawalService.php:413
 msgid "Enter a valid email address."
@@ -1004,7 +1205,10 @@ msgstr "Wniosek o odstąpienie dla tego zamówienia jest już przetwarzany."
 msgid ""
 "This order is for digital content you asked us to supply immediately, and "
 "supply has begun, so the right of withdrawal no longer applies to it."
-msgstr "To zamówienie dotyczy treści cyfrowych, o których natychmiastowe dostarczenie prosiłeś, a dostarczanie już się rozpoczęło, więc prawo do odstąpienia już go nie obejmuje."
+msgstr ""
+"To zamówienie dotyczy treści cyfrowych, o których natychmiastowe "
+"dostarczenie prosiłeś, a dostarczanie już się rozpoczęło, więc prawo do "
+"odstąpienia już go nie obejmuje."
 
 #: src/Service/WithdrawPrivacyService.php:36
 #: src/Service/WithdrawPrivacyService.php:50
@@ -1057,7 +1261,9 @@ msgstr "Udzielona w kasie %s."
 msgid ""
 "This applies to each item from the moment its supply begins. Until then you "
 "can still withdraw from it."
-msgstr "Dotyczy to każdej pozycji od chwili rozpoczęcia jej dostarczania. Do tego momentu nadal możesz od niej odstąpić."
+msgstr ""
+"Dotyczy to każdej pozycji od chwili rozpoczęcia jej dostarczania. Do tego "
+"momentu nadal możesz od niej odstąpić."
 
 #. translators: 1: withdrawal request id, 2: order number
 #: templates/emails/plain/withdraw-accepted.php:48
@@ -1088,7 +1294,9 @@ msgstr "Pozycje objęte odstąpieniem"
 msgid ""
 "Please send the goods back without undue delay and in any case within %1$d "
 "days of the day you told us you were withdrawing, that is by %2$s."
-msgstr "Odeślij towar bez zbędnej zwłoki, a w każdym razie w ciągu %1$d dni od dnia, w którym poinformowałeś nas o odstąpieniu, czyli do %2$s."
+msgstr ""
+"Odeślij towar bez zbędnej zwłoki, a w każdym razie w ciągu %1$d dni od dnia, "
+"w którym poinformowałeś nas o odstąpieniu, czyli do %2$s."
 
 #. translators: %d: number of days
 #: templates/emails/plain/withdraw-accepted.php:81
@@ -1097,7 +1305,9 @@ msgstr "Odeślij towar bez zbędnej zwłoki, a w każdym razie w ciągu %1$d dni
 msgid ""
 "Please send the goods back without undue delay and in any case within %d "
 "days of the day you told us you were withdrawing."
-msgstr "Odeślij towar bez zbędnej zwłoki, a w każdym razie w ciągu %d dni od dnia, w którym poinformowałeś nas o odstąpieniu."
+msgstr ""
+"Odeślij towar bez zbędnej zwłoki, a w każdym razie w ciągu %d dni od dnia, w "
+"którym poinformowałeś nas o odstąpieniu."
 
 #: templates/emails/plain/withdraw-accepted.php:87
 #: templates/emails/withdraw-accepted.php:108
@@ -1109,7 +1319,9 @@ msgstr "Wyślij go na adres:"
 msgid ""
 "We will refund you using the same means of payment you used, unless we have "
 "expressly agreed otherwise."
-msgstr "Zwrócimy płatność przy użyciu tego samego sposobu płatności, którego użyłeś, chyba że wyraźnie uzgodniliśmy inaczej."
+msgstr ""
+"Zwrócimy płatność przy użyciu tego samego sposobu płatności, którego użyłeś, "
+"chyba że wyraźnie uzgodniliśmy inaczej."
 
 #. translators: %s: order number
 #: templates/emails/plain/withdraw-acknowledgement.php:37
@@ -1131,7 +1343,8 @@ msgstr "Złożone %s."
 msgid "Your declaration"
 msgstr "Twoje oświadczenie"
 
-#. translators: %s: the reason the customer gave, or a placeholder when none was given
+#. translators: %s: the reason the customer gave, or a placeholder when none
+#. was given
 #: templates/emails/plain/withdraw-acknowledgement.php:64
 #: templates/emails/plain/withdraw-new-request.php:75
 #: templates/emails/withdraw-acknowledgement.php:83
@@ -1170,7 +1383,10 @@ msgid ""
 "You have 14 days from today to refund the customer, including the standard "
 "delivery cost. For goods you may hold the refund until they are back with "
 "you, or until the customer proves they sent them."
-msgstr "Masz 14 dni od dzisiaj na zwrot płatności klientowi, wraz ze standardowym kosztem dostawy. W przypadku towarów możesz wstrzymać zwrot do czasu, aż wrócą do Ciebie lub klient udowodni, że je odesłał."
+msgstr ""
+"Masz 14 dni od dzisiaj na zwrot płatności klientowi, wraz ze standardowym "
+"kosztem dostawy. W przypadku towarów możesz wstrzymać zwrot do czasu, aż "
+"wrócą do Ciebie lub klient udowodni, że je odesłał."
 
 #. translators: 1: withdrawal request id, 2: order number
 #: templates/emails/plain/withdraw-status.php:34
@@ -1227,15 +1443,18 @@ msgid_plural ""
 "Some items are not listed: they are digital content you asked us to supply "
 "immediately, and supply has begun, so the right of withdrawal no longer "
 "applies to them."
-msgstr[0] "Jedna pozycja nie jest wymieniona: to treść cyfrowa, o której natychmiastowe "
+msgstr[0] ""
+"Jedna pozycja nie jest wymieniona: to treść cyfrowa, o której natychmiastowe "
 "dostarczenie prosiłeś, a dostarczanie już się rozpoczęło, więc prawo do "
 "odstąpienia już jej nie obejmuje."
-msgstr[1] "Niektóre pozycje nie są wymienione: to treści cyfrowe, o których "
-"natychmiastowe dostarczenie prosiłeś, a dostarczanie już się rozpoczęło, więc "
-"prawo do odstąpienia już ich nie obejmuje."
-msgstr[2] "Niektóre pozycje nie są wymienione: to treści cyfrowe, o których "
-"natychmiastowe dostarczenie prosiłeś, a dostarczanie już się rozpoczęło, więc "
-"prawo do odstąpienia już ich nie obejmuje."
+msgstr[1] ""
+"Niektóre pozycje nie są wymienione: to treści cyfrowe, o których "
+"natychmiastowe dostarczenie prosiłeś, a dostarczanie już się rozpoczęło, "
+"więc prawo do odstąpienia już ich nie obejmuje."
+msgstr[2] ""
+"Niektóre pozycje nie są wymienione: to treści cyfrowe, o których "
+"natychmiastowe dostarczenie prosiłeś, a dostarczanie już się rozpoczęło, "
+"więc prawo do odstąpienia już ich nie obejmuje."
 
 #: templates/form-items.php:110
 msgid "Reason (optional)"
@@ -1249,7 +1468,9 @@ msgstr "Dalej"
 msgid ""
 "Enter your order number and billing email. We will send a one-time link to "
 "that address."
-msgstr "Podaj numer zamówienia i e-mail rozliczeniowy. Wyślemy jednorazowy odnośnik na ten adres."
+msgstr ""
+"Podaj numer zamówienia i e-mail rozliczeniowy. Wyślemy jednorazowy odnośnik "
+"na ten adres."
 
 #. translators: %d: number of days
 #: templates/form-lookup.php:32
@@ -1276,7 +1497,9 @@ msgstr "Sprawdź swoje oświadczenie o odstąpieniu"
 #: templates/form-review.php:33
 msgid ""
 "This is the declaration that will be sent. Nothing has been submitted yet."
-msgstr "To jest oświadczenie, które zostanie wysłane. Nic jeszcze nie zostało złożone."
+msgstr ""
+"To jest oświadczenie, które zostanie wysłane. Nic jeszcze nie zostało "
+"złożone."
 
 #: templates/form-review.php:40
 msgid "Reason given:"
@@ -1286,7 +1509,8 @@ msgstr "Podany powód:"
 msgid ""
 "I confirm that the declaration above is mine and that I am withdrawing from "
 "the contract."
-msgstr "Potwierdzam, że powyższe oświadczenie jest moje i że odstępuję od umowy."
+msgstr ""
+"Potwierdzam, że powyższe oświadczenie jest moje i że odstępuję od umowy."
 
 #: templates/form-review.php:76
 msgid "Confirm withdrawal"
@@ -1299,7 +1523,10 @@ msgid ""
 "If that order exists and the email you gave is the billing address on it, we "
 "have sent a withdrawal link to that address. The link works for %d minutes. "
 "Check your spam folder if it does not arrive."
-msgstr "Jeśli takie zamówienie istnieje, a podany e-mail jest jego adresem rozliczeniowym, wysłaliśmy na ten adres odnośnik do odstąpienia. Odnośnik działa przez %d minut. Jeśli nie dotrze, sprawdź folder ze spamem."
+msgstr ""
+"Jeśli takie zamówienie istnieje, a podany e-mail jest jego adresem "
+"rozliczeniowym, wysłaliśmy na ten adres odnośnik do odstąpienia. Odnośnik "
+"działa przez %d minut. Jeśli nie dotrze, sprawdź folder ze spamem."
 
 #: templates/link-sent.php:40
 msgid "Back to the withdrawal form"
