@@ -210,22 +210,48 @@ final class RequestRepository
         return is_array($rows) ? $rows : [];
     }
 
+    /**
+     * Strip a person out of their declarations.
+     *
+     * The declaration text quotes the consumer's name and email address back
+     * (Art. 11a(2)), so blanking the two columns alone left both readable in
+     * the stored statement while the eraser reported the email as cleared.
+     * Order id, items, status and dates stay as the trader's record.
+     */
     public function anonymizeByEmail(string $email): int
     {
         global $wpdb;
         $table = Migrator::table();
 
-        // phpcs:ignore WordPress.DB.DirectDatabaseQuery
-        $updated = $wpdb->query(
-            $wpdb->prepare(
-                'UPDATE %i SET customer_email = %s, reason = %s WHERE customer_email = %s',
-                $table,
-                'anonymized@privacy.invalid',
-                '',
-                $email,
-            ),
-        );
+        $count = 0;
+        foreach ($this->findByEmail($email, PHP_INT_MAX) as $row) {
+            // Whole words only, so a short name cannot eat letters out of the
+            // surrounding sentence.
+            $declaration = (string) $row->declaration;
+            foreach ([(string) $row->customer_email, (string) $row->customer_name] as $needle) {
+                if (trim($needle) !== '') {
+                    $declaration = (string) preg_replace('/(?<![\\w@.])' . preg_quote(trim($needle), '/') . '(?![\\w@])/iu', '[removed]', $declaration);
+                }
+            }
 
-        return is_int($updated) ? $updated : 0;
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+            $updated = $wpdb->update(
+                $table,
+                [
+                    'customer_email' => 'anonymized@privacy.invalid',
+                    'customer_name'  => '',
+                    'reason'         => '',
+                    'declaration'    => $declaration,
+                ],
+                ['id' => (int) $row->id],
+                ['%s', '%s', '%s', '%s'],
+                ['%d'],
+            );
+            if ($updated !== false) {
+                ++$count;
+            }
+        }
+
+        return $count;
     }
 }

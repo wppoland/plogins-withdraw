@@ -72,6 +72,8 @@ final class WithdrawPrivacyService implements HasHooks
                 'item_id'     => 'withdrawal-' . $r->id,
                 'data'        => [
                     ['name' => __('Order ID', 'plogins-withdraw'), 'value' => (string) $r->order_id],
+                    ['name' => __('Name on the contract', 'plogins-withdraw'), 'value' => (string) ($r->customer_name ?? '')],
+                    ['name' => __('Declaration', 'plogins-withdraw'), 'value' => (string) ($r->declaration ?? '')],
                     ['name' => __('Status', 'plogins-withdraw'), 'value' => (string) $r->status],
                     ['name' => __('Reason', 'plogins-withdraw'), 'value' => (string) ($r->reason ?? '')],
                     ['name' => __('Date', 'plogins-withdraw'), 'value' => (string) $r->created_at],
@@ -96,7 +98,7 @@ final class WithdrawPrivacyService implements HasHooks
             'items_removed'  => $anonymized,
             'items_retained' => $anonymized,
             'messages'       => $anonymized > 0
-                ? [__('Customer personal email and reason cleared from withdrawal declarations; order references retained for statutory bookkeeping.', 'plogins-withdraw')]
+                ? [__('Customer name, email and reason cleared from withdrawal declarations, including the copy quoted in the declaration text; order references retained for statutory bookkeeping.', 'plogins-withdraw')]
                 : [],
             'done'           => true,
         ];
