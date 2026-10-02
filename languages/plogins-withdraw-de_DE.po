@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Plogins Withdraw - EU Right of Withdrawal & Returns for "
 "WooCommerce 0.1.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/withdraw\n"
-"POT-Creation-Date: 2026-09-26T04:48:59+00:00\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/plogins-withdraw\n"
+"POT-Creation-Date: 2026-10-02T11:06:47+00:00\n"
 "PO-Revision-Date: 2026-07-02T09:24:51+00:00\n"
 "Last-Translator: motylanogha <szatkowski.mariusz@gmail.com>\n"
 "Language-Team: German <de@li.org>\n"
@@ -146,7 +146,7 @@ msgstr "Kunde"
 msgid "Items"
 msgstr "Artikel"
 
-#: src/Admin/RequestsAdmin.php:249 src/Service/WithdrawPrivacyService.php:77
+#: src/Admin/RequestsAdmin.php:249 src/Service/WithdrawPrivacyService.php:79
 msgid "Date"
 msgstr "Datum"
 
@@ -154,7 +154,7 @@ msgstr "Datum"
 msgid "Refund due"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:251 src/Service/WithdrawPrivacyService.php:75
+#: src/Admin/RequestsAdmin.php:251 src/Service/WithdrawPrivacyService.php:77
 msgid "Status"
 msgstr "Status"
 
@@ -199,8 +199,8 @@ msgid ""
 "questioned."
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:373 templates/emails/withdraw-new-request.php:53
-#: templates/form-items.php:56
+#: src/Admin/RequestsAdmin.php:373 src/Service/WithdrawPrivacyService.php:75
+#: templates/emails/withdraw-new-request.php:53 templates/form-items.php:56
 msgid "Name on the contract"
 msgstr ""
 
@@ -231,7 +231,7 @@ msgstr ""
 msgid "None given. A reason is never required."
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:423
+#: src/Admin/RequestsAdmin.php:423 src/Service/WithdrawPrivacyService.php:76
 msgid "Declaration"
 msgstr ""
 
@@ -663,8 +663,7 @@ msgid ""
 "cannot withdraw at all."
 msgstr ""
 
-#. translators: 1: order number, 2: link URL, 3: number of minutes the link
-#. stays valid
+#. translators: 1: order number, 2: link URL, 3: number of minutes the link stays valid
 #: src/Email/AccessLinkEmail.php:75
 #, php-format
 msgid ""
@@ -734,8 +733,7 @@ msgstr ""
 msgid "Recipient(s)"
 msgstr ""
 
-#. translators: %s: the address this message goes to when the field is left
-#. empty
+#. translators: %s: the address this message goes to when the field is left empty
 #: src/Email/NewRequestEmail.php:79
 #, php-format
 msgid ""
@@ -829,8 +827,7 @@ msgstr ""
 msgid "You bear the direct cost of returning the goods."
 msgstr ""
 
-#. translators: %s: the trader's name, address and contact details, each on
-#. its own line
+#. translators: %s: the trader's name, address and contact details, each on its own line
 #: src/Service/StatutoryText.php:94
 #, php-format
 msgid ""
@@ -947,8 +944,7 @@ msgid "Please select at least one item to withdraw from."
 msgstr ""
 "Bitte wähle mindestens einen Artikel aus, von dem du zurücktreten möchtest."
 
-#. translators: 1: item list, 2: order number, 3: order date, 4: consumer
-#. name, 5: consumer email
+#. translators: 1: item list, 2: order number, 3: order date, 4: consumer name, 5: consumer email
 #: src/Service/WithdrawalService.php:240
 #, php-format
 msgid ""
@@ -986,23 +982,23 @@ msgstr ""
 msgid "This link has expired or has already been used. Request a new one."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:535
+#: src/Service/WithdrawalService.php:534
 msgid "We could not find an order with that number and email."
 msgstr "Wir konnten keine Bestellung mit dieser Nummer und E-Mail finden."
 
-#: src/Service/WithdrawalService.php:733
+#: src/Service/WithdrawalService.php:747
 msgid "This order is not in a status that can be withdrawn."
 msgstr "Diese Bestellung befindet sich nicht in einem widerrufbaren Status."
 
-#: src/Service/WithdrawalService.php:743
+#: src/Service/WithdrawalService.php:757
 msgid "The withdrawal period for this order has ended."
 msgstr "Die Widerrufsfrist für diese Bestellung ist abgelaufen."
 
-#: src/Service/WithdrawalService.php:747
+#: src/Service/WithdrawalService.php:761
 msgid "A withdrawal request for this order is already being processed."
 msgstr "Ein Widerrufsantrag für diese Bestellung wird bereits bearbeitet."
 
-#: src/Service/WithdrawalService.php:758
+#: src/Service/WithdrawalService.php:772
 msgid ""
 "This order is for digital content you asked us to supply immediately, and "
 "supply has begun, so the right of withdrawal no longer applies to it."
@@ -1018,18 +1014,16 @@ msgstr "Widerrufserklärungen"
 msgid "Order ID"
 msgstr "Bestell-ID"
 
-#: src/Service/WithdrawPrivacyService.php:76
+#: src/Service/WithdrawPrivacyService.php:78
 msgid "Reason"
 msgstr "Grund"
 
-#: src/Service/WithdrawPrivacyService.php:99
+#: src/Service/WithdrawPrivacyService.php:101
 msgid ""
-"Customer personal email and reason cleared from withdrawal declarations; "
-"order references retained for statutory bookkeeping."
+"Customer name, email and reason cleared from withdrawal declarations, "
+"including the copy quoted in the declaration text; order references retained "
+"for statutory bookkeeping."
 msgstr ""
-"Persönliche E-Mail-Adresse und Grund der Kundin oder des Kunden wurden aus "
-"den Widerrufserklärungen entfernt; Bestellreferenzen bleiben für die "
-"gesetzliche Buchführung erhalten."
 
 #: templates/confirmation.php:17
 msgid "Withdrawal request received"
@@ -1134,8 +1128,7 @@ msgstr ""
 msgid "Your declaration"
 msgstr ""
 
-#. translators: %s: the reason the customer gave, or a placeholder when none
-#. was given
+#. translators: %s: the reason the customer gave, or a placeholder when none was given
 #: templates/emails/plain/withdraw-acknowledgement.php:64
 #: templates/emails/plain/withdraw-new-request.php:75
 #: templates/emails/withdraw-acknowledgement.php:83
@@ -1301,6 +1294,14 @@ msgstr ""
 #: templates/link-sent.php:40
 msgid "Back to the withdrawal form"
 msgstr ""
+
+#~ msgid ""
+#~ "Customer personal email and reason cleared from withdrawal declarations; "
+#~ "order references retained for statutory bookkeeping."
+#~ msgstr ""
+#~ "Persönliche E-Mail-Adresse und Grund der Kundin oder des Kunden wurden "
+#~ "aus den Widerrufserklärungen entfernt; Bestellreferenzen bleiben für die "
+#~ "gesetzliche Buchführung erhalten."
 
 #~ msgid "Shown above the order lookup step of the withdrawal form."
 #~ msgstr "Wird über dem Bestellsuchschritt des Widerrufsformulars angezeigt."
