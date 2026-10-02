@@ -403,8 +403,8 @@ final class WithdrawalService implements HasHooks
             return $this->renderLookupStep(__('Security check failed. Please try again.', 'plogins-withdraw'));
         }
 
-        $orderId = isset($_POST['withdraw_order']) ? absint(wp_unslash($_POST['withdraw_order'])) : 0;
-        $email   = isset($_POST['withdraw_email']) ? sanitize_email(wp_unslash($_POST['withdraw_email'])) : '';
+        $number = $this->orderNumberFromRequest();
+        $email  = isset($_POST['withdraw_email']) ? sanitize_email(wp_unslash($_POST['withdraw_email'])) : '';
 
         if (! is_email($email)) {
             // Deliberately not neutralised: a malformed address cannot be the
@@ -425,7 +425,7 @@ final class WithdrawalService implements HasHooks
         // per address and per address they still need the billing address to be
         // right for the timing to differ at all.
         if (! $this->links->throttled($email)) {
-            $order = $this->lookupOrder($orderId, $email);
+            $order = $this->lookupOrder($number, $email);
             if ($order instanceof \WC_Order) {
                 $this->mailLink($order);
             }
@@ -510,11 +510,10 @@ final class WithdrawalService implements HasHooks
         }
 
         if (! $magic) {
+            $number = $this->orderNumberFromRequest();
             // phpcs:ignore WordPress.Security.NonceVerification.Missing -- every caller verifies its own step nonce first.
-            $orderId = isset($_POST['withdraw_order']) ? absint(wp_unslash($_POST['withdraw_order'])) : 0;
-            // phpcs:ignore WordPress.Security.NonceVerification.Missing -- as above.
-            $email   = isset($_POST['withdraw_email']) ? sanitize_email(wp_unslash($_POST['withdraw_email'])) : '';
-            $order   = $this->lookupOrder($orderId, $email);
+            $email  = isset($_POST['withdraw_email']) ? sanitize_email(wp_unslash($_POST['withdraw_email'])) : '';
+            $order  = $this->lookupOrder($number, $email);
 
             if ($order instanceof \WC_Order) {
                 return [
@@ -579,6 +578,21 @@ final class WithdrawalService implements HasHooks
         }
 
         return '';
+    }
+
+    /**
+     * The order number as the customer typed it.
+     *
+     * Read as text, never through absint(): a shop numbering its orders
+     * "INV-1001" would otherwise have every lookup collapse to 0 before
+     * resolveOrderNumber() or its filter ever saw the number.
+     */
+    private function orderNumberFromRequest(): string
+    {
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- every caller verifies its own step nonce first.
+        $raw = isset($_POST['withdraw_order']) ? sanitize_text_field(wp_unslash($_POST['withdraw_order'])) : '';
+
+        return ltrim(trim($raw), '#');
     }
 
     private function orderIdFromRequest(): int
@@ -690,12 +704,12 @@ final class WithdrawalService implements HasHooks
         return null;
     }
 
-    private function lookupOrder(int $orderId, string $email): ?\WC_Order
+    private function lookupOrder(string $number, string $email): ?\WC_Order
     {
-        if ($orderId < 1 || ! is_email($email)) {
+        if ($number === '' || ! is_email($email)) {
             return null;
         }
-        $order = wc_get_order($orderId);
+        $order = ctype_digit($number) ? wc_get_order((int) $number) : false;
 
         // The form asks for the ORDER NUMBER, and every email and heading this
         // plugin prints uses get_order_number(). On stock WooCommerce that is
@@ -703,8 +717,8 @@ final class WithdrawalService implements HasHooks
         // renumbers orders breaks the pair: the shop shows the customer a
         // number its own form then rejects. Resolve the number properly before
         // giving up.
-        if (! $order instanceof \WC_Order || (string) $order->get_order_number() !== (string) $orderId) {
-            $resolved = $this->resolveOrderNumber((string) $orderId);
+        if (! $order instanceof \WC_Order || (string) $order->get_order_number() !== $number) {
+            $resolved = $this->resolveOrderNumber($number);
 
             if ($resolved instanceof \WC_Order) {
                 $order = $resolved;

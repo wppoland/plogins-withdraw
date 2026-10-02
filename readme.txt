@@ -5,7 +5,7 @@ Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
 Requires Plugins: woocommerce
-Stable tag: 1.6.5
+Stable tag: 1.6.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -90,6 +90,11 @@ Yes. Orders are read through the WooCommerce order API, which is HPOS-compatible
 Plogins Withdraw is fully translatable and ships the `plogins-withdraw.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.6.6 =
+* Fixed: an order number that is not a plain number, such as "INV-1001" from a renumbering plugin, was turned into 0 before the lookup ran, so the form and the emailed-link step refused it and the `withdraw/resolve_order_number` filter never saw it. The number is now read as typed.
+* Fixed: the privacy eraser cleared the email and reason columns but left the customer's name and email inside the stored declaration text, while reporting the email as cleared. It now removes both from the declaration too and clears the name. The exporter now includes the name and the declaration.
+* Fixed: uninstalling left three kinds of option behind: the schema revision, the text sweep flag and the per-email WooCommerce settings. All are removed now.
 
 = 1.6.5 =
 * Hardening: the item quantities posted by the withdrawal form are now sanitised as integers at the moment they are read, instead of being read raw and cast later.
