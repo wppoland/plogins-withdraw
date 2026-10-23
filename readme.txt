@@ -5,11 +5,11 @@ Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
 Requires Plugins: woocommerce
-Stable tag: 1.6.6
+Stable tag: 1.7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Full or partial EU right-of-withdrawal requests (Directive 2023/2673) for WooCommerce orders, with an admin log and WooCommerce emails.
+One-click EU withdrawal button (Directive 2023/2673) in My Account and order emails, for full or partial withdrawal, with a request log.
 
 == Description ==
 
@@ -21,7 +21,7 @@ It is a **request-and-log** plugin: it records the customer's withdrawal declara
 
 * **Withdrawal form**: the `[withdraw_form]` shortcode renders the whole flow: look up an order by number and billing email (works for guests too), select items and quantities, then confirm on a step of its own, because Art. 11a(3) wants the confirmation to be a separate control labelled only "confirm withdrawal".
 * **Full or partial withdrawal**: the customer chooses how many of each item to withdraw from.
-* **Withdrawal button in My Account**: a "Withdraw from this order" button appears under the order details and links to your withdrawal page with the order pre-filled.
+* **Withdrawal button in My Account**: a "Withdraw from contract here" button under the order details and the same action on the orders list, both linking to your withdrawal page with the order pre-filled, while the order is within the withdrawal period. The link also goes into the processing and completed order emails.
 * **Withdrawal-period check**: configurable period (statutory minimum 14 days), measured from delivery (order completion) or, if never completed, from the order date.
 * **Admin log**: a WooCommerce > Withdrawal Requests screen lists every request with its items, customer and status (pending, accepted, rejected, processed), filterable by status, searchable by email or order number and paged, with a detail screen per request showing the stored declaration and the reason the customer gave.
 * **A rejection has to say why**: the reason is required before a request can be rejected, is kept with the request, and is printed in the email the customer receives.
@@ -45,8 +45,8 @@ It is a **request-and-log** plugin: it records the customer's withdrawal declara
 
 1. Install and activate WooCommerce.
 2. Install and activate Plogins Withdraw.
-3. Create a page and add the `[withdraw_form]` shortcode.
-4. Go to **WooCommerce > Withdrawal**, select that page as the withdrawal form page, set the withdrawal period and eligible order statuses, and adjust the notification email and legal texts.
+3. On a fresh install the plugin creates a draft page called "Withdrawal" with the `[withdraw_form]` shortcode, selects it as the withdrawal form page and turns the footer link on. Review that page and publish it: until it is published no withdrawal link is shown anywhere. On an existing install nothing changes; create a page with the `[withdraw_form]` shortcode yourself if you have none.
+4. Go to **WooCommerce > Withdrawal**, check the withdrawal form page, set the withdrawal period and eligible order statuses, and adjust the notification email and legal texts.
 5. Still on that screen, fill in the return address and say who pays to send goods back, so the acceptance message can carry the Art. 14(1) information.
 6. Optionally reword or restyle any of the messages under **WooCommerce > Settings > Emails**.
 
@@ -84,12 +84,21 @@ Yes. Orders are read through the WooCommerce order API, which is HPOS-compatible
 1. The withdrawal request form: order lookup by number and billing email (guest-friendly), with the 14-day right-of-withdrawal notice.
 2. Item selection: full or partial withdrawal with per-item quantities, the model withdrawal text and the declaration.
 3. Settings (WooCommerce > Withdrawal): withdrawal period, form page, eligible statuses, notification email and legal texts, with the request log.
+4. My Account > Orders: the withdrawal action next to View, shown while the order is within the withdrawal period.
+5. The withdrawal link in the customer's completed-order email.
 
 == Translations ==
 
 Plogins Withdraw is fully translatable and ships the `plogins-withdraw.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.7.0 =
+* New: a fresh install creates a draft "Withdrawal" page holding the form, selects it as the form page and turns the footer link on. The page is not published; an admin notice links to it until it is. Existing installs are not touched.
+* New: the withdrawal action on the My Account orders list, shown only while the order is within the withdrawal period.
+* New: the withdrawal link in the customer processing and completed order emails, HTML and plain text, while the order is within the withdrawal period and a form page is published.
+* Changed: the order-view button now also disappears once the withdrawal period has ended, and no longer shows on the order-received page.
+* Changed: no withdrawal link is printed while the form page is not published, because its address leads customers nowhere.
 
 = 1.6.6 =
 * Fixed: an order number that is not a plain number, such as "INV-1001" from a renumbering plugin, was turned into 0 before the lookup ran, so the form and the emailed-link step refused it and the `withdraw/resolve_order_number` filter never saw it. The number is now read as typed.

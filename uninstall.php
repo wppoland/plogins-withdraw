@@ -16,6 +16,7 @@ delete_option('withdraw_settings');
 delete_option('withdraw_schema_version');
 delete_option('withdraw_schema_rev');
 delete_option('withdraw_texts_swept');
+delete_option('withdraw_setup_page');
 
 // WooCommerce stores each email's settings screen under its own option.
 foreach (['acknowledgement', 'new_request', 'accepted', 'rejected', 'processed', 'under_review', 'access_link'] as $withdraw_email_id) {

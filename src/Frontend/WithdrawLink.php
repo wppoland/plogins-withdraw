@@ -7,6 +7,7 @@ namespace Withdraw\Frontend;
 use Withdraw\Contract\HasHooks;
 use Withdraw\Migrator;
 use Withdraw\Service\StatutoryText;
+use Withdraw\Service\WithdrawalService;
 
 defined('ABSPATH') || exit;
 
@@ -33,10 +34,11 @@ final class WithdrawLink implements HasHooks
         add_shortcode('withdraw_link', [$this, 'renderShortcode']);
         add_shortcode('withdraw_instructions', [$this, 'renderInstructions']);
         add_action('wp_footer', [$this, 'renderFooterLink']);
+        add_action('woocommerce_email_after_order_table', [$this, 'renderEmailLink'], 10, 4);
     }
 
     /** @return array<string, mixed> */
-    private function settings(): array
+    public static function settings(): array
     {
         $defaults = require WITHDRAW_DIR . 'config/defaults.php';
         $stored   = get_option(Migrator::OPTION_SETTINGS, []);
@@ -44,11 +46,20 @@ final class WithdrawLink implements HasHooks
         return array_merge($defaults, is_array($stored) ? $stored : []);
     }
 
-    private function formUrl(): string
+    /**
+     * The form page URL, or '' while there is no PUBLISHED page.
+     *
+     * A fresh install seeds a draft page for the shop to review. Its permalink
+     * is a 404 for every customer, and a withdrawal link that leads nowhere is
+     * worse than none, so nothing links to it until it is published.
+     *
+     * @param array<string, mixed> $settings
+     */
+    public static function formUrl(array $settings): string
     {
-        $pageId = (int) $this->settings()['form_page_id'];
+        $pageId = (int) ($settings['form_page_id'] ?? 0);
 
-        if ($pageId < 1) {
+        if ($pageId < 1 || get_post_status($pageId) !== 'publish') {
             return '';
         }
 
@@ -115,7 +126,7 @@ final class WithdrawLink implements HasHooks
      */
     public function renderShortcode($atts = []): string
     {
-        $url = $this->formUrl();
+        $url = self::formUrl(self::settings());
 
         if ($url === '') {
             return '';
@@ -127,26 +138,71 @@ final class WithdrawLink implements HasHooks
             '<a class="%1$s" href="%2$s">%3$s</a>',
             esc_attr((string) $atts['class']),
             esc_url($url),
-            esc_html(self::label($this->settings())),
+            esc_html(self::label(self::settings())),
         );
     }
 
     public function renderFooterLink(): void
     {
-        if (empty($this->settings()['footer_link'])) {
+        $s = self::settings();
+
+        if (empty($s['footer_link'])) {
             return;
         }
 
-        $url = $this->formUrl();
+        $url = self::formUrl($s);
 
-        if ($url === '' || is_page((int) $this->settings()['form_page_id'])) {
+        if ($url === '' || is_page((int) $s['form_page_id'])) {
             return;
         }
 
         printf(
             '<p class="withdraw-footer-link"><a href="%1$s">%2$s</a></p>',
             esc_url($url),
-            esc_html(self::label($this->settings())),
+            esc_html(self::label($s)),
+        );
+    }
+
+    /**
+     * The withdrawal link in the customer's processing and completed emails.
+     *
+     * Only while the order can still be withdrawn from, so an email resent
+     * after the period never offers a right that has lapsed. The link carries
+     * no order id: the email can be forwarded, and the form asks for the order
+     * number and billing email itself.
+     *
+     * @param mixed $order
+     * @param mixed $sentToAdmin
+     * @param mixed $plainText
+     * @param mixed $email
+     */
+    public function renderEmailLink($order, $sentToAdmin = false, $plainText = false, $email = null): void
+    {
+        if (
+            ! $order instanceof \WC_Order
+            || $sentToAdmin
+            || ! $email instanceof \WC_Email
+            || ! in_array($email->id, ['customer_processing_order', 'customer_completed_order'], true)
+        ) {
+            return;
+        }
+
+        $s   = self::settings();
+        $url = self::formUrl($s);
+
+        if ($url === '' || ! WithdrawalService::withinPeriod($order, $s)) {
+            return;
+        }
+
+        if ($plainText) {
+            echo "\n" . esc_html(self::label($s)) . ': ' . esc_url_raw($url) . "\n\n";
+            return;
+        }
+
+        printf(
+            '<p class="withdraw-email-link"><a href="%1$s">%2$s</a></p>',
+            esc_url($url),
+            esc_html(self::label($s)),
         );
     }
 }

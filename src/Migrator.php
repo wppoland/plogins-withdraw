@@ -28,6 +28,9 @@ final class Migrator
 
     public const OPTION_SETTINGS  = 'withdraw_settings';
 
+    /** The draft form page seeded on a fresh install, until it is published. */
+    public const OPTION_SETUP_PAGE = 'withdraw_setup_page';
+
     /** Set once the English placeholder texts have been swept, so it runs once. */
     private const OPTION_TEXTS_SWEPT = 'withdraw_texts_swept';
 
@@ -45,6 +48,36 @@ final class Migrator
         'model_form_text' => 'Model withdrawal form. To [seller name and address]: I hereby give notice that I withdraw from my contract for the sale of the following goods. Ordered on / received on. Name of consumer. Date.',
     ];
 
+    /**
+     * A DRAFT page holding the form, for the shop to review and publish.
+     *
+     * Never published here: the page is the shop's legal surface, not ours.
+     * A page left behind by an earlier install (uninstall keeps content) is
+     * reused rather than duplicated.
+     */
+    private function seedFormPage(): int
+    {
+        $existing = get_posts([
+            'post_type'      => 'page',
+            'post_status'    => ['publish', 'draft', 'pending', 'private'],
+            's'              => '[withdraw_form]',
+            'posts_per_page' => 1,
+            'fields'         => 'ids',
+        ]);
+        if ($existing !== []) {
+            return (int) $existing[0];
+        }
+
+        $id = wp_insert_post([
+            'post_type'    => 'page',
+            'post_status'  => 'draft',
+            'post_title'   => __('Withdrawal', 'plogins-withdraw'),
+            'post_content' => "<!-- wp:shortcode -->\n[withdraw_form]\n<!-- /wp:shortcode -->",
+        ]);
+
+        return is_int($id) ? $id : 0;
+    }
+
     public static function table(): string
     {
         global $wpdb;
@@ -56,6 +89,19 @@ final class Migrator
         if (get_option(self::OPTION_SETTINGS, null) === null) {
             /** @var array<string, mixed> $defaults */
             $defaults = require WITHDRAW_DIR . 'config/defaults.php';
+
+            // A fresh install only: an existing install already has the option
+            // and keeps every setting it has. Runs per site, because boot()
+            // calls this on every site of a network.
+            $pageId = $this->seedFormPage();
+            if ($pageId > 0) {
+                $defaults['form_page_id'] = $pageId;
+                // Art. 11a(1) wants the function reachable throughout the
+                // period. The link stays hidden while the page is a draft.
+                $defaults['footer_link'] = true;
+                update_option(self::OPTION_SETUP_PAGE, $pageId);
+            }
+
             add_option(self::OPTION_SETTINGS, $defaults);
         }
 
