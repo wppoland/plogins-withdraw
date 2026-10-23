@@ -736,6 +736,40 @@ final class WithdrawalService implements HasHooks
     }
 
     /**
+     * The last moment the order can be withdrawn from.
+     *
+     * The window starts at completion (delivery proxy) or, if the order was
+     * never marked completed, at creation. Configurable length. Shared with the
+     * My Account controls and the order emails, so a link is never offered for
+     * an order the form would then refuse as out of time.
+     */
+    public static function deadline(\WC_Order $order, int $periodDays): int
+    {
+        $completed = $order->get_date_completed();
+        $start     = $completed ? $completed->getTimestamp() : ($order->get_date_created()?->getTimestamp() ?? time());
+
+        return $start + ($periodDays * DAY_IN_SECONDS);
+    }
+
+    /**
+     * Status allowed and the period still running.
+     *
+     * Deliberately not the full eligibility(): that also queries open requests
+     * per order, which on the orders list is one query per row. The form still
+     * runs the full check when the customer arrives.
+     *
+     * @param array<string, mixed> $settings
+     */
+    public static function withinPeriod(\WC_Order $order, array $settings): bool
+    {
+        if (! in_array($order->get_status(), (array) ($settings['eligible_statuses'] ?? []), true)) {
+            return false;
+        }
+
+        return time() <= self::deadline($order, (int) ($settings['period_days'] ?? 14));
+    }
+
+    /**
      * @return array{eligible:bool, reason:string, deadline:int, excluded:list<int>}
      */
     private function eligibility(\WC_Order $order): array
@@ -747,11 +781,7 @@ final class WithdrawalService implements HasHooks
             return ['eligible' => false, 'reason' => __('This order is not in a status that can be withdrawn.', 'plogins-withdraw'), 'deadline' => 0, 'excluded' => []];
         }
 
-        // The withdrawal window starts at completion (delivery proxy) or, if the
-        // order was never marked completed, at creation. Configurable length.
-        $completed = $order->get_date_completed();
-        $start     = $completed ? $completed->getTimestamp() : ($order->get_date_created()?->getTimestamp() ?? time());
-        $deadline  = $start + ((int) $s['period_days'] * DAY_IN_SECONDS);
+        $deadline = self::deadline($order, (int) $s['period_days']);
 
         if (time() > $deadline) {
             return ['eligible' => false, 'reason' => __('The withdrawal period for this order has ended.', 'plogins-withdraw'), 'deadline' => $deadline, 'excluded' => []];

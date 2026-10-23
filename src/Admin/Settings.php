@@ -30,6 +30,36 @@ final class Settings implements HasHooks
         add_action('admin_menu', [$this, 'addMenuPage']);
         add_action('admin_init', [$this, 'registerSettings']);
         add_action('admin_enqueue_scripts', [$this, 'enqueueAssets']);
+        add_action('admin_notices', [$this, 'renderSetupNotice']);
+    }
+
+    /**
+     * Points the shop at the draft form page a fresh install created, until
+     * it is published or gone. No dismiss: while it is a draft the withdrawal
+     * function has nowhere to send a customer.
+     */
+    public function renderSetupNotice(): void
+    {
+        $pageId = (int) get_option(Migrator::OPTION_SETUP_PAGE, 0);
+        if ($pageId < 1) {
+            return;
+        }
+
+        if (get_post_status($pageId) !== 'draft') {
+            delete_option(Migrator::OPTION_SETUP_PAGE);
+            return;
+        }
+
+        if (! current_user_can('edit_page', $pageId)) {
+            return;
+        }
+
+        printf(
+            '<div class="notice notice-warning"><p>%1$s <a href="%2$s">%3$s</a></p></div>',
+            esc_html__('Withdraw created a draft withdrawal page with the form. Customers cannot reach the withdrawal function until you review and publish it.', 'plogins-withdraw'),
+            esc_url((string) get_edit_post_link($pageId, 'raw')),
+            esc_html__('Review the withdrawal page', 'plogins-withdraw'),
+        );
     }
 
     public function addMenuPage(): void
@@ -173,6 +203,9 @@ final class Settings implements HasHooks
                                     'selected'          => (int) $s['form_page_id'],
                                     'show_option_none'  => esc_html__('Select a page', 'plogins-withdraw'),
                                     'option_none_value' => '0',
+                                    // The seeded page starts as a draft; without it
+                                    // here the first save would reset the setting.
+                                    'post_status'       => 'publish,draft',
                                 ]);
                                 $help(__('Create a page with the [withdraw_form] shortcode, then select it here so the My Account button can link to it.', 'plogins-withdraw'));
                                 ?>
