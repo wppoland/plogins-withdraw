@@ -1,11 +1,11 @@
-=== Withdraw - EU Right of Withdrawal & Returns for WooCommerce ===
+=== Plogins Withdraw - Right of Withdrawal Button for WooCommerce ===
 Contributors: motylanogha
 Tags: woocommerce, withdrawal, right of withdrawal, eu, refund
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
 Requires Plugins: woocommerce
-Stable tag: 1.7.0
+Stable tag: 1.7.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -93,6 +93,9 @@ Plogins Withdraw is fully translatable and ships the `plogins-withdraw.pot` temp
 
 == Changelog ==
 
+= 1.7.1 =
+* Changed: the plugin is now called Plogins Withdraw - Right of Withdrawal Button for WooCommerce, so shops searching for a withdrawal button find it. Nothing else changes: same slug, settings and data.
+
 = 1.7.0 =
 * New: a fresh install creates a draft "Withdrawal" page holding the form, selects it as the form page and turns the footer link on. The page is not published; an admin notice links to it until it is. Existing installs are not touched.
 * New: the withdrawal action on the My Account orders list, shown only while the order is within the withdrawal period.
@@ -118,7 +121,7 @@ Plogins Withdraw is fully translatable and ships the `plogins-withdraw.pot` temp
 * Fixed: the **Link text** setting did not reach the button on the My Account order view. That button printed the statutory English sentence directly, so a shop that reworded the link saw its own wording on the shortcode and the footer link and the untouched default on the order. All three now resolve the label the same way.
 
 = 1.6.1 =
-* Renamed to "Plogins Withdraw - EU Right of Withdrawal & Returns for WooCommerce". The old name led on the word "button", which four other withdrawal plugins in the directory also use, and it undersold a plugin that carries the form, the request log, seven emails and the Annex I texts. The slug, the text domain and every setting are unchanged; nothing needs reconfiguring.
+* Renamed to "Plogins Plogins Withdraw - Right of Withdrawal Button for WooCommerce". The old name led on the word "button", which four other withdrawal plugins in the directory also use, and it undersold a plugin that carries the form, the request log, seven emails and the Annex I texts. The slug, the text domain and every setting are unchanged; nothing needs reconfiguring.
 
 = 1.6.0 =
 * Fixed: the form intro and the model withdrawal text shipped as English sentences in a config file and were printed to the customer word for word. A config default cannot be translated, so every non-English shop showed its customers English until an admin noticed and rewrote it by hand. Both are now generated and translatable.

@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Plogins Withdraw - EU Right of Withdrawal & Returns for "
 "WooCommerce 0.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/plogins-withdraw\n"
-"POT-Creation-Date: 2026-10-23T11:58:41+00:00\n"
+"POT-Creation-Date: 2026-10-26T06:49:45+00:00\n"
 "PO-Revision-Date: 2026-07-07T18:00:00+00:00\n"
 "Last-Translator: motylanogha <szatkowski.mariusz@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -19,8 +19,8 @@ msgstr ""
 
 #. Plugin Name of the plugin
 #: plogins-withdraw.php
-msgid "Withdraw - EU Right of Withdrawal & Returns for WooCommerce"
-msgstr "Withdraw - desistimiento y devoluciones para WooCommerce"
+msgid "Plogins Withdraw - Right of Withdrawal Button for WooCommerce"
+msgstr ""
 
 #. Plugin URI of the plugin
 #: plogins-withdraw.php
@@ -1302,6 +1302,9 @@ msgstr ""
 #: templates/link-sent.php:40
 msgid "Back to the withdrawal form"
 msgstr ""
+
+#~ msgid "Withdraw - EU Right of Withdrawal & Returns for WooCommerce"
+#~ msgstr "Withdraw - desistimiento y devoluciones para WooCommerce"
 
 #~ msgid ""
 #~ "Customer personal email and reason cleared from withdrawal declarations; "
