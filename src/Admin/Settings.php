@@ -402,6 +402,24 @@ final class Settings implements HasHooks
                         </div>
                     </section>
 
+                    <section class="withdraw-card">
+                        <header><h2><?php echo esc_html__('Ecosystem integrations', 'plogins-withdraw'); ?></h2></header>
+                        <div class="withdraw-fields">
+                            <p>
+                                <strong><?php echo esc_html__('Returns & Exchanges for WooCommerce', 'plogins-withdraw'); ?></strong>
+                            </p>
+                            <?php if (class_exists('\Returns\Plugin')) : ?>
+                                <p class="withdraw-note" style="color:#007017;font-weight:600;">
+                                    <?php echo esc_html__('Returns & Exchanges is active. Statutory EU withdrawal requests work in tandem with your customer returns management.', 'plogins-withdraw'); ?>
+                                </p>
+                            <?php else : ?>
+                                <p class="withdraw-note">
+                                    <?php echo esc_html__('Install Returns & Exchanges for WooCommerce to handle product replacements, store credit and warranty claims alongside statutory 14-day withdrawals.', 'plogins-withdraw'); ?>
+                                </p>
+                            <?php endif; ?>
+                        </div>
+                    </section>
+
                 </div>
 
                 <?php submit_button(); ?>
