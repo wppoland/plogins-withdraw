@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Plogins Withdraw - EU Right of Withdrawal & Returns for "
 "WooCommerce 0.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/plogins-withdraw\n"
-"POT-Creation-Date: 2026-10-29T12:18:33+00:00\n"
+"POT-Creation-Date: 2026-10-29T13:43:09+00:00\n"
 "PO-Revision-Date: 2026-07-07T18:00:00+00:00\n"
 "Last-Translator: motylanogha <szatkowski.mariusz@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -653,10 +653,12 @@ msgid ""
 "and complaints in Redono."
 msgstr ""
 
-#: src/Admin/Settings.php:417
+#. translators: %s: partner plugin name, linked to its search on the Add Plugins screen.
+#: src/Admin/Settings.php:420
+#, php-format
 msgid ""
-"Redono, a free plugin, handles returns, repairs and warranty complaints "
-"alongside statutory 14-day withdrawals."
+"Install %s, a free plugin, to handle returns, repairs and warranty "
+"complaints alongside statutory 14-day withdrawals."
 msgstr ""
 
 #: src/Email/AcceptedEmail.php:33 src/Email/AcceptedEmail.php:58
