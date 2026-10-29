@@ -414,7 +414,13 @@ final class Settings implements HasHooks
                                 </p>
                             <?php else : ?>
                                 <p class="withdraw-note">
-                                    <?php echo esc_html__('Redono, a free plugin, handles returns, repairs and warranty complaints alongside statutory 14-day withdrawals.', 'plogins-withdraw'); ?>
+                                    <?php
+                                    printf(
+                                        /* translators: %s: partner plugin name, linked to its search on the Add Plugins screen. */
+                                        esc_html__('Install %s, a free plugin, to handle returns, repairs and warranty complaints alongside statutory 14-day withdrawals.', 'plogins-withdraw'),
+                                        '<a href="' . esc_url(admin_url('plugin-install.php?s=' . rawurlencode('Redono - Returns and RMA for WooCommerce') . '&tab=search&type=term')) . '">' . esc_html('Redono - Returns and RMA for WooCommerce') . '</a>'
+                                    );
+                                    ?>
                                 </p>
                             <?php endif; ?>
                         </div>
