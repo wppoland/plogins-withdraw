@@ -28,6 +28,13 @@ final class AccessLink
     private const EMAIL_PREFIX = 'wd_rl_e_';
     private const IP_PREFIX    = 'wd_rl_i_';
 
+    // Order number plus email lookup (emailed links off). Kept under wd_rl_ so
+    // uninstall.php clears them with the other counters.
+    private const LOOKUP_EMAIL_PREFIX = 'wd_rl_le_';
+    private const LOOKUP_IP_PREFIX    = 'wd_rl_li_';
+    private const LOOKUP_PER_EMAIL    = 15;
+    private const LOOKUP_PER_IP       = 30;
+
     /**
      * Mint a link token for an order and remember who it was mailed to.
      *
@@ -128,6 +135,21 @@ final class AccessLink
         // Measured against the attempt before this one, because bump() has
         // already stamped the current attempt and would otherwise block itself.
         return $perEmail['prev'] > 0 && (time() - $perEmail['prev']) < $limits['cooldown'];
+    }
+
+    /**
+     * Count one order number plus email lookup, then say whether it is over a
+     * limit. Every step of the legacy flow re-posts both values, so a genuine
+     * declaration costs three or four counts; the caps leave room for typos and
+     * stop sequential order numbers being tried against one address. No
+     * cooldown here: the steps follow each other within seconds.
+     */
+    public function lookupThrottled(string $email): bool
+    {
+        $perEmail = $this->bump(self::LOOKUP_EMAIL_PREFIX . hash('sha256', strtolower(trim($email))), HOUR_IN_SECONDS);
+        $perIp    = $this->bump(self::LOOKUP_IP_PREFIX . hash('sha256', $this->clientIp()), HOUR_IN_SECONDS);
+
+        return $perEmail['n'] > self::LOOKUP_PER_EMAIL || $perIp['n'] > self::LOOKUP_PER_IP;
     }
 
     /**
