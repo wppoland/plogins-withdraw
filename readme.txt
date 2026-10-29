@@ -221,5 +221,8 @@ Plogins Withdraw is fully translatable and ships the `plogins-withdraw.pot` temp
 
 == Upgrade Notice ==
 
+= 1.7.4 =
+Security release. Default installations are exposed, because emailed links are off by default and the order number lookup had no attempt limit. Update, nothing else to do.
+
 = 0.1.0 =
 Initial release.

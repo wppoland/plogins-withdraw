@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Plogins Withdraw - EU Right of Withdrawal & Returns for "
 "WooCommerce 0.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/plogins-withdraw\n"
-"POT-Creation-Date: 2026-10-29T13:43:09+00:00\n"
+"POT-Creation-Date: 2026-10-29T18:09:10+00:00\n"
 "PO-Revision-Date: 2026-07-02T09:24:51+00:00\n"
 "Last-Translator: motylanogha <szatkowski.mariusz@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -1213,23 +1213,27 @@ msgstr "Podaj prawidłowy adres e-mail."
 msgid "This link has expired or has already been used. Request a new one."
 msgstr "Ten odnośnik wygasł lub został już użyty. Poproś o nowy."
 
-#: src/Service/WithdrawalService.php:534
+#: src/Service/WithdrawalService.php:520
+msgid "Too many attempts. Please try again in an hour."
+msgstr ""
+
+#: src/Service/WithdrawalService.php:542
 msgid "We could not find an order with that number and email."
 msgstr "Nie znaleźliśmy zamówienia o podanym numerze i adresie e-mail."
 
-#: src/Service/WithdrawalService.php:781
+#: src/Service/WithdrawalService.php:789
 msgid "This order is not in a status that can be withdrawn."
 msgstr "To zamówienie nie ma statusu umożliwiającego odstąpienie."
 
-#: src/Service/WithdrawalService.php:787
+#: src/Service/WithdrawalService.php:795
 msgid "The withdrawal period for this order has ended."
 msgstr "Okres odstąpienia od umowy dla tego zamówienia dobiegł końca."
 
-#: src/Service/WithdrawalService.php:791
+#: src/Service/WithdrawalService.php:799
 msgid "A withdrawal request for this order is already being processed."
 msgstr "Wniosek o odstąpienie dla tego zamówienia jest już przetwarzany."
 
-#: src/Service/WithdrawalService.php:802
+#: src/Service/WithdrawalService.php:810
 msgid ""
 "This order is for digital content you asked us to supply immediately, and "
 "supply has begun, so the right of withdrawal no longer applies to it."
