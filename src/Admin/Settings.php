@@ -402,6 +402,24 @@ final class Settings implements HasHooks
                         </div>
                     </section>
 
+                    <section class="withdraw-card">
+                        <header><h2><?php echo esc_html__('Ecosystem integrations', 'plogins-withdraw'); ?></h2></header>
+                        <div class="withdraw-fields">
+                            <p>
+                                <strong><?php echo esc_html__('Redono - Returns and RMA for WooCommerce', 'plogins-withdraw'); ?></strong>
+                            </p>
+                            <?php if (class_exists('\Returns\Plugin')) : ?>
+                                <p class="withdraw-note" style="color:#007017;font-weight:600;">
+                                    <?php echo esc_html__('Redono is active. Statutory withdrawal requests are handled here, returns and complaints in Redono.', 'plogins-withdraw'); ?>
+                                </p>
+                            <?php else : ?>
+                                <p class="withdraw-note">
+                                    <?php echo esc_html__('Redono, a free plugin, handles returns, repairs and warranty complaints alongside statutory 14-day withdrawals.', 'plogins-withdraw'); ?>
+                                </p>
+                            <?php endif; ?>
+                        </div>
+                    </section>
+
                 </div>
 
                 <?php submit_button(); ?>
