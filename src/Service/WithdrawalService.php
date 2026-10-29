@@ -513,7 +513,15 @@ final class WithdrawalService implements HasHooks
             $number = $this->orderNumberFromRequest();
             // phpcs:ignore WordPress.Security.NonceVerification.Missing -- every caller verifies its own step nonce first.
             $email  = isset($_POST['withdraw_email']) ? sanitize_email(wp_unslash($_POST['withdraw_email'])) : '';
-            $order  = $this->lookupOrder($number, $email);
+
+            // Every step authorises here, and the review nonce is not bound to an
+            // order, so the cap sits on the lookup itself rather than on one step.
+            if ($this->links->lookupThrottled($email)) {
+                $error = __('Too many attempts. Please try again in an hour.', 'plogins-withdraw');
+                return null;
+            }
+
+            $order = $this->lookupOrder($number, $email);
 
             if ($order instanceof \WC_Order) {
                 return [
