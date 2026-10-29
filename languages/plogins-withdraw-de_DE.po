@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Plogins Withdraw - EU Right of Withdrawal & Returns for "
 "WooCommerce 0.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/plogins-withdraw\n"
-"POT-Creation-Date: 2026-10-26T06:49:45+00:00\n"
+"POT-Creation-Date: 2026-10-29T12:18:33+00:00\n"
 "PO-Revision-Date: 2026-07-02T09:24:51+00:00\n"
 "Last-Translator: motylanogha <szatkowski.mariusz@gmail.com>\n"
 "Language-Team: German <de@li.org>\n"
@@ -638,6 +638,26 @@ msgstr ""
 #: src/Admin/Settings.php:397
 #, php-format
 msgid "The checkbox always ends with: %s"
+msgstr ""
+
+#: src/Admin/Settings.php:406
+msgid "Ecosystem integrations"
+msgstr ""
+
+#: src/Admin/Settings.php:409
+msgid "Redono - Returns and RMA for WooCommerce"
+msgstr ""
+
+#: src/Admin/Settings.php:413
+msgid ""
+"Redono is active. Statutory withdrawal requests are handled here, returns "
+"and complaints in Redono."
+msgstr ""
+
+#: src/Admin/Settings.php:417
+msgid ""
+"Redono, a free plugin, handles returns, repairs and warranty complaints "
+"alongside statutory 14-day withdrawals."
 msgstr ""
 
 #: src/Email/AcceptedEmail.php:33 src/Email/AcceptedEmail.php:58
