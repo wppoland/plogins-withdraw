@@ -11,6 +11,12 @@ defined('ABSPATH') || exit;
  */
 return [
     'period_days'       => 14,
+    // Extra days the shop grants on top of the statutory period.
+    'grace_days'        => 0,
+    // 'strict' refuses a declaration after the deadline, as every release
+    // before 1.8.0 did. 'advisory' takes it and flags it as late, for a shop
+    // whose completion date is a poor stand-in for the delivery date.
+    'deadline_mode'     => 'strict',
     'form_page_id'      => 0,
     'eligible_statuses' => ['completed', 'processing'],
     'notify_email'      => '',
@@ -22,6 +28,10 @@ return [
     // statutory function: with broken SMTP a guest cannot withdraw at all. That
     // is the shop's decision to take, never an update's, so it ships off.
     'magic_link'        => false,
+    // Record a declaration whose order number and email match no order, for
+    // the shop to match by hand. Off: an update must not add a new path to
+    // the form on a live shop.
+    'accept_unmatched'  => false,
     // Art. 16(m) consent at checkout. Off because the plugin is already running
     // on live shops and an update must not put a new checkbox in front of their
     // customers without the shop asking for it. While off nothing registers,

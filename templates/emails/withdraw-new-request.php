@@ -12,6 +12,7 @@
  * @var string         $order_number
  * @var int            $request_id
  * @var array<int, array{name:string, qty:int}> $items
+ * @var string         $unverified declaration text when no order matched, '' otherwise
  * @var string         $reason
  * @var string         $customer_email
  * @var string         $customer_name
@@ -79,6 +80,12 @@ do_action('woocommerce_email_header', $email_heading, $email); // phpcs:ignore W
         <?php endforeach; ?>
         </tbody>
     </table>
+<?php endif; ?>
+
+<?php if ($unverified !== '') : ?>
+    <h2><?php echo esc_html__('Not matched to an order', 'plogins-withdraw'); ?></h2>
+    <p><?php echo esc_html__('The order number and email did not match an order. Find the order by hand and reply to the customer. The declaration as submitted:', 'plogins-withdraw'); ?></p>
+    <blockquote><?php echo nl2br(esc_html($unverified)); ?></blockquote>
 <?php endif; ?>
 
 <p>

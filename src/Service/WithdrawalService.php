@@ -21,10 +21,14 @@ defined('ABSPATH') || exit;
  */
 final class WithdrawalService implements HasHooks
 {
+    /** Set when the last authorizeOrder() call found no order for a typed number and email. */
+    private bool $unmatched = false;
+
     public function __construct(
         private readonly RequestRepository $repository,
         private readonly AccessLink $links,
         private readonly DigitalConsentService $consent,
+        private readonly ProductExclusion $exclusions,
     ) {
     }
 
@@ -92,6 +96,9 @@ final class WithdrawalService implements HasHooks
         if ('link' === $step) {
             return $this->handleLinkRequest();
         }
+        if (in_array($step, ['unmatched', 'unmatched_review', 'unmatched_confirm'], true)) {
+            return $this->handleUnmatched($step);
+        }
 
         if ($step === '') {
             // A click on an emailed link is a plain GET. The token is the
@@ -120,6 +127,9 @@ final class WithdrawalService implements HasHooks
         ob_start();
         $vars = [
             'error'    => $error,
+            // Only after a lookup that found nothing, never after a throttle or
+            // a bad nonce, and only while the shop has switched it on.
+            'offer_unmatched' => $this->unmatched && ! empty($s['accept_unmatched']),
             'period'   => (int) $s['period_days'],
             'intro'    => $this->text((string) $s['intro_text'], [StatutoryText::class, 'intro']),
             'magic'    => ! empty($s['magic_link']),
@@ -163,7 +173,11 @@ final class WithdrawalService implements HasHooks
             'legacy'   => $auth['legacy'],
             'name'     => trim($order->get_billing_first_name() . ' ' . $order->get_billing_last_name()),
             'deadline' => $eligibility['deadline'],
+            'late'     => $eligibility['late'],
             'excluded' => $eligibility['excluded'],
+            'reasons'  => $eligibility['reasons'],
+            'remaining' => $eligibility['remaining'],
+            'sealed'   => $this->exclusions->sealedItems($order),
             'model'    => $this->text((string) $s['model_form_text'], [StatutoryText::class, 'modelForm']),
             'nonce'    => wp_create_nonce('withdraw_review'),
         ]);
@@ -203,7 +217,7 @@ final class WithdrawalService implements HasHooks
             return $this->renderLookupStep(__('Please give the name on the contract so the declaration identifies who is withdrawing.', 'plogins-withdraw'));
         }
 
-        $items = $this->selectedItems($order, $eligibility['excluded']);
+        $items = $this->selectedItems($order, $eligibility['remaining']);
         if ($items === []) {
             return $this->renderLookupStep(__('Please select at least one item to withdraw from.', 'plogins-withdraw'));
         }
@@ -247,28 +261,26 @@ final class WithdrawalService implements HasHooks
     }
 
     /**
-     * Quantities the customer picked, clamped to what the order actually holds
-     * and stripped of anything the Art. 16(m) exclusion covers.
+     * Quantities the customer picked, clamped to what is still open on each
+     * line: the ordered quantity less earlier declarations, with Art. 16
+     * exclusions absent altogether.
      *
-     * Dropping the excluded ids HERE is the enforcement point. Leaving the row
-     * out of the table is presentation, and a posted quantity does not have to
-     * come from a table we rendered. If nothing survives, the caller's existing
-     * "select at least one item" error fires.
+     * Clamping HERE is the enforcement point. Leaving a row out of the table is
+     * presentation, and a posted quantity does not have to come from a table we
+     * rendered. If nothing survives, the caller's existing "select at least one
+     * item" error fires.
      *
-     * @param list<int> $excluded
+     * @param array<int,int> $remaining order item id => quantity still withdrawable
      * @return list<array{item_id:int,product_id:int,name:string,qty:int}>
      */
-    private function selectedItems(\WC_Order $order, array $excluded = []): array
+    private function selectedItems(\WC_Order $order, array $remaining): array
     {
         // phpcs:ignore WordPress.Security.NonceVerification.Missing -- nonce verified by the caller.
         $rawQty = isset($_POST['withdraw_qty']) && is_array($_POST['withdraw_qty']) ? map_deep(wp_unslash($_POST['withdraw_qty']), 'absint') : [];
         $items  = [];
 
         foreach ($order->get_items() as $itemId => $item) {
-            if (! $item instanceof \WC_Order_Item_Product) {
-                continue;
-            }
-            if (in_array((int) $itemId, $excluded, true)) {
+            if (! $item instanceof \WC_Order_Item_Product || ! isset($remaining[(int) $itemId])) {
                 continue;
             }
             $qty = isset($rawQty[$itemId]) ? absint($rawQty[$itemId]) : 0;
@@ -279,7 +291,7 @@ final class WithdrawalService implements HasHooks
                 'item_id'    => (int) $itemId,
                 'product_id' => (int) $item->get_product_id(),
                 'name'       => (string) $item->get_name(),
-                'qty'        => min($qty, (int) $item->get_quantity()),
+                'qty'        => min($qty, $remaining[(int) $itemId]),
             ];
         }
 
@@ -315,7 +327,7 @@ final class WithdrawalService implements HasHooks
             return $this->renderLookupStep(__('Please tick the declaration to confirm you are withdrawing from the contract.', 'plogins-withdraw'));
         }
 
-        $items = $this->selectedItems($order, $eligibility['excluded']);
+        $items = $this->selectedItems($order, $eligibility['remaining']);
 
         if ($items === []) {
             return $this->renderLookupStep(__('Please select at least one item to withdraw from.', 'plogins-withdraw'));
@@ -340,7 +352,7 @@ final class WithdrawalService implements HasHooks
         // produce.
         $declaration = $this->statement($order, $name, $email, $items);
 
-        $id = $this->repository->create($order->get_id(), $email, $items, $reason, $token, $name, $declaration);
+        $id = $this->repository->create($order->get_id(), $email, $items, $reason, $token, $name, $declaration, $eligibility['late']);
 
         // Single use means one completed withdrawal per link, not one page view.
         // Consuming on first view would kill the link on step two, break the back
@@ -359,7 +371,7 @@ final class WithdrawalService implements HasHooks
                     static fn (array $i): string => sprintf('- %s x%d', $i['name'], $i['qty']),
                     $items,
                 )),
-            ),
+            ) . ($eligibility['late'] ? "\n" . __('Submitted after the withdrawal deadline. Check the delivery date before you decide.', 'plogins-withdraw') : ''),
         );
 
         /**
@@ -385,6 +397,106 @@ final class WithdrawalService implements HasHooks
     }
 
     /* --------------------------------------------------------------------- */
+
+    /**
+     * A declaration that matches no order: a mistyped order number, or an
+     * address other than the billing one.
+     *
+     * Art. 11a(2) asks the statement for a name, details identifying the
+     * contract and an electronic contact, not for a match the shop can verify,
+     * so with `accept_unmatched` on the declaration is recorded for the shop to
+     * match by hand instead of being lost. Same three steps as the matched
+     * flow, so the confirmation is still its own control (Art. 11a(3)).
+     *
+     * Only the shop is emailed. The address is unverified, and mailing it would
+     * let anyone send the shop's mail, with their own text in it, to any inbox.
+     * The consumer gets the statement and its time on screen; the shop's status
+     * emails reach them once it has matched the order.
+     */
+    private function handleUnmatched(string $step): string
+    {
+        if (empty($this->settings()['accept_unmatched'])) {
+            return $this->renderLookupStep();
+        }
+
+        $nonceAction = ['unmatched' => 'withdraw_lookup', 'unmatched_review' => 'withdraw_unmatched', 'unmatched_confirm' => 'withdraw_unmatched_confirm'][$step];
+        if (! isset($_POST['withdraw_nonce']) || ! wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['withdraw_nonce'])), $nonceAction)) {
+            return $this->renderLookupStep(__('Security check failed. Please try again.', 'plogins-withdraw'));
+        }
+
+        $fields = [
+            'number' => $this->orderNumberFromRequest(),
+            'email'  => isset($_POST['withdraw_email']) ? sanitize_email(wp_unslash($_POST['withdraw_email'])) : '',
+            'name'   => isset($_POST['withdraw_name']) ? sanitize_text_field(wp_unslash($_POST['withdraw_name'])) : '',
+            'goods'  => isset($_POST['withdraw_goods']) ? sanitize_textarea_field(wp_unslash($_POST['withdraw_goods'])) : '',
+            'reason' => isset($_POST['withdraw_reason']) ? sanitize_textarea_field(wp_unslash($_POST['withdraw_reason'])) : '',
+        ];
+
+        $error = '';
+        if ($step !== 'unmatched') {
+            if ($fields['name'] === '' || $fields['goods'] === '' || $fields['number'] === '') {
+                $error = __('Please fill in your name, the order number and the goods you are withdrawing from.', 'plogins-withdraw');
+            } elseif (! is_email($fields['email'])) {
+                $error = __('Enter a valid email address.', 'plogins-withdraw');
+            }
+        }
+
+        if ($step === 'unmatched' || $error !== '') {
+            return $this->renderUnmatched('edit', $fields, $error);
+        }
+
+        $statement = sprintf(
+            /* translators: 1: goods as the consumer described them, 2: order number as typed, 3: consumer name, 4: consumer email */
+            __("I hereby give notice that I withdraw from my contract of sale of the following goods:\n%1\$s\n\nOrder number as I have it: %2\$s\nName of consumer: %3\$s\nContact: %4\$s", 'plogins-withdraw'),
+            $fields['goods'],
+            $fields['number'],
+            $fields['name'],
+            $fields['email'],
+        );
+
+        if ($step === 'unmatched_review') {
+            return $this->renderUnmatched('review', $fields, '', $statement);
+        }
+
+        if (empty($_POST['withdraw_declare'])) {
+            return $this->renderUnmatched('review', $fields, __('Please tick the declaration to confirm you are withdrawing from the contract.', 'plogins-withdraw'), $statement);
+        }
+
+        // An unauthenticated write, so it is capped like the lookup it replaces.
+        if ($this->links->lookupThrottled($fields['email'])) {
+            return $this->renderLookupStep(__('Too many attempts. Please try again in an hour.', 'plogins-withdraw'));
+        }
+
+        $submittedAt = current_time('timestamp');
+        $id          = $this->repository->create(0, $fields['email'], [], $fields['reason'], wp_generate_password(24, false), $fields['name'], $statement, false, $fields['number']);
+
+        /**
+         * Fires once a declaration that matched no order has been recorded.
+         *
+         * Separate from `withdraw/declared`, which always carries a WC_Order.
+         *
+         * @param int $id          Request id.
+         * @param int $submittedAt Submission timestamp, site time.
+         */
+        do_action('withdraw/declared_unverified', $id, $submittedAt);
+
+        return $this->renderUnmatched('done', $fields, '', $statement, $submittedAt);
+    }
+
+    /** @param array{number:string, email:string, name:string, goods:string, reason:string} $fields */
+    private function renderUnmatched(string $mode, array $fields, string $error, string $statement = '', int $submittedAt = 0): string
+    {
+        ob_start();
+        $this->template('form-unmatched.php', [
+            'mode'        => $mode,
+            'fields'      => $fields,
+            'error'       => $error,
+            'statement'   => $statement,
+            'submittedAt' => $submittedAt,
+        ]);
+
+        return (string) ob_get_clean();
+    }
 
     /**
      * Step 1 when the emailed-link flow is on: take an order number and an
@@ -438,6 +550,11 @@ final class WithdrawalService implements HasHooks
         ob_start();
         $this->template('link-sent.php', [
             'minutes' => max(1, (int) round($this->links->ttl() / MINUTE_IN_SECONDS)),
+            // Offered whatever the lookup found, so it says nothing about
+            // whether the order exists.
+            'offer_unmatched' => ! empty($this->settings()['accept_unmatched']),
+            'number'  => $number,
+            'email'   => $email,
         ]);
         return (string) ob_get_clean();
     }
@@ -539,7 +656,8 @@ final class WithdrawalService implements HasHooks
             }
         }
 
-        $error = __('We could not find an order with that number and email.', 'plogins-withdraw');
+        $error           = __('We could not find an order with that number and email.', 'plogins-withdraw');
+        $this->unmatched = ! $magic;
 
         return null;
     }
@@ -746,17 +864,53 @@ final class WithdrawalService implements HasHooks
     /**
      * The last moment the order can be withdrawn from.
      *
-     * The window starts at completion (delivery proxy) or, if the order was
-     * never marked completed, at creation. Configurable length. Shared with the
-     * My Account controls and the order emails, so a link is never offered for
-     * an order the form would then refuse as out of time.
+     * The period runs from delivery (Directive 2011/83/EU Art. 9(2)(b)). The
+     * order record has no delivery date, so completion stands in for it, or
+     * creation if the order was never completed; `withdraw/delivery_date`
+     * supplies the real one. Counted under Regulation 1182/71 Art. 3: the
+     * delivery day itself does not count (3(1)), the period ends with the last
+     * hour of its last day (3(2)(b)), and a last day on a Saturday or Sunday
+     * moves to the next working day (3(4)). Grace days are the shop's own
+     * extension, added on top.
+     *
+     * Shared with the My Account controls and the order emails, so a link is
+     * never offered for an order the form would then refuse as out of time.
      */
-    public static function deadline(\WC_Order $order, int $periodDays): int
+    public static function deadline(\WC_Order $order, int $periodDays, int $graceDays = 0): int
     {
-        $completed = $order->get_date_completed();
-        $start     = $completed ? $completed->getTimestamp() : ($order->get_date_created()?->getTimestamp() ?? time());
+        /**
+         * Filters the moment the consumer acquired the goods.
+         *
+         * Return a timestamp or a DateTimeInterface from a shipping or tracking
+         * plugin; anything else falls back to completion, then creation.
+         *
+         * @param int|\DateTimeInterface|null $delivered
+         * @param \WC_Order                    $order
+         */
+        $delivered = apply_filters('withdraw/delivery_date', null, $order);
 
-        return $start + ($periodDays * DAY_IN_SECONDS);
+        if ($delivered instanceof \DateTimeInterface) {
+            $start = $delivered->getTimestamp();
+        } elseif (is_numeric($delivered) && (int) $delivered > 0) {
+            $start = (int) $delivered;
+        } else {
+            $completed = $order->get_date_completed();
+            $start     = $completed ? $completed->getTimestamp() : ($order->get_date_created()?->getTimestamp() ?? time());
+        }
+
+        $end = (new \DateTimeImmutable('@' . $start))
+            ->setTimezone(wp_timezone())
+            ->setTime(23, 59, 59)
+            ->modify('+' . max(0, $periodDays) . ' days');
+
+        // ponytail: Saturday and Sunday only. Public holidays differ per member
+        // state and per region, so a shop that needs them extends through the
+        // grace days or the delivery-date filter.
+        while ((int) $end->format('N') >= 6) {
+            $end = $end->modify('+1 day');
+        }
+
+        return $end->modify('+' . max(0, $graceDays) . ' days')->getTimestamp();
     }
 
     /**
@@ -774,59 +928,88 @@ final class WithdrawalService implements HasHooks
             return false;
         }
 
-        return time() <= self::deadline($order, (int) ($settings['period_days'] ?? 14));
+        return time() <= self::deadline($order, (int) ($settings['period_days'] ?? 14), (int) ($settings['grace_days'] ?? 0));
     }
 
     /**
-     * @return array{eligible:bool, reason:string, deadline:int, excluded:list<int>}
+     * Whether the form may take a declaration for this order, and for what.
+     *
+     * `remaining` is the quantity per line item still open to withdrawal: the
+     * ordered quantity, less what earlier pending, accepted or processed
+     * declarations already cover, less anything an Art. 16 exclusion removes.
+     * A partial withdrawal therefore leaves the rest of the order withdrawable.
+     *
+     * @return array{eligible:bool, reason:string, deadline:int, late:bool, excluded:list<int>, reasons:array<int,string>, remaining:array<int,int>}
      */
     private function eligibility(\WC_Order $order): array
     {
-        $s = $this->settings();
+        $s    = $this->settings();
+        $deny = static fn (string $reason, int $deadline = 0): array => [
+            'eligible' => false, 'reason' => $reason, 'deadline' => $deadline, 'late' => false,
+            'excluded' => [], 'reasons' => [], 'remaining' => [],
+        ];
 
         $allowed = (array) $s['eligible_statuses'];
         if (! in_array($order->get_status(), $allowed, true)) {
-            return ['eligible' => false, 'reason' => __('This order is not in a status that can be withdrawn.', 'plogins-withdraw'), 'deadline' => 0, 'excluded' => []];
+            return $deny(__('This order is not in a status that can be withdrawn.', 'plogins-withdraw'));
         }
 
-        $deadline = self::deadline($order, (int) $s['period_days']);
+        $deadline = self::deadline($order, (int) $s['period_days'], (int) ($s['grace_days'] ?? 0));
+        $late     = time() > $deadline;
 
-        if (time() > $deadline) {
-            return ['eligible' => false, 'reason' => __('The withdrawal period for this order has ended.', 'plogins-withdraw'), 'deadline' => $deadline, 'excluded' => []];
+        // Advisory mode takes a late declaration and flags it for the shop to
+        // judge, instead of turning the consumer away on the form.
+        if ($late && ($s['deadline_mode'] ?? 'strict') !== 'advisory') {
+            return $deny(__('The withdrawal period for this order has ended.', 'plogins-withdraw'), $deadline);
         }
 
-        if ($this->repository->openCountForOrder($order->get_id()) > 0) {
-            return ['eligible' => false, 'reason' => __('A withdrawal request for this order is already being processed.', 'plogins-withdraw'), 'deadline' => $deadline, 'excluded' => []];
+        $committed = $this->repository->committedQuantities($order->get_id());
+        if ($committed === null) {
+            return $deny(__('A withdrawal request for this order is already being processed.', 'plogins-withdraw'), $deadline);
         }
 
-        // Art. 16(m). Empty unless the shop turned the feature on, the customer
-        // consented AND supply has actually begun, so with the setting off this
-        // is what it has always been.
-        $excluded = $this->consent->excludedItemIds($order);
+        // Art. 16(m) is empty unless the shop turned the feature on, the
+        // customer consented AND supply has begun. Art. 16(c) and (d) come
+        // from the product or its category.
+        $reasons = array_fill_keys($this->consent->excludedItemIds($order), 'digital') + $this->exclusions->excludedItems($order);
 
-        if ($excluded !== [] && count($excluded) === $this->lineItemCount($order)) {
-            return [
-                'eligible' => false,
-                'reason'   => __('This order is for digital content you asked us to supply immediately, and supply has begun, so the right of withdrawal no longer applies to it.', 'plogins-withdraw'),
-                'deadline' => $deadline,
-                'excluded' => $excluded,
-            ];
-        }
-
-        return ['eligible' => true, 'reason' => '', 'deadline' => $deadline, 'excluded' => $excluded];
-    }
-
-    /** Product line items, the only rows the form ever offers. */
-    private function lineItemCount(\WC_Order $order): int
-    {
-        $count = 0;
-        foreach ($order->get_items() as $item) {
-            if ($item instanceof \WC_Order_Item_Product) {
-                ++$count;
+        $remaining = [];
+        foreach ($order->get_items() as $itemId => $item) {
+            if (! $item instanceof \WC_Order_Item_Product || isset($reasons[(int) $itemId])) {
+                continue;
+            }
+            $left = (int) $item->get_quantity() - ($committed[(int) $itemId] ?? 0);
+            if ($left > 0) {
+                $remaining[(int) $itemId] = $left;
             }
         }
 
-        return $count;
+        $result = [
+            'eligible'  => true,
+            'reason'    => '',
+            'deadline'  => $deadline,
+            'late'      => $late,
+            'excluded'  => array_keys($reasons),
+            'reasons'   => $reasons,
+            'remaining' => $remaining,
+        ];
+
+        if ($remaining !== []) {
+            return $result;
+        }
+
+        $result['eligible'] = false;
+        if ($reasons === [] || $committed !== []) {
+            $result['reason'] = $committed !== []
+                ? __('Every item in this order is already covered by a withdrawal request.', 'plogins-withdraw')
+                : __('This order has no items that can be withdrawn from.', 'plogins-withdraw');
+        } elseif (array_values(array_unique($reasons)) === ['digital']) {
+            $result['reason'] = __('This order is for digital content you asked us to supply immediately, and supply has begun, so the right of withdrawal no longer applies to it.', 'plogins-withdraw');
+        } else {
+            $result['reason'] = __('The right of withdrawal does not apply to the items in this order.', 'plogins-withdraw');
+        }
+
+        return $result;
     }
 
     /**

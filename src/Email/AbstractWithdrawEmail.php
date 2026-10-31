@@ -101,6 +101,12 @@ abstract class AbstractWithdrawEmail extends \WC_Email
             return (string) $this->object->get_order_number();
         }
 
+        $hint = (string) ($this->request->order_hint ?? '');
+        if ((int) ($this->request->order_id ?? 0) === 0 && $hint !== '') {
+            /* translators: %s: order number as the customer typed it */
+            return sprintf(__('%s (not matched)', 'plogins-withdraw'), $hint);
+        }
+
         return (string) ($this->request->order_id ?? '');
     }
 

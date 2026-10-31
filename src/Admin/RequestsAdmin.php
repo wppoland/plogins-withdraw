@@ -270,14 +270,26 @@ final class RequestsAdmin implements HasHooks
                             <td>
                                 <strong><a href="<?php echo esc_url($listUrl(['request' => (int) $r->id])); ?>">#<?php echo (int) $r->id; ?></a></strong>
                             </td>
-                            <td><a href="<?php echo esc_url(self::orderEditUrl((int) $r->order_id)); ?>">#<?php echo (int) $r->order_id; ?></a></td>
+                            <td>
+                                <?php if ((int) $r->order_id === 0) : ?>
+                                    <?php echo esc_html((string) ($r->order_hint ?? '')); ?><br>
+                                    <span style="color:#b32d2e"><?php echo esc_html__('Not matched', 'plogins-withdraw'); ?></span>
+                                <?php else : ?>
+                                    <a href="<?php echo esc_url(self::orderEditUrl((int) $r->order_id)); ?>">#<?php echo (int) $r->order_id; ?></a>
+                                <?php endif; ?>
+                            </td>
                             <td><?php echo esc_html((string) $r->customer_email); ?></td>
                             <td>
                                 <?php foreach ($items as $it) : ?>
                                     <div><?php echo esc_html((string) ($it['name'] ?? '')); ?> &times;<?php echo (int) ($it['qty'] ?? 0); ?></div>
                                 <?php endforeach; ?>
                             </td>
-                            <td><?php echo esc_html(mysql2date(get_option('date_format') . ' H:i', (string) $r->created_at)); ?></td>
+                            <td>
+                                <?php echo esc_html(mysql2date(get_option('date_format') . ' H:i', (string) $r->created_at)); ?>
+                                <?php if (! empty($r->late_submission)) : ?>
+                                    <br><span style="color:#b32d2e"><?php echo esc_html__('After the deadline', 'plogins-withdraw'); ?></span>
+                                <?php endif; ?>
+                            </td>
                             <td>
                                 <?php if ($refundDue === 0) : ?>
                                     &mdash;
@@ -366,8 +378,26 @@ final class RequestsAdmin implements HasHooks
                 <tbody>
                     <tr>
                         <th style="width:220px"><?php echo esc_html__('Order', 'plogins-withdraw'); ?></th>
-                        <td><a href="<?php echo esc_url(self::orderEditUrl((int) $request->order_id)); ?>">#<?php echo esc_html($orderNo); ?></a></td>
+                        <?php if ((int) $request->order_id === 0) : ?>
+                            <td>
+                                <?php
+                                echo esc_html(sprintf(
+                                    /* translators: %s: order number as the customer typed it */
+                                    __('Not matched to an order. The customer gave: %s', 'plogins-withdraw'),
+                                    (string) ($request->order_hint ?? ''),
+                                ));
+                                ?>
+                            </td>
+                        <?php else : ?>
+                            <td><a href="<?php echo esc_url(self::orderEditUrl((int) $request->order_id)); ?>">#<?php echo esc_html($orderNo); ?></a></td>
+                        <?php endif; ?>
                     </tr>
+                    <?php if (! empty($request->late_submission)) : ?>
+                        <tr>
+                            <th><?php echo esc_html__('Deadline', 'plogins-withdraw'); ?></th>
+                            <td style="color:#b32d2e"><?php echo esc_html__('Submitted after the withdrawal deadline. Check the delivery date before you decide.', 'plogins-withdraw'); ?></td>
+                        </tr>
+                    <?php endif; ?>
                     <?php if (! empty($request->customer_name)) : ?>
                         <tr>
                             <th><?php echo esc_html__('Name on the contract', 'plogins-withdraw'); ?></th>

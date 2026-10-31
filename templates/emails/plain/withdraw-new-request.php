@@ -7,6 +7,7 @@
  * @var string         $order_number
  * @var int            $request_id
  * @var array<int, array{name:string, qty:int}> $items
+ * @var string $unverified declaration text when no order matched, '' otherwise
  * @var string         $reason
  * @var string         $customer_email
  * @var string         $customer_name
@@ -68,6 +69,11 @@ if ($items !== []) {
         echo '- ' . esc_html($withdraw_item['name']) . ' x' . esc_html((string) $withdraw_item['qty']) . "\n";
     }
     echo "\n";
+}
+
+if ($unverified !== '') {
+    echo esc_html__('The order number and email did not match an order. Find the order by hand and reply to the customer. The declaration as submitted:', 'plogins-withdraw') . "\n";
+    echo esc_html($unverified) . "\n\n";
 }
 
 echo esc_html(sprintf(

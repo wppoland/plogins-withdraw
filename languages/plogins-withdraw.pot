@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Plogins Withdraw - Right of Withdrawal Button for WooCommerce 1.7.4\n"
+"Project-Id-Version: Plogins Withdraw - Right of Withdrawal Button for WooCommerce 1.8.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/plogins-withdraw\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-29T18:09:10+00:00\n"
+"POT-Creation-Date: 2026-10-31T11:50:52+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: plogins-withdraw\n"
@@ -121,20 +121,20 @@ msgid "ID"
 msgstr ""
 
 #: src/Admin/RequestsAdmin.php:246
-#: src/Admin/RequestsAdmin.php:368
+#: src/Admin/RequestsAdmin.php:380
 #: templates/emails/withdraw-accepted.php:61
-#: templates/emails/withdraw-new-request.php:48
+#: templates/emails/withdraw-new-request.php:49
 msgid "Order"
 msgstr ""
 
 #: src/Admin/RequestsAdmin.php:247
-#: src/Admin/RequestsAdmin.php:378
-#: templates/emails/withdraw-new-request.php:58
+#: src/Admin/RequestsAdmin.php:408
+#: templates/emails/withdraw-new-request.php:59
 msgid "Customer"
 msgstr ""
 
 #: src/Admin/RequestsAdmin.php:248
-#: src/Admin/RequestsAdmin.php:404
+#: src/Admin/RequestsAdmin.php:434
 msgid "Items"
 msgstr ""
 
@@ -144,7 +144,7 @@ msgid "Date"
 msgstr ""
 
 #: src/Admin/RequestsAdmin.php:250
-#: src/Admin/RequestsAdmin.php:390
+#: src/Admin/RequestsAdmin.php:420
 msgid "Refund due"
 msgstr ""
 
@@ -161,92 +161,117 @@ msgstr ""
 msgid "No withdrawal requests yet."
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:286
-#: src/Admin/RequestsAdmin.php:397
+#: src/Admin/RequestsAdmin.php:276
+msgid "Not matched"
+msgstr ""
+
+#: src/Admin/RequestsAdmin.php:290
+#: src/Admin/Settings.php:200
+msgid "After the deadline"
+msgstr ""
+
+#: src/Admin/RequestsAdmin.php:298
+#: src/Admin/RequestsAdmin.php:427
 msgid "Overdue"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:332
+#: src/Admin/RequestsAdmin.php:344
 msgid "Withdrawal request"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:333
+#: src/Admin/RequestsAdmin.php:345
 msgid "That request no longer exists."
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:334
+#: src/Admin/RequestsAdmin.php:346
 msgid "Back to the request log"
 msgstr ""
 
 #. translators: %d: withdrawal request id
-#: src/Admin/RequestsAdmin.php:353
+#: src/Admin/RequestsAdmin.php:365
 #, php-format
 msgid "Withdrawal request #%d"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:358
+#: src/Admin/RequestsAdmin.php:370
 msgid "Back to the log"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:362
+#: src/Admin/RequestsAdmin.php:374
 msgid "Say why before rejecting. The reason is printed in the email the customer receives, and it is what your own records will show if the decision is ever questioned."
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:373
+#. translators: %s: order number as the customer typed it
+#: src/Admin/RequestsAdmin.php:386
+#, php-format
+msgid "Not matched to an order. The customer gave: %s"
+msgstr ""
+
+#: src/Admin/RequestsAdmin.php:397
+msgid "Deadline"
+msgstr ""
+
+#: src/Admin/RequestsAdmin.php:398
+#: src/Service/WithdrawalService.php:374
+msgid "Submitted after the withdrawal deadline. Check the delivery date before you decide."
+msgstr ""
+
+#: src/Admin/RequestsAdmin.php:403
 #: src/Service/WithdrawPrivacyService.php:75
-#: templates/emails/withdraw-new-request.php:53
-#: templates/form-items.php:56
+#: templates/emails/withdraw-new-request.php:54
+#: templates/form-items.php:63
+#: templates/form-unmatched.php:64
 msgid "Name on the contract"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:382
+#: src/Admin/RequestsAdmin.php:412
 #: templates/emails/withdraw-accepted.php:66
-#: templates/emails/withdraw-new-request.php:63
+#: templates/emails/withdraw-new-request.php:64
 msgid "Declared on"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:386
+#: src/Admin/RequestsAdmin.php:416
 msgid "Last updated"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:393
+#: src/Admin/RequestsAdmin.php:423
 msgid "Nothing outstanding."
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:399
+#: src/Admin/RequestsAdmin.php:429
 msgid "Article 13(1): 14 days from the day the customer told you, and the refund includes the standard delivery cost they paid."
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:412
+#: src/Admin/RequestsAdmin.php:442
 msgid "Reason given"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:418
+#: src/Admin/RequestsAdmin.php:448
 msgid "None given. A reason is never required."
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:423
+#: src/Admin/RequestsAdmin.php:453
 #: src/Service/WithdrawPrivacyService.php:76
 msgid "Declaration"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:430
+#: src/Admin/RequestsAdmin.php:460
 msgid "Recorded before 1.4.0, when the declaration was not stored. The acknowledgement email sent at the time carries it."
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:436
+#: src/Admin/RequestsAdmin.php:466
 msgid "Status and your note"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:466
+#: src/Admin/RequestsAdmin.php:496
 msgid "Why. Required to reject, and printed in the email the customer receives."
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:468
+#: src/Admin/RequestsAdmin.php:498
 msgid "Why (needed to reject)"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:470
+#: src/Admin/RequestsAdmin.php:500
 msgid "Save"
 msgstr ""
 
@@ -264,293 +289,327 @@ msgstr ""
 msgid "Withdrawal"
 msgstr ""
 
-#: src/Admin/Settings.php:160
+#: src/Admin/Settings.php:163
 msgid "Right of Withdrawal"
 msgstr ""
 
-#: src/Admin/Settings.php:161
+#: src/Admin/Settings.php:164
 msgid "Complies with EU Directive 2023/2673 (Art. 11a): an easy withdrawal function letting customers declare a full or partial withdrawal for their orders. Requests are logged under WooCommerce > Withdrawal Requests."
 msgstr ""
 
-#: src/Admin/Settings.php:164
+#: src/Admin/Settings.php:167
 msgid "Requests:"
 msgstr ""
 
 #. translators: 1: pending, 2: accepted, 3: processed, 4: rejected
-#: src/Admin/Settings.php:168
+#: src/Admin/Settings.php:171
 #, php-format
 msgid "%1$d pending, %2$d accepted, %3$d processed, %4$d rejected"
 msgstr ""
 
-#: src/Admin/Settings.php:175
+#: src/Admin/Settings.php:178
 msgid "View requests"
 msgstr ""
 
-#: src/Admin/Settings.php:184
+#: src/Admin/Settings.php:187
 msgid "General"
 msgstr ""
 
-#: src/Admin/Settings.php:187
+#: src/Admin/Settings.php:190
 msgid "Withdrawal period (days)"
 msgstr ""
 
-#: src/Admin/Settings.php:189
-msgid "Statutory minimum is 14 days from delivery. The window starts when the order is marked completed, or at order creation if it never was."
+#: src/Admin/Settings.php:192
+msgid "Statutory minimum is 14 days from the day the customer receives the goods. The order has no delivery date, so the plugin counts from the day the order is marked completed (or created, if it never was); a shipping plugin can supply the real date through the withdraw/delivery_date filter. The start day is not counted, the period ends at midnight of its last day, and a last day on a Saturday or Sunday moves to the Monday (Regulation 1182/71, Art. 3)."
 msgstr ""
 
 #: src/Admin/Settings.php:195
+msgid "Extra days (grace)"
+msgstr ""
+
+#: src/Admin/Settings.php:197
+msgid "Days added after the statutory period ends, for example to cover shipping time when orders are completed at dispatch rather than at delivery."
+msgstr ""
+
+#: src/Admin/Settings.php:202
+msgid "Refuse the declaration"
+msgstr ""
+
+#: src/Admin/Settings.php:203
+msgid "Accept it and flag it as late"
+msgstr ""
+
+#: src/Admin/Settings.php:205
+msgid "A withdrawal counts as in time if the customer sent it before the period expired (Directive 2011/83/EU, Art. 11a(5)), and the period runs from delivery (Art. 9(2)(b)). If your completion date can be earlier than delivery, accept late declarations and judge each one against the real delivery date. Links in My Account and in emails still disappear at the deadline."
+msgstr ""
+
+#: src/Admin/Settings.php:211
 msgid "Form page"
 msgstr ""
 
-#: src/Admin/Settings.php:198
+#: src/Admin/Settings.php:214
 msgid "Withdrawal form page"
 msgstr ""
 
-#: src/Admin/Settings.php:204
+#: src/Admin/Settings.php:220
 msgid "Select a page"
 msgstr ""
 
-#: src/Admin/Settings.php:210
+#: src/Admin/Settings.php:226
 msgid "Create a page with the [withdraw_form] shortcode, then select it here so the My Account button can link to it."
 msgstr ""
 
-#: src/Admin/Settings.php:219
+#: src/Admin/Settings.php:235
 msgid "Eligibility"
 msgstr ""
 
-#: src/Admin/Settings.php:220
+#: src/Admin/Settings.php:236
 msgid "Customers can only submit a withdrawal for orders in one of these statuses. If none are checked, Completed and Processing are used."
 msgstr ""
 
-#: src/Admin/Settings.php:233
+#: src/Admin/Settings.php:249
 msgid "No status checked: Completed and Processing will be saved instead."
 msgstr ""
 
-#: src/Admin/Settings.php:238
+#: src/Admin/Settings.php:254
 msgid "Where the function appears"
 msgstr ""
 
-#: src/Admin/Settings.php:243
+#: src/Admin/Settings.php:259
 msgid "Show a withdrawal link in the site footer"
 msgstr ""
 
-#: src/Admin/Settings.php:245
+#: src/Admin/Settings.php:261
 msgid "The order view only reaches a signed-in customer looking at that order. Article 11a asks for the function to be easily accessible for the whole withdrawal period, so a footer link, a menu item or the [withdraw_link] shortcode on a legal page covers the shoppers the order view does not."
 msgstr ""
 
-#: src/Admin/Settings.php:248
+#: src/Admin/Settings.php:264
 msgid "Link text"
 msgstr ""
 
-#: src/Admin/Settings.php:249
+#: src/Admin/Settings.php:265
 #: src/Frontend/WithdrawLink.php:86
 msgid "Withdraw from contract here"
 msgstr ""
 
-#: src/Admin/Settings.php:250
+#: src/Admin/Settings.php:266
 msgid "Leave empty for the statutory wording. Article 11a(1) prescribes \"withdraw from contract here\" or an unambiguous equivalent, so if you change it, keep it unambiguous."
 msgstr ""
 
-#: src/Admin/Settings.php:256
+#: src/Admin/Settings.php:272
 msgid "Guest access"
 msgstr ""
 
-#: src/Admin/Settings.php:261
+#: src/Admin/Settings.php:277
 msgid "Email a one-time link instead of opening the form straight away"
 msgstr ""
 
-#: src/Admin/Settings.php:263
+#: src/Admin/Settings.php:279
 msgid "Off by default: a customer opens the form with their order number and billing email. Turn this on and the form emails a one-time link to the order billing address instead, so knowing the order number is not enough. Signed-in customers reaching the form from My Account are never asked for a link. This makes the withdrawal function depend on your shop outgoing email working."
 msgstr ""
 
-#: src/Admin/Settings.php:266
+#: src/Admin/Settings.php:284
+msgid "Accept declarations that match no order"
+msgstr ""
+
+#: src/Admin/Settings.php:286
+msgid "When the order number and email match no order (a typo, or a different address), the customer can still send the declaration with a description of the goods. It is logged as not matched, without an order, and only you are emailed: the address is unverified, so the customer acknowledgement is not sent. Match it to the order and reply yourself."
+msgstr ""
+
+#: src/Admin/Settings.php:289
 msgid "This site is not served over HTTPS. The one-time link travels in a page address and in a form field, so anyone able to watch the connection can read it."
 msgstr ""
 
-#: src/Admin/Settings.php:272
+#: src/Admin/Settings.php:295
 msgid "Digital content"
 msgstr ""
 
-#: src/Admin/Settings.php:277
+#: src/Admin/Settings.php:300
 msgid "Ask for Article 16(m) consent at checkout for downloadable products"
 msgstr ""
 
-#: src/Admin/Settings.php:279
+#: src/Admin/Settings.php:302
 msgid "Adds one optional, unticked checkbox to the checkout when the cart contains a downloadable product. It carries both halves of Article 16(m): the request to start supply immediately and the acknowledgement of losing the right of withdrawal. Once a file has actually been downloaded, that item stops being withdrawable. Virtual products that are not downloadable are services and are not covered."
 msgstr ""
 
-#: src/Admin/Settings.php:282
+#: src/Admin/Settings.php:305
 msgid "The box is never required. A customer who declines keeps the right of withdrawal and still gets the download, because WooCommerce grants download access regardless. That is the law working as intended, not a fault: consent that is a condition of purchase is not freely given, and would not hold up as an exclusion."
 msgstr ""
 
-#: src/Admin/Settings.php:285
+#: src/Admin/Settings.php:308
 msgid "Turning this back off restores the right of withdrawal on past orders too. Granting a withdrawal you could have refused is always lawful; honouring consent from a feature you have switched off would be the surprising outcome."
 msgstr ""
 
-#: src/Admin/Settings.php:291
+#: src/Admin/Settings.php:314
 msgid "Emails"
 msgstr ""
 
-#: src/Admin/Settings.php:294
+#: src/Admin/Settings.php:317
 msgid "Notification email"
 msgstr ""
 
-#: src/Admin/Settings.php:296
+#: src/Admin/Settings.php:319
 msgid "Where new-request notifications are sent. Leave empty to use the site admin email. The customer always gets a confirmation at their own address."
 msgstr ""
 
-#: src/Admin/Settings.php:299
+#: src/Admin/Settings.php:322
 msgid "Every message this plugin sends is a WooCommerce email: same template, same logo, same footer as your order emails, and each one can be reworded or switched off on its own."
 msgstr ""
 
-#: src/Admin/Settings.php:306
+#: src/Admin/Settings.php:329
 msgid "(off)"
 msgstr ""
 
-#: src/Admin/Settings.php:315
+#: src/Admin/Settings.php:338
 msgid "Returns"
 msgstr ""
 
-#: src/Admin/Settings.php:318
+#: src/Admin/Settings.php:341
 msgid "Return address"
 msgstr ""
 
-#: src/Admin/Settings.php:319
+#: src/Admin/Settings.php:342
 msgid "Printed in the message that tells the customer their withdrawal was accepted. Leave empty to use your WooCommerce store address."
 msgstr ""
 
-#: src/Admin/Settings.php:323
+#: src/Admin/Settings.php:346
 msgid "Neither this field nor your WooCommerce store address is filled in, so the acceptance message will not say where to send the goods."
 msgstr ""
 
-#: src/Admin/Settings.php:326
+#: src/Admin/Settings.php:349
 msgid "Who pays to send the goods back"
 msgstr ""
 
-#: src/Admin/Settings.php:328
+#: src/Admin/Settings.php:351
 msgid "Say nothing"
 msgstr ""
 
-#: src/Admin/Settings.php:329
+#: src/Admin/Settings.php:352
 msgid "The customer"
 msgstr ""
 
-#: src/Admin/Settings.php:330
+#: src/Admin/Settings.php:353
 msgid "We do"
 msgstr ""
 
-#: src/Admin/Settings.php:332
+#: src/Admin/Settings.php:355
 msgid "Article 14(1) only lets you charge the customer for the return if you told them so before they bought, in your withdrawal information. If you did not, the cost is yours, which is why this says nothing until you choose."
 msgstr ""
 
-#: src/Admin/Settings.php:335
+#: src/Admin/Settings.php:358
 msgid "Return cost, extra wording"
 msgstr ""
 
-#: src/Admin/Settings.php:336
+#: src/Admin/Settings.php:359
 msgid "Optional, added after the sentence above. Article 6(1)(i) wants an estimate of the cost for goods that cannot normally be sent back by post."
 msgstr ""
 
-#: src/Admin/Settings.php:337
+#: src/Admin/Settings.php:360
 msgid "For example: bulky items are collected by courier, around 40 EUR."
 msgstr ""
 
 #. translators: %s: the sentence the customer will read
-#: src/Admin/Settings.php:345
+#: src/Admin/Settings.php:368
 #, php-format
 msgid "The customer will read: %s"
 msgstr ""
 
-#: src/Admin/Settings.php:348
+#: src/Admin/Settings.php:371
 msgid "The acceptance message will not mention who pays for the return."
 msgstr ""
 
-#: src/Admin/Settings.php:352
+#: src/Admin/Settings.php:375
 msgid "Your own clock: Article 13(1) gives you 14 days from the day the customer tells you they are withdrawing to refund them, including the standard delivery cost they paid. The request log shows that date and marks it when it passes."
 msgstr ""
 
-#: src/Admin/Settings.php:358
+#: src/Admin/Settings.php:381
 msgid "Legal texts"
 msgstr ""
 
-#: src/Admin/Settings.php:361
+#: src/Admin/Settings.php:384
 msgid "Seller name"
 msgstr ""
 
-#: src/Admin/Settings.php:363
+#: src/Admin/Settings.php:386
 msgid "The trading name that appears in the model withdrawal form and the withdrawal instructions. Empty uses the site title. The address comes from your WooCommerce store address."
 msgstr ""
 
-#: src/Admin/Settings.php:366
+#: src/Admin/Settings.php:389
 msgid "Seller email"
 msgstr ""
 
-#: src/Admin/Settings.php:368
+#: src/Admin/Settings.php:391
 msgid "Seller phone"
 msgstr ""
 
-#: src/Admin/Settings.php:370
+#: src/Admin/Settings.php:393
 msgid "Annex I asks for a telephone number and email address where available, so a consumer can declare by any means."
 msgstr ""
 
-#: src/Admin/Settings.php:373
+#: src/Admin/Settings.php:396
 msgid "Your WooCommerce store address is empty, so the model withdrawal form cannot state a geographical address. Fill it in under WooCommerce, Settings, General."
 msgstr ""
 
-#: src/Admin/Settings.php:376
+#: src/Admin/Settings.php:399
 msgid "Form intro text"
 msgstr ""
 
-#: src/Admin/Settings.php:377
+#: src/Admin/Settings.php:400
 msgid "Shown above the order lookup step. Leave empty for the wording below, which is translated with the rest of the plugin."
 msgstr ""
 
-#: src/Admin/Settings.php:381
+#: src/Admin/Settings.php:404
 msgid "Model withdrawal text"
 msgstr ""
 
-#: src/Admin/Settings.php:382
+#: src/Admin/Settings.php:405
 msgid "Shown on the items step. Leave empty and the plugin generates the statutory model withdrawal form (Annex I.B) from the seller details above, in the language of the site."
 msgstr ""
 
-#: src/Admin/Settings.php:386
+#: src/Admin/Settings.php:409
 msgid "The model instructions on withdrawal (Annex I.A) are pre-contractual information, so they belong on a page of their own rather than on the form. Put the [withdraw_instructions] shortcode on your terms or returns page and the plugin generates them from the same details, including your withdrawal period."
 msgstr ""
 
-#: src/Admin/Settings.php:389
+#: src/Admin/Settings.php:412
 msgid "Digital content consent, extra wording"
 msgstr ""
 
-#: src/Admin/Settings.php:390
+#: src/Admin/Settings.php:413
 msgid "Optional, and added in front of the statutory sentence rather than replacing it. The plugin refuses withdrawal for downloaded items on the strength of the acknowledgement in that sentence, so wording that only promised immediate delivery would take away a right nobody gave up. Whatever the customer sees is stored with their order, so editing this later does not rewrite what earlier customers agreed to."
 msgstr ""
 
-#: src/Admin/Settings.php:391
+#: src/Admin/Settings.php:414
 msgid "For example: these files are available the moment your payment clears."
 msgstr ""
 
 #. translators: %s: the statutory Article 16(m) consent sentence
-#: src/Admin/Settings.php:397
+#: src/Admin/Settings.php:420
 #, php-format
 msgid "The checkbox always ends with: %s"
 msgstr ""
 
-#: src/Admin/Settings.php:406
+#: src/Admin/Settings.php:429
 msgid "Ecosystem integrations"
 msgstr ""
 
-#: src/Admin/Settings.php:409
+#: src/Admin/Settings.php:432
 msgid "Redono - Returns and RMA for WooCommerce"
 msgstr ""
 
-#: src/Admin/Settings.php:413
+#: src/Admin/Settings.php:436
 msgid "Redono is active. Statutory withdrawal requests are handled here, returns and complaints in Redono."
 msgstr ""
 
 #. translators: %s: partner plugin name, linked to its search on the Add Plugins screen.
-#: src/Admin/Settings.php:420
+#: src/Admin/Settings.php:443
 #, php-format
 msgid "Install %s, a free plugin, to handle returns, repairs and warranty complaints alongside statutory 14-day withdrawals."
+msgstr ""
+
+#. translators: %s: order number as the customer typed it
+#: src/Email/AbstractWithdrawEmail.php:107
+#, php-format
+msgid "%s (not matched)"
 msgstr ""
 
 #: src/Email/AcceptedEmail.php:33
@@ -605,6 +664,7 @@ msgstr ""
 #: src/Email/AcknowledgementEmail.php:23
 #: src/Email/AcknowledgementEmail.php:83
 #: src/Service/EmailService.php:109
+#: templates/form-unmatched.php:23
 msgid "Withdrawal declaration received"
 msgstr ""
 
@@ -630,7 +690,7 @@ msgid "Keep this message: it is your confirmation that the declaration reached u
 msgstr ""
 
 #: src/Email/NewRequestEmail.php:25
-#: src/Email/NewRequestEmail.php:106
+#: src/Email/NewRequestEmail.php:110
 msgid "New withdrawal request"
 msgstr ""
 
@@ -638,17 +698,17 @@ msgstr ""
 msgid "Sent to the shop when a customer declares a withdrawal. The admin log under WooCommerce, Withdrawal Requests lists every request whether or not this message is switched on."
 msgstr ""
 
-#: src/Email/NewRequestEmail.php:76
+#: src/Email/NewRequestEmail.php:80
 msgid "Recipient(s)"
 msgstr ""
 
 #. translators: %s: the address this message goes to when the field is left empty
-#: src/Email/NewRequestEmail.php:79
+#: src/Email/NewRequestEmail.php:83
 #, php-format
 msgid "Comma-separated. Leave blank to use %s, which is the notification address set under WooCommerce, Withdrawal."
 msgstr ""
 
-#: src/Email/NewRequestEmail.php:101
+#: src/Email/NewRequestEmail.php:105
 msgid "[{site_title}] New withdrawal request #{request_id} for order #{order_number}"
 msgstr ""
 
@@ -701,6 +761,9 @@ msgid "Withdrawal request under review"
 msgstr ""
 
 #: src/Frontend/WithdrawLink.php:110
+#: src/Service/ProductExclusion.php:144
+#: src/Service/ProductExclusion.php:160
+#: src/Service/ProductExclusion.php:167
 msgid "Right of withdrawal"
 msgstr ""
 
@@ -714,6 +777,43 @@ msgstr ""
 
 #: src/Service/EmailService.php:110
 msgid "New withdrawal request (to you)"
+msgstr ""
+
+#: src/Service/ProductExclusion.php:51
+msgid "The right of withdrawal applies"
+msgstr ""
+
+#: src/Service/ProductExclusion.php:52
+msgid "Made to specification or clearly personalised (Art. 16(c))"
+msgstr ""
+
+#: src/Service/ProductExclusion.php:53
+msgid "Liable to deteriorate or expire rapidly (Art. 16(d))"
+msgstr ""
+
+#: src/Service/ProductExclusion.php:54
+msgid "Sealed for health or hygiene reasons (Art. 16(e))"
+msgstr ""
+
+#: src/Service/ProductExclusion.php:62
+msgid "This product is made to your specifications or clearly personalised, so the right of withdrawal does not apply to it."
+msgstr ""
+
+#: src/Service/ProductExclusion.php:63
+msgid "This product is liable to deteriorate or expire rapidly, so the right of withdrawal does not apply to it."
+msgstr ""
+
+#: src/Service/ProductExclusion.php:64
+msgid "This product is sealed for health protection or hygiene reasons. You lose the right of withdrawal if you unseal it after delivery."
+msgstr ""
+
+#: src/Service/ProductExclusion.php:147
+msgid "Overrides the category setting. Made-to-specification and perishable products are left out of the withdrawal form; sealed hygiene products stay in it with a notice, because the right is only lost once the seal is broken after delivery."
+msgstr ""
+
+#: src/Service/ProductExclusion.php:162
+#: src/Service/ProductExclusion.php:169
+msgid "Applies to every product in this category that has no setting of its own."
 msgstr ""
 
 #: src/Service/ReturnPolicy.php:157
@@ -793,25 +893,26 @@ msgstr ""
 msgid "Use this form to withdraw from your purchase. Select the items you are withdrawing from, then confirm the declaration on the next step."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:140
-#: src/Service/WithdrawalService.php:184
-#: src/Service/WithdrawalService.php:292
-#: src/Service/WithdrawalService.php:403
+#: src/Service/WithdrawalService.php:150
+#: src/Service/WithdrawalService.php:198
+#: src/Service/WithdrawalService.php:304
+#: src/Service/WithdrawalService.php:424
+#: src/Service/WithdrawalService.php:515
 msgid "Security check failed. Please try again."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:203
-#: src/Service/WithdrawalService.php:326
+#: src/Service/WithdrawalService.php:217
+#: src/Service/WithdrawalService.php:338
 msgid "Please give the name on the contract so the declaration identifies who is withdrawing."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:208
-#: src/Service/WithdrawalService.php:321
+#: src/Service/WithdrawalService.php:222
+#: src/Service/WithdrawalService.php:333
 msgid "Please select at least one item to withdraw from."
 msgstr ""
 
 #. translators: 1: item list, 2: order number, 3: order date, 4: consumer name, 5: consumer email
-#: src/Service/WithdrawalService.php:240
+#: src/Service/WithdrawalService.php:254
 #, php-format
 msgid ""
 "I hereby give notice that I withdraw from my contract of sale of the following goods:\n"
@@ -822,52 +923,83 @@ msgid ""
 "Contact: %5$s"
 msgstr ""
 
-#: src/Service/WithdrawalService.php:306
+#: src/Service/WithdrawalService.php:318
 msgid "This order is no longer eligible for withdrawal."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:315
+#: src/Service/WithdrawalService.php:327
+#: src/Service/WithdrawalService.php:462
 msgid "Please tick the declaration to confirm you are withdrawing from the contract."
 msgstr ""
 
 #. translators: 1: request id, 2: item list
-#: src/Service/WithdrawalService.php:356
+#: src/Service/WithdrawalService.php:368
 #, php-format
 msgid ""
 "Withdrawal declaration #%1$d received.\n"
 "%2$s"
 msgstr ""
 
-#: src/Service/WithdrawalService.php:413
+#: src/Service/WithdrawalService.php:438
+msgid "Please fill in your name, the order number and the goods you are withdrawing from."
+msgstr ""
+
+#: src/Service/WithdrawalService.php:440
+#: src/Service/WithdrawalService.php:525
 msgid "Enter a valid email address."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:462
-msgid "This link has expired or has already been used. Request a new one."
+#. translators: 1: goods as the consumer described them, 2: order number as typed, 3: consumer name, 4: consumer email
+#: src/Service/WithdrawalService.php:450
+#, php-format
+msgid ""
+"I hereby give notice that I withdraw from my contract of sale of the following goods:\n"
+"%1$s\n"
+"\n"
+"Order number as I have it: %2$s\n"
+"Name of consumer: %3$s\n"
+"Contact: %4$s"
 msgstr ""
 
-#: src/Service/WithdrawalService.php:520
+#: src/Service/WithdrawalService.php:467
+#: src/Service/WithdrawalService.php:637
 msgid "Too many attempts. Please try again in an hour."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:542
+#: src/Service/WithdrawalService.php:579
+msgid "This link has expired or has already been used. Request a new one."
+msgstr ""
+
+#: src/Service/WithdrawalService.php:659
 msgid "We could not find an order with that number and email."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:789
+#: src/Service/WithdrawalService.php:954
 msgid "This order is not in a status that can be withdrawn."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:795
+#: src/Service/WithdrawalService.php:963
 msgid "The withdrawal period for this order has ended."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:799
+#: src/Service/WithdrawalService.php:968
 msgid "A withdrawal request for this order is already being processed."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:810
+#: src/Service/WithdrawalService.php:1004
+msgid "Every item in this order is already covered by a withdrawal request."
+msgstr ""
+
+#: src/Service/WithdrawalService.php:1005
+msgid "This order has no items that can be withdrawn from."
+msgstr ""
+
+#: src/Service/WithdrawalService.php:1007
 msgid "This order is for digital content you asked us to supply immediately, and supply has begun, so the right of withdrawal no longer applies to it."
+msgstr ""
+
+#: src/Service/WithdrawalService.php:1009
+msgid "The right of withdrawal does not apply to the items in this order."
 msgstr ""
 
 #: src/Service/WithdrawPrivacyService.php:36
@@ -914,23 +1046,23 @@ msgstr ""
 
 #. translators: 1: withdrawal request id, 2: order number
 #: templates/emails/plain/withdraw-accepted.php:48
-#: templates/emails/plain/withdraw-new-request.php:36
+#: templates/emails/plain/withdraw-new-request.php:37
 #, php-format
 msgid "Request #%1$d, order #%2$s."
 msgstr ""
 
 #. translators: %s: submission date and time
 #: templates/emails/plain/withdraw-accepted.php:56
-#: templates/emails/plain/withdraw-new-request.php:58
+#: templates/emails/plain/withdraw-new-request.php:59
 #, php-format
 msgid "Declared on %s."
 msgstr ""
 
 #: templates/emails/plain/withdraw-accepted.php:64
 #: templates/emails/plain/withdraw-acknowledgement.php:55
-#: templates/emails/plain/withdraw-new-request.php:66
+#: templates/emails/plain/withdraw-new-request.php:67
 #: templates/emails/withdraw-acknowledgement.php:66
-#: templates/emails/withdraw-new-request.php:71
+#: templates/emails/withdraw-new-request.php:72
 msgid "Items withdrawn from"
 msgstr ""
 
@@ -980,39 +1112,44 @@ msgstr ""
 
 #. translators: %s: the reason the customer gave, or a placeholder when none was given
 #: templates/emails/plain/withdraw-acknowledgement.php:64
-#: templates/emails/plain/withdraw-new-request.php:75
+#: templates/emails/plain/withdraw-new-request.php:81
 #: templates/emails/withdraw-acknowledgement.php:83
-#: templates/emails/withdraw-new-request.php:88
+#: templates/emails/withdraw-new-request.php:95
 #, php-format
 msgid "Reason given: %s"
 msgstr ""
 
 #: templates/emails/plain/withdraw-acknowledgement.php:65
-#: templates/emails/plain/withdraw-new-request.php:76
+#: templates/emails/plain/withdraw-new-request.php:82
 #: templates/emails/withdraw-acknowledgement.php:84
-#: templates/emails/withdraw-new-request.php:89
+#: templates/emails/withdraw-new-request.php:96
 msgid "(none given)"
 msgstr ""
 
-#: templates/emails/plain/withdraw-new-request.php:32
-#: templates/emails/withdraw-new-request.php:39
+#: templates/emails/plain/withdraw-new-request.php:33
+#: templates/emails/withdraw-new-request.php:40
 msgid "A customer submitted a withdrawal declaration."
 msgstr ""
 
 #. translators: %s: the name the customer gave on the declaration
-#: templates/emails/plain/withdraw-new-request.php:44
+#: templates/emails/plain/withdraw-new-request.php:45
 #, php-format
 msgid "Name on the contract: %s"
 msgstr ""
 
 #. translators: %s: customer email address
-#: templates/emails/plain/withdraw-new-request.php:51
+#: templates/emails/plain/withdraw-new-request.php:52
 #, php-format
 msgid "Customer: %s"
 msgstr ""
 
-#: templates/emails/plain/withdraw-new-request.php:79
-#: templates/emails/withdraw-new-request.php:96
+#: templates/emails/plain/withdraw-new-request.php:75
+#: templates/emails/withdraw-new-request.php:87
+msgid "The order number and email did not match an order. Find the order by hand and reply to the customer. The declaration as submitted:"
+msgstr ""
+
+#: templates/emails/plain/withdraw-new-request.php:85
+#: templates/emails/withdraw-new-request.php:103
 msgid "You have 14 days from today to refund the customer, including the standard delivery cost. For goods you may hold the refund until they are back with you, or until the customer proves they sent them."
 msgstr ""
 
@@ -1024,74 +1161,96 @@ msgid "This concerns withdrawal request #%1$d for order #%2$s."
 msgstr ""
 
 #: templates/emails/withdraw-accepted.php:57
-#: templates/emails/withdraw-new-request.php:44
+#: templates/emails/withdraw-new-request.php:45
 msgid "Request"
 msgstr ""
 
-#: templates/emails/withdraw-new-request.php:100
+#: templates/emails/withdraw-new-request.php:86
+msgid "Not matched to an order"
+msgstr ""
+
+#: templates/emails/withdraw-new-request.php:107
 msgid "Open the withdrawal request log"
 msgstr ""
 
 #. translators: %s: order number
-#: templates/form-items.php:26
+#: templates/form-items.php:30
 #, php-format
 msgid "Withdraw from order #%s"
 msgstr ""
 
 #. translators: %s: date
-#: templates/form-items.php:35
+#: templates/form-items.php:41
+#, php-format
+msgid "The withdrawal period ended on %s. You can still send the declaration; the shop will review it."
+msgstr ""
+
+#. translators: %s: date
+#: templates/form-items.php:43
 #, php-format
 msgid "Withdrawal is possible until %s."
 msgstr ""
 
-#: templates/form-items.php:63
+#: templates/form-items.php:70
 msgid "Product"
 msgstr ""
 
-#: templates/form-items.php:64
+#: templates/form-items.php:71
 msgid "Ordered"
 msgstr ""
 
-#: templates/form-items.php:65
+#: templates/form-items.php:72
 msgid "Withdraw quantity"
 msgstr ""
 
 #. translators: %s: product
-#: templates/form-items.php:89
+#: templates/form-items.php:111
 #, php-format
 msgid "Withdraw quantity for %s"
 msgstr ""
 
-#: templates/form-items.php:99
+#: templates/form-items.php:121
 msgid "One item is not listed: it is digital content you asked us to supply immediately, and supply has begun, so the right of withdrawal no longer applies to it."
 msgid_plural "Some items are not listed: they are digital content you asked us to supply immediately, and supply has begun, so the right of withdrawal no longer applies to them."
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/form-items.php:110
+#: templates/form-items.php:140
+#: templates/form-unmatched.php:80
 msgid "Reason (optional)"
 msgstr ""
 
-#: templates/form-items.php:119
-#: templates/form-lookup.php:54
+#: templates/form-items.php:149
+#: templates/form-lookup.php:74
+#: templates/form-unmatched.php:84
 msgid "Continue"
 msgstr ""
 
-#: templates/form-lookup.php:26
+#: templates/form-lookup.php:27
 msgid "Enter your order number and billing email. We will send a one-time link to that address."
 msgstr ""
 
 #. translators: %d: number of days
-#: templates/form-lookup.php:32
+#: templates/form-lookup.php:33
 #, php-format
 msgid "You have the right to withdraw from this contract within %d days without giving any reason."
 msgstr ""
 
-#: templates/form-lookup.php:46
+#: templates/form-lookup.php:55
+msgid "Not sure of the order number or the email used? You can still send your withdrawal declaration and we will match it to your order."
+msgstr ""
+
+#: templates/form-lookup.php:57
+#: templates/link-sent.php:55
+msgid "Send the declaration without a matching order"
+msgstr ""
+
+#: templates/form-lookup.php:66
+#: templates/form-unmatched.php:68
 msgid "Order number"
 msgstr ""
 
-#: templates/form-lookup.php:50
+#: templates/form-lookup.php:70
 msgid "Billing email"
 msgstr ""
 
@@ -1100,6 +1259,7 @@ msgid "Check your withdrawal declaration"
 msgstr ""
 
 #: templates/form-review.php:33
+#: templates/form-unmatched.php:43
 msgid "This is the declaration that will be sent. Nothing has been submitted yet."
 msgstr ""
 
@@ -1108,19 +1268,47 @@ msgid "Reason given:"
 msgstr ""
 
 #: templates/form-review.php:70
+#: templates/form-unmatched.php:53
 msgid "I confirm that the declaration above is mine and that I am withdrawing from the contract."
 msgstr ""
 
 #: templates/form-review.php:76
+#: templates/form-unmatched.php:57
 msgid "Confirm withdrawal"
 msgstr ""
 
+#. translators: %s: date and time of submission
+#: templates/form-unmatched.php:28
+#, php-format
+msgid "We received your declaration on %s. It did not match an order automatically, so we will match it by hand and reply to the address you gave. Keep a copy of this page."
+msgstr ""
+
+#: templates/form-unmatched.php:35
+msgid "Withdrawal declaration"
+msgstr ""
+
+#: templates/form-unmatched.php:60
+msgid "We could not match these details to an order. Tell us what you are withdrawing from and we will match it by hand."
+msgstr ""
+
+#: templates/form-unmatched.php:72
+msgid "Email for our reply"
+msgstr ""
+
+#: templates/form-unmatched.php:76
+msgid "Goods you are withdrawing from"
+msgstr ""
+
 #. translators: %d: number of minutes the link stays valid
-#: templates/link-sent.php:24
+#: templates/link-sent.php:27
 #, php-format
 msgid "If that order exists and the email you gave is the billing address on it, we have sent a withdrawal link to that address. The link works for %d minutes. Check your spam folder if it does not arrive."
 msgstr ""
 
-#: templates/link-sent.php:40
+#: templates/link-sent.php:43
 msgid "Back to the withdrawal form"
+msgstr ""
+
+#: templates/link-sent.php:53
+msgid "No link arriving? You can send your withdrawal declaration without it and we will match it to your order."
 msgstr ""

@@ -109,11 +109,14 @@ final class Settings implements HasHooks
 
         return [
             'period_days'       => max(1, min(365, absint($in['period_days'] ?? 14))),
+            'grace_days'        => min(365, absint($in['grace_days'] ?? 0)),
+            'deadline_mode'     => ($in['deadline_mode'] ?? '') === 'advisory' ? 'advisory' : 'strict',
             'form_page_id'      => absint($in['form_page_id'] ?? 0),
             'eligible_statuses' => $statuses !== [] ? $statuses : ['completed', 'processing'],
             'notify_email'      => sanitize_email((string) ($in['notify_email'] ?? '')),
             'footer_link'       => ! empty($in['footer_link']),
             'magic_link'        => ! empty($in['magic_link']),
+            'accept_unmatched'  => ! empty($in['accept_unmatched']),
             // This method rebuilds the option from scratch, so a key missing
             // here is a field the screen accepts and then silently discards.
             'digital_consent'       => ! empty($in['digital_consent']),
@@ -186,7 +189,20 @@ final class Settings implements HasHooks
                             <p>
                                 <label for="wd-period"><?php echo esc_html__('Withdrawal period (days)', 'plogins-withdraw'); ?></label>
                                 <input type="number" id="wd-period" min="1" max="365" name="<?php echo esc_attr(self::OPTION); ?>[period_days]" value="<?php echo esc_attr((string) $s['period_days']); ?>">
-                                <?php $help(__('Statutory minimum is 14 days from delivery. The window starts when the order is marked completed, or at order creation if it never was.', 'plogins-withdraw')); ?>
+                                <?php $help(__('Statutory minimum is 14 days from the day the customer receives the goods. The order has no delivery date, so the plugin counts from the day the order is marked completed (or created, if it never was); a shipping plugin can supply the real date through the withdraw/delivery_date filter. The start day is not counted, the period ends at midnight of its last day, and a last day on a Saturday or Sunday moves to the Monday (Regulation 1182/71, Art. 3).', 'plogins-withdraw')); ?>
+                            </p>
+                            <p>
+                                <label for="wd-grace"><?php echo esc_html__('Extra days (grace)', 'plogins-withdraw'); ?></label>
+                                <input type="number" id="wd-grace" min="0" max="365" name="<?php echo esc_attr(self::OPTION); ?>[grace_days]" value="<?php echo esc_attr((string) $s['grace_days']); ?>">
+                                <?php $help(__('Days added after the statutory period ends, for example to cover shipping time when orders are completed at dispatch rather than at delivery.', 'plogins-withdraw')); ?>
+                            </p>
+                            <p>
+                                <label for="wd-deadline-mode"><?php echo esc_html__('After the deadline', 'plogins-withdraw'); ?></label>
+                                <select id="wd-deadline-mode" name="<?php echo esc_attr(self::OPTION); ?>[deadline_mode]">
+                                    <option value="strict" <?php selected($s['deadline_mode'], 'strict'); ?>><?php echo esc_html__('Refuse the declaration', 'plogins-withdraw'); ?></option>
+                                    <option value="advisory" <?php selected($s['deadline_mode'], 'advisory'); ?>><?php echo esc_html__('Accept it and flag it as late', 'plogins-withdraw'); ?></option>
+                                </select>
+                                <?php $help(__('A withdrawal counts as in time if the customer sent it before the period expired (Directive 2011/83/EU, Art. 11a(5)), and the period runs from delivery (Art. 9(2)(b)). If your completion date can be earlier than delivery, accept late declarations and judge each one against the real delivery date. Links in My Account and in emails still disappear at the deadline.', 'plogins-withdraw')); ?>
                             </p>
                         </div>
                     </section>
@@ -261,6 +277,13 @@ final class Settings implements HasHooks
                                     <?php echo esc_html__('Email a one-time link instead of opening the form straight away', 'plogins-withdraw'); ?>
                                 </label>
                                 <?php $help(__('Off by default: a customer opens the form with their order number and billing email. Turn this on and the form emails a one-time link to the order billing address instead, so knowing the order number is not enough. Signed-in customers reaching the form from My Account are never asked for a link. This makes the withdrawal function depend on your shop outgoing email working.', 'plogins-withdraw')); ?>
+                            </p>
+                            <p>
+                                <label>
+                                    <input type="checkbox" name="<?php echo esc_attr(self::OPTION); ?>[accept_unmatched]" value="1" <?php checked(! empty($s['accept_unmatched'])); ?>>
+                                    <?php echo esc_html__('Accept declarations that match no order', 'plogins-withdraw'); ?>
+                                </label>
+                                <?php $help(__('When the order number and email match no order (a typo, or a different address), the customer can still send the declaration with a description of the goods. It is logged as not matched, without an order, and only you are emailed: the address is unverified, so the customer acknowledgement is not sent. Match it to the order and reply yourself.', 'plogins-withdraw')); ?>
                             </p>
                             <?php if (! is_ssl()) : ?>
                                 <p class="withdraw-note"><?php echo esc_html__('This site is not served over HTTPS. The one-time link travels in a page address and in a form field, so anyone able to watch the connection can read it.', 'plogins-withdraw'); ?></p>

@@ -14,6 +14,7 @@ use Withdraw\Frontend\WithdrawLink;
 use Withdraw\Service\AccessLink;
 use Withdraw\Service\DigitalConsentService;
 use Withdraw\Service\EmailService;
+use Withdraw\Service\ProductExclusion;
 use Withdraw\Service\RequestRepository;
 use Withdraw\Service\WithdrawalService;
 
@@ -30,11 +31,13 @@ return static function (Container $c): void {
 
     $c->singleton(DigitalConsentService::class, static fn (): DigitalConsentService => new DigitalConsentService());
     $c->singleton(EmailService::class, static fn (): EmailService => new EmailService());
+    $c->singleton(ProductExclusion::class, static fn (): ProductExclusion => new ProductExclusion());
 
     $c->singleton(WithdrawalService::class, static fn (Container $c): WithdrawalService => new WithdrawalService(
         $c->get(RequestRepository::class),
         $c->get(AccessLink::class),
         $c->get(DigitalConsentService::class),
+        $c->get(ProductExclusion::class),
     ));
     $c->singleton(MyAccount::class, static fn (): MyAccount => new MyAccount());
     $c->singleton(WithdrawLink::class, static fn (): WithdrawLink => new WithdrawLink());

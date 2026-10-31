@@ -11,6 +11,7 @@ use Withdraw\Frontend\MyAccount;
 use Withdraw\Frontend\WithdrawLink;
 use Withdraw\Service\DigitalConsentService;
 use Withdraw\Service\EmailService;
+use Withdraw\Service\ProductExclusion;
 use Withdraw\Service\WithdrawalService;
 
 /**
@@ -32,6 +33,9 @@ return is_admin()
         // additional fields, so a field registered only on the front end would
         // be missing from the editor's own view of the checkout.
         DigitalConsentService::class,
+        // Product and category fields in wp-admin, the product page notice on
+        // the storefront.
+        ProductExclusion::class,
         OrderConsentPanel::class,
         Settings::class,
         RequestsAdmin::class,
@@ -44,6 +48,7 @@ return is_admin()
         // Store API requests are not is_admin(), so the Blocks capture lives
         // in this branch as well.
         DigitalConsentService::class,
+        ProductExclusion::class,
         MyAccount::class,
         WithdrawLink::class,
     ];

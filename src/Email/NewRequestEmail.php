@@ -33,6 +33,10 @@ final class NewRequestEmail extends AbstractWithdrawEmail
         ];
 
         add_action('withdraw/declared', [$this, 'triggerFromDeclaration'], 10, 3);
+        // A declaration that matched no order still reaches the shop. The
+        // consumer acknowledgement does not listen here: the address is
+        // unverified (see WithdrawalService::handleUnmatched()).
+        add_action('withdraw/declared_unverified', [$this, 'triggerFromDeclaration'], 10, 1);
 
         parent::__construct();
 
@@ -118,6 +122,7 @@ final class NewRequestEmail extends AbstractWithdrawEmail
             'customer_name'  => (string) ($this->request->customer_name ?? ''),
             'submitted_at'   => $this->submittedAt(),
             'request_id'     => (int) ($this->request->id ?? 0),
+            'unverified'     => (int) ($this->request->order_id ?? 0) === 0 ? (string) ($this->request->declaration ?? '') : '',
         ];
     }
 }
