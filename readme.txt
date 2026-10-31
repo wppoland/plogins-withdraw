@@ -100,6 +100,7 @@ Plogins Withdraw is fully translatable and ships the `plogins-withdraw.pot` temp
 * New: `withdraw/delivery_date` filter for a real delivery date, a grace days setting, and an advisory mode that accepts a late declaration and flags it in the log and the order note.
 * New: after a partial withdrawal the rest of the order stays withdrawable. Quantities already covered by a pending, accepted or processed declaration are no longer offered; a rejected one frees its quantities.
 * New: per-product and per-category marking for Art. 16(c), (d) and (e), with a notice on the product page.
+* New: the Art. 16 mark is saved on each order line at checkout, so changing a product or category later does not change the right of withdrawal for orders already placed.
 * New: optional recording of declarations that match no order, for the shop to match by hand.
 
 = 1.7.5 =

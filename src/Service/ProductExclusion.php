@@ -22,6 +22,10 @@ defined('ABSPATH') || exit;
  * the consumer declares, so it stays withdrawable and carries a notice. The
  * product page states the exception before purchase, which Art. 6(1)(k) asks
  * for.
+ *
+ * The reason is copied onto each order line at checkout, so a later change
+ * to the product or category never adds or removes a right the consumer
+ * already has under the contract as concluded.
  */
 final class ProductExclusion implements HasHooks
 {
@@ -33,6 +37,8 @@ final class ProductExclusion implements HasHooks
     public function registerHooks(): void
     {
         add_action('woocommerce_single_product_summary', [$this, 'renderProductNotice'], 25);
+        // Classic checkout and the Store API (block checkout) both build lines through WC_Checkout.
+        add_action('woocommerce_checkout_create_order_line_item', [$this, 'snapshotLine']);
 
         if (is_admin()) {
             add_action('woocommerce_product_options_general_product_data', [$this, 'renderProductField']);
@@ -108,13 +114,25 @@ final class ProductExclusion implements HasHooks
         return array_keys(array_filter($this->reasons($order), static fn (string $r): bool => $r === 'sealed'));
     }
 
+    /** Stored on the line before it is saved; 'none' records that the right applied. */
+    public function snapshotLine(\WC_Order_Item_Product $item): void
+    {
+        $item->update_meta_data(self::META, $this->reasonFor((int) $item->get_product_id()) ?: 'none');
+    }
+
     /** @return array<int,string> */
     private function reasons(\WC_Order $order): array
     {
         $out = [];
         foreach ($order->get_items() as $itemId => $item) {
             if ($item instanceof \WC_Order_Item_Product) {
-                $reason = $this->reasonFor((int) $item->get_product_id());
+                // Lines bought before 1.8.0 have no snapshot: fall back to the current mark.
+                $reason = $item->meta_exists(self::META)
+                    ? (string) $item->get_meta(self::META)
+                    : $this->reasonFor((int) $item->get_product_id());
+                if (! isset(self::options()[$reason])) {
+                    $reason = '';
+                }
                 if ($reason !== '') {
                     $out[(int) $itemId] = $reason;
                 }
