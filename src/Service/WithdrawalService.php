@@ -352,6 +352,13 @@ final class WithdrawalService implements HasHooks
         // produce.
         $declaration = $this->statement($order, $name, $email, $items);
 
+        $duplicate = $this->repository->pendingDuplicate($order->get_id(), $email, $declaration);
+        if ($duplicate > 0) {
+            ob_start();
+            $this->template('confirmation.php', ['order' => $order, 'items' => $items, 'id' => $duplicate]);
+            return (string) ob_get_clean();
+        }
+
         $id = $this->repository->create($order->get_id(), $email, $items, $reason, $token, $name, $declaration, $eligibility['late']);
 
         // Single use means one completed withdrawal per link, not one page view.
@@ -410,8 +417,9 @@ final class WithdrawalService implements HasHooks
      *
      * Only the shop is emailed. The address is unverified, and mailing it would
      * let anyone send the shop's mail, with their own text in it, to any inbox.
-     * The consumer gets the statement and its time on screen; the shop's status
-     * emails reach them once it has matched the order.
+     * The consumer gets the statement and its time on screen. A status the shop
+     * sets on the row later (accepted, rejected, processed) is emailed to the
+     * address given, because by then a person has looked at it.
      */
     private function handleUnmatched(string $step): string
     {
@@ -468,6 +476,10 @@ final class WithdrawalService implements HasHooks
         }
 
         $submittedAt = current_time('timestamp');
+        // A replayed confirm shows the same receipt instead of a second row.
+        if ($this->repository->pendingDuplicate(0, $fields['email'], $statement) > 0) {
+            return $this->renderUnmatched('done', $fields, '', $statement, $submittedAt);
+        }
         $id          = $this->repository->create(0, $fields['email'], [], $fields['reason'], wp_generate_password(24, false), $fields['name'], $statement, false, $fields['number']);
 
         /**

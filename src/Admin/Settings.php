@@ -283,7 +283,7 @@ final class Settings implements HasHooks
                                     <input type="checkbox" name="<?php echo esc_attr(self::OPTION); ?>[accept_unmatched]" value="1" <?php checked(! empty($s['accept_unmatched'])); ?>>
                                     <?php echo esc_html__('Accept declarations that match no order', 'plogins-withdraw'); ?>
                                 </label>
-                                <?php $help(__('When the order number and email match no order (a typo, or a different address), the customer can still send the declaration with a description of the goods. It is logged as not matched, without an order, and only you are emailed: the address is unverified, so the customer acknowledgement is not sent. Match it to the order and reply yourself.', 'plogins-withdraw')); ?>
+                                <?php $help(__('When the order number and email match no order (a typo, or a different address), the customer can still send the declaration with a description of the goods. It is logged as not matched, without an order, and only you are emailed: the address is unverified, so the customer acknowledgement is not sent. Match it to the order and reply yourself. A status you set on it is emailed to the address the customer gave.', 'plogins-withdraw')); ?>
                             </p>
                             <?php if (! is_ssl()) : ?>
                                 <p class="withdraw-note"><?php echo esc_html__('This site is not served over HTTPS. The one-time link travels in a page address and in a form field, so anyone able to watch the connection can read it.', 'plogins-withdraw'); ?></p>

@@ -37,6 +37,19 @@ $filter = static fn ($v, $o) => $o->get_id() === $wed->get_id() ? $at('2026-10-0
 add_filter('withdraw/delivery_date', $filter, 10, 2);
 wd_ok(WithdrawalService::deadline($wed, 14) === $at('2026-10-23 23:59:59'), 'filtered delivery date is the start');
 remove_filter('withdraw/delivery_date', $filter, 10);
+$filter = static fn ($v, $o) => $o->get_id() === $wed->get_id() ? new DateTimeImmutable('2026-10-09 15:00:00', $tz) : $v;
+add_filter('withdraw/delivery_date', $filter, 10, 2);
+wd_ok(WithdrawalService::deadline($wed, 14) === $at('2026-10-23 23:59:59'), 'a DateTimeInterface from the filter is the start');
+remove_filter('withdraw/delivery_date', $filter, 10);
+
+echo "2b. DST and grace after the weekend roll-over\n";
+// Europe/Warsaw leaves summer time on 2026-10-25; the end stays 23:59:59 wall clock.
+$dst = $orders[] = wd_order([[$product, 1]], $at('2026-10-20 09:00:00'));
+wd_ok(WithdrawalService::deadline($dst, 14) === $at('2026-11-03 23:59:59'), 'a period across the DST change ends at 23:59:59 local');
+// Delivered Sat 2026-10-17: day 14 is Sat 10-31, rolls to Mon 11-02, then +2 grace.
+$sat2 = $orders[] = wd_order([[$product, 1]], $at('2026-10-17 12:00:00'));
+wd_ok(WithdrawalService::deadline($sat2, 14) === $at('2026-11-02 23:59:59'), 'Saturday day 14 rolls to Monday');
+wd_ok(WithdrawalService::deadline($sat2, 14, 2) === $at('2026-11-04 23:59:59'), 'grace days count from the rolled-over day');
 
 echo "3. advisory mode\n";
 $old = $orders[] = wd_order([[$product, 1]], time() - 40 * DAY_IN_SECONDS);

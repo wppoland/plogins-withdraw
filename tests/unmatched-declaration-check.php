@@ -21,6 +21,7 @@ $clearThrottle = static function () use ($wpdb): void {
     wp_cache_flush();
 };
 $clearThrottle();
+$wpdb->delete(Migrator::table(), ['customer_email' => 'typo@example.com']); // phpcs:ignore -- leftovers from an aborted run
 
 $savedSettings = get_option(Migrator::OPTION_SETTINGS);
 $svc  = Plugin::instance()->container()->get(WithdrawalService::class);
@@ -60,8 +61,22 @@ add_action('withdraw/declared_unverified', static function () use (&$unverified)
 $html = $post($filled + ['withdraw_step' => 'unmatched_confirm', 'withdraw_nonce' => wp_create_nonce('withdraw_unmatched_confirm')]);
 wd_ok(str_contains($html, 'Please tick the declaration'), 'confirm without the tick is refused');
 
+$shopMail = [];
+$grab     = static function ($args) use (&$shopMail) { $shopMail[] = $args; return $args; };
+add_filter('wp_mail', $grab);
 $html = $post($filled + ['withdraw_step' => 'unmatched_confirm', 'withdraw_declare' => '1', 'withdraw_nonce' => wp_create_nonce('withdraw_unmatched_confirm')]);
+// A replay of the same confirm must not record a second declaration.
+$post($filled + ['withdraw_step' => 'unmatched_confirm', 'withdraw_declare' => '1', 'withdraw_nonce' => wp_create_nonce('withdraw_unmatched_confirm')]);
+remove_filter('wp_mail', $grab);
 wd_ok(str_contains($html, 'Withdrawal declaration received'), 'confirm records the declaration');
+// A storefront POST never builds WC()->mailer() on its own, and the shop email
+// registers its listener in its constructor. In this process orders were just
+// created, so the mailer already exists; assert the boot hook directly.
+$emailService = Plugin::instance()->container()->get(\Withdraw\Service\EmailService::class);
+wd_ok(has_action('withdraw/declared_unverified', [$emailService, 'loadMailer']) === 1, 'the mailer boots on withdraw/declared_unverified');
+$shopTo = \Withdraw\Email\NewRequestEmail::defaultRecipient();
+wd_ok(count($shopMail) === 1 && str_contains((string) json_encode($shopMail[0]['to'] ?? ''), $shopTo) && str_contains((string) $shopMail[0]['message'], 'did not match an order'), 'the shop is emailed once, with the declaration (mails: ' . count($shopMail) . ')');
+wd_ok((int) $wpdb->get_var($wpdb->prepare('SELECT COUNT(*) FROM %i WHERE customer_email = %s', Migrator::table(), 'typo@example.com')) === 1, 'a replayed confirm stores no second row'); // phpcs:ignore
 
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 $row = $wpdb->get_row($wpdb->prepare('SELECT * FROM %i WHERE customer_email = %s ORDER BY id DESC LIMIT 1', Migrator::table(), 'typo@example.com'));
@@ -83,11 +98,9 @@ foreach (['accepted', 'rejected', 'processed'] as $status) {
 }
 remove_filter('wp_mail', $capture);
 wd_ok(count($sent) === 3, 'accepted, rejected and processed each send without a fatal');
-wd_ok($sent !== [] && str_contains($sent[0], '999999 (not matched)'), 'the email names the typed order number');
+wd_ok($sent !== [] && str_contains($sent[0], '999999') && ! str_contains($sent[0], 'not matched'), 'the customer email names the typed order number, without the shop label');
 
-if ($row !== null) {
-    $wpdb->delete(Migrator::table(), ['id' => (int) $row->id]); // phpcs:ignore
-}
+$wpdb->delete(Migrator::table(), ['customer_email' => 'typo@example.com']); // phpcs:ignore
 $clearThrottle();
 $savedSettings === false ? delete_option(Migrator::OPTION_SETTINGS) : update_option(Migrator::OPTION_SETTINGS, $savedSettings);
 wd_done();

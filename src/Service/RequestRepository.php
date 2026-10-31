@@ -98,6 +98,26 @@ final class RequestRepository
     }
 
     /**
+     * Id of a pending declaration with exactly this order, address and text, or 0.
+     *
+     * A confirm POST can arrive twice (refresh, double click, back and resubmit).
+     * Before 1.8.0 any open request blocked the order, so the replay was refused;
+     * with partial withdrawals it would declare the same goods a second time.
+     */
+    public function pendingDuplicate(int $orderId, string $email, string $declaration): int
+    {
+        global $wpdb;
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+        return (int) $wpdb->get_var($wpdb->prepare(
+            "SELECT id FROM %i WHERE order_id = %d AND customer_email = %s AND declaration = %s AND status = 'pending' ORDER BY id DESC LIMIT 1",
+            Migrator::table(),
+            $orderId,
+            $email,
+            $declaration,
+        ));
+    }
+
+    /**
      * Quantity per order line already covered by a pending, accepted or
      * processed declaration. Rejected ones cover nothing.
      *

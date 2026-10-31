@@ -59,6 +59,29 @@ wd_ok($e['eligible'] === false && str_contains($e['reason'], 'already being proc
 foreach ($rows as $r) {
     $wpdb->delete(Migrator::table(), ['id' => $r]); // phpcs:ignore
 }
+
+echo "4. a replayed confirm (refresh, double click) records one declaration\n";
+// Before 1.8.0 any open request blocked the order, so a resubmitted confirm was
+// refused. With partial withdrawals the replay would declare one more unit.
+wd_settings(['period_days' => 14, 'magic_link' => false]);
+$svc     = Plugin::instance()->container()->get(\Withdraw\Service\WithdrawalService::class);
+$confirm = [
+    'withdraw_step'    => 'confirm',
+    'withdraw_order'   => (string) $order->get_order_number(),
+    'withdraw_email'   => 'gap@example.com',
+    'withdraw_name'    => 'Gap Tester',
+    'withdraw_qty'     => [$ids['Partial A'] => 1],
+    'withdraw_declare' => '1',
+];
+foreach ([1, 2] as $_) {
+    $_POST = $confirm + ['withdraw_nonce' => wp_create_nonce('withdraw_confirm')];
+    $svc->renderShortcode();
+    $_POST = [];
+}
+$count = (int) $wpdb->get_var($wpdb->prepare('SELECT COUNT(*) FROM %i WHERE order_id = %d', Migrator::table(), $order->get_id())); // phpcs:ignore
+wd_ok($count === 1, 'two identical confirms store one row (got ' . $count . ')');
+$wpdb->query($wpdb->prepare('DELETE FROM %i WHERE order_id = %d', Migrator::table(), $order->get_id())); // phpcs:ignore
+
 $order->delete(true);
 $a->delete(true);
 $b->delete(true);

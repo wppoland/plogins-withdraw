@@ -29,6 +29,7 @@ final class EmailService implements HasHooks
      */
     private const MAILER_BOOT_ACTIONS = [
         'withdraw/declared',
+        'withdraw/declared_unverified',
         'withdraw/status_changed',
         'withdraw/link_issued',
     ];
