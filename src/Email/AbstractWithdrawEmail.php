@@ -101,6 +101,17 @@ abstract class AbstractWithdrawEmail extends \WC_Email
             return (string) $this->object->get_order_number();
         }
 
+        $hint = (string) ($this->request->order_hint ?? '');
+        if ((int) ($this->request->order_id ?? 0) === 0 && $hint !== '') {
+            // The label is for the shop. A customer told "not matched" after
+            // the shop has matched it by hand would read it as a refusal.
+            if ($this->is_customer_email()) {
+                return $hint;
+            }
+            /* translators: %s: order number as the customer typed it */
+            return sprintf(__('%s (not matched)', 'plogins-withdraw'), $hint);
+        }
+
         return (string) ($this->request->order_id ?? '');
     }
 

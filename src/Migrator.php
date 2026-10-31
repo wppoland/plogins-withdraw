@@ -24,7 +24,7 @@ final class Migrator
      * have to travel together or the column silently never appears and every
      * insert naming it fails. This revision is the column's own gate.
      */
-    private const SCHEMA_REV = 3;
+    private const SCHEMA_REV = 4;
 
     public const OPTION_SETTINGS  = 'withdraw_settings';
 
@@ -171,7 +171,11 @@ final class Migrator
         // because "your withdrawal could not be accepted" with no reason is not
         // an answer the customer can do anything with.
         //
-        // dbDelta adds both columns to an existing table on the next run, which
+        // `late_submission` marks a declaration taken after the deadline while
+        // the shop runs the deadline in advisory mode. `order_hint` is the
+        // order number a consumer typed when no order matched (order_id 0).
+        //
+        // dbDelta adds new columns to an existing table on the next run, which
         // SCHEMA_REV forces even when the plugin version has not moved.
         $sql = "CREATE TABLE {$table} (
             id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -184,6 +188,8 @@ final class Migrator
             declaration longtext NOT NULL,
             admin_note text NOT NULL,
             status varchar(20) NOT NULL DEFAULT 'pending',
+            late_submission tinyint(1) NOT NULL DEFAULT 0,
+            order_hint varchar(191) NOT NULL DEFAULT '',
             created_at datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
             updated_at datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
             PRIMARY KEY  (id),

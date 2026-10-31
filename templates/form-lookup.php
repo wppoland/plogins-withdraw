@@ -8,6 +8,7 @@
  * @var int    $period
  * @var string $intro
  * @var bool   $magic   true when the form emails a one-time link instead
+ * @var bool   $offer_unmatched true after a lookup found no order and the shop takes unmatched declarations
  * @var string $nonce
  */
 
@@ -37,6 +38,25 @@ $withdraw_order_id = isset($_GET['wd_order']) ? absint(wp_unslash($_GET['wd_orde
 
     <?php if ($error !== '') : ?>
         <p class="withdraw-form__error" role="alert"><?php echo esc_html($error); ?></p>
+    <?php endif; ?>
+
+    <?php if (! empty($offer_unmatched)) : ?>
+        <?php
+        // phpcs:disable WordPress.Security.NonceVerification.Missing -- echoes back what the lookup step just verified.
+        $withdraw_typed_order = isset($_POST['withdraw_order']) ? sanitize_text_field(wp_unslash($_POST['withdraw_order'])) : '';
+        $withdraw_typed_email = isset($_POST['withdraw_email']) ? sanitize_email(wp_unslash($_POST['withdraw_email'])) : '';
+        // phpcs:enable
+        ?>
+        <form method="post" class="withdraw-form__form withdraw-form__unmatched">
+            <input type="hidden" name="withdraw_step" value="unmatched">
+            <input type="hidden" name="withdraw_order" value="<?php echo esc_attr($withdraw_typed_order); ?>">
+            <input type="hidden" name="withdraw_email" value="<?php echo esc_attr($withdraw_typed_email); ?>">
+            <?php wp_nonce_field('withdraw_lookup', 'withdraw_nonce'); ?>
+            <p><?php echo esc_html__('Not sure of the order number or the email used? You can still send your withdrawal declaration and we will match it to your order.', 'plogins-withdraw'); ?></p>
+            <p class="withdraw-form__actions">
+                <button type="submit" class="button"><?php echo esc_html__('Send the declaration without a matching order', 'plogins-withdraw'); ?></button>
+            </p>
+        </form>
     <?php endif; ?>
 
     <form method="post" class="withdraw-form__form">

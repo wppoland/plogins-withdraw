@@ -27,7 +27,7 @@ final class RequestRepository
      *
      * @param array<int, array{product_id:int, name:string, qty:int}> $items
      */
-    public function create(int $orderId, string $email, array $items, string $reason, string $token, string $name = '', string $declaration = ''): int
+    public function create(int $orderId, string $email, array $items, string $reason, string $token, string $name = '', string $declaration = '', bool $late = false, string $orderHint = ''): int
     {
         global $wpdb;
 
@@ -43,10 +43,14 @@ final class RequestRepository
                 'reason'         => $reason,
                 'declaration'    => $declaration,
                 'status'         => 'pending',
+                'late_submission' => $late ? 1 : 0,
+                // The order number as typed, kept only when no order matched
+                // (order_id 0), so the shop can match it by hand.
+                'order_hint'     => $orderHint,
                 'created_at'     => $now,
                 'updated_at'     => $now,
             ],
-            ['%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s'],
+            ['%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s', '%s'],
         );
 
         return (int) $wpdb->insert_id;
@@ -93,17 +97,62 @@ final class RequestRepository
         return $row ?: null;
     }
 
-    /** @return int number of pending requests already open for this order */
-    public function openCountForOrder(int $orderId): int
+    /**
+     * Id of a pending declaration with exactly this order, address and text, or 0.
+     *
+     * A confirm POST can arrive twice (refresh, double click, back and resubmit).
+     * Before 1.8.0 any open request blocked the order, so the replay was refused;
+     * with partial withdrawals it would declare the same goods a second time.
+     */
+    public function pendingDuplicate(int $orderId, string $email, string $declaration): int
     {
         global $wpdb;
-        $table = Migrator::table();
         // phpcs:ignore WordPress.DB.DirectDatabaseQuery
         return (int) $wpdb->get_var($wpdb->prepare(
-            "SELECT COUNT(*) FROM %i WHERE order_id = %d AND status IN ('pending','accepted')",
-            $table,
+            "SELECT id FROM %i WHERE order_id = %d AND customer_email = %s AND declaration = %s AND status = 'pending' ORDER BY id DESC LIMIT 1",
+            Migrator::table(),
+            $orderId,
+            $email,
+            $declaration,
+        ));
+    }
+
+    /**
+     * Quantity per order line already covered by a pending, accepted or
+     * processed declaration. Rejected ones cover nothing.
+     *
+     * Rows stored before 1.6.0 carry no line id. An open one of those makes the
+     * answer unknown (null), and the caller then refuses as it always did;
+     * a processed one is ignored, as it always was.
+     *
+     * @return array<int,int>|null
+     */
+    public function committedQuantities(int $orderId): ?array
+    {
+        global $wpdb;
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+        $rows = $wpdb->get_results($wpdb->prepare(
+            "SELECT items, status FROM %i WHERE order_id = %d AND status IN ('pending','accepted','processed')",
+            Migrator::table(),
             $orderId,
         ));
+
+        $out = [];
+        foreach ((array) $rows as $row) {
+            $items = json_decode((string) $row->items, true);
+            foreach (is_array($items) ? $items : [] as $item) {
+                if (! is_array($item) || ! isset($item['item_id'])) {
+                    if ($row->status !== 'processed') {
+                        return null;
+                    }
+                    continue;
+                }
+                $id       = (int) $item['item_id'];
+                $out[$id] = ($out[$id] ?? 0) + (int) ($item['qty'] ?? 0);
+            }
+        }
+
+        return $out;
     }
 
     /**

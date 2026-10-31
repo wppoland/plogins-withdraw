@@ -23,6 +23,7 @@ final class FakeWpdb
     public string $prefix  = 'wp_';
     public string $options = 'wp_options';
     public string $postmeta = 'wp_postmeta';
+    public string $termmeta = 'wp_termmeta';
 
     public function query(string $sql): int
     {
@@ -61,6 +62,7 @@ function switch_to_blog(int $id): void
     $GLOBALS['wpdb']->prefix   = $GLOBALS['px']($id);
     $GLOBALS['wpdb']->options  = $GLOBALS['wpdb']->prefix . 'options';
     $GLOBALS['wpdb']->postmeta = $GLOBALS['wpdb']->prefix . 'postmeta';
+    $GLOBALS['wpdb']->termmeta = $GLOBALS['wpdb']->prefix . 'termmeta';
 }
 function restore_current_blog(): void { switch_to_blog(1); }
 function delete_option(string $name): void { $GLOBALS['deleted'][] = $GLOBALS['blog'] . ':' . $name; }
@@ -71,7 +73,7 @@ require __DIR__ . '/../uninstall.php';
 
 $expected = [];
 foreach ([1, 2, 3] as $site) {
-    array_push($expected, "{$site}:withdraw_settings", "{$site}:withdraw_schema_version", "{$site}:withdraw_schema_rev", "{$site}:withdraw_texts_swept", "{$site}:withdraw_setup_page", "{$site}:woocommerce_withdraw_acknowledgement_settings", "{$site}:woocommerce_withdraw_new_request_settings", "{$site}:woocommerce_withdraw_accepted_settings", "{$site}:woocommerce_withdraw_rejected_settings", "{$site}:woocommerce_withdraw_processed_settings", "{$site}:woocommerce_withdraw_under_review_settings", "{$site}:woocommerce_withdraw_access_link_settings", "{$site}:query:DROP TABLE IF EXISTS {$px($site)}withdraw_requests", "{$site}:query:DELETE FROM {$px($site)}options WHERE option_name LIKE _transient_wd_link_% OR option_name LIKE _transient_timeout_wd_link_%", "{$site}:query:DELETE FROM {$px($site)}options WHERE option_name LIKE _transient_wd_rl_% OR option_name LIKE _transient_timeout_wd_rl_%");
+    array_push($expected, "{$site}:withdraw_settings", "{$site}:withdraw_schema_version", "{$site}:withdraw_schema_rev", "{$site}:withdraw_texts_swept", "{$site}:withdraw_setup_page", "{$site}:woocommerce_withdraw_acknowledgement_settings", "{$site}:woocommerce_withdraw_new_request_settings", "{$site}:woocommerce_withdraw_accepted_settings", "{$site}:woocommerce_withdraw_rejected_settings", "{$site}:woocommerce_withdraw_processed_settings", "{$site}:woocommerce_withdraw_under_review_settings", "{$site}:woocommerce_withdraw_access_link_settings", "{$site}:query:DELETE FROM {$px($site)}postmeta WHERE meta_key = _withdraw_exclusion", "{$site}:query:DELETE FROM {$px($site)}termmeta WHERE meta_key = _withdraw_exclusion", "{$site}:query:DROP TABLE IF EXISTS {$px($site)}withdraw_requests", "{$site}:query:DELETE FROM {$px($site)}options WHERE option_name LIKE _transient_wd_link_% OR option_name LIKE _transient_timeout_wd_link_%", "{$site}:query:DELETE FROM {$px($site)}options WHERE option_name LIKE _transient_wd_rl_% OR option_name LIKE _transient_timeout_wd_rl_%");
 }
 sort($expected);
 sort($deleted);

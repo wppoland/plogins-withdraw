@@ -9,7 +9,10 @@
  *
  * @package Withdraw
  *
- * @var int $minutes How long an issued link stays valid.
+ * @var int    $minutes         How long an issued link stays valid.
+ * @var bool   $offer_unmatched Whether the shop takes declarations that match no order. Shown in every case.
+ * @var string $number          Order number as typed.
+ * @var string $email           Email as typed.
  */
 
 declare(strict_types=1);
@@ -40,4 +43,17 @@ defined('ABSPATH') || exit;
             <button type="submit" class="button withdraw-form__submit"><?php echo esc_html__('Back to the withdrawal form', 'plogins-withdraw'); ?></button>
         </p>
     </form>
+
+    <?php if (! empty($offer_unmatched)) : ?>
+        <form method="post" class="withdraw-form__form withdraw-form__unmatched">
+            <input type="hidden" name="withdraw_step" value="unmatched">
+            <input type="hidden" name="withdraw_order" value="<?php echo esc_attr($number); ?>">
+            <input type="hidden" name="withdraw_email" value="<?php echo esc_attr($email); ?>">
+            <?php wp_nonce_field('withdraw_lookup', 'withdraw_nonce'); ?>
+            <p><?php echo esc_html__('No link arriving? You can send your withdrawal declaration without it and we will match it to your order.', 'plogins-withdraw'); ?></p>
+            <p class="withdraw-form__actions">
+                <button type="submit" class="button"><?php echo esc_html__('Send the declaration without a matching order', 'plogins-withdraw'); ?></button>
+            </p>
+        </form>
+    <?php endif; ?>
 </div>

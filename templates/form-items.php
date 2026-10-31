@@ -9,7 +9,11 @@
  * @var string    $key       one-time link token, '' when the flow was not entered with one
  * @var bool      $legacy    true only on the order-number + email flow
  * @var int       $deadline  unix timestamp the window closes
- * @var list<int> $excluded  order item ids the Art. 16(m) exclusion covers
+ * @var bool      $late      true when the deadline passed and the shop runs it in advisory mode
+ * @var list<int> $excluded  order item ids an Art. 16 exception covers
+ * @var array<int,string> $reasons   order item id => 'digital' | 'custom' | 'perishable'
+ * @var array<int,int>    $remaining order item id => quantity still withdrawable
+ * @var list<int> $sealed    order item ids marked as sealed hygiene goods (Art. 16(e))
  * @var string    $model     model withdrawal text
  * @var string    $nonce
  */
@@ -30,11 +34,14 @@ defined('ABSPATH') || exit;
     </h3>
     <p class="withdraw-form__deadline">
         <?php
-        echo esc_html(sprintf(
-            /* translators: %s: date */
-            __('Withdrawal is possible until %s.', 'plogins-withdraw'),
-            date_i18n(get_option('date_format'), $deadline),
-        ));
+        $withdraw_date = (string) wp_date((string) get_option('date_format'), $deadline);
+        echo esc_html(
+            ! empty($late)
+                /* translators: %s: date */
+                ? sprintf(__('The withdrawal period ended on %s. You can still send the declaration; the shop will review it.', 'plogins-withdraw'), $withdraw_date)
+                /* translators: %s: date */
+                : sprintf(__('Withdrawal is possible until %s.', 'plogins-withdraw'), $withdraw_date),
+        );
         ?>
     </p>
 
@@ -67,22 +74,37 @@ defined('ABSPATH') || exit;
             </thead>
             <tbody>
             <?php
-            $withdraw_excluded = isset($excluded) && is_array($excluded) ? $excluded : [];
-            $withdraw_skipped  = 0;
+            $withdraw_reasons   = isset($reasons) && is_array($reasons) ? $reasons : [];
+            $withdraw_remaining = isset($remaining) && is_array($remaining) ? $remaining : [];
+            $withdraw_sealed    = isset($sealed) && is_array($sealed) ? $sealed : [];
+            $withdraw_skipped   = 0;
+            $withdraw_other     = [];
             foreach ($order->get_items() as $withdraw_item_id => $withdraw_item) :
                 if (! $withdraw_item instanceof \WC_Order_Item_Product) {
                     continue;
                 }
-                if (in_array((int) $withdraw_item_id, $withdraw_excluded, true)) {
-                    // Hidden here, refused on the server too: the row is only
-                    // presentation, WithdrawalService::selectedItems() is the rule.
+                $withdraw_reason = $withdraw_reasons[(int) $withdraw_item_id] ?? '';
+                if ($withdraw_reason === 'digital') {
                     ++$withdraw_skipped;
+                }
+                if ($withdraw_reason !== '' && $withdraw_reason !== 'digital') {
+                    $withdraw_other[] = [$withdraw_item->get_name(), $withdraw_reason];
+                }
+                // Hidden here, refused on the server too: the row is only
+                // presentation, WithdrawalService::selectedItems() is the rule.
+                // A line fully covered by an earlier declaration is hidden too.
+                if (! isset($withdraw_remaining[(int) $withdraw_item_id])) {
                     continue;
                 }
-                $withdraw_max = (int) $withdraw_item->get_quantity(); ?>
+                $withdraw_max = (int) $withdraw_remaining[(int) $withdraw_item_id]; ?>
                 <tr>
-                    <td><?php echo esc_html($withdraw_item->get_name()); ?></td>
-                    <td><?php echo (int) $withdraw_max; ?></td>
+                    <td>
+                        <?php echo esc_html($withdraw_item->get_name()); ?>
+                        <?php if (in_array((int) $withdraw_item_id, $withdraw_sealed, true)) : ?>
+                            <br><small class="withdraw-form__sealed"><?php echo esc_html(\Withdraw\Service\ProductExclusion::notice('sealed')); ?></small>
+                        <?php endif; ?>
+                    </td>
+                    <td><?php echo (int) $withdraw_item->get_quantity(); ?></td>
                     <td>
                         <input type="number" min="0" max="<?php echo esc_attr((string) $withdraw_max); ?>" value="0"
                             name="withdraw_qty[<?php echo (int) $withdraw_item_id; ?>]"
@@ -104,6 +126,14 @@ defined('ABSPATH') || exit;
                 ));
                 ?>
             </p>
+        <?php endif; ?>
+
+        <?php if ($withdraw_other !== []) : ?>
+            <ul class="withdraw-form__excluded">
+                <?php foreach ($withdraw_other as [$withdraw_name, $withdraw_why]) : ?>
+                    <li><strong><?php echo esc_html($withdraw_name); ?>:</strong> <?php echo esc_html(\Withdraw\Service\ProductExclusion::notice($withdraw_why)); ?></li>
+                <?php endforeach; ?>
+            </ul>
         <?php endif; ?>
 
         <p class="withdraw-form__field">

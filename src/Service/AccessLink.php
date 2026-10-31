@@ -13,8 +13,7 @@ defined('ABSPATH') || exit;
  * Tokens live in transients, not in the `token` column of the requests table:
  * an access token has to exist BEFORE a declaration is stored, so reusing that
  * column would mean inserting a placeholder row. That row would show up in the
- * admin log as a request nobody made, and openCountForOrder() would count it,
- * so issuing a link would immediately make the order ineligible.
+ * admin log as a request nobody made, and committedQuantities() would read it.
  *
  * Only the SHA-256 of a token is ever written, as the transient name. A dump of
  * the options table therefore yields no working link, and a lookup is an exact

@@ -28,6 +28,12 @@ function withdraw_uninstall_site(): void
         delete_option('woocommerce_withdraw_' . $withdraw_email_id . '_settings');
     }
 
+    // The Art. 16 marking on products and product categories.
+    foreach ([$wpdb->postmeta, $wpdb->termmeta] as $withdraw_meta_table) {
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+        $wpdb->query($wpdb->prepare('DELETE FROM %i WHERE meta_key = %s', $withdraw_meta_table, '_withdraw_exclusion'));
+    }
+
     $withdraw_table = $wpdb->prefix . 'withdraw_requests';
     // phpcs:ignore WordPress.DB.DirectDatabaseQuery
     $wpdb->query($wpdb->prepare('DROP TABLE IF EXISTS %i', $withdraw_table));
