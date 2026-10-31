@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Withdraw\Email;
 
+use Withdraw\Service\RequestRepository;
+
 defined('ABSPATH') || exit;
 
 /**
@@ -98,6 +100,7 @@ final class AcknowledgementEmail extends AbstractWithdrawEmail
             'submitted_at' => $this->submittedAt(),
             'items'        => $this->items(),
             'reason'       => (string) ($this->request->reason ?? ''),
+            'receipt_hash' => is_object($this->request) ? RequestRepository::receiptHash($this->request) : '',
         ];
     }
 }

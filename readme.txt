@@ -5,7 +5,7 @@ Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
 Requires Plugins: woocommerce
-Stable tag: 1.8.0
+Stable tag: 1.8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -94,6 +94,11 @@ Yes. Orders are read through the WooCommerce order API, which is HPOS-compatible
 Plogins Withdraw is fully translatable and ships the `plogins-withdraw.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.8.1 =
+* New: SHA-256 receipt verification hash (Directive 2011/83/EU Art. 11a(4)) shown on the confirmation screen, included in the customer acknowledgement email, and displayed in the admin detail view.
+* New: CSV export of the withdrawal requests log with status/date filters and CSV formula injection protection.
+* New: WooCommerce Orders list column displaying the withdrawal request status with a direct link to the request log and a late submission warning indicator.
 
 = 1.8.0 =
 * New: the withdrawal deadline is counted under Regulation 1182/71 Art. 3: the start day is not counted, the period ends at midnight of its last day, and a last day on a Saturday or Sunday moves to the following Monday. Deadlines only get longer, never shorter.
@@ -233,6 +238,9 @@ Plogins Withdraw is fully translatable and ships the `plogins-withdraw.pot` temp
 * Initial release: `[withdraw_form]` shortcode (order lookup + full/partial item selection), My Account withdrawal button, configurable withdrawal period and eligible statuses, admin request log with statuses, customer and shop emails, editable model withdrawal text. HPOS + Blocks compatible.
 
 == Upgrade Notice ==
+
+= 1.8.1 =
+SHA-256 receipt verification codes for Article 11a(4) compliance, CSV export for the requests log, and WooCommerce Orders list column integration.
 
 = 1.8.0 =
 Withdrawal deadlines now end at midnight and a deadline falling on a weekend moves to the Monday, partial withdrawals leave the rest of the order open, and products can be marked as excluded under Art. 16. The new options are off until you turn them on.

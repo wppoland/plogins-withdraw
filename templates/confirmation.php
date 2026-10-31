@@ -7,6 +7,7 @@
  * @var \WC_Order                                              $order
  * @var array<int, array{product_id:int, name:string, qty:int}> $items
  * @var int                                                    $id
+ * @var string                                                 $hash
  */
 
 declare(strict_types=1);
@@ -30,4 +31,9 @@ defined('ABSPATH') || exit;
             <li><?php echo esc_html((string) $withdraw_item['name']); ?> &times;<?php echo (int) $withdraw_item['qty']; ?></li>
         <?php endforeach; ?>
     </ul>
+    <?php if (! empty($hash)) : ?>
+        <p class="withdraw-form__receipt-hash">
+            <small><?php echo esc_html__('Receipt verification code:', 'plogins-withdraw'); ?> <code><?php echo esc_html($hash); ?></code></small>
+        </p>
+    <?php endif; ?>
 </div>

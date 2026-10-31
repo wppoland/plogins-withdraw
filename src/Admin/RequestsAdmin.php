@@ -27,6 +27,7 @@ final class RequestsAdmin implements HasHooks
     {
         add_action('admin_menu', [$this, 'addMenuPage']);
         add_action('admin_post_withdraw_set_status', [$this, 'handleStatusChange']);
+        add_action('admin_post_withdraw_export_csv', [$this, 'handleExportCsv']);
     }
 
     public function addMenuPage(): void
@@ -147,6 +148,94 @@ final class RequestsAdmin implements HasHooks
         exit;
     }
 
+    public function handleExportCsv(): void
+    {
+        if (! current_user_can('manage_woocommerce')) {
+            wp_die(esc_html__('Permission denied.', 'plogins-withdraw'));
+        }
+        check_admin_referer('withdraw_export_csv');
+
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- nonce checked via check_admin_referer above.
+        $filter = isset($_GET['status']) ? sanitize_key(wp_unslash($_GET['status'])) : '';
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        $search = isset($_GET['s']) ? sanitize_text_field(wp_unslash($_GET['s'])) : '';
+
+        $query = ['status' => $filter, 'search' => $search];
+        $rows  = $this->repository->all($query);
+
+        $filename = sprintf('withdrawal-requests-%s.csv', gmdate('Y-m-d'));
+
+        header('Content-Type: text/csv; charset=UTF-8');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+
+        $out = fopen('php://output', 'w');
+        if ($out === false) {
+            exit;
+        }
+
+        fwrite($out, "\xEF\xBB\xBF");
+
+        fputcsv($out, [
+            'ID',
+            'Order',
+            'Customer Name',
+            'Customer Email',
+            'Status',
+            'Items',
+            'Reason',
+            'Late Submission',
+            'Receipt Hash',
+            'Submitted At',
+            'Updated At',
+            'Admin Note',
+        ]);
+
+        foreach ($rows as $r) {
+            $items = json_decode((string) $r->items, true);
+            $itemParts = [];
+            if (is_array($items)) {
+                foreach ($items as $it) {
+                    $itemParts[] = sprintf('%s x%d', (string) ($it['name'] ?? ''), (int) ($it['qty'] ?? 1));
+                }
+            }
+
+            $orderId = (int) $r->order_id;
+            $orderNo = $orderId > 0 ? (string) $orderId : (string) ($r->order_hint ?? '');
+
+            fputcsv($out, [
+                (int) $r->id,
+                self::escapeCsv($orderNo),
+                self::escapeCsv((string) ($r->customer_name ?? '')),
+                self::escapeCsv((string) ($r->customer_email ?? '')),
+                (string) $r->status,
+                self::escapeCsv(implode('; ', $itemParts)),
+                self::escapeCsv((string) ($r->reason ?? '')),
+                ! empty($r->late_submission) ? 'yes' : 'no',
+                RequestRepository::receiptHash($r),
+                (string) $r->created_at,
+                (string) $r->updated_at,
+                self::escapeCsv((string) ($r->admin_note ?? '')),
+            ]);
+        }
+
+        fclose($out);
+        exit;
+    }
+
+    /**
+     * Prevent CSV formula injection in spreadsheet applications.
+     */
+    public static function escapeCsv(string $value): string
+    {
+        if ($value !== '' && in_array($value[0], ['=', '+', '-', '@', "\t", "\r"], true)) {
+            return "'" . $value;
+        }
+
+        return $value;
+    }
+
     /** Rows per page in the request log. */
     private const PER_PAGE = 25;
 
@@ -190,6 +279,9 @@ final class RequestsAdmin implements HasHooks
         ?>
         <div class="wrap">
             <h1 class="wp-heading-inline"><?php echo esc_html__('Withdrawal Requests', 'plogins-withdraw'); ?></h1>
+            <a href="<?php echo esc_url(wp_nonce_url(add_query_arg(['action' => 'withdraw_export_csv', 'status' => $filter, 's' => $search], admin_url('admin-post.php')), 'withdraw_export_csv')); ?>" class="page-title-action">
+                <?php echo esc_html__('Export CSV', 'plogins-withdraw'); ?>
+            </a>
             <?php // phpcs:ignore WordPress.Security.NonceVerification.Recommended ?>
             <?php if (isset($_GET['updated'])) : ?>
                 <div class="notice notice-success is-dismissible"><p><?php echo esc_html__('Status updated.', 'plogins-withdraw'); ?></p></div>
@@ -411,6 +503,13 @@ final class RequestsAdmin implements HasHooks
                     <tr>
                         <th><?php echo esc_html__('Declared on', 'plogins-withdraw'); ?></th>
                         <td><?php echo esc_html(mysql2date($dateFormat, (string) $request->created_at)); ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo esc_html__('Receipt hash', 'plogins-withdraw'); ?></th>
+                        <td>
+                            <code><?php echo esc_html(RequestRepository::receiptHash($request)); ?></code>
+                            <p class="description"><?php echo esc_html__('SHA-256 digest of the declaration record for verification (Article 11a(4)).', 'plogins-withdraw'); ?></p>
+                        </td>
                     </tr>
                     <tr>
                         <th><?php echo esc_html__('Last updated', 'plogins-withdraw'); ?></th>

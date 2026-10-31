@@ -7,6 +7,7 @@ namespace Withdraw;
 defined('ABSPATH') || exit;
 
 use Withdraw\Admin\OrderConsentPanel;
+use Withdraw\Admin\OrderColumn;
 use Withdraw\Admin\RequestsAdmin;
 use Withdraw\Admin\Settings;
 use Withdraw\Frontend\MyAccount;
@@ -48,6 +49,9 @@ return static function (Container $c): void {
     if (is_admin()) {
         $c->singleton(Settings::class, static fn (): Settings => new Settings());
         $c->singleton(RequestsAdmin::class, static fn (Container $c): RequestsAdmin => new RequestsAdmin(
+            $c->get(RequestRepository::class),
+        ));
+        $c->singleton(OrderColumn::class, static fn (Container $c): OrderColumn => new OrderColumn(
             $c->get(RequestRepository::class),
         ));
         $c->singleton(OrderConsentPanel::class, static fn (Container $c): OrderConsentPanel => new OrderConsentPanel(

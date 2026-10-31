@@ -14,6 +14,7 @@
  * @var string         $order_number
  * @var string         $declaration
  * @var int            $submitted_at
+ * @var string         $receipt_hash
  * @var array<int, array{name:string, qty:int}> $items
  * @var string         $reason
  * @var string         $email_heading
@@ -54,6 +55,20 @@ do_action('woocommerce_email_header', $email_heading, $email); // phpcs:ignore W
             $withdraw_submitted,
         ));
         ?>
+    </p>
+<?php endif; ?>
+
+<?php if (! empty($receipt_hash)) : ?>
+    <p>
+        <small style="color:#666">
+            <?php
+            echo esc_html(sprintf(
+                /* translators: %s: SHA-256 verification hash */
+                __('Receipt verification code: %s', 'plogins-withdraw'),
+                $receipt_hash,
+            ));
+            ?>
+        </small>
     </p>
 <?php endif; ?>
 

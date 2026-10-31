@@ -12,6 +12,7 @@
  * @var string         $order_number
  * @var string         $declaration
  * @var int            $submitted_at
+ * @var string         $receipt_hash
  * @var array<int, array{name:string, qty:int}> $items
  * @var string         $reason
  * @var string         $email_heading
@@ -43,6 +44,14 @@ if ($withdraw_submitted !== '') {
         /* translators: %s: submission date and time */
         __('Submitted on %s.', 'plogins-withdraw'),
         $withdraw_submitted,
+    )) . "\n\n";
+}
+
+if (! empty($receipt_hash)) {
+    echo esc_html(sprintf(
+        /* translators: %s: SHA-256 verification hash */
+        __('Receipt verification code: %s', 'plogins-withdraw'),
+        $receipt_hash,
     )) . "\n\n";
 }
 

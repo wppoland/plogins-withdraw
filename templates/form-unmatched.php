@@ -12,6 +12,7 @@
  * @var string $error
  * @var string $statement
  * @var int    $submittedAt site-time timestamp, set on 'done'
+ * @var string $receiptHash  SHA-256 receipt hash, set on 'done'
  */
 
 declare(strict_types=1);
@@ -31,6 +32,11 @@ defined('ABSPATH') || exit;
             ?>
         </p>
         <blockquote class="withdraw-form__statement"><?php echo nl2br(esc_html($statement)); ?></blockquote>
+        <?php if (! empty($receiptHash)) : ?>
+            <p class="withdraw-form__receipt-hash">
+                <small><?php echo esc_html__('Receipt verification code:', 'plogins-withdraw'); ?> <code><?php echo esc_html($receiptHash); ?></code></small>
+            </p>
+        <?php endif; ?>
     <?php else : ?>
         <h3 class="withdraw-form__heading"><?php echo esc_html__('Withdrawal declaration', 'plogins-withdraw'); ?></h3>
 

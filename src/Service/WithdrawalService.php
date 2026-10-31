@@ -339,7 +339,6 @@ final class WithdrawalService implements HasHooks
         }
 
         $reason = isset($_POST['withdraw_reason']) ? sanitize_textarea_field(wp_unslash($_POST['withdraw_reason'])) : '';
-        $token  = wp_generate_password(24, false);
 
         // Art. 11a(4) makes the acknowledgement state when the declaration was
         // submitted, so the moment is taken once here and used for both the
@@ -352,14 +351,17 @@ final class WithdrawalService implements HasHooks
         // produce.
         $declaration = $this->statement($order, $name, $email, $items);
 
+        // Verifiable SHA-256 receipt hash over the declaration record (Art. 11a(4)).
+        $receiptHash = hash('sha256', (string) $order->get_id() . '|' . $email . '|' . $declaration . '|' . (string) $submittedAt);
+
         $duplicate = $this->repository->pendingDuplicate($order->get_id(), $email, $declaration);
         if ($duplicate > 0) {
             ob_start();
-            $this->template('confirmation.php', ['order' => $order, 'items' => $items, 'id' => $duplicate]);
+            $this->template('confirmation.php', ['order' => $order, 'items' => $items, 'id' => $duplicate, 'hash' => $receiptHash]);
             return (string) ob_get_clean();
         }
 
-        $id = $this->repository->create($order->get_id(), $email, $items, $reason, $token, $name, $declaration, $eligibility['late']);
+        $id = $this->repository->create($order->get_id(), $email, $items, $reason, $receiptHash, $name, $declaration, $eligibility['late']);
 
         // Single use means one completed withdrawal per link, not one page view.
         // Consuming on first view would kill the link on step two, break the back
@@ -399,6 +401,7 @@ final class WithdrawalService implements HasHooks
             'order' => $order,
             'items' => $items,
             'id'    => $id,
+            'hash'  => $receiptHash,
         ]);
         return (string) ob_get_clean();
     }
@@ -476,11 +479,12 @@ final class WithdrawalService implements HasHooks
         }
 
         $submittedAt = current_time('timestamp');
+        $receiptHash = hash('sha256', '0|' . $fields['email'] . '|' . $statement . '|' . (string) $submittedAt);
         // A replayed confirm shows the same receipt instead of a second row.
         if ($this->repository->pendingDuplicate(0, $fields['email'], $statement) > 0) {
-            return $this->renderUnmatched('done', $fields, '', $statement, $submittedAt);
+            return $this->renderUnmatched('done', $fields, '', $statement, $submittedAt, $receiptHash);
         }
-        $id          = $this->repository->create(0, $fields['email'], [], $fields['reason'], wp_generate_password(24, false), $fields['name'], $statement, false, $fields['number']);
+        $id          = $this->repository->create(0, $fields['email'], [], $fields['reason'], $receiptHash, $fields['name'], $statement, false, $fields['number']);
 
         /**
          * Fires once a declaration that matched no order has been recorded.
@@ -492,11 +496,11 @@ final class WithdrawalService implements HasHooks
          */
         do_action('withdraw/declared_unverified', $id, $submittedAt);
 
-        return $this->renderUnmatched('done', $fields, '', $statement, $submittedAt);
+        return $this->renderUnmatched('done', $fields, '', $statement, $submittedAt, $receiptHash);
     }
 
     /** @param array{number:string, email:string, name:string, goods:string, reason:string} $fields */
-    private function renderUnmatched(string $mode, array $fields, string $error, string $statement = '', int $submittedAt = 0): string
+    private function renderUnmatched(string $mode, array $fields, string $error, string $statement = '', int $submittedAt = 0, string $receiptHash = ''): string
     {
         ob_start();
         $this->template('form-unmatched.php', [
@@ -505,6 +509,7 @@ final class WithdrawalService implements HasHooks
             'error'       => $error,
             'statement'   => $statement,
             'submittedAt' => $submittedAt,
+            'receiptHash' => $receiptHash,
         ]);
 
         return (string) ob_get_clean();

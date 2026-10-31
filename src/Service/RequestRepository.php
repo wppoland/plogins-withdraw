@@ -303,4 +303,70 @@ final class RequestRepository
 
         return $count;
     }
+
+    /**
+     * Read the newest withdrawal request for each order in the given list.
+     *
+     * @param list<int> $orderIds
+     * @return array<int, array{id:int, status:string, late_submission:int}>
+     */
+    public function forOrders(array $orderIds): array
+    {
+        $clean = array_values(array_filter(array_map('intval', $orderIds), static fn (int $id): bool => $id > 0));
+        if ($clean === []) {
+            return [];
+        }
+
+        global $wpdb;
+        $table        = Migrator::table();
+        $placeholders = implode(',', array_fill(0, count($clean), '%d'));
+
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+        $rows = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT id, order_id, status, late_submission FROM %i WHERE order_id IN ($placeholders) ORDER BY id DESC",
+                array_merge([$table], $clean),
+            ),
+        );
+
+        $out = [];
+        if (is_array($rows)) {
+            foreach ($rows as $r) {
+                $oid = (int) $r->order_id;
+                if (! isset($out[$oid])) {
+                    $out[$oid] = [
+                        'id'              => (int) $r->id,
+                        'status'          => (string) $r->status,
+                        'late_submission' => (int) $r->late_submission,
+                    ];
+                }
+            }
+        }
+
+        return $out;
+    }
+
+    /**
+     * Verifiable SHA-256 receipt hash over the declaration record.
+     *
+     * Art. 11a(4) makes the acknowledgement the consumer's proof: a SHA-256
+     * digest over the declaration fields provides an immutable verification code
+     * for both consumer and merchant records.
+     *
+     * @param object|array<string, mixed> $request
+     */
+    public static function receiptHash(object|array $request): string
+    {
+        $token = is_object($request) ? (string) ($request->token ?? '') : (string) ($request['token'] ?? '');
+        if (strlen($token) === 64 && ctype_xdigit($token)) {
+            return $token;
+        }
+
+        $orderId     = is_object($request) ? (int) ($request->order_id ?? 0) : (int) ($request['order_id'] ?? 0);
+        $email       = is_object($request) ? (string) ($request->customer_email ?? '') : (string) ($request['customer_email'] ?? '');
+        $declaration = is_object($request) ? (string) ($request->declaration ?? '') : (string) ($request['declaration'] ?? '');
+        $createdAt   = is_object($request) ? (string) ($request->created_at ?? '') : (string) ($request['created_at'] ?? '');
+
+        return hash('sha256', $orderId . '|' . $email . '|' . $declaration . '|' . $createdAt);
+    }
 }

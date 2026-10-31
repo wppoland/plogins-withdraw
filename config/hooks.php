@@ -5,6 +5,7 @@ declare(strict_types=1);
 defined('ABSPATH') || exit;
 
 use Withdraw\Admin\OrderConsentPanel;
+use Withdraw\Admin\OrderColumn;
 use Withdraw\Admin\RequestsAdmin;
 use Withdraw\Admin\Settings;
 use Withdraw\Frontend\MyAccount;
@@ -37,6 +38,7 @@ return is_admin()
         // the storefront.
         ProductExclusion::class,
         OrderConsentPanel::class,
+        OrderColumn::class,
         Settings::class,
         RequestsAdmin::class,
         WithdrawLink::class,
