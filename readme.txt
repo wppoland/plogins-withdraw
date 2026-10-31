@@ -234,7 +234,7 @@ Plogins Withdraw is fully translatable and ships the `plogins-withdraw.pot` temp
 == Upgrade Notice ==
 
 = 1.8.0 =
-Withdrawal deadlines now end at midnight and skip weekends, partial withdrawals leave the rest of the order open, and products can be marked as excluded under Art. 16. The new options are off until you turn them on.
+Withdrawal deadlines now end at midnight and a deadline falling on a weekend moves to the Monday, partial withdrawals leave the rest of the order open, and products can be marked as excluded under Art. 16. The new options are off until you turn them on.
 
 = 1.7.4 =
 Security release. Default installations are exposed, because emailed links are off by default and the order number lookup had no attempt limit. Update, nothing else to do.

@@ -70,6 +70,21 @@ wd_ok($row !== null && (string) ($row->order_hint ?? '') === '999999', 'the type
 wd_ok($row !== null && str_contains((string) $row->declaration, 'Ann Typo'), 'the declaration text is frozen');
 wd_ok($unverified === 1 && $declared === 0, 'fires withdraw/declared_unverified, not withdraw/declared');
 
+echo "3. the shop acting on an unmatched row\n";
+$repo = Plugin::instance()->container()->get(\Withdraw\Service\RequestRepository::class);
+$sent = [];
+$capture = static function ($args) use (&$sent) { $sent[] = (string) $args['subject']; return $args; };
+add_filter('wp_mail', $capture);
+foreach (['accepted', 'rejected', 'processed'] as $status) {
+    $rid = $repo->create(0, 'typo@example.com', [], '', 'tok', 'Ann Typo', 'decl', false, '999999');
+    $repo->updateStatus($rid, $status, 'checked by hand');
+    do_action('withdraw/status_changed', $rid, $status, 'pending');
+    $wpdb->delete(Migrator::table(), ['id' => $rid]); // phpcs:ignore
+}
+remove_filter('wp_mail', $capture);
+wd_ok(count($sent) === 3, 'accepted, rejected and processed each send without a fatal');
+wd_ok($sent !== [] && str_contains($sent[0], '999999 (not matched)'), 'the email names the typed order number');
+
 if ($row !== null) {
     $wpdb->delete(Migrator::table(), ['id' => (int) $row->id]); // phpcs:ignore
 }
