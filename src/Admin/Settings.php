@@ -446,6 +446,26 @@ final class Settings implements HasHooks
                                     ?>
                                 </p>
                             <?php endif; ?>
+
+                            <hr style="margin: 16px 0; border: 0; border-top: 1px solid #dcdcde;" />
+                            <p>
+                                <strong><?php echo esc_html__('Shoplex - EU Compliance for WooCommerce', 'plogins-withdraw'); ?></strong>
+                            </p>
+                            <?php if (class_exists('\Shoplex\Plugin')) : ?>
+                                <p class="withdraw-note" style="color:#007017;font-weight:600;">
+                                    <?php echo esc_html__('Shoplex is active. Omnibus price history, GPSR, and local fonts run alongside Withdraw.', 'plogins-withdraw'); ?>
+                                </p>
+                            <?php else : ?>
+                                <p class="withdraw-note">
+                                    <?php
+                                    printf(
+                                        /* translators: %s: partner plugin name, linked to its search on the Add Plugins screen. */
+                                        esc_html__('Install %s, a free plugin, to handle Omnibus 30-day lowest prices, GPSR product safety, deposit schemes (Pfand) and local fonts.', 'plogins-withdraw'),
+                                        '<a href="' . esc_url(admin_url('plugin-install.php?s=' . rawurlencode('Shoplex - EU Compliance for WooCommerce') . '&tab=search&type=term')) . '">' . esc_html('Shoplex - EU Compliance for WooCommerce') . '</a>'
+                                    );
+                                    ?>
+                                </p>
+                            <?php endif; ?>
                         </div>
                     </section>
 
