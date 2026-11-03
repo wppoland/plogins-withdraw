@@ -96,7 +96,7 @@ Plogins Withdraw is fully translatable and ships the `plogins-withdraw.pot` temp
 == Changelog ==
 
 = 1.8.2 =
-* Security: the default recipient address in the New request email settings is escaped for HTML text instead of an attribute.
+* Security (low): the default recipient address in the New request email settings is escaped for HTML text instead of an attribute.
 
 = 1.8.1 =
 * New: SHA-256 receipt verification hash (Directive 2011/83/EU Art. 11a(4)) shown on the confirmation screen, included in the customer acknowledgement email, and displayed in the admin detail view.
@@ -241,6 +241,9 @@ Plogins Withdraw is fully translatable and ships the `plogins-withdraw.pot` temp
 * Initial release: `[withdraw_form]` shortcode (order lookup + full/partial item selection), My Account withdrawal button, configurable withdrawal period and eligible statuses, admin request log with statuses, customer and shop emails, editable model withdrawal text. HPOS + Blocks compatible.
 
 == Upgrade Notice ==
+
+= 1.8.2 =
+Security release. Default installations are not exposed; the change only escapes an address shown on the admin email settings screen. Update, nothing else to do.
 
 = 1.8.1 =
 SHA-256 receipt verification codes for Article 11a(4) compliance, CSV export for the requests log, and WooCommerce Orders list column integration.
