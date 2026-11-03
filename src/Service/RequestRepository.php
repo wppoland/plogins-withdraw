@@ -324,7 +324,7 @@ final class RequestRepository
         // phpcs:ignore WordPress.DB.DirectDatabaseQuery
         $rows = $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT id, order_id, status, late_submission FROM %i WHERE order_id IN ($placeholders) ORDER BY id DESC",
+                "SELECT id, order_id, status, late_submission FROM %i WHERE order_id IN ($placeholders) ORDER BY id DESC", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $placeholders is only '%d' repeated and joined by commas, every value goes through prepare().
                 array_merge([$table], $clean),
             ),
         );
