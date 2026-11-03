@@ -80,7 +80,7 @@ final class NewRequestEmail extends AbstractWithdrawEmail
             'title'       => __('Recipient(s)', 'plogins-withdraw'),
             'type'        => 'text',
             /* translators: %s: the address this message goes to when the field is left empty */
-            'description' => sprintf(__('Comma-separated. Leave blank to use %s, which is the notification address set under WooCommerce, Withdrawal.', 'plogins-withdraw'), '<code>' . esc_attr(self::defaultRecipient()) . '</code>'),
+            'description' => sprintf(__('Comma-separated. Leave blank to use %s, which is the notification address set under WooCommerce, Withdrawal.', 'plogins-withdraw'), '<code>' . esc_html(self::defaultRecipient()) . '</code>'),
             'placeholder' => self::defaultRecipient(),
             'default'     => '',
             'desc_tip'    => true,
