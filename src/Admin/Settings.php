@@ -189,7 +189,7 @@ final class Settings implements HasHooks
                             <p>
                                 <label for="wd-period"><?php echo esc_html__('Withdrawal period (days)', 'plogins-withdraw'); ?></label>
                                 <input type="number" id="wd-period" min="1" max="365" name="<?php echo esc_attr(self::OPTION); ?>[period_days]" value="<?php echo esc_attr((string) $s['period_days']); ?>">
-                                <?php $help(__('Statutory minimum is 14 days from the day the customer receives the goods. The order has no delivery date, so the plugin counts from the day the order is marked completed (or created, if it never was); a shipping plugin can supply the real date through the withdraw/delivery_date filter. The start day is not counted, the period ends at midnight of its last day, and a last day on a Saturday or Sunday moves to the Monday (Regulation 1182/71, Art. 3).', 'plogins-withdraw')); ?>
+                                <?php $help(__('Statutory minimum is 14 days from the day the customer receives the goods. For services and digital content it is 14 days from the day the contract is concluded, so an order of only virtual products counts from the day it was placed. The order has no delivery date, so for goods the plugin counts from the day the order is marked completed (or created, if it never was); a shipping plugin can supply the real date through the withdraw/delivery_date filter. The start day is not counted, the period ends at midnight of its last day, and a last day on a Saturday or Sunday moves to the Monday (Regulation 1182/71, Art. 3).', 'plogins-withdraw')); ?>
                             </p>
                             <p>
                                 <label for="wd-grace"><?php echo esc_html__('Extra days (grace)', 'plogins-withdraw'); ?></label>
@@ -202,7 +202,7 @@ final class Settings implements HasHooks
                                     <option value="strict" <?php selected($s['deadline_mode'], 'strict'); ?>><?php echo esc_html__('Refuse the declaration', 'plogins-withdraw'); ?></option>
                                     <option value="advisory" <?php selected($s['deadline_mode'], 'advisory'); ?>><?php echo esc_html__('Accept it and flag it as late', 'plogins-withdraw'); ?></option>
                                 </select>
-                                <?php $help(__('A withdrawal counts as in time if the customer sent it before the period expired (Directive 2011/83/EU, Art. 11a(5)), and the period runs from delivery (Art. 9(2)(b)). If your completion date can be earlier than delivery, accept late declarations and judge each one against the real delivery date. Links in My Account and in emails still disappear at the deadline.', 'plogins-withdraw')); ?>
+                                <?php $help(__('A withdrawal counts as in time if the customer sent it before the period expired (Directive 2011/83/EU, Art. 11a(5)), and for goods the period runs from delivery (Art. 9(2)(b)). If your completion date can be earlier than delivery, accept late declarations and judge each one against the real delivery date. Links in My Account and in emails still disappear at the deadline.', 'plogins-withdraw')); ?>
                             </p>
                         </div>
                     </section>

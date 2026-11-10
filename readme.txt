@@ -5,7 +5,7 @@ Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
 Requires Plugins: woocommerce
-Stable tag: 1.8.2
+Stable tag: 1.9.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,7 +22,7 @@ It is a **request-and-log** plugin: it records the customer's withdrawal declara
 * **Withdrawal form**: the `[withdraw_form]` shortcode renders the whole flow: look up an order by number and billing email (works for guests too), select items and quantities, then confirm on a step of its own, because Art. 11a(3) wants the confirmation to be a separate control labelled only "confirm withdrawal".
 * **Full or partial withdrawal**: the customer chooses how many of each item to withdraw from, and can come back for the rest of the order later: each line offers only what earlier declarations do not already cover.
 * **Withdrawal button in My Account**: a "Withdraw from contract here" button under the order details and the same action on the orders list, both linking to your withdrawal page with the order pre-filled, while the order is within the withdrawal period. The link also goes into the processing and completed order emails.
-* **Withdrawal-period check**: configurable period (statutory minimum 14 days), measured from delivery (order completion, or a real delivery date from the `withdraw/delivery_date` filter) or, if never completed, from the order date. Counted under Regulation 1182/71 Art. 3: the start day does not count, the period ends at midnight of its last day, and a last day on a Saturday or Sunday moves to the Monday. Optional grace days, and an advisory mode that accepts a late declaration and flags it instead of refusing it.
+* **Withdrawal-period check**: configurable period (statutory minimum 14 days), measured from delivery (order completion, or a real delivery date from the `withdraw/delivery_date` filter) or, if never completed, from the order date. An order of only virtual products (services, digital content) counts from the order date, the day the contract is concluded (Directive 2011/83/EU Art. 9(2)(a) and (c)). Counted under Regulation 1182/71 Art. 3: the start day does not count, the period ends at midnight of its last day, and a last day on a Saturday or Sunday moves to the Monday. Optional grace days, and an advisory mode that accepts a late declaration and flags it instead of refusing it.
 * **Products the right does not cover (Art. 16(c) to (e))**: mark a product or a whole category as made to specification, perishable or sealed for hygiene reasons. The product page says so before purchase (Art. 6(1)(k)); made-to-specification and perishable items drop out of the withdrawal form, sealed items stay in it with a notice, because the right is only lost once the seal is broken after delivery.
 * **Declarations that match no order (optional)**: off by default. With it on, a customer whose order number or email does not match can still send the declaration with a description of the goods. It is logged as not matched, the shop is emailed, and you match it by hand.
 * **Admin log**: a WooCommerce > Withdrawal Requests screen lists every request with its items, customer and status (pending, accepted, rejected, processed), filterable by status, searchable by email or order number and paged, with a detail screen per request showing the stored declaration and the reason the customer gave.
@@ -94,6 +94,9 @@ Yes. Orders are read through the WooCommerce order API, which is HPOS-compatible
 Plogins Withdraw is fully translatable and ships the `plogins-withdraw.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.9.0 =
+* Changed: an order of only virtual products (services, digital content) counts its withdrawal period from the order date, the day the contract is concluded (Directive 2011/83/EU Art. 9(2)(a) and (c)), instead of from completion. Orders with any physical product still count from delivery.
 
 = 1.8.2 =
 * Security (low): the default recipient address in the New request email settings is escaped for HTML text instead of an attribute.
@@ -241,6 +244,9 @@ Plogins Withdraw is fully translatable and ships the `plogins-withdraw.pot` temp
 * Initial release: `[withdraw_form]` shortcode (order lookup + full/partial item selection), My Account withdrawal button, configurable withdrawal period and eligible statuses, admin request log with statuses, customer and shop emails, editable model withdrawal text. HPOS + Blocks compatible.
 
 == Upgrade Notice ==
+
+= 1.9.0 =
+Orders of only virtual products now count the withdrawal period from the order date, as Article 9(2) requires for services and digital content. Their deadline can be earlier than before; add grace days if you want to keep the longer period.
 
 = 1.8.2 =
 Security release. Default installations are not exposed; the change only escapes an address shown on the admin email settings screen. Update, nothing else to do.
