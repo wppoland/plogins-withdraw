@@ -23,6 +23,8 @@ defined('ABSPATH') || exit;
  */
 final class StatutoryText
 {
+    public const SELLS = ['goods', 'services', 'digital'];
+
     /** @return array<string, mixed> */
     private static function settings(): array
     {
@@ -87,12 +89,23 @@ final class StatutoryText
     public static function modelForm(): string
     {
         $seller = self::seller();
+        $seller = $seller !== '' ? $seller : __('(the seller\'s name and address)', 'plogins-withdraw');
+
+        // Annex I(B) has a service variant only; digital content keeps the goods wording.
+        if (self::sells() === 'services') {
+            return sprintf(
+                // phpcs:ignore Generic.Files.LineLength.TooLong -- a translatable string has to be one literal, and this one is a statutory form.
+                /* translators: %s: the trader's name, address and contact details, each on its own line */
+                __("Model withdrawal form\n(complete and return this form only if you wish to withdraw from the contract)\n\nTo:\n%s\n\nI hereby give notice that I withdraw from my contract for the provision of the following service:\n\nOrdered on:\n\nName of consumer:\n\nAddress of consumer:\n\nDate:", 'plogins-withdraw'),
+                $seller,
+            );
+        }
 
         return sprintf(
             // phpcs:ignore Generic.Files.LineLength.TooLong -- a translatable string has to be one literal, and this one is a statutory form.
             /* translators: %s: the trader's name, address and contact details, each on its own line */
             __("Model withdrawal form\n(complete and return this form only if you wish to withdraw from the contract)\n\nTo:\n%s\n\nI hereby give notice that I withdraw from my contract of sale of the following goods:\n\nOrdered on / received on:\n\nName of consumer:\n\nAddress of consumer:\n\nDate:", 'plogins-withdraw'),
-            $seller !== '' ? $seller : __('(the seller\'s name and address)', 'plogins-withdraw'),
+            $seller,
         );
     }
 
@@ -108,14 +121,24 @@ final class StatutoryText
     {
         $days   = self::periodDays();
         $seller = self::seller();
+        $sells  = self::sells();
+        $goods  = $sells === 'goods';
         $parts  = [];
 
-        $parts[] = sprintf(
-            /* translators: 1: number of days, 2: number of days */
-            __('You have the right to withdraw from this contract within %1$d days without giving any reason. The withdrawal period will expire after %2$d days from the day on which you acquire, or a third party other than the carrier and indicated by you acquires, physical possession of the goods.', 'plogins-withdraw'),
-            $days,
-            $days,
-        );
+        $parts[] = $goods
+            ? sprintf(
+                /* translators: 1: number of days, 2: number of days */
+                __('You have the right to withdraw from this contract within %1$d days without giving any reason. The withdrawal period will expire after %2$d days from the day on which you acquire, or a third party other than the carrier and indicated by you acquires, physical possession of the goods.', 'plogins-withdraw'),
+                $days,
+                $days,
+            )
+            // Annex I(A), completion instruction 1(a): services and digital content not on a tangible medium.
+            : sprintf(
+                /* translators: 1: number of days, 2: number of days */
+                __('You have the right to withdraw from this contract within %1$d days without giving any reason. The withdrawal period will expire after %2$d days from the day of the conclusion of the contract.', 'plogins-withdraw'),
+                $days,
+                $days,
+            );
 
         $parts[] = sprintf(
             /* translators: %s: the trader's name, address and contact details */
@@ -128,6 +151,16 @@ final class StatutoryText
         $parts[] = __('Effects of withdrawal', 'plogins-withdraw');
 
         $parts[] = __('If you withdraw from this contract, we shall reimburse to you all payments received from you, including the costs of delivery, with the exception of the supplementary costs resulting from your choice of a type of delivery other than the least expensive type of standard delivery offered by us, without undue delay and in any event not later than 14 days from the day on which we are informed about your decision to withdraw from this contract. We will carry out such reimbursement using the same means of payment as you used for the initial transaction, unless you have expressly agreed otherwise; in any event, you will not incur any fees as a result of such reimbursement.', 'plogins-withdraw');
+
+        // Completion instructions 4 and 5 apply only where goods were sold and received.
+        if (! $goods) {
+            if ($sells === 'services') {
+                // Completion instruction 6. It names services, not digital content.
+                $parts[] = __('If you requested to begin the performance of services during the withdrawal period, you shall pay us an amount which is in proportion to what has been provided until you have communicated us your withdrawal from this contract, in comparison with the full coverage of the contract.', 'plogins-withdraw');
+            }
+
+            return self::filtered($parts);
+        }
 
         $parts[] = __('We may withhold reimbursement until we have received the goods back or you have supplied evidence of having sent back the goods, whichever is the earliest.', 'plogins-withdraw');
 
@@ -144,11 +177,30 @@ final class StatutoryText
 
         $parts[] = __('You are only liable for any diminished value of the goods resulting from handling other than what is necessary to establish the nature, characteristics and functioning of the goods.', 'plogins-withdraw');
 
+        return self::filtered($parts);
+    }
+
+    /**
+     * What the shop's contracts are for: one of self::SELLS. Annex I(A) words
+     * the period and the return paragraphs differently for each.
+     */
+    public static function sells(): string
+    {
+        $sells = (string) (self::settings()['sells'] ?? 'goods');
+
+        return in_array($sells, self::SELLS, true) ? $sells : 'goods';
+    }
+
+    /**
+     * @param list<string> $parts
+     */
+    private static function filtered(array $parts): string
+    {
         /**
          * Filters the paragraphs of the model withdrawal instructions.
          *
-         * Every shop's obligations differ; this is where a shop adds the
-         * service-contract or digital-content paragraphs its own catalogue needs.
+         * A shop selling both goods and services or digital content gets one
+         * variant from the setting; this is where it adds what its catalogue needs.
          *
          * @param list<string> $parts The paragraphs, in order.
          */

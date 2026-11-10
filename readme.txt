@@ -5,7 +5,7 @@ Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
 Requires Plugins: woocommerce
-Stable tag: 1.9.0
+Stable tag: 1.10.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,7 +33,7 @@ It is a **request-and-log** plugin: it records the customer's withdrawal declara
 * **Your own refund deadline (Art. 13(1))**: the request log shows the date you owe the refund by, 14 days from the declaration, and marks it once it has passed.
 * **Digital content consent (Art. 16(m))**: optional. One unticked checkbox at checkout, on both the classic and the block checkout, asking the customer to start supply immediately and acknowledging that the right of withdrawal is lost once it has. What was agreed, when, in which exact words and for which products is stored with the order and confirmed back on the order screen and in the order email. Once WooCommerce has actually served a download, that item drops out of the withdrawal form, server side.
 * **Emailed one-time link (optional)**: off by default. With it on, step one asks for the order number and billing email and emails a single-use link to the address on the order instead of opening the form, so knowing an order number is not enough to read what somebody bought. The answer is the same whether the order exists or not, requests are rate limited, and signed-in customers arriving from My Account skip the link entirely.
-* **The statutory texts, generated**: the model withdrawal form (Annex I.B) is built from your seller details and printed on the form, and `[withdraw_instructions]` renders the model instructions on withdrawal (Annex I.A) for your terms page, both translatable and both in step with your configured withdrawal period. Type your own wording and it wins.
+* **The statutory texts, generated**: the model withdrawal form (Annex I.B) is built from your seller details and printed on the form, and `[withdraw_instructions]` renders the model instructions on withdrawal (Annex I.A) for your terms page, both translatable and both in step with your configured withdrawal period. Pick goods, services or digital content and both use the Annex I wording for that contract. Type your own wording and it wins.
 * **Guest friendly**: no account needed; the order-number + billing-email lookup works for guest orders.
 * **HPOS + Blocks compatible**: reads orders through the WooCommerce order API.
 
@@ -94,6 +94,9 @@ Yes. Orders are read through the WooCommerce order API, which is HPOS-compatible
 Plogins Withdraw is fully translatable and ships the `plogins-withdraw.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.10.0 =
+* New: a "Your contracts are for" setting (goods, services, digital content). For services and digital content the generated model instructions count the period from the conclusion of the contract and leave out the paragraphs about sending goods back (Directive 2011/83/EU Annex I(A), completion instructions 1(a), 4 and 5). Services also get the paragraph on paying for what was provided (instruction 6) and the service wording of the model form (Annex I(B)). Goods, the default, is unchanged.
 
 = 1.9.0 =
 * Changed: an order of only virtual products (services, digital content) counts its withdrawal period from the order date, the day the contract is concluded (Directive 2011/83/EU Art. 9(2)(a) and (c)), instead of from completion. Orders with any physical product still count from delivery.
@@ -244,6 +247,9 @@ Plogins Withdraw is fully translatable and ships the `plogins-withdraw.pot` temp
 * Initial release: `[withdraw_form]` shortcode (order lookup + full/partial item selection), My Account withdrawal button, configurable withdrawal period and eligible statuses, admin request log with statuses, customer and shop emails, editable model withdrawal text. HPOS + Blocks compatible.
 
 == Upgrade Notice ==
+
+= 1.10.0 =
+New setting for shops selling services or digital content: the generated withdrawal instructions and model form use the Annex I wording for those contracts. Nothing changes until you pick it.
 
 = 1.9.0 =
 Orders of only virtual products now count the withdrawal period from the order date, as Article 9(2) requires for services and digital content. Their deadline can be earlier than before; add grace days if you want to keep the longer period.
