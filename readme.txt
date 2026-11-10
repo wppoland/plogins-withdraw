@@ -5,7 +5,7 @@ Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
 Requires Plugins: woocommerce
-Stable tag: 1.10.0
+Stable tag: 1.10.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -94,6 +94,9 @@ Yes. Orders are read through the WooCommerce order API, which is HPOS-compatible
 Plogins Withdraw is fully translatable and ships the `plogins-withdraw.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.10.1 =
+* Fixed: the "withdrawal accepted" email no longer asks the customer to send goods back, or prints the return address and return cost, when every withdrawn line is a virtual product. A deleted product still counts as goods.
 
 = 1.10.0 =
 * New: a "Your contracts are for" setting (goods, services, digital content). For services and digital content the generated model instructions count the period from the conclusion of the contract and leave out the paragraphs about sending goods back (Directive 2011/83/EU Annex I(A), completion instructions 1(a), 4 and 5). Services also get the paragraph on paying for what was provided (instruction 6) and the service wording of the model form (Annex I(B)). Goods, the default, is unchanged.
@@ -247,6 +250,9 @@ Plogins Withdraw is fully translatable and ships the `plogins-withdraw.pot` temp
 * Initial release: `[withdraw_form]` shortcode (order lookup + full/partial item selection), My Account withdrawal button, configurable withdrawal period and eligible statuses, admin request log with statuses, customer and shop emails, editable model withdrawal text. HPOS + Blocks compatible.
 
 == Upgrade Notice ==
+
+= 1.10.1 =
+The withdrawal accepted email leaves out the return paragraphs when only virtual products were withdrawn.
 
 = 1.10.0 =
 New setting for shops selling services or digital content: the generated withdrawal instructions and model form use the Annex I wording for those contracts. Nothing changes until you pick it.

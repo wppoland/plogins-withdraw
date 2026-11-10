@@ -86,6 +86,30 @@ final class AcceptedEmail extends AbstractStatusEmail
             // what the shop was shown on the settings screen.
             'return_address'   => ReturnPolicy::address(),
             'return_cost_text' => ReturnPolicy::costSentence(),
+            'goods_back'       => $this->goodsBack(),
         ]);
+    }
+
+    /**
+     * Whether anything withdrawn has to be sent back: false only when every
+     * withdrawn line is a virtual product, which has no goods to return.
+     * A deleted product or an unknown line counts as goods.
+     */
+    public function goodsBack(): bool
+    {
+        $decoded = json_decode((string) ($this->request->items ?? ''), true);
+        if (! $this->object instanceof \WC_Order || ! is_array($decoded) || $decoded === []) {
+            return true;
+        }
+
+        foreach ($decoded as $item) {
+            $line    = is_array($item) ? $this->object->get_item((int) ($item['item_id'] ?? 0)) : false;
+            $product = $line instanceof \WC_Order_Item_Product ? $line->get_product() : null;
+            if (! $product instanceof \WC_Product || ! $product->is_virtual()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

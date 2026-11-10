@@ -17,6 +17,7 @@
  * @var int            $return_days
  * @var string         $return_address
  * @var string         $return_cost_text
+ * @var bool           $goods_back
  * @var string         $email_heading
  * @var string         $additional_content
  * @var bool           $plain_text
@@ -68,14 +69,15 @@ if ($items !== []) {
     echo "\n";
 }
 
-if ($withdraw_deadline !== '') {
+// Only virtual lines withdrawn: nothing to send back.
+if (($goods_back ?? true) && $withdraw_deadline !== '') {
     echo esc_html(sprintf(
         /* translators: 1: number of days, 2: the last date the goods may be sent back */
         __('Please send the goods back without undue delay and in any case within %1$d days of the day you told us you were withdrawing, that is by %2$s.', 'plogins-withdraw'),
         $return_days,
         $withdraw_deadline,
     )) . "\n\n";
-} else {
+} elseif ($goods_back ?? true) {
     echo esc_html(sprintf(
         /* translators: %d: number of days */
         __('Please send the goods back without undue delay and in any case within %d days of the day you told us you were withdrawing.', 'plogins-withdraw'),
@@ -83,12 +85,12 @@ if ($withdraw_deadline !== '') {
     )) . "\n\n";
 }
 
-if ($return_address !== '') {
+if (($goods_back ?? true) && $return_address !== '') {
     echo esc_html__('Send them to:', 'plogins-withdraw') . "\n";
     echo esc_html($return_address) . "\n\n";
 }
 
-if ($return_cost_text !== '') {
+if (($goods_back ?? true) && $return_cost_text !== '') {
     echo esc_html($return_cost_text) . "\n\n";
 }
 
