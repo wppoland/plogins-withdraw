@@ -120,7 +120,7 @@ $order->calculate_totals();
 $order->save();
 
 $repo        = new RequestRepository();
-$items       = [['product_id' => $product->get_id(), 'name' => 'Test lamp', 'qty' => 2]];
+$items       = [['item_id' => (int) array_key_first($order->get_items()), 'product_id' => $product->get_id(), 'name' => 'Test lamp', 'qty' => 2]];
 $declaration = "I hereby give notice that I withdraw from my contract of sale of Test lamp x2.\nOrdered on 1 September 2026. Anna Nowak.";
 $submittedAt = (int) current_time('timestamp');
 
@@ -203,6 +203,29 @@ $accHtml2  = html_entity_decode(wp_strip_all_tags($accepted2[0]['message'] ?? ''
 $ok(str_contains($accHtml2, 'ul. Magazynowa 7'), 'the configured return address wins over the store address');
 $ok(str_contains($accHtml2, 'You bear the direct cost of returning the goods.'), 'accepted states that the customer pays');
 $ok(str_contains($accHtml2, 'around 40 EUR'), 'the cost note is printed');
+$ok(str_contains($accHtml2, 'send the goods back'), 'goods withdrawn: accepted asks for them back');
+
+// Only virtual lines withdrawn (1.10.1): nothing to send back, no return paragraphs.
+$virtual = [];
+foreach ($order->get_items() as $line) {
+    $p = $line instanceof WC_Order_Item_Product ? $line->get_product() : null;
+    if ($p instanceof WC_Product) {
+        $virtual[$p->get_id()] = $p->is_virtual();
+        $p->set_virtual(true);
+        $p->save();
+    }
+}
+$drain();
+do_action('withdraw/status_changed', $id, 'accepted', 'pending');
+$accHtml3 = html_entity_decode(wp_strip_all_tags($drain()[0]['message'] ?? ''), ENT_QUOTES);
+$ok($accHtml3 !== '' && ! str_contains($accHtml3, 'send the goods back'), 'virtual only: no request to send goods back');
+$ok(! str_contains($accHtml3, 'ul. Magazynowa 7') && ! str_contains($accHtml3, 'You bear the direct cost'), 'virtual only: no return address or cost');
+$ok(str_contains($accHtml3, 'same means of payment'), 'virtual only: the refund sentence stays');
+foreach ($virtual as $pid => $was) {
+    $p = wc_get_product($pid);
+    $p->set_virtual($was);
+    $p->save();
+}
 
 /* --- 4. the other three statuses --------------------------------------- */
 

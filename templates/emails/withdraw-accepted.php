@@ -23,6 +23,7 @@
  * @var int            $return_days
  * @var string         $return_address
  * @var string         $return_cost_text
+ * @var bool           $goods_back
  * @var string         $email_heading
  * @var string         $additional_content
  * @var bool           $plain_text
@@ -83,6 +84,8 @@ do_action('woocommerce_email_header', $email_heading, $email); // phpcs:ignore W
     </table>
 <?php endif; ?>
 
+<?php // Only virtual lines withdrawn: nothing to send back. ?>
+<?php if ($goods_back ?? true) : ?>
 <p>
     <?php if ($withdraw_deadline !== '') : ?>
         <?php
@@ -111,6 +114,7 @@ do_action('woocommerce_email_header', $email_heading, $email); // phpcs:ignore W
 
 <?php if ($return_cost_text !== '') : ?>
     <p><?php echo esc_html($return_cost_text); ?></p>
+<?php endif; ?>
 <?php endif; ?>
 
 <p><?php echo esc_html__('We will refund you using the same means of payment you used, unless we have expressly agreed otherwise.', 'plogins-withdraw'); ?></p>
