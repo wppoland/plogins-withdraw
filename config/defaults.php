@@ -11,6 +11,9 @@ defined('ABSPATH') || exit;
  */
 return [
     'period_days'       => 14,
+    // What the contracts are for: goods, services or digital. Sets the
+    // Annex I wording of the generated instructions and model form.
+    'sells'             => 'goods',
     // Extra days the shop grants on top of the statutory period.
     'grace_days'        => 0,
     // 'strict' refuses a declaration after the deadline, as every release

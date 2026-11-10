@@ -135,6 +135,7 @@ final class Settings implements HasHooks
             'seller_phone'      => sanitize_text_field((string) ($in['seller_phone'] ?? '')),
             'intro_text'        => sanitize_textarea_field((string) ($in['intro_text'] ?? '')),
             'model_form_text'   => sanitize_textarea_field((string) ($in['model_form_text'] ?? '')),
+            'sells'             => in_array((string) ($in['sells'] ?? ''), StatutoryText::SELLS, true) ? (string) $in['sells'] : 'goods',
         ];
     }
 
@@ -404,6 +405,15 @@ final class Settings implements HasHooks
                                 <label for="wd-model"><?php echo esc_html__('Model withdrawal text', 'plogins-withdraw'); ?></label>
                                 <?php $help(__('Shown on the items step. Leave empty and the plugin generates the statutory model withdrawal form (Annex I.B) from the seller details above, in the language of the site.', 'plogins-withdraw')); ?><br>
                                 <textarea id="wd-model" class="large-text" rows="6" name="<?php echo esc_attr(self::OPTION); ?>[model_form_text]" placeholder="<?php echo esc_attr(StatutoryText::modelForm()); ?>"><?php echo esc_textarea((string) $s['model_form_text']); ?></textarea>
+                            </p>
+                            <p>
+                                <label for="wd-sells"><?php echo esc_html__('Your contracts are for', 'plogins-withdraw'); ?></label>
+                                <select id="wd-sells" name="<?php echo esc_attr(self::OPTION); ?>[sells]">
+                                    <option value="goods" <?php selected(StatutoryText::sells(), 'goods'); ?>><?php echo esc_html__('Goods', 'plogins-withdraw'); ?></option>
+                                    <option value="services" <?php selected(StatutoryText::sells(), 'services'); ?>><?php echo esc_html__('Services', 'plogins-withdraw'); ?></option>
+                                    <option value="digital" <?php selected(StatutoryText::sells(), 'digital'); ?>><?php echo esc_html__('Digital content not on a tangible medium', 'plogins-withdraw'); ?></option>
+                                </select>
+                                <?php $help(__('Sets the wording of the generated model texts. For services and digital content the period runs from the conclusion of the contract and the paragraphs about sending goods back are left out; for services the instructions add the paragraph on paying for what was provided. A shop that sells both goods and services or digital content writes its own text or uses the withdraw/model_instructions filter.', 'plogins-withdraw')); ?>
                             </p>
                             <p class="withdraw-note">
                                 <?php echo esc_html__('The model instructions on withdrawal (Annex I.A) are pre-contractual information, so they belong on a page of their own rather than on the form. Put the [withdraw_instructions] shortcode on your terms or returns page and the plugin generates them from the same details, including your withdrawal period.', 'plogins-withdraw'); ?>

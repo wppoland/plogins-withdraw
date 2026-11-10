@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Plogins Withdraw - EU Right of Withdrawal & Returns for "
 "WooCommerce 0.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/plogins-withdraw\n"
-"POT-Creation-Date: 2026-11-10T18:16:47+00:00\n"
+"POT-Creation-Date: 2026-11-10T21:42:27+00:00\n"
 "PO-Revision-Date: 2026-07-02T09:24:51+00:00\n"
 "Last-Translator: motylanogha <szatkowski.mariusz@gmail.com>\n"
 "Language-Team: German <de@li.org>\n"
@@ -209,7 +209,7 @@ msgstr "Noch keine Widerrufsanträge."
 msgid "Not matched"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:382 src/Admin/Settings.php:200
+#: src/Admin/RequestsAdmin.php:382 src/Admin/Settings.php:201
 msgid "After the deadline"
 msgstr ""
 
@@ -335,11 +335,11 @@ msgstr ""
 msgid "Review the withdrawal page"
 msgstr ""
 
-#: src/Admin/Settings.php:163
+#: src/Admin/Settings.php:164
 msgid "Right of Withdrawal"
 msgstr "Widerrufsrecht"
 
-#: src/Admin/Settings.php:164
+#: src/Admin/Settings.php:165
 msgid ""
 "Complies with EU Directive 2023/2673 (Art. 11a): an easy withdrawal function "
 "letting customers declare a full or partial withdrawal for their orders. "
@@ -350,29 +350,29 @@ msgstr ""
 "Widerruf ihrer Bestellung erklären können. Anfragen werden unter WooCommerce "
 "> Widerrufsanträge protokolliert."
 
-#: src/Admin/Settings.php:167
+#: src/Admin/Settings.php:168
 msgid "Requests:"
 msgstr "Anfragen:"
 
 #. translators: 1: pending, 2: accepted, 3: processed, 4: rejected
-#: src/Admin/Settings.php:171
+#: src/Admin/Settings.php:172
 #, php-format
 msgid "%1$d pending, %2$d accepted, %3$d processed, %4$d rejected"
 msgstr "%1$d ausstehend, %2$d akzeptiert, %3$d verarbeitet, %4$d abgelehnt"
 
-#: src/Admin/Settings.php:178
+#: src/Admin/Settings.php:179
 msgid "View requests"
 msgstr "Anfragen anzeigen"
 
-#: src/Admin/Settings.php:187
+#: src/Admin/Settings.php:188
 msgid "General"
 msgstr "Allgemein"
 
-#: src/Admin/Settings.php:190
+#: src/Admin/Settings.php:191
 msgid "Withdrawal period (days)"
 msgstr "Widerrufsfrist (Tage)"
 
-#: src/Admin/Settings.php:192
+#: src/Admin/Settings.php:193
 msgid ""
 "Statutory minimum is 14 days from the day the customer receives the goods. "
 "For services and digital content it is 14 days from the day the contract is "
@@ -385,25 +385,25 @@ msgid ""
 "(Regulation 1182/71, Art. 3)."
 msgstr ""
 
-#: src/Admin/Settings.php:195
+#: src/Admin/Settings.php:196
 msgid "Extra days (grace)"
 msgstr ""
 
-#: src/Admin/Settings.php:197
+#: src/Admin/Settings.php:198
 msgid ""
 "Days added after the statutory period ends, for example to cover shipping "
 "time when orders are completed at dispatch rather than at delivery."
 msgstr ""
 
-#: src/Admin/Settings.php:202
+#: src/Admin/Settings.php:203
 msgid "Refuse the declaration"
 msgstr ""
 
-#: src/Admin/Settings.php:203
+#: src/Admin/Settings.php:204
 msgid "Accept it and flag it as late"
 msgstr ""
 
-#: src/Admin/Settings.php:205
+#: src/Admin/Settings.php:206
 msgid ""
 "A withdrawal counts as in time if the customer sent it before the period "
 "expired (Directive 2011/83/EU, Art. 11a(5)), and for goods the period runs "
@@ -413,19 +413,19 @@ msgid ""
 "deadline."
 msgstr ""
 
-#: src/Admin/Settings.php:211
+#: src/Admin/Settings.php:212
 msgid "Form page"
 msgstr "Formularseite"
 
-#: src/Admin/Settings.php:214
+#: src/Admin/Settings.php:215
 msgid "Withdrawal form page"
 msgstr "Seite mit dem Widerrufsformular"
 
-#: src/Admin/Settings.php:220
+#: src/Admin/Settings.php:221
 msgid "Select a page"
 msgstr "Wähle eine Seite aus"
 
-#: src/Admin/Settings.php:226
+#: src/Admin/Settings.php:227
 msgid ""
 "Create a page with the [withdraw_form] shortcode, then select it here so the "
 "My Account button can link to it."
@@ -433,11 +433,11 @@ msgstr ""
 "Erstelle eine Seite mit dem Shortcode [withdraw_form] und wähle sie dann "
 "hier aus, damit die Schaltfläche „Mein Konto“ darauf verlinken kann."
 
-#: src/Admin/Settings.php:235
+#: src/Admin/Settings.php:236
 msgid "Eligibility"
 msgstr "Teilnahmeberechtigung"
 
-#: src/Admin/Settings.php:236
+#: src/Admin/Settings.php:237
 msgid ""
 "Customers can only submit a withdrawal for orders in one of these statuses. "
 "If none are checked, Completed and Processing are used."
@@ -446,21 +446,21 @@ msgstr ""
 "einreichen. Wenn keine aktiviert sind, werden „Abgeschlossen“ und „In "
 "Bearbeitung“ verwendet."
 
-#: src/Admin/Settings.php:249
+#: src/Admin/Settings.php:250
 msgid "No status checked: Completed and Processing will be saved instead."
 msgstr ""
 "Kein Status geprüft: Stattdessen werden „Abgeschlossen“ und „In Bearbeitung“ "
 "gespeichert."
 
-#: src/Admin/Settings.php:254
+#: src/Admin/Settings.php:255
 msgid "Where the function appears"
 msgstr ""
 
-#: src/Admin/Settings.php:259
+#: src/Admin/Settings.php:260
 msgid "Show a withdrawal link in the site footer"
 msgstr ""
 
-#: src/Admin/Settings.php:261
+#: src/Admin/Settings.php:262
 msgid ""
 "The order view only reaches a signed-in customer looking at that order. "
 "Article 11a asks for the function to be easily accessible for the whole "
@@ -468,30 +468,30 @@ msgid ""
 "shortcode on a legal page covers the shoppers the order view does not."
 msgstr ""
 
-#: src/Admin/Settings.php:264
+#: src/Admin/Settings.php:265
 msgid "Link text"
 msgstr ""
 
-#: src/Admin/Settings.php:265 src/Frontend/WithdrawLink.php:86
+#: src/Admin/Settings.php:266 src/Frontend/WithdrawLink.php:86
 msgid "Withdraw from contract here"
 msgstr ""
 
-#: src/Admin/Settings.php:266
+#: src/Admin/Settings.php:267
 msgid ""
 "Leave empty for the statutory wording. Article 11a(1) prescribes \"withdraw "
 "from contract here\" or an unambiguous equivalent, so if you change it, keep "
 "it unambiguous."
 msgstr ""
 
-#: src/Admin/Settings.php:272
+#: src/Admin/Settings.php:273
 msgid "Guest access"
 msgstr ""
 
-#: src/Admin/Settings.php:277
+#: src/Admin/Settings.php:278
 msgid "Email a one-time link instead of opening the form straight away"
 msgstr ""
 
-#: src/Admin/Settings.php:279
+#: src/Admin/Settings.php:280
 msgid ""
 "Off by default: a customer opens the form with their order number and "
 "billing email. Turn this on and the form emails a one-time link to the order "
@@ -501,11 +501,11 @@ msgid ""
 "working."
 msgstr ""
 
-#: src/Admin/Settings.php:284
+#: src/Admin/Settings.php:285
 msgid "Accept declarations that match no order"
 msgstr ""
 
-#: src/Admin/Settings.php:286
+#: src/Admin/Settings.php:287
 msgid ""
 "When the order number and email match no order (a typo, or a different "
 "address), the customer can still send the declaration with a description of "
@@ -515,22 +515,22 @@ msgid ""
 "emailed to the address the customer gave."
 msgstr ""
 
-#: src/Admin/Settings.php:289
+#: src/Admin/Settings.php:290
 msgid ""
 "This site is not served over HTTPS. The one-time link travels in a page "
 "address and in a form field, so anyone able to watch the connection can read "
 "it."
 msgstr ""
 
-#: src/Admin/Settings.php:295
+#: src/Admin/Settings.php:296
 msgid "Digital content"
 msgstr ""
 
-#: src/Admin/Settings.php:300
+#: src/Admin/Settings.php:301
 msgid "Ask for Article 16(m) consent at checkout for downloadable products"
 msgstr ""
 
-#: src/Admin/Settings.php:302
+#: src/Admin/Settings.php:303
 msgid ""
 "Adds one optional, unticked checkbox to the checkout when the cart contains "
 "a downloadable product. It carries both halves of Article 16(m): the request "
@@ -540,7 +540,7 @@ msgid ""
 "are not covered."
 msgstr ""
 
-#: src/Admin/Settings.php:305
+#: src/Admin/Settings.php:306
 msgid ""
 "The box is never required. A customer who declines keeps the right of "
 "withdrawal and still gets the download, because WooCommerce grants download "
@@ -549,22 +549,22 @@ msgid ""
 "as an exclusion."
 msgstr ""
 
-#: src/Admin/Settings.php:308
+#: src/Admin/Settings.php:309
 msgid ""
 "Turning this back off restores the right of withdrawal on past orders too. "
 "Granting a withdrawal you could have refused is always lawful; honouring "
 "consent from a feature you have switched off would be the surprising outcome."
 msgstr ""
 
-#: src/Admin/Settings.php:314
+#: src/Admin/Settings.php:315
 msgid "Emails"
 msgstr "E-Mails"
 
-#: src/Admin/Settings.php:317
+#: src/Admin/Settings.php:318
 msgid "Notification email"
 msgstr "Benachrichtigungs-E-Mail"
 
-#: src/Admin/Settings.php:319
+#: src/Admin/Settings.php:320
 msgid ""
 "Where new-request notifications are sent. Leave empty to use the site admin "
 "email. The customer always gets a confirmation at their own address."
@@ -573,85 +573,85 @@ msgstr ""
 "leer, um die E-Mail-Adresse des Site-Administrators zu verwenden. Der Kunde "
 "erhält immer eine Bestätigung an seine eigene Adresse."
 
-#: src/Admin/Settings.php:322
+#: src/Admin/Settings.php:323
 msgid ""
 "Every message this plugin sends is a WooCommerce email: same template, same "
 "logo, same footer as your order emails, and each one can be reworded or "
 "switched off on its own."
 msgstr ""
 
-#: src/Admin/Settings.php:329
+#: src/Admin/Settings.php:330
 msgid "(off)"
 msgstr ""
 
-#: src/Admin/Settings.php:338
+#: src/Admin/Settings.php:339
 msgid "Returns"
 msgstr ""
 
-#: src/Admin/Settings.php:341
+#: src/Admin/Settings.php:342
 msgid "Return address"
 msgstr ""
 
-#: src/Admin/Settings.php:342
+#: src/Admin/Settings.php:343
 msgid ""
 "Printed in the message that tells the customer their withdrawal was "
 "accepted. Leave empty to use your WooCommerce store address."
 msgstr ""
 
-#: src/Admin/Settings.php:346
+#: src/Admin/Settings.php:347
 msgid ""
 "Neither this field nor your WooCommerce store address is filled in, so the "
 "acceptance message will not say where to send the goods."
 msgstr ""
 
-#: src/Admin/Settings.php:349
+#: src/Admin/Settings.php:350
 msgid "Who pays to send the goods back"
 msgstr ""
 
-#: src/Admin/Settings.php:351
+#: src/Admin/Settings.php:352
 msgid "Say nothing"
 msgstr ""
 
-#: src/Admin/Settings.php:352
+#: src/Admin/Settings.php:353
 msgid "The customer"
 msgstr ""
 
-#: src/Admin/Settings.php:353
+#: src/Admin/Settings.php:354
 msgid "We do"
 msgstr ""
 
-#: src/Admin/Settings.php:355
+#: src/Admin/Settings.php:356
 msgid ""
 "Article 14(1) only lets you charge the customer for the return if you told "
 "them so before they bought, in your withdrawal information. If you did not, "
 "the cost is yours, which is why this says nothing until you choose."
 msgstr ""
 
-#: src/Admin/Settings.php:358
+#: src/Admin/Settings.php:359
 msgid "Return cost, extra wording"
 msgstr ""
 
-#: src/Admin/Settings.php:359
+#: src/Admin/Settings.php:360
 msgid ""
 "Optional, added after the sentence above. Article 6(1)(i) wants an estimate "
 "of the cost for goods that cannot normally be sent back by post."
 msgstr ""
 
-#: src/Admin/Settings.php:360
+#: src/Admin/Settings.php:361
 msgid "For example: bulky items are collected by courier, around 40 EUR."
 msgstr ""
 
 #. translators: %s: the sentence the customer will read
-#: src/Admin/Settings.php:368
+#: src/Admin/Settings.php:369
 #, php-format
 msgid "The customer will read: %s"
 msgstr ""
 
-#: src/Admin/Settings.php:371
+#: src/Admin/Settings.php:372
 msgid "The acceptance message will not mention who pays for the return."
 msgstr ""
 
-#: src/Admin/Settings.php:375
+#: src/Admin/Settings.php:376
 msgid ""
 "Your own clock: Article 13(1) gives you 14 days from the day the customer "
 "tells you they are withdrawing to refund them, including the standard "
@@ -659,64 +659,90 @@ msgid ""
 "it passes."
 msgstr ""
 
-#: src/Admin/Settings.php:381
+#: src/Admin/Settings.php:382
 msgid "Legal texts"
 msgstr "Rechtstexte"
 
-#: src/Admin/Settings.php:384
+#: src/Admin/Settings.php:385
 msgid "Seller name"
 msgstr ""
 
-#: src/Admin/Settings.php:386
+#: src/Admin/Settings.php:387
 msgid ""
 "The trading name that appears in the model withdrawal form and the "
 "withdrawal instructions. Empty uses the site title. The address comes from "
 "your WooCommerce store address."
 msgstr ""
 
-#: src/Admin/Settings.php:389
+#: src/Admin/Settings.php:390
 msgid "Seller email"
 msgstr ""
 
-#: src/Admin/Settings.php:391
+#: src/Admin/Settings.php:392
 msgid "Seller phone"
 msgstr ""
 
-#: src/Admin/Settings.php:393
+#: src/Admin/Settings.php:394
 msgid ""
 "Annex I asks for a telephone number and email address where available, so a "
 "consumer can declare by any means."
 msgstr ""
 
-#: src/Admin/Settings.php:396
+#: src/Admin/Settings.php:397
 msgid ""
 "Your WooCommerce store address is empty, so the model withdrawal form cannot "
 "state a geographical address. Fill it in under WooCommerce, Settings, "
 "General."
 msgstr ""
 
-#: src/Admin/Settings.php:399
+#: src/Admin/Settings.php:400
 msgid "Form intro text"
 msgstr "Einleitungstext des Formulars"
 
-#: src/Admin/Settings.php:400
+#: src/Admin/Settings.php:401
 msgid ""
 "Shown above the order lookup step. Leave empty for the wording below, which "
 "is translated with the rest of the plugin."
 msgstr ""
 
-#: src/Admin/Settings.php:404
+#: src/Admin/Settings.php:405
 msgid "Model withdrawal text"
 msgstr "Muster-Widerrufstext"
 
-#: src/Admin/Settings.php:405
+#: src/Admin/Settings.php:406
 msgid ""
 "Shown on the items step. Leave empty and the plugin generates the statutory "
 "model withdrawal form (Annex I.B) from the seller details above, in the "
 "language of the site."
 msgstr ""
 
-#: src/Admin/Settings.php:409
+#: src/Admin/Settings.php:410
+msgid "Your contracts are for"
+msgstr ""
+
+#: src/Admin/Settings.php:412
+msgid "Goods"
+msgstr ""
+
+#: src/Admin/Settings.php:413
+msgid "Services"
+msgstr ""
+
+#: src/Admin/Settings.php:414
+msgid "Digital content not on a tangible medium"
+msgstr ""
+
+#: src/Admin/Settings.php:416
+msgid ""
+"Sets the wording of the generated model texts. For services and digital "
+"content the period runs from the conclusion of the contract and the "
+"paragraphs about sending goods back are left out; for services the "
+"instructions add the paragraph on paying for what was provided. A shop that "
+"sells both goods and services or digital content writes its own text or uses "
+"the withdraw/model_instructions filter."
+msgstr ""
+
+#: src/Admin/Settings.php:419
 msgid ""
 "The model instructions on withdrawal (Annex I.A) are pre-contractual "
 "information, so they belong on a page of their own rather than on the form. "
@@ -725,11 +751,11 @@ msgid ""
 "period."
 msgstr ""
 
-#: src/Admin/Settings.php:412
+#: src/Admin/Settings.php:422
 msgid "Digital content consent, extra wording"
 msgstr ""
 
-#: src/Admin/Settings.php:413
+#: src/Admin/Settings.php:423
 msgid ""
 "Optional, and added in front of the statutory sentence rather than replacing "
 "it. The plugin refuses withdrawal for downloaded items on the strength of "
@@ -739,50 +765,50 @@ msgid ""
 "rewrite what earlier customers agreed to."
 msgstr ""
 
-#: src/Admin/Settings.php:414
+#: src/Admin/Settings.php:424
 msgid "For example: these files are available the moment your payment clears."
 msgstr ""
 
 #. translators: %s: the statutory Article 16(m) consent sentence
-#: src/Admin/Settings.php:420
+#: src/Admin/Settings.php:430
 #, php-format
 msgid "The checkbox always ends with: %s"
 msgstr ""
 
-#: src/Admin/Settings.php:429
+#: src/Admin/Settings.php:439
 msgid "Ecosystem integrations"
 msgstr ""
 
-#: src/Admin/Settings.php:432
+#: src/Admin/Settings.php:442
 msgid "Redono - Returns and RMA for WooCommerce"
 msgstr ""
 
-#: src/Admin/Settings.php:436
+#: src/Admin/Settings.php:446
 msgid ""
 "Redono is active. Statutory withdrawal requests are handled here, returns "
 "and complaints in Redono."
 msgstr ""
 
 #. translators: %s: partner plugin name, linked to its search on the Add Plugins screen.
-#: src/Admin/Settings.php:443
+#: src/Admin/Settings.php:453
 #, php-format
 msgid ""
 "Install %s, a free plugin, to handle returns, repairs and warranty "
 "complaints alongside statutory 14-day withdrawals."
 msgstr ""
 
-#: src/Admin/Settings.php:452
+#: src/Admin/Settings.php:462
 msgid "Shoplex - EU Compliance for WooCommerce"
 msgstr ""
 
-#: src/Admin/Settings.php:456
+#: src/Admin/Settings.php:466
 msgid ""
 "Shoplex is active. Omnibus price history, GPSR, and local fonts run "
 "alongside Withdraw."
 msgstr ""
 
 #. translators: %s: partner plugin name, linked to its search on the Add Plugins screen.
-#: src/Admin/Settings.php:463
+#: src/Admin/Settings.php:473
 #, php-format
 msgid ""
 "Install %s, a free plugin, to handle Omnibus 30-day lowest prices, GPSR "
@@ -1040,8 +1066,35 @@ msgstr ""
 msgid "You bear the direct cost of returning the goods."
 msgstr ""
 
+#: src/Service/StatutoryText.php:92 src/Service/StatutoryText.php:146
+msgid "(the seller's name and address)"
+msgstr ""
+
 #. translators: %s: the trader's name, address and contact details, each on its own line
-#: src/Service/StatutoryText.php:94
+#: src/Service/StatutoryText.php:99
+#, php-format
+msgid ""
+"Model withdrawal form\n"
+"(complete and return this form only if you wish to withdraw from the "
+"contract)\n"
+"\n"
+"To:\n"
+"%s\n"
+"\n"
+"I hereby give notice that I withdraw from my contract for the provision of "
+"the following service:\n"
+"\n"
+"Ordered on:\n"
+"\n"
+"Name of consumer:\n"
+"\n"
+"Address of consumer:\n"
+"\n"
+"Date:"
+msgstr ""
+
+#. translators: %s: the trader's name, address and contact details, each on its own line
+#: src/Service/StatutoryText.php:107
 #, php-format
 msgid ""
 "Model withdrawal form\n"
@@ -1063,12 +1116,8 @@ msgid ""
 "Date:"
 msgstr ""
 
-#: src/Service/StatutoryText.php:95 src/Service/StatutoryText.php:123
-msgid "(the seller's name and address)"
-msgstr ""
-
 #. translators: 1: number of days, 2: number of days
-#: src/Service/StatutoryText.php:115
+#: src/Service/StatutoryText.php:131
 #, php-format
 msgid ""
 "You have the right to withdraw from this contract within %1$d days without "
@@ -1077,8 +1126,17 @@ msgid ""
 "indicated by you acquires, physical possession of the goods."
 msgstr ""
 
+#. translators: 1: number of days, 2: number of days
+#: src/Service/StatutoryText.php:138
+#, php-format
+msgid ""
+"You have the right to withdraw from this contract within %1$d days without "
+"giving any reason. The withdrawal period will expire after %2$d days from "
+"the day of the conclusion of the contract."
+msgstr ""
+
 #. translators: %s: the trader's name, address and contact details
-#: src/Service/StatutoryText.php:122
+#: src/Service/StatutoryText.php:145
 #, php-format
 msgid ""
 "To exercise the right of withdrawal, you must inform us of your decision to "
@@ -1087,7 +1145,7 @@ msgid ""
 "%s"
 msgstr ""
 
-#: src/Service/StatutoryText.php:126
+#: src/Service/StatutoryText.php:149
 msgid ""
 "You may use the model withdrawal form below, or the withdrawal function on "
 "this site, but it is not obligatory. To meet the withdrawal deadline, it is "
@@ -1095,11 +1153,11 @@ msgid ""
 "right of withdrawal before the withdrawal period has expired."
 msgstr ""
 
-#: src/Service/StatutoryText.php:128
+#: src/Service/StatutoryText.php:151
 msgid "Effects of withdrawal"
 msgstr ""
 
-#: src/Service/StatutoryText.php:130
+#: src/Service/StatutoryText.php:153
 msgid ""
 "If you withdraw from this contract, we shall reimburse to you all payments "
 "received from you, including the costs of delivery, with the exception of "
@@ -1113,14 +1171,22 @@ msgid ""
 "reimbursement."
 msgstr ""
 
-#: src/Service/StatutoryText.php:132
+#: src/Service/StatutoryText.php:159
+msgid ""
+"If you requested to begin the performance of services during the withdrawal "
+"period, you shall pay us an amount which is in proportion to what has been "
+"provided until you have communicated us your withdrawal from this contract, "
+"in comparison with the full coverage of the contract."
+msgstr ""
+
+#: src/Service/StatutoryText.php:165
 msgid ""
 "We may withhold reimbursement until we have received the goods back or you "
 "have supplied evidence of having sent back the goods, whichever is the "
 "earliest."
 msgstr ""
 
-#: src/Service/StatutoryText.php:134
+#: src/Service/StatutoryText.php:167
 msgid ""
 "You shall send back the goods or hand them over to us without undue delay "
 "and in any event not later than 14 days from the day on which you "
@@ -1128,14 +1194,14 @@ msgid ""
 "you send back the goods before the period of 14 days has expired."
 msgstr ""
 
-#: src/Service/StatutoryText.php:145
+#: src/Service/StatutoryText.php:178
 msgid ""
 "You are only liable for any diminished value of the goods resulting from "
 "handling other than what is necessary to establish the nature, "
 "characteristics and functioning of the goods."
 msgstr ""
 
-#: src/Service/StatutoryText.php:165
+#: src/Service/StatutoryText.php:217
 msgid ""
 "Use this form to withdraw from your purchase. Select the items you are "
 "withdrawing from, then confirm the declaration on the next step."
