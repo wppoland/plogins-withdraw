@@ -51,6 +51,19 @@ $sat2 = $orders[] = wd_order([[$product, 1]], $at('2026-10-17 12:00:00'));
 wd_ok(WithdrawalService::deadline($sat2, 14) === $at('2026-11-02 23:59:59'), 'Saturday day 14 rolls to Monday');
 wd_ok(WithdrawalService::deadline($sat2, 14, 2) === $at('2026-11-04 23:59:59'), 'grace days count from the rolled-over day');
 
+echo "2c. virtual-only orders count from the order date (Art. 9(2)(a), (c))\n";
+$virtual = wd_product('Deadline virtual');
+$virtual->set_virtual(true);
+$virtual->save();
+$v = $orders[] = wd_order([[$virtual, 1]], $at('2026-10-20 09:00:00'));
+$v->set_date_created($at('2026-10-07 10:00:00'));
+$v->save();
+wd_ok(WithdrawalService::deadline($v, 14) === $at('2026-10-21 23:59:59'), 'virtual only: from the order date, not completion');
+$mixed = $orders[] = wd_order([[$virtual, 1], [$product, 1]], $at('2026-10-20 09:00:00'));
+$mixed->set_date_created($at('2026-10-07 10:00:00'));
+$mixed->save();
+wd_ok(WithdrawalService::deadline($mixed, 14) === $at('2026-11-03 23:59:59'), 'mixed order: goods keep the delivery start');
+
 echo "3. advisory mode\n";
 $old = $orders[] = wd_order([[$product, 1]], time() - 40 * DAY_IN_SECONDS);
 wd_settings(['period_days' => 14]);
@@ -73,6 +86,7 @@ foreach ($orders as $o) {
     $o->delete(true);
 }
 $product->delete(true);
+$virtual->delete(true);
 $savedSettings === false ? delete_option(\Withdraw\Migrator::OPTION_SETTINGS) : update_option(\Withdraw\Migrator::OPTION_SETTINGS, $savedSettings);
 update_option('timezone_string', $savedTz);
 wd_done();

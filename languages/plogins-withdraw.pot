@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Plogins Withdraw - Right of Withdrawal Button for WooCommerce 1.8.1\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/withdraw\n"
+"Project-Id-Version: Plogins Withdraw - Right of Withdrawal Button for WooCommerce 1.9.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/plogins-withdraw\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-31T17:01:05+00:00\n"
+"POT-Creation-Date: 2026-11-10T18:16:47+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: plogins-withdraw\n"
@@ -360,7 +360,7 @@ msgid "Withdrawal period (days)"
 msgstr ""
 
 #: src/Admin/Settings.php:192
-msgid "Statutory minimum is 14 days from the day the customer receives the goods. The order has no delivery date, so the plugin counts from the day the order is marked completed (or created, if it never was); a shipping plugin can supply the real date through the withdraw/delivery_date filter. The start day is not counted, the period ends at midnight of its last day, and a last day on a Saturday or Sunday moves to the Monday (Regulation 1182/71, Art. 3)."
+msgid "Statutory minimum is 14 days from the day the customer receives the goods. For services and digital content it is 14 days from the day the contract is concluded, so an order of only virtual products counts from the day it was placed. The order has no delivery date, so for goods the plugin counts from the day the order is marked completed (or created, if it never was); a shipping plugin can supply the real date through the withdraw/delivery_date filter. The start day is not counted, the period ends at midnight of its last day, and a last day on a Saturday or Sunday moves to the Monday (Regulation 1182/71, Art. 3)."
 msgstr ""
 
 #: src/Admin/Settings.php:195
@@ -380,7 +380,7 @@ msgid "Accept it and flag it as late"
 msgstr ""
 
 #: src/Admin/Settings.php:205
-msgid "A withdrawal counts as in time if the customer sent it before the period expired (Directive 2011/83/EU, Art. 11a(5)), and the period runs from delivery (Art. 9(2)(b)). If your completion date can be earlier than delivery, accept late declarations and judge each one against the real delivery date. Links in My Account and in emails still disappear at the deadline."
+msgid "A withdrawal counts as in time if the customer sent it before the period expired (Directive 2011/83/EU, Art. 11a(5)), and for goods the period runs from delivery (Art. 9(2)(b)). If your completion date can be earlier than delivery, accept late declarations and judge each one against the real delivery date. Links in My Account and in emails still disappear at the deadline."
 msgstr ""
 
 #: src/Admin/Settings.php:211
@@ -644,6 +644,20 @@ msgstr ""
 #: src/Admin/Settings.php:443
 #, php-format
 msgid "Install %s, a free plugin, to handle returns, repairs and warranty complaints alongside statutory 14-day withdrawals."
+msgstr ""
+
+#: src/Admin/Settings.php:452
+msgid "Shoplex - EU Compliance for WooCommerce"
+msgstr ""
+
+#: src/Admin/Settings.php:456
+msgid "Shoplex is active. Omnibus price history, GPSR, and local fonts run alongside Withdraw."
+msgstr ""
+
+#. translators: %s: partner plugin name, linked to its search on the Add Plugins screen.
+#: src/Admin/Settings.php:463
+#, php-format
+msgid "Install %s, a free plugin, to handle Omnibus 30-day lowest prices, GPSR product safety, deposit schemes (Pfand) and local fonts."
 msgstr ""
 
 #. translators: %s: order number as the customer typed it
@@ -1014,31 +1028,31 @@ msgstr ""
 msgid "We could not find an order with that number and email."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:971
+#: src/Service/WithdrawalService.php:992
 msgid "This order is not in a status that can be withdrawn."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:980
+#: src/Service/WithdrawalService.php:1001
 msgid "The withdrawal period for this order has ended."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:985
+#: src/Service/WithdrawalService.php:1006
 msgid "A withdrawal request for this order is already being processed."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:1021
+#: src/Service/WithdrawalService.php:1042
 msgid "Every item in this order is already covered by a withdrawal request."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:1022
+#: src/Service/WithdrawalService.php:1043
 msgid "This order has no items that can be withdrawn from."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:1024
+#: src/Service/WithdrawalService.php:1045
 msgid "This order is for digital content you asked us to supply immediately, and supply has begun, so the right of withdrawal no longer applies to it."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:1026
+#: src/Service/WithdrawalService.php:1047
 msgid "The right of withdrawal does not apply to the items in this order."
 msgstr ""
 

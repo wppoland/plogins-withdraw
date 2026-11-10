@@ -881,7 +881,8 @@ final class WithdrawalService implements HasHooks
     /**
      * The last moment the order can be withdrawn from.
      *
-     * The period runs from delivery (Directive 2011/83/EU Art. 9(2)(b)). The
+     * The period runs from delivery (Directive 2011/83/EU Art. 9(2)(b)), or
+     * from the order date when every line is virtual (9(2)(a), (c)). The
      * order record has no delivery date, so completion stands in for it, or
      * creation if the order was never completed; `withdraw/delivery_date`
      * supplies the real one. Counted under Regulation 1182/71 Art. 3: the
@@ -910,6 +911,9 @@ final class WithdrawalService implements HasHooks
             $start = $delivered->getTimestamp();
         } elseif (is_numeric($delivered) && (int) $delivered > 0) {
             $start = (int) $delivered;
+        } elseif (self::onlyVirtual($order)) {
+            // Services and digital content not on a tangible medium: the day the contract was concluded (Art. 9(2)(a) and (c)).
+            $start = $order->get_date_created()?->getTimestamp() ?? time();
         } else {
             $completed = $order->get_date_completed();
             $start     = $completed ? $completed->getTimestamp() : ($order->get_date_created()?->getTimestamp() ?? time());
@@ -928,6 +932,23 @@ final class WithdrawalService implements HasHooks
         }
 
         return $end->modify('+' . max(0, $graceDays) . ' days')->getTimestamp();
+    }
+
+    /**
+     * Every line is a virtual product: nothing is delivered, so no goods period applies.
+     * A deleted product counts as goods, which keeps the longer period.
+     */
+    private static function onlyVirtual(\WC_Order $order): bool
+    {
+        $items = $order->get_items();
+        foreach ($items as $item) {
+            $product = $item instanceof \WC_Order_Item_Product ? $item->get_product() : null;
+            if (! $product instanceof \WC_Product || ! $product->is_virtual()) {
+                return false;
+            }
+        }
+
+        return [] !== $items;
     }
 
     /**
