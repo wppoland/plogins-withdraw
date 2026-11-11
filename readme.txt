@@ -5,7 +5,7 @@ Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
 Requires Plugins: woocommerce
-Stable tag: 1.10.1
+Stable tag: 1.11.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,7 +24,7 @@ It is a **request-and-log** plugin: it records the customer's withdrawal declara
 * **Withdrawal button in My Account**: a "Withdraw from contract here" button under the order details and the same action on the orders list, both linking to your withdrawal page with the order pre-filled, while the order is within the withdrawal period. The link also goes into the processing and completed order emails.
 * **Withdrawal-period check**: configurable period (statutory minimum 14 days), measured from delivery (order completion, or a real delivery date from the `withdraw/delivery_date` filter) or, if never completed, from the order date. An order of only virtual products (services, digital content) counts from the order date, the day the contract is concluded (Directive 2011/83/EU Art. 9(2)(a) and (c)). Counted under Regulation 1182/71 Art. 3: the start day does not count, the period ends at midnight of its last day, and a last day on a Saturday or Sunday moves to the Monday. Optional grace days, and an advisory mode that accepts a late declaration and flags it instead of refusing it.
 * **Products the right does not cover (Art. 16(c) to (e))**: mark a product or a whole category as made to specification, perishable or sealed for hygiene reasons. The product page says so before purchase (Art. 6(1)(k)); made-to-specification and perishable items drop out of the withdrawal form, sealed items stay in it with a notice, because the right is only lost once the seal is broken after delivery.
-* **Declarations that match no order (optional)**: off by default. With it on, a customer whose order number or email does not match can still send the declaration with a description of the goods. It is logged as not matched, the shop is emailed, and you match it by hand.
+* **Declarations that match no order (optional)**: off by default. With it on, a customer whose order number or email does not match can still send the declaration with a description of the goods. It is logged as not matched, the shop is emailed, the customer gets a short acknowledgement (date, time and receipt code, none of the typed text), and you match it by hand.
 * **Admin log**: a WooCommerce > Withdrawal Requests screen lists every request with its items, customer and status (pending, accepted, rejected, processed), filterable by status, searchable by email or order number and paged, with a detail screen per request showing the stored declaration and the reason the customer gave.
 * **A rejection has to say why**: the reason is required before a request can be rejected, is kept with the request, and is printed in the email the customer receives.
 * **WooCommerce emails**: seven of them, each with its own entry under WooCommerce > Settings > Emails, using your store template, logo and footer. The declaration acknowledgement, the shop notification, one per request status, and the guest access link. Any of them can be reworded, restyled or switched off on its own.
@@ -94,6 +94,9 @@ Yes. Orders are read through the WooCommerce order API, which is HPOS-compatible
 Plogins Withdraw is fully translatable and ships the `plogins-withdraw.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.11.0 =
+* New: with "Accept declarations that match no order" on, the customer now gets an acknowledgement email too (Directive 2011/83/EU Annex I(A), completion instruction 3). Because the address is unverified, it states only that a declaration arrived, when, and its receipt code, without the order number, goods or reason they typed.
 
 = 1.10.1 =
 * Fixed: the "withdrawal accepted" email no longer asks the customer to send goods back, or prints the return address and return cost, when every withdrawn line is a virtual product. A deleted product still counts as goods.
@@ -250,6 +253,9 @@ Plogins Withdraw is fully translatable and ships the `plogins-withdraw.pot` temp
 * Initial release: `[withdraw_form]` shortcode (order lookup + full/partial item selection), My Account withdrawal button, configurable withdrawal period and eligible statuses, admin request log with statuses, customer and shop emails, editable model withdrawal text. HPOS + Blocks compatible.
 
 == Upgrade Notice ==
+
+= 1.11.0 =
+Shops that accept declarations matching no order now also send the customer a short acknowledgement, without the text they typed.
 
 = 1.10.1 =
 The withdrawal accepted email leaves out the return paragraphs when only virtual products were withdrawn.

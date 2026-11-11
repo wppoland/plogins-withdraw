@@ -9,6 +9,7 @@
  *
  * @var \WC_Order|null $order
  * @var object|null    $request
+ * @var bool           $unverified   true when the declaration matched no order: nothing the visitor typed is shown
  * @var string         $order_number
  * @var string         $declaration
  * @var int            $submitted_at
@@ -33,11 +34,16 @@ $withdraw_submitted = $submitted_at > 0
 
 echo '= ' . esc_html(wp_strip_all_tags($email_heading)) . " =\n\n";
 
-echo esc_html(sprintf(
-    /* translators: %s: order number */
-    __('We received your withdrawal declaration for order #%s.', 'plogins-withdraw'),
-    $order_number,
-)) . "\n\n";
+if (! empty($unverified)) {
+    echo esc_html__('We received a withdrawal declaration sent with this email address. It did not match an order automatically, so we will match it by hand and reply to this address.', 'plogins-withdraw') . "\n\n";
+    echo esc_html__('If you did not send it, you can ignore this message.', 'plogins-withdraw') . "\n\n";
+} else {
+    echo esc_html(sprintf(
+        /* translators: %s: order number */
+        __('We received your withdrawal declaration for order #%s.', 'plogins-withdraw'),
+        $order_number,
+    )) . "\n\n";
+}
 
 if ($withdraw_submitted !== '') {
     echo esc_html(sprintf(
@@ -68,11 +74,13 @@ if ($items !== []) {
     echo "\n";
 }
 
-echo esc_html(sprintf(
-    /* translators: %s: the reason the customer gave, or a placeholder when none was given */
-    __('Reason given: %s', 'plogins-withdraw'),
-    $reason !== '' ? $reason : __('(none given)', 'plogins-withdraw'),
-)) . "\n\n";
+if (empty($unverified)) {
+    echo esc_html(sprintf(
+        /* translators: %s: the reason the customer gave, or a placeholder when none was given */
+        __('Reason given: %s', 'plogins-withdraw'),
+        $reason !== '' ? $reason : __('(none given)', 'plogins-withdraw'),
+    )) . "\n\n";
+}
 
 if ($additional_content !== '') {
     echo esc_html(wp_strip_all_tags(wptexturize($additional_content))) . "\n\n";

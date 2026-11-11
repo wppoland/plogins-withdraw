@@ -75,7 +75,13 @@ wd_ok(str_contains($html, 'Withdrawal declaration received'), 'confirm records t
 $emailService = Plugin::instance()->container()->get(\Withdraw\Service\EmailService::class);
 wd_ok(has_action('withdraw/declared_unverified', [$emailService, 'loadMailer']) === 1, 'the mailer boots on withdraw/declared_unverified');
 $shopTo = \Withdraw\Email\NewRequestEmail::defaultRecipient();
-wd_ok(count($shopMail) === 1 && str_contains((string) json_encode($shopMail[0]['to'] ?? ''), $shopTo) && str_contains((string) $shopMail[0]['message'], 'did not match an order'), 'the shop is emailed once, with the declaration (mails: ' . count($shopMail) . ')');
+$toShop = array_values(array_filter($shopMail, static fn ($m) => str_contains((string) json_encode($m['to'] ?? ''), $shopTo)));
+$toUser = array_values(array_filter($shopMail, static fn ($m) => str_contains((string) json_encode($m['to'] ?? ''), 'typo@example.com')));
+wd_ok(count($shopMail) === 2, 'one mail to the shop and one to the address given (mails: ' . count($shopMail) . ')');
+wd_ok(count($toShop) === 1 && str_contains((string) $toShop[0]['message'], 'did not match an order'), 'the shop is emailed once, with the declaration');
+$userMail = $toUser === [] ? '' : (string) $toUser[0]['subject'] . (string) $toUser[0]['message'];
+wd_ok(count($toUser) === 1 && str_contains($userMail, 'Receipt verification code'), 'the address given gets an acknowledgement with the receipt code');
+wd_ok($userMail !== '' && ! str_contains($userMail, '999999') && ! str_contains($userMail, 'Ann Typo') && ! str_contains($userMail, $filled['withdraw_goods']), 'the acknowledgement carries nothing the visitor typed');
 wd_ok((int) $wpdb->get_var($wpdb->prepare('SELECT COUNT(*) FROM %i WHERE customer_email = %s', Migrator::table(), 'typo@example.com')) === 1, 'a replayed confirm stores no second row'); // phpcs:ignore
 
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery
