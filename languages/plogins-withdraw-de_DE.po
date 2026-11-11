@@ -505,16 +505,6 @@ msgstr ""
 msgid "Accept declarations that match no order"
 msgstr ""
 
-#: src/Admin/Settings.php:287
-msgid ""
-"When the order number and email match no order (a typo, or a different "
-"address), the customer can still send the declaration with a description of "
-"the goods. It is logged as not matched, without an order, and only you are "
-"emailed: the address is unverified, so the customer acknowledgement is not "
-"sent. Match it to the order and reply yourself. A status you set on it is "
-"emailed to the address the customer gave."
-msgstr ""
-
 #: src/Admin/Settings.php:290
 msgid ""
 "This site is not served over HTTPS. The one-time link travels in a page "
@@ -1682,6 +1672,34 @@ msgstr ""
 msgid ""
 "No link arriving? You can send your withdrawal declaration without it and we "
 "will match it to your order."
+msgstr ""
+
+#: src/Admin/Settings.php:287
+msgid ""
+"When the order number and email match no order (a typo, or a different "
+"address), the customer can still send the declaration with a description of "
+"the goods. It is logged as not matched, without an order. You get the full "
+"declaration by email; the customer gets a short acknowledgement with the "
+"date, time and receipt code but none of the text they typed, because the "
+"address is unverified. Match it to the order and reply yourself. A status "
+"you set on it is emailed to the address the customer gave."
+msgstr ""
+
+#: src/Email/AcknowledgementEmail.php:100
+msgid "We received your withdrawal declaration"
+msgstr ""
+
+#: templates/emails/plain/withdraw-acknowledgement.php:38
+#: templates/emails/withdraw-acknowledgement.php:41
+msgid ""
+"We received a withdrawal declaration sent with this email address. It did "
+"not match an order automatically, so we will match it by hand and reply to "
+"this address."
+msgstr ""
+
+#: templates/emails/plain/withdraw-acknowledgement.php:39
+#: templates/emails/withdraw-acknowledgement.php:42
+msgid "If you did not send it, you can ignore this message."
 msgstr ""
 
 #~ msgid ""
