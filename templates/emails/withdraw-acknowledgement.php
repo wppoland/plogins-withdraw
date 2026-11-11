@@ -11,6 +11,7 @@
  *
  * @var \WC_Order|null $order
  * @var object|null    $request
+ * @var bool           $unverified   true when the declaration matched no order: nothing the visitor typed is shown
  * @var string         $order_number
  * @var string         $declaration
  * @var int            $submitted_at
@@ -36,15 +37,20 @@ $withdraw_submitted = $submitted_at > 0
 do_action('woocommerce_email_header', $email_heading, $email); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WooCommerce core email header.
 ?>
 
-<p>
-    <?php
-    echo esc_html(sprintf(
-        /* translators: %s: order number */
-        __('We received your withdrawal declaration for order #%s.', 'plogins-withdraw'),
-        $order_number,
-    ));
-    ?>
-</p>
+<?php if (! empty($unverified)) : ?>
+    <p><?php echo esc_html__('We received a withdrawal declaration sent with this email address. It did not match an order automatically, so we will match it by hand and reply to this address.', 'plogins-withdraw'); ?></p>
+    <p><?php echo esc_html__('If you did not send it, you can ignore this message.', 'plogins-withdraw'); ?></p>
+<?php else : ?>
+    <p>
+        <?php
+        echo esc_html(sprintf(
+            /* translators: %s: order number */
+            __('We received your withdrawal declaration for order #%s.', 'plogins-withdraw'),
+            $order_number,
+        ));
+        ?>
+    </p>
+<?php endif; ?>
 
 <?php if ($withdraw_submitted !== '') : ?>
     <p>
@@ -91,15 +97,17 @@ do_action('woocommerce_email_header', $email_heading, $email); // phpcs:ignore W
     </table>
 <?php endif; ?>
 
-<p>
-    <?php
-    echo esc_html(sprintf(
-        /* translators: %s: the reason the customer gave, or a placeholder when none was given */
-        __('Reason given: %s', 'plogins-withdraw'),
-        $reason !== '' ? $reason : __('(none given)', 'plogins-withdraw'),
-    ));
-    ?>
-</p>
+<?php if (empty($unverified)) : ?>
+    <p>
+        <?php
+        echo esc_html(sprintf(
+            /* translators: %s: the reason the customer gave, or a placeholder when none was given */
+            __('Reason given: %s', 'plogins-withdraw'),
+            $reason !== '' ? $reason : __('(none given)', 'plogins-withdraw'),
+        ));
+        ?>
+    </p>
+<?php endif; ?>
 
 <?php
 if ($additional_content !== '') {

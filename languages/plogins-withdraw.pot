@@ -2,7 +2,7 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Plogins Withdraw - Right of Withdrawal Button for WooCommerce 1.10.0\n"
+"Project-Id-Version: Plogins Withdraw - Right of Withdrawal Button for WooCommerce 1.11.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/plogins-withdraw\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,11 +43,8 @@ msgstr ""
 msgid "Plogins Withdraw requires WooCommerce to be installed and active."
 msgstr ""
 
-#: src/Admin/OrderColumn.php:66
-#: src/Admin/OrderColumn.php:72
-#: src/Admin/Settings.php:69
-#: src/Admin/Settings.php:70
-#: src/Migrator.php:74
+#: src/Admin/OrderColumn.php:66 src/Admin/OrderColumn.php:72
+#: src/Admin/Settings.php:69 src/Admin/Settings.php:70 src/Migrator.php:74
 msgid "Withdrawal"
 msgstr ""
 
@@ -72,8 +69,7 @@ msgid "Processed"
 msgstr ""
 
 #. translators: %d: withdrawal request id
-#: src/Admin/OrderColumn.php:144
-#: src/Admin/RequestsAdmin.php:457
+#: src/Admin/OrderColumn.php:144 src/Admin/RequestsAdmin.php:457
 #, php-format
 msgid "Withdrawal request #%d"
 msgstr ""
@@ -114,8 +110,7 @@ msgstr ""
 msgid "The exclusion only applies to items whose supply has begun. WooCommerce cannot see downloads it did not serve itself, so files delivered by email or through an external portal always read as not downloaded."
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:37
-#: src/Admin/RequestsAdmin.php:38
+#: src/Admin/RequestsAdmin.php:37 src/Admin/RequestsAdmin.php:38
 #: src/Admin/RequestsAdmin.php:281
 msgid "Withdrawal Requests"
 msgstr ""
@@ -126,8 +121,7 @@ msgstr ""
 msgid "Withdrawal declaration #%1$d marked as %2$s."
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:105
-#: src/Admin/RequestsAdmin.php:154
+#: src/Admin/RequestsAdmin.php:105 src/Admin/RequestsAdmin.php:154
 msgid "Permission denied."
 msgstr ""
 
@@ -143,8 +137,7 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:304
-#: src/Admin/RequestsAdmin.php:306
+#: src/Admin/RequestsAdmin.php:304 src/Admin/RequestsAdmin.php:306
 msgid "Search requests"
 msgstr ""
 
@@ -164,36 +157,30 @@ msgstr[1] ""
 msgid "ID"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:338
-#: src/Admin/RequestsAdmin.php:472
+#: src/Admin/RequestsAdmin.php:338 src/Admin/RequestsAdmin.php:472
 #: templates/emails/withdraw-accepted.php:61
 #: templates/emails/withdraw-new-request.php:49
 msgid "Order"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:339
-#: src/Admin/RequestsAdmin.php:500
+#: src/Admin/RequestsAdmin.php:339 src/Admin/RequestsAdmin.php:500
 #: templates/emails/withdraw-new-request.php:59
 msgid "Customer"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:340
-#: src/Admin/RequestsAdmin.php:533
+#: src/Admin/RequestsAdmin.php:340 src/Admin/RequestsAdmin.php:533
 msgid "Items"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:341
-#: src/Service/WithdrawPrivacyService.php:79
+#: src/Admin/RequestsAdmin.php:341 src/Service/WithdrawPrivacyService.php:79
 msgid "Date"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:342
-#: src/Admin/RequestsAdmin.php:519
+#: src/Admin/RequestsAdmin.php:342 src/Admin/RequestsAdmin.php:519
 msgid "Refund due"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:343
-#: src/Service/WithdrawPrivacyService.php:77
+#: src/Admin/RequestsAdmin.php:343 src/Service/WithdrawPrivacyService.php:77
 msgid "Status"
 msgstr ""
 
@@ -209,13 +196,11 @@ msgstr ""
 msgid "Not matched"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:382
-#: src/Admin/Settings.php:201
+#: src/Admin/RequestsAdmin.php:382 src/Admin/Settings.php:201
 msgid "After the deadline"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:390
-#: src/Admin/RequestsAdmin.php:526
+#: src/Admin/RequestsAdmin.php:390 src/Admin/RequestsAdmin.php:526
 msgid "Overdue"
 msgstr ""
 
@@ -249,21 +234,17 @@ msgstr ""
 msgid "Deadline"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:490
-#: src/Service/WithdrawalService.php:383
+#: src/Admin/RequestsAdmin.php:490 src/Service/WithdrawalService.php:383
 msgid "Submitted after the withdrawal deadline. Check the delivery date before you decide."
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:495
-#: src/Service/WithdrawPrivacyService.php:75
-#: templates/emails/withdraw-new-request.php:54
-#: templates/form-items.php:63
+#: src/Admin/RequestsAdmin.php:495 src/Service/WithdrawPrivacyService.php:75
+#: templates/emails/withdraw-new-request.php:54 templates/form-items.php:63
 #: templates/form-unmatched.php:70
 msgid "Name on the contract"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:504
-#: templates/emails/withdraw-accepted.php:66
+#: src/Admin/RequestsAdmin.php:504 templates/emails/withdraw-accepted.php:66
 #: templates/emails/withdraw-new-request.php:64
 msgid "Declared on"
 msgstr ""
@@ -296,8 +277,7 @@ msgstr ""
 msgid "None given. A reason is never required."
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:552
-#: src/Service/WithdrawPrivacyService.php:76
+#: src/Admin/RequestsAdmin.php:552 src/Service/WithdrawPrivacyService.php:76
 msgid "Declaration"
 msgstr ""
 
@@ -427,8 +407,7 @@ msgstr ""
 msgid "Link text"
 msgstr ""
 
-#: src/Admin/Settings.php:266
-#: src/Frontend/WithdrawLink.php:86
+#: src/Admin/Settings.php:266 src/Frontend/WithdrawLink.php:86
 msgid "Withdraw from contract here"
 msgstr ""
 
@@ -450,10 +429,6 @@ msgstr ""
 
 #: src/Admin/Settings.php:285
 msgid "Accept declarations that match no order"
-msgstr ""
-
-#: src/Admin/Settings.php:287
-msgid "When the order number and email match no order (a typo, or a different address), the customer can still send the declaration with a description of the goods. It is logged as not matched, without an order, and only you are emailed: the address is unverified, so the customer acknowledgement is not sent. Match it to the order and reply yourself. A status you set on it is emailed to the address the customer gave."
 msgstr ""
 
 #: src/Admin/Settings.php:290
@@ -686,8 +661,7 @@ msgstr ""
 msgid "%s (not matched)"
 msgstr ""
 
-#: src/Email/AcceptedEmail.php:33
-#: src/Email/AcceptedEmail.php:58
+#: src/Email/AcceptedEmail.php:33 src/Email/AcceptedEmail.php:58
 #: src/Service/EmailService.php:112
 msgid "Withdrawal accepted"
 msgstr ""
@@ -704,8 +678,7 @@ msgstr ""
 msgid "Your withdrawal for order #{order_number} has been accepted"
 msgstr ""
 
-#: src/Email/AccessLinkEmail.php:28
-#: src/Service/EmailService.php:116
+#: src/Email/AccessLinkEmail.php:28 src/Service/EmailService.php:116
 msgid "Withdrawal access link"
 msgstr ""
 
@@ -735,10 +708,8 @@ msgstr ""
 msgid "Your withdrawal link"
 msgstr ""
 
-#: src/Email/AcknowledgementEmail.php:25
-#: src/Email/AcknowledgementEmail.php:85
-#: src/Service/EmailService.php:110
-#: templates/form-unmatched.php:24
+#: src/Email/AcknowledgementEmail.php:25 src/Email/AcknowledgementEmail.php:85
+#: src/Service/EmailService.php:110 templates/form-unmatched.php:24
 msgid "Withdrawal declaration received"
 msgstr ""
 
@@ -752,10 +723,8 @@ msgstr ""
 msgid "The withdrawal acknowledgement for declaration #%d could not be delivered. The declaration itself is recorded."
 msgstr ""
 
-#: src/Email/AcknowledgementEmail.php:80
-#: src/Email/ProcessedEmail.php:33
-#: src/Email/RejectedEmail.php:33
-#: src/Email/UnderReviewEmail.php:38
+#: src/Email/AcknowledgementEmail.php:80 src/Email/ProcessedEmail.php:33
+#: src/Email/RejectedEmail.php:33 src/Email/UnderReviewEmail.php:38
 msgid "Your withdrawal request for order #{order_number}"
 msgstr ""
 
@@ -763,8 +732,7 @@ msgstr ""
 msgid "Keep this message: it is your confirmation that the declaration reached us, and the date above is the date it takes effect from."
 msgstr ""
 
-#: src/Email/NewRequestEmail.php:25
-#: src/Email/NewRequestEmail.php:110
+#: src/Email/NewRequestEmail.php:25 src/Email/NewRequestEmail.php:110
 msgid "New withdrawal request"
 msgstr ""
 
@@ -786,8 +754,7 @@ msgstr ""
 msgid "[{site_title}] New withdrawal request #{request_id} for order #{order_number}"
 msgstr ""
 
-#: src/Email/ProcessedEmail.php:15
-#: src/Email/ProcessedEmail.php:38
+#: src/Email/ProcessedEmail.php:15 src/Email/ProcessedEmail.php:38
 #: src/Service/EmailService.php:114
 msgid "Withdrawal processed"
 msgstr ""
@@ -800,8 +767,7 @@ msgstr ""
 msgid "Your withdrawal has been processed and the refund has been issued. Depending on your bank it can take a few working days to appear."
 msgstr ""
 
-#: src/Email/RejectedEmail.php:15
-#: src/Service/EmailService.php:113
+#: src/Email/RejectedEmail.php:15 src/Service/EmailService.php:113
 msgid "Withdrawal rejected"
 msgstr ""
 
@@ -817,8 +783,7 @@ msgstr ""
 msgid "Withdrawal request rejected"
 msgstr ""
 
-#: src/Email/UnderReviewEmail.php:20
-#: src/Service/EmailService.php:115
+#: src/Email/UnderReviewEmail.php:20 src/Service/EmailService.php:115
 msgid "Withdrawal under review"
 msgstr ""
 
@@ -834,10 +799,8 @@ msgstr ""
 msgid "Withdrawal request under review"
 msgstr ""
 
-#: src/Frontend/WithdrawLink.php:110
-#: src/Service/ProductExclusion.php:162
-#: src/Service/ProductExclusion.php:178
-#: src/Service/ProductExclusion.php:185
+#: src/Frontend/WithdrawLink.php:110 src/Service/ProductExclusion.php:162
+#: src/Service/ProductExclusion.php:178 src/Service/ProductExclusion.php:185
 msgid "Right of withdrawal"
 msgstr ""
 
@@ -885,8 +848,7 @@ msgstr ""
 msgid "Overrides the category setting. Made-to-specification and perishable products are left out of the withdrawal form; sealed hygiene products stay in it with a notice, because the right is only lost once the seal is broken after delivery."
 msgstr ""
 
-#: src/Service/ProductExclusion.php:180
-#: src/Service/ProductExclusion.php:187
+#: src/Service/ProductExclusion.php:180 src/Service/ProductExclusion.php:187
 msgid "Applies to every product in this category that has no setting of its own."
 msgstr ""
 
@@ -898,8 +860,7 @@ msgstr ""
 msgid "You bear the direct cost of returning the goods."
 msgstr ""
 
-#: src/Service/StatutoryText.php:92
-#: src/Service/StatutoryText.php:146
+#: src/Service/StatutoryText.php:92 src/Service/StatutoryText.php:146
 msgid "(the seller's name and address)"
 msgstr ""
 
@@ -998,21 +959,17 @@ msgstr ""
 msgid "Use this form to withdraw from your purchase. Select the items you are withdrawing from, then confirm the declaration on the next step."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:150
-#: src/Service/WithdrawalService.php:198
-#: src/Service/WithdrawalService.php:304
-#: src/Service/WithdrawalService.php:435
+#: src/Service/WithdrawalService.php:150 src/Service/WithdrawalService.php:198
+#: src/Service/WithdrawalService.php:304 src/Service/WithdrawalService.php:435
 #: src/Service/WithdrawalService.php:532
 msgid "Security check failed. Please try again."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:217
-#: src/Service/WithdrawalService.php:338
+#: src/Service/WithdrawalService.php:217 src/Service/WithdrawalService.php:338
 msgid "Please give the name on the contract so the declaration identifies who is withdrawing."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:222
-#: src/Service/WithdrawalService.php:333
+#: src/Service/WithdrawalService.php:222 src/Service/WithdrawalService.php:333
 msgid "Please select at least one item to withdraw from."
 msgstr ""
 
@@ -1032,8 +989,7 @@ msgstr ""
 msgid "This order is no longer eligible for withdrawal."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:327
-#: src/Service/WithdrawalService.php:473
+#: src/Service/WithdrawalService.php:327 src/Service/WithdrawalService.php:473
 msgid "Please tick the declaration to confirm you are withdrawing from the contract."
 msgstr ""
 
@@ -1049,8 +1005,7 @@ msgstr ""
 msgid "Please fill in your name, the order number and the goods you are withdrawing from."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:451
-#: src/Service/WithdrawalService.php:542
+#: src/Service/WithdrawalService.php:451 src/Service/WithdrawalService.php:542
 msgid "Enter a valid email address."
 msgstr ""
 
@@ -1066,8 +1021,7 @@ msgid ""
 "Contact: %4$s"
 msgstr ""
 
-#: src/Service/WithdrawalService.php:478
-#: src/Service/WithdrawalService.php:654
+#: src/Service/WithdrawalService.php:478 src/Service/WithdrawalService.php:654
 msgid "Too many attempts. Please try again in an hour."
 msgstr ""
 
@@ -1135,8 +1089,7 @@ msgstr ""
 msgid "Your withdrawal request #%1$d for order #%2$s has been recorded. We have emailed you a confirmation and will follow up with the next steps."
 msgstr ""
 
-#: templates/confirmation.php:36
-#: templates/form-unmatched.php:37
+#: templates/confirmation.php:36 templates/form-unmatched.php:37
 msgid "Receipt verification code:"
 msgstr ""
 
@@ -1332,13 +1285,11 @@ msgid_plural "Some items are not listed: they are digital content you asked us t
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/form-items.php:140
-#: templates/form-unmatched.php:86
+#: templates/form-items.php:140 templates/form-unmatched.php:86
 msgid "Reason (optional)"
 msgstr ""
 
-#: templates/form-items.php:149
-#: templates/form-lookup.php:74
+#: templates/form-items.php:149 templates/form-lookup.php:74
 #: templates/form-unmatched.php:90
 msgid "Continue"
 msgstr ""
@@ -1357,13 +1308,11 @@ msgstr ""
 msgid "Not sure of the order number or the email used? You can still send your withdrawal declaration and we will match it to your order."
 msgstr ""
 
-#: templates/form-lookup.php:57
-#: templates/link-sent.php:55
+#: templates/form-lookup.php:57 templates/link-sent.php:55
 msgid "Send the declaration without a matching order"
 msgstr ""
 
-#: templates/form-lookup.php:66
-#: templates/form-unmatched.php:74
+#: templates/form-lookup.php:66 templates/form-unmatched.php:74
 msgid "Order number"
 msgstr ""
 
@@ -1375,8 +1324,7 @@ msgstr ""
 msgid "Check your withdrawal declaration"
 msgstr ""
 
-#: templates/form-review.php:33
-#: templates/form-unmatched.php:49
+#: templates/form-review.php:33 templates/form-unmatched.php:49
 msgid "This is the declaration that will be sent. Nothing has been submitted yet."
 msgstr ""
 
@@ -1384,13 +1332,11 @@ msgstr ""
 msgid "Reason given:"
 msgstr ""
 
-#: templates/form-review.php:70
-#: templates/form-unmatched.php:59
+#: templates/form-review.php:70 templates/form-unmatched.php:59
 msgid "I confirm that the declaration above is mine and that I am withdrawing from the contract."
 msgstr ""
 
-#: templates/form-review.php:76
-#: templates/form-unmatched.php:63
+#: templates/form-review.php:76 templates/form-unmatched.php:63
 msgid "Confirm withdrawal"
 msgstr ""
 
@@ -1428,4 +1374,22 @@ msgstr ""
 
 #: templates/link-sent.php:53
 msgid "No link arriving? You can send your withdrawal declaration without it and we will match it to your order."
+msgstr ""
+
+#: src/Admin/Settings.php:287
+msgid "When the order number and email match no order (a typo, or a different address), the customer can still send the declaration with a description of the goods. It is logged as not matched, without an order. You get the full declaration by email; the customer gets a short acknowledgement with the date, time and receipt code but none of the text they typed, because the address is unverified. Match it to the order and reply yourself. A status you set on it is emailed to the address the customer gave."
+msgstr ""
+
+#: src/Email/AcknowledgementEmail.php:100
+msgid "We received your withdrawal declaration"
+msgstr ""
+
+#: templates/emails/plain/withdraw-acknowledgement.php:38
+#: templates/emails/withdraw-acknowledgement.php:41
+msgid "We received a withdrawal declaration sent with this email address. It did not match an order automatically, so we will match it by hand and reply to this address."
+msgstr ""
+
+#: templates/emails/plain/withdraw-acknowledgement.php:39
+#: templates/emails/withdraw-acknowledgement.php:42
+msgid "If you did not send it, you can ignore this message."
 msgstr ""

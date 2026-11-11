@@ -418,11 +418,11 @@ final class WithdrawalService implements HasHooks
      * match by hand instead of being lost. Same three steps as the matched
      * flow, so the confirmation is still its own control (Art. 11a(3)).
      *
-     * Only the shop is emailed. The address is unverified, and mailing it would
-     * let anyone send the shop's mail, with their own text in it, to any inbox.
-     * The consumer gets the statement and its time on screen. A status the shop
-     * sets on the row later (accepted, rejected, processed) is emailed to the
-     * address given, because by then a person has looked at it.
+     * The shop gets the full declaration. The address given is unverified, so
+     * the consumer's acknowledgement carries only that a declaration arrived,
+     * when, and its receipt code, never the visitor's own text (see
+     * AcknowledgementEmail); the statement itself is on screen. A status the
+     * shop sets later is emailed in full, because by then a person has looked.
      */
     private function handleUnmatched(string $step): string
     {

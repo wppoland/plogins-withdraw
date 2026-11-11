@@ -33,6 +33,9 @@ final class AcknowledgementEmail extends AbstractWithdrawEmail
         ];
 
         add_action('withdraw/declared', [$this, 'triggerFromDeclaration'], 10, 3);
+        // Annex I(A) instruction 3: an online-form declaration is acknowledged on
+        // a durable medium, matched to an order or not.
+        add_action('withdraw/declared_unverified', [$this, 'triggerFromDeclaration'], 10, 1);
 
         parent::__construct();
     }
@@ -51,6 +54,10 @@ final class AcknowledgementEmail extends AbstractWithdrawEmail
     {
         if (! $this->prepare($requestId)) {
             return;
+        }
+        if ($this->unverified()) {
+            // Typed by the visitor, so it stays out of the subject too.
+            $this->placeholders['{order_number}'] = '';
         }
 
         // A shop that switched this off has said it sends its own; only a
@@ -75,6 +82,25 @@ final class AcknowledgementEmail extends AbstractWithdrawEmail
         }
     }
 
+    /**
+     * A declaration that matched no order was sent to an unverified address, so
+     * the message carries nothing the visitor typed: no order number, goods or
+     * reason. Otherwise the form would deliver anyone's text, in the shop's
+     * name, to any inbox. What is left (that a declaration arrived, when, and
+     * its receipt code) is the acknowledgement instruction 3 asks for.
+     */
+    private function unverified(): bool
+    {
+        return is_object($this->request) && (int) ($this->request->order_id ?? 0) === 0;
+    }
+
+    public function get_subject(): string
+    {
+        return $this->unverified()
+            ? $this->format_string(__('We received your withdrawal declaration', 'plogins-withdraw'))
+            : (string) parent::get_subject();
+    }
+
     public function get_default_subject(): string
     {
         return __('Your withdrawal request for order #{order_number}', 'plogins-withdraw');
@@ -95,7 +121,20 @@ final class AcknowledgementEmail extends AbstractWithdrawEmail
     {
         unset($plainText);
 
+        if ($this->unverified()) {
+            return [
+                'unverified'   => true,
+                'order_number' => '',
+                'declaration'  => '',
+                'submitted_at' => $this->submittedAt(),
+                'items'        => [],
+                'reason'       => '',
+                'receipt_hash' => RequestRepository::receiptHash($this->request),
+            ];
+        }
+
         return [
+            'unverified'   => false,
             'declaration'  => (string) ($this->request->declaration ?? ''),
             'submitted_at' => $this->submittedAt(),
             'items'        => $this->items(),
