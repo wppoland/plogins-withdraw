@@ -1,5 +1,8 @@
 # Plogins Withdraw
 
+- **Plugin page:** https://plogins.com/plogins-withdraw/
+- **Documentation:** https://plogins.com/plogins-withdraw/docs/
+
 EU right-of-withdrawal button and form for WooCommerce (**Directive 2023/2673**, Art. 11a). Lets customers declare a full or partial withdrawal from a distance contract, logs it in the admin, and emails the customer and the shop. Request-and-log only, the merchant refunds in the normal order screen.
 
 ## Features
