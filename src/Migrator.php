@@ -114,6 +114,11 @@ final class Migrator
         }
 
         $this->createTable();
+        // Drop the stored rewrite rules instead of flushing now: this runs
+        // before the My Account endpoint is registered (and on activation,
+        // after init), so a flush here would rebuild the rules without it.
+        // WordPress rebuilds them on the next request that reads them.
+        delete_option('rewrite_rules');
         update_option(self::OPTION_VERSION, VERSION);
         update_option(self::OPTION_SCHEMA_REV, self::SCHEMA_REV);
     }

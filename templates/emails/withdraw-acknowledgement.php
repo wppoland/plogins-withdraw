@@ -16,6 +16,7 @@
  * @var string         $declaration
  * @var int            $submitted_at
  * @var string         $receipt_hash
+ * @var string         $status_url
  * @var array<int, array{name:string, qty:int}> $items
  * @var string         $reason
  * @var string         $email_heading
@@ -62,6 +63,10 @@ do_action('woocommerce_email_header', $email_heading, $email); // phpcs:ignore W
         ));
         ?>
     </p>
+<?php endif; ?>
+
+<?php if (! empty($status_url)) : ?>
+    <p><a href="<?php echo esc_url($status_url); ?>"><?php echo esc_html__('Follow or cancel this withdrawal', 'plogins-withdraw'); ?></a></p>
 <?php endif; ?>
 
 <?php if (! empty($receipt_hash)) : ?>

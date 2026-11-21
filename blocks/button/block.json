@@ -1,0 +1,32 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "plogins-withdraw/button",
+	"title": "Withdrawal link",
+	"category": "widgets",
+	"icon": "undo",
+	"description": "The link to your withdrawal form (Art. 11a). Place it in the footer so it is reachable from every page.",
+	"keywords": [ "withdraw", "withdrawal", "return", "revocation" ],
+	"textdomain": "plogins-withdraw",
+	"attributes": {
+		"label": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": [ "left", "center", "right" ],
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"color": {
+			"text": true,
+			"background": true,
+			"link": true
+		}
+	},
+	"editorScript": "plogins-withdraw-block",
+	"existing-checked": "src/Frontend/WithdrawLink.php renderShortcode - the block reuses that link render; block.json is the metadata file register_block_type reads and cannot live in PHP"
+}

@@ -8,6 +8,8 @@
  * @var array<int, array{product_id:int, name:string, qty:int}> $items
  * @var int                                                    $id
  * @var string                                                 $hash
+ * @var string                                                 $status_url
+ * @var string                                                 $pdf_url
  */
 
 declare(strict_types=1);
@@ -31,6 +33,16 @@ defined('ABSPATH') || exit;
             <li><?php echo esc_html((string) $withdraw_item['name']); ?> &times;<?php echo (int) $withdraw_item['qty']; ?></li>
         <?php endforeach; ?>
     </ul>
+    <?php if (! empty($status_url) || ! empty($pdf_url)) : ?>
+        <p class="withdraw-form__links">
+            <?php if (! empty($pdf_url)) : ?>
+                <a class="button wp-element-button" href="<?php echo esc_url($pdf_url); ?>"><?php echo esc_html__('Download PDF', 'plogins-withdraw'); ?></a>
+            <?php endif; ?>
+            <?php if (! empty($status_url)) : ?>
+                <a href="<?php echo esc_url($status_url); ?>"><?php echo esc_html__('Follow or cancel this withdrawal', 'plogins-withdraw'); ?></a>
+            <?php endif; ?>
+        </p>
+    <?php endif; ?>
     <?php if (! empty($hash)) : ?>
         <p class="withdraw-form__receipt-hash">
             <small><?php echo esc_html__('Receipt verification code:', 'plogins-withdraw'); ?> <code><?php echo esc_html($hash); ?></code></small>

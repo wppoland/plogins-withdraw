@@ -175,7 +175,7 @@ final class RequestsAdmin implements HasHooks
             exit;
         }
 
-        fwrite($out, "\xEF\xBB\xBF");
+        fwrite($out, "\xEF\xBB\xBF"); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite -- php://output stream, WP_Filesystem has no equivalent.
 
         fputcsv($out, [
             'ID',
@@ -220,7 +220,7 @@ final class RequestsAdmin implements HasHooks
             ]);
         }
 
-        fclose($out);
+        fclose($out); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- closes the php://output stream opened above.
         exit;
     }
 
@@ -291,7 +291,7 @@ final class RequestsAdmin implements HasHooks
                 <?php $counts = $this->repository->counts(); ?>
                 <li><a href="<?php echo esc_url(add_query_arg($base + array_filter(['s' => $search]), admin_url('admin.php'))); ?>" <?php echo $filter === '' ? 'class="current"' : ''; ?>><?php echo esc_html__('All', 'plogins-withdraw'); ?> <span class="count">(<?php echo (int) array_sum($counts); ?>)</span></a> |</li>
                 <?php foreach (RequestRepository::STATUSES as $st) : ?>
-                    <li><a href="<?php echo esc_url(add_query_arg($base + ['status' => $st] + array_filter(['s' => $search]), admin_url('admin.php'))); ?>" <?php echo $filter === $st ? 'class="current"' : ''; ?>><?php echo esc_html(ucfirst($st)); ?> <span class="count">(<?php echo (int) ($counts[$st] ?? 0); ?>)</span></a> |</li>
+                    <li><a href="<?php echo esc_url(add_query_arg($base + ['status' => $st] + array_filter(['s' => $search]), admin_url('admin.php'))); ?>" <?php echo $filter === $st ? 'class="current"' : ''; ?>><?php echo esc_html(RequestRepository::statusLabel($st)); ?> <span class="count">(<?php echo (int) ($counts[$st] ?? 0); ?>)</span></a> |</li>
                 <?php endforeach; ?>
             </ul>
 
@@ -581,14 +581,20 @@ final class RequestsAdmin implements HasHooks
     private function renderStatusForm(object $request, bool $wide = false): void
     {
         $note = (string) ($request->admin_note ?? '');
+
+        // Only the customer cancels, and a cancellation is final.
+        if ($request->status === 'cancelled') {
+            echo '<mark class="order-status status-cancelled"><span>' . esc_html(RequestRepository::statusLabel('cancelled')) . '</span></mark>';
+            return;
+        }
         ?>
         <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start">
             <?php wp_nonce_field('withdraw_set_status'); ?>
             <input type="hidden" name="action" value="withdraw_set_status">
             <input type="hidden" name="request_id" value="<?php echo (int) $request->id; ?>">
             <select name="status">
-                <?php foreach (RequestRepository::STATUSES as $st) : ?>
-                    <option value="<?php echo esc_attr($st); ?>" <?php selected($request->status, $st); ?>><?php echo esc_html(ucfirst($st)); ?></option>
+                <?php foreach (array_diff(RequestRepository::STATUSES, ['cancelled']) as $st) : ?>
+                    <option value="<?php echo esc_attr($st); ?>" <?php selected($request->status, $st); ?>><?php echo esc_html(RequestRepository::statusLabel($st)); ?></option>
                 <?php endforeach; ?>
             </select>
             <?php if ($wide) : ?>

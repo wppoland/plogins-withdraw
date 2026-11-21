@@ -14,7 +14,26 @@ defined('ABSPATH') || exit;
  */
 final class RequestRepository
 {
-    public const STATUSES = ['pending', 'accepted', 'rejected', 'processed'];
+    /**
+     * `cancelled` is set only by the customer (cancel()), while a request is
+     * still pending. It covers nothing in committedQuantities(), so the same
+     * goods can be declared again.
+     */
+    public const STATUSES = ['pending', 'accepted', 'rejected', 'processed', 'cancelled'];
+
+    /** The translated name of a status, shared by the order column and My Account. */
+    public static function statusLabel(string $status): string
+    {
+        $labels = [
+            'pending'   => _x('Pending', 'withdrawal request status', 'plogins-withdraw'),
+            'accepted'  => _x('Accepted', 'withdrawal request status', 'plogins-withdraw'),
+            'rejected'  => _x('Rejected', 'withdrawal request status', 'plogins-withdraw'),
+            'processed' => _x('Processed', 'withdrawal request status', 'plogins-withdraw'),
+            'cancelled' => _x('Cancelled', 'withdrawal request status', 'plogins-withdraw'),
+        ];
+
+        return $labels[$status] ?? ucfirst($status);
+    }
 
     /**
      * Store a declaration.
@@ -64,7 +83,14 @@ final class RequestRepository
      */
     public function updateStatus(int $id, string $status, ?string $note = null): bool
     {
-        if (! in_array($status, self::STATUSES, true)) {
+        // Cancelled belongs to the customer (cancel()): the shop can neither
+        // set it, which would skip withdraw/cancelled, nor undo it, which would
+        // count the cancelled goods again.
+        if ($status === 'cancelled' || ! in_array($status, self::STATUSES, true)) {
+            return false;
+        }
+        $current = $this->find($id);
+        if (is_object($current) && $current->status === 'cancelled') {
             return false;
         }
         global $wpdb;
@@ -84,6 +110,28 @@ final class RequestRepository
             $formats,
             ['%d'],
         );
+    }
+
+    /**
+     * The customer's cancellation: pending to cancelled, and nothing else.
+     *
+     * The status test sits in the UPDATE itself, so a shop decision saved a
+     * moment earlier wins and the cancel changes no row. True only when this
+     * call made the change.
+     */
+    public function cancel(int $id): bool
+    {
+        global $wpdb;
+
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+        $changed = $wpdb->query($wpdb->prepare(
+            "UPDATE %i SET status = 'cancelled', updated_at = %s WHERE id = %d AND status = 'pending'",
+            Migrator::table(),
+            current_time('mysql'),
+            $id,
+        ));
+
+        return $changed === 1;
     }
 
     /** @return object|null */
@@ -302,6 +350,51 @@ final class RequestRepository
         }
 
         return $count;
+    }
+
+    /**
+     * A signed-in customer's requests, newest first, for the My Account list.
+     *
+     * Scoped by the orders the user owns (customer_id), never by email: a guest
+     * order or a declaration typed with the same address was never theirs to
+     * read. User 0 would select every guest order, so it gets nothing.
+     *
+     * shortcut: only the newest 500 orders are looked at, raise it if a shop
+     * has customers with more orders than that still inside a withdrawal period.
+     *
+     * @return list<object>
+     */
+    public function forCustomer(int $userId, int $limit = 20, int $offset = 0): array
+    {
+        if ($userId < 1) {
+            return [];
+        }
+
+        /** @var array<int|string>|\stdClass $orderIds 'return' => 'ids' gives ids, not orders. */
+        $orderIds = wc_get_orders([
+            'customer_id' => $userId,
+            'type'        => 'shop_order',
+            'status'      => array_keys(wc_get_order_statuses()),
+            'limit'       => 500,
+            'return'      => 'ids',
+        ]);
+        $clean = array_values(array_filter(array_map('intval', is_array($orderIds) ? $orderIds : []), static fn (int $id): bool => $id > 0));
+        if ($clean === []) {
+            return [];
+        }
+
+        global $wpdb;
+        $placeholders = implode(',', array_fill(0, count($clean), '%d'));
+
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+        $rows = $wpdb->get_results(
+            $wpdb->prepare( // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- one array holds every replacement.
+                "SELECT * FROM %i WHERE order_id IN ($placeholders) ORDER BY id DESC LIMIT %d OFFSET %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $placeholders is only '%d' repeated and joined by commas, every value goes through prepare().
+                array_merge([Migrator::table()], $clean, [max(1, $limit), max(0, $offset)]),
+            ),
+        );
+
+        return is_array($rows) ? array_values($rows) : [];
     }
 
     /**

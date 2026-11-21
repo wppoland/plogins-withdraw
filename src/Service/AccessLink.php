@@ -86,6 +86,31 @@ final class AccessLink
     }
 
     /**
+     * The key in a guest's link to one request's status page and PDF.
+     *
+     * Not a transient like the order links above: it has to keep working for
+     * as long as the customer keeps the acknowledgement email. Derived, not
+     * stored: an HMAC over the request id and its receipt code under the site's
+     * auth salt, so nothing new is written and a database dump alone yields no
+     * working link. It grants that one request, never the order.
+     */
+    public function statusKey(object $request): string
+    {
+        $id = (int) ($request->id ?? 0);
+
+        return $id > 0
+            ? substr(hash_hmac('sha256', 'status|' . $id . '|' . RequestRepository::receiptHash($request), wp_salt('auth')), 0, 32)
+            : '';
+    }
+
+    public function statusKeyValid(object $request, string $key): bool
+    {
+        $expected = $this->statusKey($request);
+
+        return $expected !== '' && hash_equals($expected, $this->sanitizeToken($key));
+    }
+
+    /**
      * Normalise a token off a request. Anything that is not exactly 32 lowercase
      * hex characters is rejected before it is hashed, so no attacker-shaped
      * string reaches the transient API.

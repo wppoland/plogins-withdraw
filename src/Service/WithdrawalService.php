@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Withdraw\Service;
 
 use Withdraw\Contract\HasHooks;
+use Withdraw\Frontend\RequestStatus;
 use Withdraw\Migrator;
 
 defined('ABSPATH') || exit;
@@ -29,6 +30,7 @@ final class WithdrawalService implements HasHooks
         private readonly AccessLink $links,
         private readonly DigitalConsentService $consent,
         private readonly ProductExclusion $exclusions,
+        private readonly RequestStatus $status,
     ) {
     }
 
@@ -49,7 +51,7 @@ final class WithdrawalService implements HasHooks
     public function filterRobots(array $robots): array
     {
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- presence check only, no state read or changed.
-        if (! isset($_GET['wd_key'])) {
+        if (! isset($_GET['wd_key']) && ! isset($_GET['wd_rkey'])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- presence check only.
             return $robots;
         }
 
@@ -78,6 +80,10 @@ final class WithdrawalService implements HasHooks
     {
         wp_enqueue_style('plogins-withdraw');
         wp_enqueue_script('plogins-withdraw');
+
+        if ($this->status->wanted()) {
+            return $this->status->render();
+        }
 
         // phpcs:ignore WordPress.Security.NonceVerification.Missing -- nonce verified in the handlers below.
         $step = isset($_POST['withdraw_step']) ? sanitize_key(wp_unslash($_POST['withdraw_step'])) : '';
@@ -357,7 +363,7 @@ final class WithdrawalService implements HasHooks
         $duplicate = $this->repository->pendingDuplicate($order->get_id(), $email, $declaration);
         if ($duplicate > 0) {
             ob_start();
-            $this->template('confirmation.php', ['order' => $order, 'items' => $items, 'id' => $duplicate, 'hash' => $receiptHash]);
+            $this->template('confirmation.php', ['order' => $order, 'items' => $items, 'id' => $duplicate, 'hash' => $receiptHash] + $this->statusLinks($duplicate));
             return (string) ob_get_clean();
         }
 
@@ -402,7 +408,7 @@ final class WithdrawalService implements HasHooks
             'items' => $items,
             'id'    => $id,
             'hash'  => $receiptHash,
-        ]);
+        ] + $this->statusLinks($id));
         return (string) ob_get_clean();
     }
 
@@ -979,7 +985,7 @@ final class WithdrawalService implements HasHooks
      *
      * @return array{eligible:bool, reason:string, deadline:int, late:bool, excluded:list<int>, reasons:array<int,string>, remaining:array<int,int>}
      */
-    private function eligibility(\WC_Order $order): array
+    public function eligibility(\WC_Order $order): array
     {
         $s    = $this->settings();
         $deny = static fn (string $reason, int $deadline = 0): array => [
@@ -1060,6 +1066,22 @@ final class WithdrawalService implements HasHooks
         $configured = trim($configured);
 
         return $configured !== '' ? $configured : $fallback();
+    }
+
+    /**
+     * The status page and PDF links for the confirmation screen, keyed so a
+     * guest can come back to them.
+     *
+     * @return array{status_url:string, pdf_url:string}
+     */
+    private function statusLinks(int $id): array
+    {
+        $row = $this->repository->find($id);
+
+        return [
+            'status_url' => is_object($row) ? $this->status->statusUrl($row, true) : '',
+            'pdf_url'    => is_object($row) ? $this->status->pdfUrl($row, true) : '',
+        ];
     }
 
     /** @param array<string, mixed> $vars */

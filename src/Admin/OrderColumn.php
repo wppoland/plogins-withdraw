@@ -126,16 +126,11 @@ final class OrderColumn implements HasHooks
             'accepted'  => 'status-completed',
             'rejected'  => 'status-failed',
             'processed' => 'status-processing',
+            'cancelled' => 'status-cancelled',
             default     => 'status-on-hold',
         };
 
-        $labels = [
-            'pending'   => _x('Pending', 'withdrawal request status', 'plogins-withdraw'),
-            'accepted'  => _x('Accepted', 'withdrawal request status', 'plogins-withdraw'),
-            'rejected'  => _x('Rejected', 'withdrawal request status', 'plogins-withdraw'),
-            'processed' => _x('Processed', 'withdrawal request status', 'plogins-withdraw'),
-        ];
-        $label = $labels[$st] ?? ucfirst($st);
+        $label = RequestRepository::statusLabel($st);
 
         printf(
             '<a href="%s" title="%s"><mark class="order-status %s"><span>%s</span></mark></a>',

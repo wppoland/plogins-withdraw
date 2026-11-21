@@ -9,6 +9,7 @@ use Withdraw\Admin\OrderColumn;
 use Withdraw\Admin\RequestsAdmin;
 use Withdraw\Admin\Settings;
 use Withdraw\Frontend\MyAccount;
+use Withdraw\Frontend\RequestStatus;
 use Withdraw\Frontend\WithdrawLink;
 use Withdraw\Service\DigitalConsentService;
 use Withdraw\Service\EmailService;
@@ -41,6 +42,9 @@ return is_admin()
         OrderColumn::class,
         Settings::class,
         RequestsAdmin::class,
+        // Here too for the My Account endpoint: rewrite rules are rebuilt in
+        // wp-admin as well, and a rebuild without it breaks the tab.
+        MyAccount::class,
         WithdrawLink::class,
     ]
     : [
@@ -52,5 +56,7 @@ return is_admin()
         DigitalConsentService::class,
         ProductExclusion::class,
         MyAccount::class,
+        // The PDF download answers on template_redirect, a storefront request.
+        RequestStatus::class,
         WithdrawLink::class,
     ];

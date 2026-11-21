@@ -24,7 +24,7 @@ function withdraw_uninstall_site(): void
     delete_option('withdraw_setup_page');
 
     // WooCommerce stores each email's settings screen under its own option.
-    foreach (['acknowledgement', 'new_request', 'accepted', 'rejected', 'processed', 'under_review', 'access_link'] as $withdraw_email_id) {
+    foreach (['acknowledgement', 'new_request', 'accepted', 'rejected', 'processed', 'under_review', 'access_link', 'cancelled'] as $withdraw_email_id) {
         delete_option('woocommerce_withdraw_' . $withdraw_email_id . '_settings');
     }
 

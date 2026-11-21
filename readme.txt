@@ -5,7 +5,7 @@ Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
 Requires Plugins: woocommerce
-Stable tag: 1.11.0
+Stable tag: 1.12.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,6 +22,10 @@ It is a **request-and-log** plugin: it records the customer's withdrawal declara
 * **Withdrawal form**: the `[withdraw_form]` shortcode renders the whole flow: look up an order by number and billing email (works for guests too), select items and quantities, then confirm on a step of its own, because Art. 11a(3) wants the confirmation to be a separate control labelled only "confirm withdrawal".
 * **Full or partial withdrawal**: the customer chooses how many of each item to withdraw from, and can come back for the rest of the order later: each line offers only what earlier declarations do not already cover.
 * **Withdrawal button in My Account**: a "Withdraw from contract here" button under the order details and the same action on the orders list, both linking to your withdrawal page with the order pre-filled, while the order is within the withdrawal period. The link also goes into the processing and completed order emails.
+* **Withdrawals tab in My Account**: signed-in customers see their own withdrawal requests (date, order, items and status), with a link to withdraw from the rest of an order while that is still possible. Only requests on orders placed under their own account are listed.
+* **Status page with cancel**: each request has a status page showing what was declared, the steps (received, under review, accepted or rejected, processed), the date it was received and the date of its last change. Signed-in customers open it from the Withdrawals tab, guests through the link in their acknowledgement email. While the shop has not decided yet, the customer can cancel the request in two steps; the shop gets an email and the goods can be declared again.
+* **PDF copy of the acknowledgement**: a PDF with the shop's name and address, the request number, the date and time received, the order, the items, the declaration as submitted and the current status. Download it from the status page or the confirmation screen; it is also attached to the acknowledgement email. Built in, no PDF library needed, and it prints Polish, German and other EU letters as they are.
+* **Withdrawal link block**: a "Withdrawal link" block for the block editor and the Site Editor, so a block theme can carry the link in its footer on every page. It follows the same form page and link text settings as the shortcode, and the text can be changed per block.
 * **Withdrawal-period check**: configurable period (statutory minimum 14 days), measured from delivery (order completion, or a real delivery date from the `withdraw/delivery_date` filter) or, if never completed, from the order date. An order of only virtual products (services, digital content) counts from the order date, the day the contract is concluded (Directive 2011/83/EU Art. 9(2)(a) and (c)). Counted under Regulation 1182/71 Art. 3: the start day does not count, the period ends at midnight of its last day, and a last day on a Saturday or Sunday moves to the Monday. Optional grace days, and an advisory mode that accepts a late declaration and flags it instead of refusing it.
 * **Products the right does not cover (Art. 16(c) to (e))**: mark a product or a whole category as made to specification, perishable or sealed for hygiene reasons. The product page says so before purchase (Art. 6(1)(k)); made-to-specification and perishable items drop out of the withdrawal form, sealed items stay in it with a notice, because the right is only lost once the seal is broken after delivery.
 * **Declarations that match no order (optional)**: off by default. With it on, a customer whose order number or email does not match can still send the declaration with a description of the goods. It is logged as not matched, the shop is emailed, the customer gets a short acknowledgement (date, time and receipt code, none of the typed text), and you match it by hand.
@@ -36,6 +40,10 @@ It is a **request-and-log** plugin: it records the customer's withdrawal declara
 * **The statutory texts, generated**: the model withdrawal form (Annex I.B) is built from your seller details and printed on the form, and `[withdraw_instructions]` renders the model instructions on withdrawal (Annex I.A) for your terms page, both translatable and both in step with your configured withdrawal period. Pick goods, services or digital content and both use the Annex I wording for that contract. Type your own wording and it wins.
 * **Guest friendly**: no account needed; the order-number + billing-email lookup works for guest orders.
 * **HPOS + Blocks compatible**: reads orders through the WooCommerce order API.
+
+= Bundled font =
+
+The PDF uses a subset of DejaVu Sans (Bitstream Vera and Arev font licenses, GPL-compatible, see `assets/fonts/LICENSE-dejavu.txt`).
 
 = Requirements =
 
@@ -78,6 +86,9 @@ Yes. Each of the four request statuses has its own WooCommerce email, sent when 
 = Who pays to send the goods back? =
 Whoever you say, and the plugin says nothing until you choose. Article 14(1) only lets you put the direct cost of the return on the customer if you told them so before the contract, in your withdrawal information. If you did not, it is yours, so a plugin that assumed the customer pays would be making a claim on your behalf that might not hold.
 
+= Can a customer take back a withdrawal? =
+Yes, while the request is still pending. The status page offers "Cancel this withdrawal", asks once more, and then marks the request as cancelled and emails you. Once you have accepted, rejected or processed a request, the button is gone.
+
 = Is it compatible with HPOS? =
 Yes. Orders are read through the WooCommerce order API, which is HPOS-compatible.
 
@@ -94,6 +105,13 @@ Yes. Orders are read through the WooCommerce order API, which is HPOS-compatible
 Plogins Withdraw is fully translatable and ships the `plogins-withdraw.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.12.0 =
+* New: a Withdrawals tab in My Account, placed after Orders, lists the signed-in customer's withdrawal requests with date, order, items and status, and links to a new withdrawal while part of the order can still be withdrawn from. Rows are scoped to the customer's own orders, never matched by email.
+* New: a "Withdrawal link" block (`plogins-withdraw/button`) for posts, pages and block theme footers, rendered on the server from the existing form page and link text settings.
+* New: a status page per request, reached from the Withdrawals tab (signed in, own orders only) or from a keyed link in the acknowledgement email (guests), with the declared items, the steps, the date received and the date of the last change.
+* New: customers can cancel a request while it is still pending. Two steps, no script needed; a request the shop has already decided on cannot be cancelled. New status "Cancelled" in the request log and filter (only the customer can set it, and the shop cannot change it afterwards), a new "Withdrawal cancelled by the customer" email to the shop, and the `withdraw/cancelled` action. A cancelled request no longer counts against the order, so the goods can be declared again.
+* New: the acknowledgement as a PDF, downloadable from the status page and the confirmation screen and attached to the acknowledgement email. Generated in memory with a bundled DejaVu Sans subset; the email copy is written to the WordPress temp directory (`get_temp_dir()`) and deleted after sending.
 
 = 1.11.0 =
 * New: with "Accept declarations that match no order" on, the customer now gets an acknowledgement email too (Directive 2011/83/EU Annex I(A), completion instruction 3). Because the address is unverified, it states only that a declaration arrived, when, and its receipt code, without the order number, goods or reason they typed.
@@ -253,6 +271,9 @@ Plogins Withdraw is fully translatable and ships the `plogins-withdraw.pot` temp
 * Initial release: `[withdraw_form]` shortcode (order lookup + full/partial item selection), My Account withdrawal button, configurable withdrawal period and eligible statuses, admin request log with statuses, customer and shop emails, editable model withdrawal text. HPOS + Blocks compatible.
 
 == Upgrade Notice ==
+
+= 1.12.0 =
+Adds a Withdrawals tab and status page with cancel, a PDF copy of the acknowledgement, and a Withdrawal link block for block theme footers.
 
 = 1.11.0 =
 Shops that accept declarations matching no order now also send the customer a short acknowledgement, without the text they typed.

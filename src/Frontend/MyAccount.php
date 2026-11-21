@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Withdraw\Frontend;
 
 use Withdraw\Contract\HasHooks;
+use Withdraw\Service\RequestRepository;
 use Withdraw\Service\WithdrawalService;
 
 defined('ABSPATH') || exit;
@@ -19,13 +20,116 @@ defined('ABSPATH') || exit;
  * available throughout the whole withdrawal period, which an order-view button
  * alone does not achieve, so WithdrawLink carries the rest. Both controls show
  * only while the period runs, so a lapsed right is never offered.
+ *
+ * It also adds a "Withdrawals" tab listing the customer's own requests and
+ * their status, so a declaration made once can be followed up without the
+ * acknowledgement email.
  */
 final class MyAccount implements HasHooks
 {
+    public const ENDPOINT = 'withdrawals';
+
+    private const PER_PAGE = 20;
+
+    public function __construct(
+        private readonly RequestRepository $repository,
+        private readonly WithdrawalService $withdrawals,
+        private readonly RequestStatus $status,
+    ) {
+    }
+
     public function registerHooks(): void
     {
         add_action('woocommerce_order_details_after_order_table', [$this, 'renderButton']);
         add_filter('woocommerce_my_account_my_orders_actions', [$this, 'addOrderAction'], 10, 2);
+
+        // Registered on every request, wp-admin included: rewrite rules are
+        // also rebuilt there (Permalinks, WooCommerce's own flush), and a
+        // rebuild without the endpoint makes the tab a 404. WooCommerce adds
+        // its endpoints on an earlier init pass, so this one adds itself.
+        add_rewrite_endpoint(self::ENDPOINT, WC()->query->get_endpoints_mask());
+        add_filter('woocommerce_get_query_vars', [$this, 'addQueryVar']);
+        add_filter('woocommerce_account_menu_items', [$this, 'addMenuItem']);
+        add_filter('woocommerce_endpoint_' . self::ENDPOINT . '_title', [$this, 'title']);
+        add_action('woocommerce_account_' . self::ENDPOINT . '_endpoint', [$this, 'renderList']);
+    }
+
+    /**
+     * @param array<string, string> $vars
+     * @return array<string, string>
+     */
+    public function addQueryVar($vars): array
+    {
+        $vars                 = is_array($vars) ? $vars : [];
+        $vars[self::ENDPOINT] = self::ENDPOINT;
+
+        return $vars;
+    }
+
+    /**
+     * Right after "Orders", where a customer looks for anything about a purchase.
+     *
+     * @param array<string, string> $items
+     * @return array<string, string>
+     */
+    public function addMenuItem($items): array
+    {
+        $items = is_array($items) ? $items : [];
+        $out   = [];
+        foreach ($items as $key => $label) {
+            $out[$key] = $label;
+            if ($key === 'orders') {
+                $out[self::ENDPOINT] = $this->title();
+            }
+        }
+        if (! isset($out[self::ENDPOINT])) {
+            $out[self::ENDPOINT] = $this->title();
+        }
+
+        return $out;
+    }
+
+    public function title(): string
+    {
+        return __('Withdrawals', 'plogins-withdraw');
+    }
+
+    /**
+     * The tab itself. The endpoint value is the page number, the way the
+     * WooCommerce orders tab pages (/withdrawals/2/).
+     *
+     * @param mixed $value
+     */
+    public function renderList($value = ''): void
+    {
+        $page = max(1, absint($value));
+        // One row more than shown tells whether there is a next page without a COUNT query.
+        $rows  = $this->repository->forCustomer(get_current_user_id(), self::PER_PAGE + 1, ($page - 1) * self::PER_PAGE);
+        $more  = count($rows) > self::PER_PAGE;
+        $rows  = array_slice($rows, 0, self::PER_PAGE);
+        $links = [];
+
+        foreach ($rows as $row) {
+            $oid = (int) $row->order_id;
+            if (isset($links[$oid])) {
+                continue;
+            }
+            $order       = wc_get_order($oid);
+            $links[$oid] = ['order' => $order instanceof \WC_Order ? $order : null, 'new' => ''];
+            if ($order instanceof \WC_Order && $this->withdrawals->eligibility($order)['eligible']) {
+                $links[$oid]['new'] = $this->url($order);
+            }
+        }
+
+        wc_get_template('myaccount/withdraw-requests.php', [
+            'withdraw_rows'     => $rows,
+            'withdraw_orders'   => $links,
+            'withdraw_form_url' => WithdrawLink::formUrl(WithdrawLink::settings()),
+            'withdraw_label'    => WithdrawLink::label(WithdrawLink::settings()),
+            'withdraw_view'     => array_map(fn (object $row): string => $this->status->statusUrl($row, false), $rows),
+            'withdraw_page'     => $page,
+            'withdraw_more'     => $more,
+        ], '', WITHDRAW_DIR . 'templates/');
     }
 
     /**

@@ -74,7 +74,7 @@ final class WithdrawPrivacyService implements HasHooks
                     ['name' => __('Order ID', 'plogins-withdraw'), 'value' => (string) $r->order_id],
                     ['name' => __('Name on the contract', 'plogins-withdraw'), 'value' => (string) ($r->customer_name ?? '')],
                     ['name' => __('Declaration', 'plogins-withdraw'), 'value' => (string) ($r->declaration ?? '')],
-                    ['name' => __('Status', 'plogins-withdraw'), 'value' => (string) $r->status],
+                    ['name' => __('Status', 'plogins-withdraw'), 'value' => RequestRepository::statusLabel((string) $r->status)],
                     ['name' => __('Reason', 'plogins-withdraw'), 'value' => (string) ($r->reason ?? '')],
                     ['name' => __('Date', 'plogins-withdraw'), 'value' => (string) $r->created_at],
                 ],

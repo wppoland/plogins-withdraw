@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Withdraw\Email;
 
+use Withdraw\Frontend\RequestStatus;
+use Withdraw\Plugin;
+use Withdraw\Service\AcknowledgementPdf;
 use Withdraw\Service\RequestRepository;
 
 defined('ABSPATH') || exit;
@@ -18,6 +21,9 @@ defined('ABSPATH') || exit;
  */
 final class AcknowledgementEmail extends AbstractWithdrawEmail
 {
+    /** The PDF copy attached to the message being sent, deleted right after. */
+    private string $pdfPath = '';
+
     public function __construct()
     {
         $this->id             = 'withdraw_acknowledgement';
@@ -66,7 +72,11 @@ final class AcknowledgementEmail extends AbstractWithdrawEmail
             return;
         }
 
-        if (! $this->dispatch()) {
+        $this->pdfPath = $this->unverified() ? '' : $this->writePdf();
+        $sent          = $this->dispatch();
+        $this->deletePdf();
+
+        if (! $sent) {
             // A statutory record that fails silently is the worst outcome here,
             // so whoever opens the order next sees it happened without knowing
             // this plugin exists.
@@ -82,6 +92,14 @@ final class AcknowledgementEmail extends AbstractWithdrawEmail
         }
     }
 
+    /** The keyed link back to this request's status page, where it can be followed or cancelled. */
+    private function statusUrl(): string
+    {
+        $status = Plugin::instance()->container()->get(RequestStatus::class);
+
+        return $status instanceof RequestStatus && is_object($this->request) ? $status->statusUrl($this->request, true) : '';
+    }
+
     /**
      * A declaration that matched no order was sent to an unverified address, so
      * the message carries nothing the visitor typed: no order number, goods or
@@ -92,6 +110,66 @@ final class AcknowledgementEmail extends AbstractWithdrawEmail
     private function unverified(): bool
     {
         return is_object($this->request) && (int) ($this->request->order_id ?? 0) === 0;
+    }
+
+    /**
+     * The declaration as a PDF, the customer's durable copy (Art. 11a(4)).
+     *
+     * @return array<int, string>
+     */
+    public function get_attachments()
+    {
+        $attachments = parent::get_attachments();
+        $attachments = is_array($attachments) ? $attachments : [];
+        if ($this->pdfPath !== '') {
+            $attachments[] = $this->pdfPath;
+        }
+
+        return $attachments;
+    }
+
+    /**
+     * Write the PDF to a fresh folder in the system temp directory, so the
+     * attachment carries a readable file name. Never under uploads.
+     */
+    private function writePdf(): string
+    {
+        $filesystem = $this->filesystem();
+        $pdf        = Plugin::instance()->container()->get(AcknowledgementPdf::class);
+        $bytes      = $pdf instanceof AcknowledgementPdf && is_object($this->request) ? $pdf->render($this->request) : '';
+        if ($filesystem === null || $bytes === '') {
+            return '';
+        }
+
+        $dir = trailingslashit(get_temp_dir()) . 'withdraw-' . wp_generate_password(12, false);
+        if (! $filesystem->mkdir($dir, 0700)) {
+            return '';
+        }
+        $path = $dir . '/withdrawal-' . (int) $this->request->id . '.pdf';
+
+        return $filesystem->put_contents($path, $bytes, 0600) ? $path : '';
+    }
+
+    private function deletePdf(): void
+    {
+        if ($this->pdfPath === '') {
+            return;
+        }
+        $filesystem = $this->filesystem();
+        if ($filesystem !== null) {
+            $filesystem->delete(dirname($this->pdfPath), true);
+        }
+        $this->pdfPath = '';
+    }
+
+    /** Direct file access only: the temp directory is local, and no credentials prompt can run here. */
+    private function filesystem(): ?\WP_Filesystem_Direct
+    {
+        require_once ABSPATH . 'wp-admin/includes/file.php';
+        require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php';
+        require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-direct.php';
+
+        return class_exists(\WP_Filesystem_Direct::class) ? new \WP_Filesystem_Direct(null) : null;
     }
 
     public function get_subject(): string
@@ -140,6 +218,7 @@ final class AcknowledgementEmail extends AbstractWithdrawEmail
             'items'        => $this->items(),
             'reason'       => (string) ($this->request->reason ?? ''),
             'receipt_hash' => is_object($this->request) ? RequestRepository::receiptHash($this->request) : '',
+            'status_url'   => $this->statusUrl(),
         ];
     }
 }

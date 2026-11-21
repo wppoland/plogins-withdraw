@@ -19,8 +19,10 @@ defined('ABSPATH') || exit;
  * neither on its own: it lives inside a logged-in order view, so a guest cannot
  * reach it at all, and a shopper who has not signed in has no path to it.
  *
- * This adds two answers. A `[withdraw_link]` shortcode the shop can drop into a
- * menu, footer or legal page, and an optional site-wide footer link.
+ * This adds three answers. A `[withdraw_link]` shortcode the shop can drop into a
+ * menu, footer or legal page, the same link as a block for block themes (the
+ * footer template part is where it belongs), and an optional site-wide footer
+ * link.
  *
  * It also carries `[withdraw_instructions]`, the model instructions on
  * withdrawal from Annex I(A) to Directive 2011/83/EU, which art. 6(1)(h) makes
@@ -29,12 +31,73 @@ defined('ABSPATH') || exit;
  */
 final class WithdrawLink implements HasHooks
 {
+    /** Set once the block printed a working link, so the footer link does not repeat it. */
+    private bool $blockShown = false;
+
     public function registerHooks(): void
     {
         add_shortcode('withdraw_link', [$this, 'renderShortcode']);
         add_shortcode('withdraw_instructions', [$this, 'renderInstructions']);
         add_action('wp_footer', [$this, 'renderFooterLink']);
         add_action('woocommerce_email_after_order_table', [$this, 'renderEmailLink'], 10, 4);
+        $this->registerBlock();
+    }
+
+    /**
+     * The `plogins-withdraw/button` block. Dynamic, so the link always follows
+     * the form page and label settings; the editor shows the server render.
+     * Runs on init, which is when boot() registers hooks.
+     */
+    private function registerBlock(): void
+    {
+        wp_register_script(
+            'plogins-withdraw-block',
+            WITHDRAW_URL . 'assets/js/block-button.js',
+            ['wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-server-side-render'],
+            \Withdraw\VERSION,
+            true,
+        );
+        // JS translations are not built for this plugin, so the editor's
+        // strings travel from PHP.
+        wp_add_inline_script('plogins-withdraw-block', 'window.ploginsWithdrawBlock = ' . wp_json_encode([
+            'panel'       => __('Link', 'plogins-withdraw'),
+            'label'       => __('Link text', 'plogins-withdraw'),
+            'placeholder' => self::label(self::settings()),
+        ]) . ';', 'before');
+
+        register_block_type(WITHDRAW_DIR . 'blocks/button', ['render_callback' => [$this, 'renderBlock']]);
+    }
+
+    /**
+     * @param array<string, mixed> $attributes
+     */
+    public function renderBlock($attributes = []): string
+    {
+        $attributes = is_array($attributes) ? $attributes : [];
+        $s          = self::settings();
+        $url        = self::formUrl($s);
+        $text       = trim((string) ($attributes['label'] ?? ''));
+        $text       = $text !== '' ? $text : self::label($s);
+        $align      = in_array($attributes['align'] ?? '', ['left', 'center', 'right'], true) ? (string) $attributes['align'] : '';
+        $wrapper    = get_block_wrapper_attributes($align !== '' ? ['class' => 'has-text-align-' . $align] : []);
+
+        if ($url === '') {
+            // A draft form page links nowhere, so the storefront shows nothing.
+            // The editor preview still shows the label, or the block would
+            // look broken on a fresh install.
+            return wp_is_serving_rest_request()
+                ? sprintf('<p %1$s><span class="withdraw-link">%2$s</span></p>', $wrapper, esc_html($text))
+                : '';
+        }
+
+        $this->blockShown = true;
+
+        return sprintf(
+            '<p %1$s><a class="withdraw-link" href="%2$s">%3$s</a></p>',
+            $wrapper,
+            esc_url($url),
+            esc_html($text),
+        );
     }
 
     /** @return array<string, mixed> */
@@ -146,7 +209,7 @@ final class WithdrawLink implements HasHooks
     {
         $s = self::settings();
 
-        if (empty($s['footer_link'])) {
+        if (empty($s['footer_link']) || $this->blockShown) {
             return;
         }
 

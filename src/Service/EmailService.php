@@ -8,6 +8,7 @@ use Withdraw\Contract\HasHooks;
 use Withdraw\Email\AcceptedEmail;
 use Withdraw\Email\AccessLinkEmail;
 use Withdraw\Email\AcknowledgementEmail;
+use Withdraw\Email\CancelledEmail;
 use Withdraw\Email\NewRequestEmail;
 use Withdraw\Email\ProcessedEmail;
 use Withdraw\Email\RejectedEmail;
@@ -32,6 +33,7 @@ final class EmailService implements HasHooks
         'withdraw/declared_unverified',
         'withdraw/status_changed',
         'withdraw/link_issued',
+        'withdraw/cancelled',
     ];
 
     /** The id that tells us our own classes made it into the mailer. */
@@ -94,6 +96,7 @@ final class EmailService implements HasHooks
         $emails['withdraw_processed']       = new ProcessedEmail();
         $emails['withdraw_under_review']    = new UnderReviewEmail();
         $emails['withdraw_access_link']     = new AccessLinkEmail();
+        $emails['withdraw_cancelled']       = new CancelledEmail();
 
         return $emails;
     }
@@ -114,6 +117,7 @@ final class EmailService implements HasHooks
             'withdraw_processed'       => __('Withdrawal processed', 'plogins-withdraw'),
             'withdraw_under_review'    => __('Withdrawal under review', 'plogins-withdraw'),
             'withdraw_access_link'     => __('Withdrawal access link', 'plogins-withdraw'),
+            'withdraw_cancelled'       => __('Withdrawal cancelled by the customer', 'plogins-withdraw'),
         ];
     }
 
