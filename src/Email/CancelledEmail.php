@@ -66,7 +66,7 @@ final class CancelledEmail extends AbstractWithdrawEmail
         unset($plainText);
 
         return [
-            'body_text'  => __('The customer cancelled this withdrawal request before you decided on it. Nothing needs to be returned or refunded for it.', 'plogins-withdraw'),
+            'body_text'  => __('The customer cancelled this withdrawal request before you decided on it. It is marked as cancelled in the withdrawal request log.', 'plogins-withdraw'),
             'request_id' => (int) ($this->request->id ?? 0),
             'admin_note' => '',
         ];

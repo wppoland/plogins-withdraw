@@ -83,7 +83,14 @@ final class RequestRepository
      */
     public function updateStatus(int $id, string $status, ?string $note = null): bool
     {
-        if (! in_array($status, self::STATUSES, true)) {
+        // Cancelled belongs to the customer (cancel()): the shop can neither
+        // set it, which would skip withdraw/cancelled, nor undo it, which would
+        // count the cancelled goods again.
+        if ($status === 'cancelled' || ! in_array($status, self::STATUSES, true)) {
+            return false;
+        }
+        $current = $this->find($id);
+        if (is_object($current) && $current->status === 'cancelled') {
             return false;
         }
         global $wpdb;

@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-21T21:28:20+00:00\n"
+"POT-Creation-Date: 2026-11-21T21:35:57+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: plogins-withdraw\n"
@@ -55,7 +55,7 @@ msgstr ""
 #. translators: %d: withdrawal request id
 #: src/Admin/OrderColumn.php:139
 #: src/Admin/RequestsAdmin.php:457
-#: src/Service/AcknowledgementPdf.php:113
+#: src/Service/AcknowledgementPdf.php:115
 #: templates/withdraw-request-status.php:36
 #, php-format
 msgid "Withdrawal request #%d"
@@ -149,7 +149,7 @@ msgstr ""
 
 #: src/Admin/RequestsAdmin.php:338
 #: src/Admin/RequestsAdmin.php:472
-#: src/Service/AcknowledgementPdf.php:78
+#: src/Service/AcknowledgementPdf.php:80
 #: templates/emails/withdraw-accepted.php:62
 #: templates/emails/withdraw-new-request.php:49
 #: templates/myaccount/withdraw-requests.php:43
@@ -165,7 +165,7 @@ msgstr ""
 
 #: src/Admin/RequestsAdmin.php:340
 #: src/Admin/RequestsAdmin.php:533
-#: src/Service/AcknowledgementPdf.php:89
+#: src/Service/AcknowledgementPdf.php:91
 #: templates/myaccount/withdraw-requests.php:44
 #: templates/myaccount/withdraw-requests.php:67
 msgid "Items"
@@ -184,7 +184,7 @@ msgid "Refund due"
 msgstr ""
 
 #: src/Admin/RequestsAdmin.php:343
-#: src/Service/AcknowledgementPdf.php:79
+#: src/Service/AcknowledgementPdf.php:81
 #: src/Service/WithdrawPrivacyService.php:77
 #: templates/myaccount/withdraw-requests.php:45
 #: templates/myaccount/withdraw-requests.php:78
@@ -303,15 +303,15 @@ msgstr ""
 msgid "Status and your note"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:595
+#: src/Admin/RequestsAdmin.php:601
 msgid "Why. Required to reject, and printed in the email the customer receives."
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:597
+#: src/Admin/RequestsAdmin.php:603
 msgid "Why (needed to reject)"
 msgstr ""
 
-#: src/Admin/RequestsAdmin.php:599
+#: src/Admin/RequestsAdmin.php:605
 msgid "Save"
 msgstr ""
 
@@ -780,7 +780,7 @@ msgid "Withdrawal cancelled"
 msgstr ""
 
 #: src/Email/CancelledEmail.php:69
-msgid "The customer cancelled this withdrawal request before you decided on it. Nothing needs to be returned or refunded for it."
+msgid "The customer cancelled this withdrawal request before you decided on it. It is marked as cancelled in the withdrawal request log."
 msgstr ""
 
 #: src/Email/NewRequestEmail.php:25
@@ -894,7 +894,7 @@ msgid "Security check failed. Please try again."
 msgstr ""
 
 #: src/Frontend/RequestStatus.php:236
-#: src/Service/AcknowledgementPdf.php:77
+#: src/Service/AcknowledgementPdf.php:79
 msgid "Received"
 msgstr ""
 
@@ -934,26 +934,26 @@ msgstr ""
 msgid "Right of withdrawal"
 msgstr ""
 
-#: src/Service/AcknowledgementPdf.php:67
+#: src/Service/AcknowledgementPdf.php:69
 msgid "Acknowledgement of withdrawal"
 msgstr ""
 
-#: src/Service/AcknowledgementPdf.php:76
+#: src/Service/AcknowledgementPdf.php:78
 #: templates/emails/withdraw-accepted.php:58
 #: templates/emails/withdraw-new-request.php:45
 msgid "Request"
 msgstr ""
 
-#: src/Service/AcknowledgementPdf.php:80
+#: src/Service/AcknowledgementPdf.php:82
 msgid "Receipt code"
 msgstr ""
 
-#: src/Service/AcknowledgementPdf.php:100
+#: src/Service/AcknowledgementPdf.php:102
 msgid "Declaration as submitted"
 msgstr ""
 
 #. translators: %s: date and time the PDF was generated
-#: src/Service/AcknowledgementPdf.php:107
+#: src/Service/AcknowledgementPdf.php:109
 #, php-format
 msgid "Generated on %s. The status above is the status at that moment."
 msgstr ""

@@ -52,6 +52,10 @@ wd_ok($repo->find($a)->status === 'cancelled', 'status is cancelled');
 wd_ok($fired === 1, 'withdraw/cancelled fired once');
 wd_ok(! $status->cancel($a, $links->statusKey($repo->find($a))), 'a cancelled request cannot be cancelled twice');
 
+// The shop can neither undo a cancellation nor set one.
+wd_ok(! $repo->updateStatus($a, 'accepted'), 'the shop cannot move a cancelled request to another status');
+wd_ok($repo->find($a)->status === 'cancelled', 'the cancelled status is untouched');
+
 // The cancelled request no longer blocks the goods.
 wd_ok(($repo->committedQuantities($order->get_id())[$itemId] ?? 0) === 0, 'a cancelled request commits no quantity');
 
@@ -62,6 +66,7 @@ wp_set_current_user($owner);
 wd_ok(! $status->cancel($b, ''), 'the owner cannot cancel after the shop accepted');
 wd_ok($repo->find($b)->status === 'accepted', 'the accepted status is untouched');
 
+wd_ok(! $repo->updateStatus($b, 'cancelled'), 'the shop cannot set cancelled itself');
 $repo->updateStatus($b, 'pending');
 wd_ok($status->cancel($b, ''), 'the owner can cancel while pending');
 wd_ok($fired === 2, 'withdraw/cancelled fired for the owner too');

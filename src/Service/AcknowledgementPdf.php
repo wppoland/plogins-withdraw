@@ -52,7 +52,9 @@ final class AcknowledgementPdf
             return '';
         }
 
+        // A container singleton: nothing from an earlier document may carry over.
         $this->pages = [];
+        $this->page  = '';
         $this->used  = [];
         $this->newPage();
 

@@ -581,13 +581,19 @@ final class RequestsAdmin implements HasHooks
     private function renderStatusForm(object $request, bool $wide = false): void
     {
         $note = (string) ($request->admin_note ?? '');
+
+        // Only the customer cancels, and a cancellation is final.
+        if ($request->status === 'cancelled') {
+            echo '<mark class="order-status status-cancelled"><span>' . esc_html(RequestRepository::statusLabel('cancelled')) . '</span></mark>';
+            return;
+        }
         ?>
         <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start">
             <?php wp_nonce_field('withdraw_set_status'); ?>
             <input type="hidden" name="action" value="withdraw_set_status">
             <input type="hidden" name="request_id" value="<?php echo (int) $request->id; ?>">
             <select name="status">
-                <?php foreach (RequestRepository::STATUSES as $st) : ?>
+                <?php foreach (array_diff(RequestRepository::STATUSES, ['cancelled']) as $st) : ?>
                     <option value="<?php echo esc_attr($st); ?>" <?php selected($request->status, $st); ?>><?php echo esc_html(RequestRepository::statusLabel($st)); ?></option>
                 <?php endforeach; ?>
             </select>
