@@ -40,7 +40,10 @@ return static function (Container $c): void {
         $c->get(DigitalConsentService::class),
         $c->get(ProductExclusion::class),
     ));
-    $c->singleton(MyAccount::class, static fn (): MyAccount => new MyAccount());
+    $c->singleton(MyAccount::class, static fn (Container $c): MyAccount => new MyAccount(
+        $c->get(RequestRepository::class),
+        $c->get(WithdrawalService::class),
+    ));
     $c->singleton(WithdrawLink::class, static fn (): WithdrawLink => new WithdrawLink());
     $c->singleton(\Withdraw\Service\WithdrawPrivacyService::class, static fn (Container $c): \Withdraw\Service\WithdrawPrivacyService => new \Withdraw\Service\WithdrawPrivacyService(
         $c->get(RequestRepository::class),

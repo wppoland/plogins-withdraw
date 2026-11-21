@@ -41,6 +41,9 @@ return is_admin()
         OrderColumn::class,
         Settings::class,
         RequestsAdmin::class,
+        // Here too for the My Account endpoint: rewrite rules are rebuilt in
+        // wp-admin as well, and a rebuild without it breaks the tab.
+        MyAccount::class,
         WithdrawLink::class,
     ]
     : [

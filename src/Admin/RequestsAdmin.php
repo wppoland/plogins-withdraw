@@ -175,7 +175,7 @@ final class RequestsAdmin implements HasHooks
             exit;
         }
 
-        fwrite($out, "\xEF\xBB\xBF");
+        fwrite($out, "\xEF\xBB\xBF"); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite -- php://output stream, WP_Filesystem has no equivalent.
 
         fputcsv($out, [
             'ID',
@@ -220,7 +220,7 @@ final class RequestsAdmin implements HasHooks
             ]);
         }
 
-        fclose($out);
+        fclose($out); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- closes the php://output stream opened above.
         exit;
     }
 

@@ -979,7 +979,7 @@ final class WithdrawalService implements HasHooks
      *
      * @return array{eligible:bool, reason:string, deadline:int, late:bool, excluded:list<int>, reasons:array<int,string>, remaining:array<int,int>}
      */
-    private function eligibility(\WC_Order $order): array
+    public function eligibility(\WC_Order $order): array
     {
         $s    = $this->settings();
         $deny = static fn (string $reason, int $deadline = 0): array => [
