@@ -34,6 +34,7 @@ final class MyAccount implements HasHooks
     public function __construct(
         private readonly RequestRepository $repository,
         private readonly WithdrawalService $withdrawals,
+        private readonly RequestStatus $status,
     ) {
     }
 
@@ -125,6 +126,7 @@ final class MyAccount implements HasHooks
             'withdraw_orders'   => $links,
             'withdraw_form_url' => WithdrawLink::formUrl(WithdrawLink::settings()),
             'withdraw_label'    => WithdrawLink::label(WithdrawLink::settings()),
+            'withdraw_view'     => array_map(fn (object $row): string => $this->status->statusUrl($row, false), $rows),
             'withdraw_page'     => $page,
             'withdraw_more'     => $more,
         ], '', WITHDRAW_DIR . 'templates/');

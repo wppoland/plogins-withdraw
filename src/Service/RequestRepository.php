@@ -14,7 +14,12 @@ defined('ABSPATH') || exit;
  */
 final class RequestRepository
 {
-    public const STATUSES = ['pending', 'accepted', 'rejected', 'processed'];
+    /**
+     * `cancelled` is set only by the customer (cancel()), while a request is
+     * still pending. It covers nothing in committedQuantities(), so the same
+     * goods can be declared again.
+     */
+    public const STATUSES = ['pending', 'accepted', 'rejected', 'processed', 'cancelled'];
 
     /** The translated name of a status, shared by the order column and My Account. */
     public static function statusLabel(string $status): string
@@ -24,6 +29,7 @@ final class RequestRepository
             'accepted'  => _x('Accepted', 'withdrawal request status', 'plogins-withdraw'),
             'rejected'  => _x('Rejected', 'withdrawal request status', 'plogins-withdraw'),
             'processed' => _x('Processed', 'withdrawal request status', 'plogins-withdraw'),
+            'cancelled' => _x('Cancelled', 'withdrawal request status', 'plogins-withdraw'),
         ];
 
         return $labels[$status] ?? ucfirst($status);
@@ -97,6 +103,28 @@ final class RequestRepository
             $formats,
             ['%d'],
         );
+    }
+
+    /**
+     * The customer's cancellation: pending to cancelled, and nothing else.
+     *
+     * The status test sits in the UPDATE itself, so a shop decision saved a
+     * moment earlier wins and the cancel changes no row. True only when this
+     * call made the change.
+     */
+    public function cancel(int $id): bool
+    {
+        global $wpdb;
+
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+        $changed = $wpdb->query($wpdb->prepare(
+            "UPDATE %i SET status = 'cancelled', updated_at = %s WHERE id = %d AND status = 'pending'",
+            Migrator::table(),
+            current_time('mysql'),
+            $id,
+        ));
+
+        return $changed === 1;
     }
 
     /** @return object|null */

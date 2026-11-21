@@ -126,6 +126,7 @@ final class OrderColumn implements HasHooks
             'accepted'  => 'status-completed',
             'rejected'  => 'status-failed',
             'processed' => 'status-processing',
+            'cancelled' => 'status-cancelled',
             default     => 'status-on-hold',
         };
 

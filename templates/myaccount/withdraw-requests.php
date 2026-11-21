@@ -13,6 +13,7 @@
  * @var array<int, array{order:\WC_Order|null, new:string}>      $withdraw_orders
  * @var string                                                    $withdraw_form_url
  * @var string                                                    $withdraw_label
+ * @var array<int, string>                                        $withdraw_view   status page URL per row index
  * @var int                                                       $withdraw_page
  * @var bool                                                      $withdraw_more
  */
@@ -46,7 +47,7 @@ endif;
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($withdraw_rows as $withdraw_row) : ?>
+        <?php foreach ($withdraw_rows as $withdraw_index => $withdraw_row) : ?>
             <?php
             $withdraw_entry = $withdraw_orders[(int) $withdraw_row->order_id] ?? ['order' => null, 'new' => ''];
             $withdraw_order = $withdraw_entry['order'];
@@ -78,6 +79,9 @@ endif;
                     <?php echo esc_html(RequestRepository::statusLabel((string) $withdraw_row->status)); ?>
                 </td>
                 <td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-actions">
+                    <?php if (! empty($withdraw_view[$withdraw_index])) : ?>
+                        <a class="woocommerce-button button view" href="<?php echo esc_url($withdraw_view[$withdraw_index]); ?>"><?php echo esc_html__('View', 'plogins-withdraw'); ?></a>
+                    <?php endif; ?>
                     <?php if ($withdraw_entry['new'] !== '') : ?>
                         <a class="woocommerce-button button" href="<?php echo esc_url($withdraw_entry['new']); ?>"><?php echo esc_html($withdraw_label); ?></a>
                     <?php endif; ?>

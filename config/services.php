@@ -11,8 +11,10 @@ use Withdraw\Admin\OrderColumn;
 use Withdraw\Admin\RequestsAdmin;
 use Withdraw\Admin\Settings;
 use Withdraw\Frontend\MyAccount;
+use Withdraw\Frontend\RequestStatus;
 use Withdraw\Frontend\WithdrawLink;
 use Withdraw\Service\AccessLink;
+use Withdraw\Service\AcknowledgementPdf;
 use Withdraw\Service\DigitalConsentService;
 use Withdraw\Service\EmailService;
 use Withdraw\Service\ProductExclusion;
@@ -34,15 +36,24 @@ return static function (Container $c): void {
     $c->singleton(EmailService::class, static fn (): EmailService => new EmailService());
     $c->singleton(ProductExclusion::class, static fn (): ProductExclusion => new ProductExclusion());
 
+    $c->singleton(AcknowledgementPdf::class, static fn (): AcknowledgementPdf => new AcknowledgementPdf());
+    $c->singleton(RequestStatus::class, static fn (Container $c): RequestStatus => new RequestStatus(
+        $c->get(RequestRepository::class),
+        $c->get(AccessLink::class),
+        $c->get(AcknowledgementPdf::class),
+    ));
+
     $c->singleton(WithdrawalService::class, static fn (Container $c): WithdrawalService => new WithdrawalService(
         $c->get(RequestRepository::class),
         $c->get(AccessLink::class),
         $c->get(DigitalConsentService::class),
         $c->get(ProductExclusion::class),
+        $c->get(RequestStatus::class),
     ));
     $c->singleton(MyAccount::class, static fn (Container $c): MyAccount => new MyAccount(
         $c->get(RequestRepository::class),
         $c->get(WithdrawalService::class),
+        $c->get(RequestStatus::class),
     ));
     $c->singleton(WithdrawLink::class, static fn (): WithdrawLink => new WithdrawLink());
     $c->singleton(\Withdraw\Service\WithdrawPrivacyService::class, static fn (Container $c): \Withdraw\Service\WithdrawPrivacyService => new \Withdraw\Service\WithdrawPrivacyService(

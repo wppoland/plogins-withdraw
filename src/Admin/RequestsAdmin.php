@@ -291,7 +291,7 @@ final class RequestsAdmin implements HasHooks
                 <?php $counts = $this->repository->counts(); ?>
                 <li><a href="<?php echo esc_url(add_query_arg($base + array_filter(['s' => $search]), admin_url('admin.php'))); ?>" <?php echo $filter === '' ? 'class="current"' : ''; ?>><?php echo esc_html__('All', 'plogins-withdraw'); ?> <span class="count">(<?php echo (int) array_sum($counts); ?>)</span></a> |</li>
                 <?php foreach (RequestRepository::STATUSES as $st) : ?>
-                    <li><a href="<?php echo esc_url(add_query_arg($base + ['status' => $st] + array_filter(['s' => $search]), admin_url('admin.php'))); ?>" <?php echo $filter === $st ? 'class="current"' : ''; ?>><?php echo esc_html(ucfirst($st)); ?> <span class="count">(<?php echo (int) ($counts[$st] ?? 0); ?>)</span></a> |</li>
+                    <li><a href="<?php echo esc_url(add_query_arg($base + ['status' => $st] + array_filter(['s' => $search]), admin_url('admin.php'))); ?>" <?php echo $filter === $st ? 'class="current"' : ''; ?>><?php echo esc_html(RequestRepository::statusLabel($st)); ?> <span class="count">(<?php echo (int) ($counts[$st] ?? 0); ?>)</span></a> |</li>
                 <?php endforeach; ?>
             </ul>
 
@@ -588,7 +588,7 @@ final class RequestsAdmin implements HasHooks
             <input type="hidden" name="request_id" value="<?php echo (int) $request->id; ?>">
             <select name="status">
                 <?php foreach (RequestRepository::STATUSES as $st) : ?>
-                    <option value="<?php echo esc_attr($st); ?>" <?php selected($request->status, $st); ?>><?php echo esc_html(ucfirst($st)); ?></option>
+                    <option value="<?php echo esc_attr($st); ?>" <?php selected($request->status, $st); ?>><?php echo esc_html(RequestRepository::statusLabel($st)); ?></option>
                 <?php endforeach; ?>
             </select>
             <?php if ($wide) : ?>

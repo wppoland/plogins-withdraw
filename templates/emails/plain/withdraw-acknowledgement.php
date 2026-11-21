@@ -14,6 +14,7 @@
  * @var string         $declaration
  * @var int            $submitted_at
  * @var string         $receipt_hash
+ * @var string         $status_url
  * @var array<int, array{name:string, qty:int}> $items
  * @var string         $reason
  * @var string         $email_heading
@@ -51,6 +52,10 @@ if ($withdraw_submitted !== '') {
         __('Submitted on %s.', 'plogins-withdraw'),
         $withdraw_submitted,
     )) . "\n\n";
+}
+
+if (! empty($status_url)) {
+    echo esc_html__('Follow or cancel this withdrawal', 'plogins-withdraw') . ': ' . esc_url_raw($status_url) . "\n\n";
 }
 
 if (! empty($receipt_hash)) {

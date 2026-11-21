@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-21T20:47:57+00:00\n"
+"POT-Creation-Date: 2026-11-21T21:28:20+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: plogins-withdraw\n"
@@ -47,18 +47,21 @@ msgstr ""
 #: src/Admin/OrderColumn.php:72
 #: src/Admin/Settings.php:69
 #: src/Admin/Settings.php:70
+#: src/Frontend/RequestStatus.php:149
 #: src/Migrator.php:74
 msgid "Withdrawal"
 msgstr ""
 
 #. translators: %d: withdrawal request id
-#: src/Admin/OrderColumn.php:138
+#: src/Admin/OrderColumn.php:139
 #: src/Admin/RequestsAdmin.php:457
+#: src/Service/AcknowledgementPdf.php:113
+#: templates/withdraw-request-status.php:36
 #, php-format
 msgid "Withdrawal request #%d"
 msgstr ""
 
-#: src/Admin/OrderColumn.php:146
+#: src/Admin/OrderColumn.php:147
 msgid "Submitted after deadline"
 msgstr ""
 
@@ -146,10 +149,11 @@ msgstr ""
 
 #: src/Admin/RequestsAdmin.php:338
 #: src/Admin/RequestsAdmin.php:472
+#: src/Service/AcknowledgementPdf.php:78
 #: templates/emails/withdraw-accepted.php:62
 #: templates/emails/withdraw-new-request.php:49
-#: templates/myaccount/withdraw-requests.php:42
-#: templates/myaccount/withdraw-requests.php:59
+#: templates/myaccount/withdraw-requests.php:43
+#: templates/myaccount/withdraw-requests.php:60
 msgid "Order"
 msgstr ""
 
@@ -161,15 +165,16 @@ msgstr ""
 
 #: src/Admin/RequestsAdmin.php:340
 #: src/Admin/RequestsAdmin.php:533
-#: templates/myaccount/withdraw-requests.php:43
-#: templates/myaccount/withdraw-requests.php:66
+#: src/Service/AcknowledgementPdf.php:89
+#: templates/myaccount/withdraw-requests.php:44
+#: templates/myaccount/withdraw-requests.php:67
 msgid "Items"
 msgstr ""
 
 #: src/Admin/RequestsAdmin.php:341
 #: src/Service/WithdrawPrivacyService.php:79
-#: templates/myaccount/withdraw-requests.php:41
-#: templates/myaccount/withdraw-requests.php:56
+#: templates/myaccount/withdraw-requests.php:42
+#: templates/myaccount/withdraw-requests.php:57
 msgid "Date"
 msgstr ""
 
@@ -179,9 +184,10 @@ msgid "Refund due"
 msgstr ""
 
 #: src/Admin/RequestsAdmin.php:343
+#: src/Service/AcknowledgementPdf.php:79
 #: src/Service/WithdrawPrivacyService.php:77
-#: templates/myaccount/withdraw-requests.php:44
-#: templates/myaccount/withdraw-requests.php:77
+#: templates/myaccount/withdraw-requests.php:45
+#: templates/myaccount/withdraw-requests.php:78
 msgid "Status"
 msgstr ""
 
@@ -238,7 +244,7 @@ msgid "Deadline"
 msgstr ""
 
 #: src/Admin/RequestsAdmin.php:490
-#: src/Service/WithdrawalService.php:383
+#: src/Service/WithdrawalService.php:389
 msgid "Submitted after the withdrawal deadline. Check the delivery date before you decide."
 msgstr ""
 
@@ -677,7 +683,7 @@ msgstr ""
 
 #: src/Email/AcceptedEmail.php:33
 #: src/Email/AcceptedEmail.php:58
-#: src/Service/EmailService.php:112
+#: src/Service/EmailService.php:115
 msgid "Withdrawal accepted"
 msgstr ""
 
@@ -694,7 +700,7 @@ msgid "Your withdrawal for order #{order_number} has been accepted"
 msgstr ""
 
 #: src/Email/AccessLinkEmail.php:28
-#: src/Service/EmailService.php:116
+#: src/Service/EmailService.php:119
 msgid "Withdrawal access link"
 msgstr ""
 
@@ -724,36 +730,57 @@ msgstr ""
 msgid "Your withdrawal link"
 msgstr ""
 
-#: src/Email/AcknowledgementEmail.php:25
-#: src/Email/AcknowledgementEmail.php:111
-#: src/Service/EmailService.php:110
+#: src/Email/AcknowledgementEmail.php:31
+#: src/Email/AcknowledgementEmail.php:189
+#: src/Service/EmailService.php:113
 #: templates/form-unmatched.php:24
 msgid "Withdrawal declaration received"
 msgstr ""
 
-#: src/Email/AcknowledgementEmail.php:26
+#: src/Email/AcknowledgementEmail.php:32
 msgid "Sent to the customer the moment a withdrawal declaration is recorded. It repeats the declaration back and states when it was submitted, which is what Article 11a(4) asks for, so switch it off only if you already send an acknowledgement of your own."
 msgstr ""
 
 #. translators: %d: withdrawal request id
-#: src/Email/AcknowledgementEmail.php:77
+#: src/Email/AcknowledgementEmail.php:87
 #, php-format
 msgid "The withdrawal acknowledgement for declaration #%d could not be delivered. The declaration itself is recorded."
 msgstr ""
 
-#: src/Email/AcknowledgementEmail.php:100
+#: src/Email/AcknowledgementEmail.php:178
 msgid "We received your withdrawal declaration"
 msgstr ""
 
-#: src/Email/AcknowledgementEmail.php:106
+#: src/Email/AcknowledgementEmail.php:184
 #: src/Email/ProcessedEmail.php:33
 #: src/Email/RejectedEmail.php:33
 #: src/Email/UnderReviewEmail.php:38
 msgid "Your withdrawal request for order #{order_number}"
 msgstr ""
 
-#: src/Email/AcknowledgementEmail.php:116
+#: src/Email/AcknowledgementEmail.php:194
 msgid "Keep this message: it is your confirmation that the declaration reached us, and the date above is the date it takes effect from."
+msgstr ""
+
+#: src/Email/CancelledEmail.php:26
+#: src/Service/EmailService.php:120
+msgid "Withdrawal cancelled by the customer"
+msgstr ""
+
+#: src/Email/CancelledEmail.php:27
+msgid "Sent to the shop when a customer cancels a withdrawal request that was still pending."
+msgstr ""
+
+#: src/Email/CancelledEmail.php:55
+msgid "[{site_title}] Withdrawal request #{request_id} for order #{order_number} cancelled"
+msgstr ""
+
+#: src/Email/CancelledEmail.php:60
+msgid "Withdrawal cancelled"
+msgstr ""
+
+#: src/Email/CancelledEmail.php:69
+msgid "The customer cancelled this withdrawal request before you decided on it. Nothing needs to be returned or refunded for it."
 msgstr ""
 
 #: src/Email/NewRequestEmail.php:25
@@ -781,7 +808,7 @@ msgstr ""
 
 #: src/Email/ProcessedEmail.php:15
 #: src/Email/ProcessedEmail.php:38
-#: src/Service/EmailService.php:114
+#: src/Service/EmailService.php:117
 msgid "Withdrawal processed"
 msgstr ""
 
@@ -794,7 +821,7 @@ msgid "Your withdrawal has been processed and the refund has been issued. Depend
 msgstr ""
 
 #: src/Email/RejectedEmail.php:15
-#: src/Service/EmailService.php:113
+#: src/Service/EmailService.php:116
 msgid "Withdrawal rejected"
 msgstr ""
 
@@ -811,7 +838,7 @@ msgid "Withdrawal request rejected"
 msgstr ""
 
 #: src/Email/UnderReviewEmail.php:20
-#: src/Service/EmailService.php:115
+#: src/Service/EmailService.php:118
 msgid "Withdrawal under review"
 msgstr ""
 
@@ -827,8 +854,73 @@ msgstr ""
 msgid "Withdrawal request under review"
 msgstr ""
 
-#: src/Frontend/MyAccount.php:93
+#: src/Frontend/MyAccount.php:94
 msgid "Withdrawals"
+msgstr ""
+
+#. translators: %d: withdrawal request id
+#: src/Frontend/RequestStatus.php:77
+#, php-format
+msgid "The customer cancelled withdrawal declaration #%d."
+msgstr ""
+
+#: src/Frontend/RequestStatus.php:148
+msgid "This download link is not valid any more. Open the withdrawal status page again and download it from there."
+msgstr ""
+
+#: src/Frontend/RequestStatus.php:184
+msgid "This withdrawal request could not be found, or the link is not valid. Sign in to your account, or use the link in your acknowledgement email."
+msgstr ""
+
+#: src/Frontend/RequestStatus.php:196
+msgid "Your withdrawal request has been cancelled and the shop has been told."
+msgstr ""
+
+#: src/Frontend/RequestStatus.php:197
+msgid "This withdrawal request is already cancelled."
+msgstr ""
+
+#: src/Frontend/RequestStatus.php:198
+msgid "This withdrawal request could not be cancelled, because the shop has already dealt with it."
+msgstr ""
+
+#: src/Frontend/RequestStatus.php:201
+#: src/Service/WithdrawalService.php:156
+#: src/Service/WithdrawalService.php:204
+#: src/Service/WithdrawalService.php:310
+#: src/Service/WithdrawalService.php:441
+#: src/Service/WithdrawalService.php:538
+msgid "Security check failed. Please try again."
+msgstr ""
+
+#: src/Frontend/RequestStatus.php:236
+#: src/Service/AcknowledgementPdf.php:77
+msgid "Received"
+msgstr ""
+
+#: src/Frontend/RequestStatus.php:239
+msgid "Cancelled by you"
+msgstr ""
+
+#: src/Frontend/RequestStatus.php:243
+msgid "Under review"
+msgstr ""
+
+#: src/Frontend/RequestStatus.php:246
+#: src/Frontend/RequestStatus.php:248
+msgid "Accepted"
+msgstr ""
+
+#: src/Frontend/RequestStatus.php:247
+msgid "Rejected"
+msgstr ""
+
+#: src/Frontend/RequestStatus.php:249
+msgid "Accepted or rejected"
+msgstr ""
+
+#: src/Frontend/RequestStatus.php:254
+msgid "Processed"
 msgstr ""
 
 #: src/Frontend/WithdrawLink.php:63
@@ -842,6 +934,30 @@ msgstr ""
 msgid "Right of withdrawal"
 msgstr ""
 
+#: src/Service/AcknowledgementPdf.php:67
+msgid "Acknowledgement of withdrawal"
+msgstr ""
+
+#: src/Service/AcknowledgementPdf.php:76
+#: templates/emails/withdraw-accepted.php:58
+#: templates/emails/withdraw-new-request.php:45
+msgid "Request"
+msgstr ""
+
+#: src/Service/AcknowledgementPdf.php:80
+msgid "Receipt code"
+msgstr ""
+
+#: src/Service/AcknowledgementPdf.php:100
+msgid "Declaration as submitted"
+msgstr ""
+
+#. translators: %s: date and time the PDF was generated
+#: src/Service/AcknowledgementPdf.php:107
+#, php-format
+msgid "Generated on %s. The status above is the status at that moment."
+msgstr ""
+
 #: src/Service/DigitalConsentService.php:119
 msgid "I ask you to begin supplying the digital content immediately and I acknowledge that I lose my right of withdrawal once the supply has begun."
 msgstr ""
@@ -850,7 +966,7 @@ msgstr ""
 msgid "Whether the cart contains at least one downloadable product."
 msgstr ""
 
-#: src/Service/EmailService.php:111
+#: src/Service/EmailService.php:114
 msgid "New withdrawal request (to you)"
 msgstr ""
 
@@ -891,24 +1007,29 @@ msgstr ""
 msgid "Applies to every product in this category that has no setting of its own."
 msgstr ""
 
-#: src/Service/RequestRepository.php:23
+#: src/Service/RequestRepository.php:28
 msgctxt "withdrawal request status"
 msgid "Pending"
 msgstr ""
 
-#: src/Service/RequestRepository.php:24
+#: src/Service/RequestRepository.php:29
 msgctxt "withdrawal request status"
 msgid "Accepted"
 msgstr ""
 
-#: src/Service/RequestRepository.php:25
+#: src/Service/RequestRepository.php:30
 msgctxt "withdrawal request status"
 msgid "Rejected"
 msgstr ""
 
-#: src/Service/RequestRepository.php:26
+#: src/Service/RequestRepository.php:31
 msgctxt "withdrawal request status"
 msgid "Processed"
+msgstr ""
+
+#: src/Service/RequestRepository.php:32
+msgctxt "withdrawal request status"
+msgid "Cancelled"
 msgstr ""
 
 #: src/Service/ReturnPolicy.php:157
@@ -1019,26 +1140,18 @@ msgstr ""
 msgid "Use this form to withdraw from your purchase. Select the items you are withdrawing from, then confirm the declaration on the next step."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:150
-#: src/Service/WithdrawalService.php:198
-#: src/Service/WithdrawalService.php:304
-#: src/Service/WithdrawalService.php:435
-#: src/Service/WithdrawalService.php:532
-msgid "Security check failed. Please try again."
-msgstr ""
-
-#: src/Service/WithdrawalService.php:217
-#: src/Service/WithdrawalService.php:338
+#: src/Service/WithdrawalService.php:223
+#: src/Service/WithdrawalService.php:344
 msgid "Please give the name on the contract so the declaration identifies who is withdrawing."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:222
-#: src/Service/WithdrawalService.php:333
+#: src/Service/WithdrawalService.php:228
+#: src/Service/WithdrawalService.php:339
 msgid "Please select at least one item to withdraw from."
 msgstr ""
 
 #. translators: 1: item list, 2: order number, 3: order date, 4: consumer name, 5: consumer email
-#: src/Service/WithdrawalService.php:254
+#: src/Service/WithdrawalService.php:260
 #, php-format
 msgid ""
 "I hereby give notice that I withdraw from my contract of sale of the following goods:\n"
@@ -1049,34 +1162,34 @@ msgid ""
 "Contact: %5$s"
 msgstr ""
 
-#: src/Service/WithdrawalService.php:318
+#: src/Service/WithdrawalService.php:324
 msgid "This order is no longer eligible for withdrawal."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:327
-#: src/Service/WithdrawalService.php:473
+#: src/Service/WithdrawalService.php:333
+#: src/Service/WithdrawalService.php:479
 msgid "Please tick the declaration to confirm you are withdrawing from the contract."
 msgstr ""
 
 #. translators: 1: request id, 2: item list
-#: src/Service/WithdrawalService.php:377
+#: src/Service/WithdrawalService.php:383
 #, php-format
 msgid ""
 "Withdrawal declaration #%1$d received.\n"
 "%2$s"
 msgstr ""
 
-#: src/Service/WithdrawalService.php:449
+#: src/Service/WithdrawalService.php:455
 msgid "Please fill in your name, the order number and the goods you are withdrawing from."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:451
-#: src/Service/WithdrawalService.php:542
+#: src/Service/WithdrawalService.php:457
+#: src/Service/WithdrawalService.php:548
 msgid "Enter a valid email address."
 msgstr ""
 
 #. translators: 1: goods as the consumer described them, 2: order number as typed, 3: consumer name, 4: consumer email
-#: src/Service/WithdrawalService.php:461
+#: src/Service/WithdrawalService.php:467
 #, php-format
 msgid ""
 "I hereby give notice that I withdraw from my contract of sale of the following goods:\n"
@@ -1087,44 +1200,44 @@ msgid ""
 "Contact: %4$s"
 msgstr ""
 
-#: src/Service/WithdrawalService.php:478
-#: src/Service/WithdrawalService.php:654
+#: src/Service/WithdrawalService.php:484
+#: src/Service/WithdrawalService.php:660
 msgid "Too many attempts. Please try again in an hour."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:596
+#: src/Service/WithdrawalService.php:602
 msgid "This link has expired or has already been used. Request a new one."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:676
+#: src/Service/WithdrawalService.php:682
 msgid "We could not find an order with that number and email."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:992
+#: src/Service/WithdrawalService.php:998
 msgid "This order is not in a status that can be withdrawn."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:1001
+#: src/Service/WithdrawalService.php:1007
 msgid "The withdrawal period for this order has ended."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:1006
+#: src/Service/WithdrawalService.php:1012
 msgid "A withdrawal request for this order is already being processed."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:1042
+#: src/Service/WithdrawalService.php:1048
 msgid "Every item in this order is already covered by a withdrawal request."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:1043
+#: src/Service/WithdrawalService.php:1049
 msgid "This order has no items that can be withdrawn from."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:1045
+#: src/Service/WithdrawalService.php:1051
 msgid "This order is for digital content you asked us to supply immediately, and supply has begun, so the right of withdrawal no longer applies to it."
 msgstr ""
 
-#: src/Service/WithdrawalService.php:1047
+#: src/Service/WithdrawalService.php:1053
 msgid "The right of withdrawal does not apply to the items in this order."
 msgstr ""
 
@@ -1146,17 +1259,28 @@ msgstr ""
 msgid "Customer name, email and reason cleared from withdrawal declarations, including the copy quoted in the declaration text; order references retained for statutory bookkeeping."
 msgstr ""
 
-#: templates/confirmation.php:18
+#: templates/confirmation.php:20
 msgid "Withdrawal request received"
 msgstr ""
 
 #. translators: 1: request id, 2: order number
-#: templates/confirmation.php:23
+#: templates/confirmation.php:25
 #, php-format
 msgid "Your withdrawal request #%1$d for order #%2$s has been recorded. We have emailed you a confirmation and will follow up with the next steps."
 msgstr ""
 
-#: templates/confirmation.php:36
+#: templates/confirmation.php:39
+#: templates/withdraw-request-status.php:84
+msgid "Download PDF"
+msgstr ""
+
+#: templates/confirmation.php:42
+#: templates/emails/plain/withdraw-acknowledgement.php:58
+#: templates/emails/withdraw-acknowledgement.php:69
+msgid "Follow or cancel this withdrawal"
+msgstr ""
+
+#: templates/confirmation.php:48
 #: templates/form-unmatched.php:37
 msgid "Receipt verification code:"
 msgstr ""
@@ -1190,9 +1314,9 @@ msgid "Declared on %s."
 msgstr ""
 
 #: templates/emails/plain/withdraw-accepted.php:65
-#: templates/emails/plain/withdraw-acknowledgement.php:70
+#: templates/emails/plain/withdraw-acknowledgement.php:75
 #: templates/emails/plain/withdraw-new-request.php:67
-#: templates/emails/withdraw-acknowledgement.php:87
+#: templates/emails/withdraw-acknowledgement.php:92
 #: templates/emails/withdraw-new-request.php:72
 msgid "Items withdrawn from"
 msgstr ""
@@ -1221,55 +1345,55 @@ msgstr ""
 msgid "We will refund you using the same means of payment you used, unless we have expressly agreed otherwise."
 msgstr ""
 
-#: templates/emails/plain/withdraw-acknowledgement.php:38
-#: templates/emails/withdraw-acknowledgement.php:41
+#: templates/emails/plain/withdraw-acknowledgement.php:39
+#: templates/emails/withdraw-acknowledgement.php:42
 msgid "We received a withdrawal declaration sent with this email address. It did not match an order automatically, so we will match it by hand and reply to this address."
 msgstr ""
 
-#: templates/emails/plain/withdraw-acknowledgement.php:39
-#: templates/emails/withdraw-acknowledgement.php:42
+#: templates/emails/plain/withdraw-acknowledgement.php:40
+#: templates/emails/withdraw-acknowledgement.php:43
 msgid "If you did not send it, you can ignore this message."
 msgstr ""
 
 #. translators: %s: order number
-#: templates/emails/plain/withdraw-acknowledgement.php:43
-#: templates/emails/withdraw-acknowledgement.php:48
+#: templates/emails/plain/withdraw-acknowledgement.php:44
+#: templates/emails/withdraw-acknowledgement.php:49
 #, php-format
 msgid "We received your withdrawal declaration for order #%s."
 msgstr ""
 
 #. translators: %s: submission date and time
-#: templates/emails/plain/withdraw-acknowledgement.php:51
-#: templates/emails/withdraw-acknowledgement.php:60
+#: templates/emails/plain/withdraw-acknowledgement.php:52
+#: templates/emails/withdraw-acknowledgement.php:61
 #, php-format
 msgid "Submitted on %s."
 msgstr ""
 
 #. translators: %s: SHA-256 verification hash
-#: templates/emails/plain/withdraw-acknowledgement.php:59
-#: templates/emails/withdraw-acknowledgement.php:73
+#: templates/emails/plain/withdraw-acknowledgement.php:64
+#: templates/emails/withdraw-acknowledgement.php:78
 #, php-format
 msgid "Receipt verification code: %s"
 msgstr ""
 
-#: templates/emails/plain/withdraw-acknowledgement.php:65
+#: templates/emails/plain/withdraw-acknowledgement.php:70
 #: templates/emails/withdraw-accepted.php:54
-#: templates/emails/withdraw-acknowledgement.php:82
+#: templates/emails/withdraw-acknowledgement.php:87
 msgid "Your declaration"
 msgstr ""
 
 #. translators: %s: the reason the customer gave, or a placeholder when none was given
-#: templates/emails/plain/withdraw-acknowledgement.php:80
+#: templates/emails/plain/withdraw-acknowledgement.php:85
 #: templates/emails/plain/withdraw-new-request.php:81
-#: templates/emails/withdraw-acknowledgement.php:105
+#: templates/emails/withdraw-acknowledgement.php:110
 #: templates/emails/withdraw-new-request.php:95
 #, php-format
 msgid "Reason given: %s"
 msgstr ""
 
-#: templates/emails/plain/withdraw-acknowledgement.php:81
+#: templates/emails/plain/withdraw-acknowledgement.php:86
 #: templates/emails/plain/withdraw-new-request.php:82
-#: templates/emails/withdraw-acknowledgement.php:106
+#: templates/emails/withdraw-acknowledgement.php:111
 #: templates/emails/withdraw-new-request.php:96
 msgid "(none given)"
 msgstr ""
@@ -1306,11 +1430,6 @@ msgstr ""
 #: templates/emails/withdraw-status.php:43
 #, php-format
 msgid "This concerns withdrawal request #%1$d for order #%2$s."
-msgstr ""
-
-#: templates/emails/withdraw-accepted.php:58
-#: templates/emails/withdraw-new-request.php:45
-msgid "Request"
 msgstr ""
 
 #: templates/emails/withdraw-new-request.php:86
@@ -1461,20 +1580,46 @@ msgstr ""
 msgid "No link arriving? You can send your withdrawal declaration without it and we will match it to your order."
 msgstr ""
 
-#: templates/myaccount/withdraw-requests.php:29
+#: templates/myaccount/withdraw-requests.php:30
 msgid "You have not withdrawn from any order yet."
 msgstr ""
 
-#: templates/myaccount/withdraw-requests.php:45
+#: templates/myaccount/withdraw-requests.php:46
 msgid "Actions"
 msgstr ""
 
-#: templates/myaccount/withdraw-requests.php:93
+#: templates/myaccount/withdraw-requests.php:83
+msgid "View"
+msgstr ""
+
+#: templates/myaccount/withdraw-requests.php:97
 msgid "Previous"
 msgstr ""
 
-#: templates/myaccount/withdraw-requests.php:96
+#: templates/myaccount/withdraw-requests.php:100
 msgid "Next"
+msgstr ""
+
+#. translators: 1: order number, 2: status
+#: templates/withdraw-request-status.php:50
+#, php-format
+msgid "Order #%1$s. Status: %2$s."
+msgstr ""
+
+#: templates/withdraw-request-status.php:69
+msgid "What you declared"
+msgstr ""
+
+#: templates/withdraw-request-status.php:94
+msgid "Cancel this withdrawal request? The shop is told that you no longer want to withdraw from these items. While the withdrawal period runs you can declare a new withdrawal on this page."
+msgstr ""
+
+#: templates/withdraw-request-status.php:97
+msgid "Yes, cancel my withdrawal"
+msgstr ""
+
+#: templates/withdraw-request-status.php:101
+msgid "Cancel this withdrawal"
 msgstr ""
 
 #: blocks/button/block.json
