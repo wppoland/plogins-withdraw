@@ -33,6 +33,24 @@ final class RequestStatus implements HasHooks
     public function registerHooks(): void
     {
         add_action('template_redirect', [$this, 'maybeDownload']);
+        add_action('template_redirect', [$this, 'privateHeaders'], 1);
+    }
+
+    /**
+     * The status view carries personal data and, for guests, a key in the URL:
+     * keep it out of page caches and out of the Referer sent to other sites.
+     */
+    public function privateHeaders(): void
+    {
+        if (! $this->wanted() && ! isset($_GET['withdraw_pdf'])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- header choice only.
+            return;
+        }
+
+        if (! defined('DONOTCACHEPAGE')) {
+            define('DONOTCACHEPAGE', true);
+        }
+        nocache_headers();
+        header('Referrer-Policy: no-referrer');
     }
 
     /** Whether the current form page request is for this view rather than the form. */
