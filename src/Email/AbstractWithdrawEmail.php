@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Withdraw\Email;
 
+use Withdraw\Frontend\RequestStatus;
 use Withdraw\Plugin;
 use Withdraw\Service\RequestRepository;
 
@@ -147,6 +148,22 @@ abstract class AbstractWithdrawEmail extends \WC_Email
         $created = (string) ($this->request->created_at ?? '');
 
         return $created !== '' ? (int) strtotime($created) : 0;
+    }
+
+    /**
+     * The keyed link back to this request's status page, or empty when the
+     * declaration matched no order (its address was never verified) or no
+     * published form page is set.
+     */
+    protected function statusUrl(): string
+    {
+        if (! is_object($this->request) || (int) ($this->request->order_id ?? 0) <= 0) {
+            return '';
+        }
+
+        $status = Plugin::instance()->container()->get(RequestStatus::class);
+
+        return $status instanceof RequestStatus ? $status->statusUrl($this->request, true) : '';
     }
 
     /** Send, if the shop has left this message on and there is somewhere to send it. */

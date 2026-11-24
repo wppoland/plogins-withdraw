@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Withdraw\Email;
 
-use Withdraw\Frontend\RequestStatus;
 use Withdraw\Plugin;
 use Withdraw\Service\AcknowledgementPdf;
 use Withdraw\Service\RequestRepository;
@@ -90,14 +89,6 @@ final class AcknowledgementEmail extends AbstractWithdrawEmail
                 );
             }
         }
-    }
-
-    /** The keyed link back to this request's status page, where it can be followed or cancelled. */
-    private function statusUrl(): string
-    {
-        $status = Plugin::instance()->container()->get(RequestStatus::class);
-
-        return $status instanceof RequestStatus && is_object($this->request) ? $status->statusUrl($this->request, true) : '';
     }
 
     /**

@@ -169,6 +169,19 @@ update_option('woocommerce_store_postcode', '00-001');
 $settings = get_option(Migrator::OPTION_SETTINGS, []);
 $settings = is_array($settings) ? $settings : [];
 
+$formPageId = (int) ($settings['form_page_id'] ?? 0);
+$createdFormPage = false;
+if ($formPageId <= 0 || get_post_status($formPageId) !== 'publish') {
+    $formPageId = (int) wp_insert_post([
+        'post_type'    => 'page',
+        'post_status'  => 'publish',
+        'post_title'   => 'Withdrawal',
+        'post_content' => '[withdraw_form]',
+    ]);
+    $settings['form_page_id'] = $formPageId;
+    $createdFormPage = true;
+}
+
 update_option(Migrator::OPTION_SETTINGS, array_merge($settings, [
     'return_address'   => '',
     'return_cost'      => 'not_stated',
@@ -181,12 +194,14 @@ do_action('withdraw/status_changed', $id, 'accepted', 'pending');
 $accepted = $drain();
 
 $ok(count($accepted) === 1, 'accepted sent exactly 1 message, got ' . count($accepted));
-$accHtml = html_entity_decode(wp_strip_all_tags($accepted[0]['message'] ?? ''), ENT_QUOTES);
+$accRaw  = (string) ($accepted[0]['message'] ?? '');
+$accHtml = html_entity_decode(wp_strip_all_tags($accRaw), ENT_QUOTES);
 
 $deadline = date_i18n((string) get_option('date_format'), $submittedAt + (14 * DAY_IN_SECONDS));
 $ok(str_contains($accHtml, $deadline), 'accepted states the return deadline ' . $deadline);
 $ok(str_contains($accHtml, 'ul. Testowa 1'), 'accepted falls back to the WooCommerce store address');
 $ok(! str_contains($accHtml, 'bear the direct cost'), 'with the cost unset, accepted says nothing about who pays');
+$ok(str_contains($accRaw, 'wd_request=' . $id) && str_contains($accRaw, 'wd_rkey='), 'accepted carries the keyed status page link');
 
 // Now the shop states the rule.
 update_option(Migrator::OPTION_SETTINGS, array_merge($settings, [
@@ -239,9 +254,11 @@ foreach ([
     do_action('withdraw/status_changed', $id, $status, 'accepted');
     $got = $drain();
 
-    $body = html_entity_decode(wp_strip_all_tags($got[0]['message'] ?? ''), ENT_QUOTES);
+    $raw  = (string) ($got[0]['message'] ?? '');
+    $body = html_entity_decode(wp_strip_all_tags($raw), ENT_QUOTES);
     $ok(count($got) === 1, $status . ' sent exactly 1 message, got ' . count($got));
     $ok(str_contains($body, $needle), $status . ' says the right thing');
+    $ok(str_contains($raw, 'wd_request=' . $id) && str_contains($raw, 'wd_rkey='), $status . ' carries the keyed status page link');
 }
 
 /* --- 5. one status must not wake the other three ----------------------- */
@@ -443,5 +460,12 @@ foreach (['src/Service/WithdrawalService.php', 'src/Admin/RequestsAdmin.php', 's
     $raw += substr_count((string) file_get_contents(WITHDRAW_DIR . $file), 'wp_mail(');
 }
 $ok($raw === 0, 'no raw wp_mail() left in the services (' . $raw . ' found)');
+
+$adminSrc = (string) file_get_contents(WITHDRAW_DIR . 'src/Admin/RequestsAdmin.php');
+$ok(! str_contains($adminSrc, 'wp_nonce_field(') && ! str_contains($adminSrc, 'id="_wpnonce"'), 'request log status forms do not repeat id="_wpnonce"');
+
+if ($createdFormPage) {
+    wp_delete_post($formPageId, true);
+}
 
 echo "\n" . ($fails === 0 ? "ALL GREEN\n" : $fails . " FAILED\n");
