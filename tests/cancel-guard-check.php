@@ -72,6 +72,43 @@ wd_ok($status->cancel($b, ''), 'the owner can cancel while pending');
 wd_ok($fired === 2, 'withdraw/cancelled fired for the owner too');
 
 require_once ABSPATH . 'wp-admin/includes/user.php';
+// The shop records a cancellation it received by post: pending only, fires
+// withdraw/cancelled with 'shop', and mails nobody.
+$admin = wp_insert_user(['user_login' => 'cg_adm_' . wp_generate_password(6, false), 'user_pass' => wp_generate_password(), 'user_email' => 'cg-adm-' . time() . '@example.com', 'role' => 'administrator']);
+wp_set_current_user($admin);
+$by = '';
+add_action('withdraw/cancelled', static function ($id, $order = null, $who = '') use (&$by): void {
+    $by = (string) $who;
+}, 10, 3);
+$mails = 0;
+add_filter('pre_wp_mail', static function () use (&$mails) {
+    ++$mails;
+    return true;
+});
+add_filter('wp_redirect', static function (): void {
+    throw new RuntimeException('redirect');
+});
+$admin_cancel = static function (int $id) use ($repo): void {
+    $_POST = $_REQUEST = ['request_id' => (string) $id, '_wpnonce' => wp_create_nonce('withdraw_mark_cancelled_' . $id)];
+    try {
+        // Registered only in wp-admin, so built here.
+        (new \Withdraw\Admin\RequestsAdmin($repo))->handleMarkCancelled();
+    } catch (\Throwable $e) { // The redirect at the end of the handler.
+        unset($e);
+    }
+};
+$d = $repo->create($order->get_id(), 'gap@example.com', $line, '', $hash(), 'Owner');
+$admin_cancel($d);
+wd_ok($repo->find($d)->status === 'cancelled', 'the shop can mark a pending request cancelled');
+wd_ok($fired === 3 && $by === 'shop', 'withdraw/cancelled fired with by = shop');
+wd_ok($mails === 0, 'no email is sent for a cancellation the shop records');
+$e = $repo->create($order->get_id(), 'gap@example.com', $line, '', $hash(), 'Owner');
+$repo->updateStatus($e, 'accepted');
+$admin_cancel($e);
+wd_ok($repo->find($e)->status === 'accepted' && $fired === 3, 'an accepted request cannot be marked cancelled');
+wp_delete_user($admin);
+
+
 wp_set_current_user(0);
 wp_delete_user($owner);
 wp_delete_user($other);

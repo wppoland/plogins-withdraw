@@ -165,13 +165,20 @@ final class WithdrawalService implements HasHooks
 
         $order = $auth['order'];
 
+        // A one-time link or the signed-in owner also opens the requests
+        // already made on this order, so a guest can follow or cancel one
+        // without the acknowledgement email. Never on the order number plus
+        // email lookup, which proves less than the link does.
+        $requests = $auth['legacy'] ? '' : $this->requestLinks($order);
+
         $eligibility = $this->eligibility($order);
         if (! $eligibility['eligible']) {
-            return $this->renderLookupStep($eligibility['reason']);
+            return $requests . $this->renderLookupStep($eligibility['reason']);
         }
 
         $s = $this->settings();
         ob_start();
+        echo $requests; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built from an escaping template.
         $this->template('form-items.php', [
             'order'    => $order,
             'email'    => $auth['email'],
@@ -362,9 +369,7 @@ final class WithdrawalService implements HasHooks
 
         $duplicate = $this->repository->pendingDuplicate($order->get_id(), $email, $declaration);
         if ($duplicate > 0) {
-            ob_start();
-            $this->template('confirmation.php', ['order' => $order, 'items' => $items, 'id' => $duplicate, 'hash' => $receiptHash] + $this->statusLinks($duplicate));
-            return (string) ob_get_clean();
+            return $this->renderConfirmation($order, $items, $duplicate, $receiptHash);
         }
 
         $id = $this->repository->create($order->get_id(), $email, $items, $reason, $receiptHash, $name, $declaration, $eligibility['late']);
@@ -402,14 +407,7 @@ final class WithdrawalService implements HasHooks
          */
         do_action('withdraw/declared', $id, $order, $submittedAt);
 
-        ob_start();
-        $this->template('confirmation.php', [
-            'order' => $order,
-            'items' => $items,
-            'id'    => $id,
-            'hash'  => $receiptHash,
-        ] + $this->statusLinks($id));
-        return (string) ob_get_clean();
+        return $this->renderConfirmation($order, $items, $id, $receiptHash);
     }
 
     /* --------------------------------------------------------------------- */
@@ -1069,19 +1067,54 @@ final class WithdrawalService implements HasHooks
     }
 
     /**
-     * The status page and PDF links for the confirmation screen, keyed so a
+     * The confirmation screen, with the status page and PDF links keyed so a
      * guest can come back to them.
      *
-     * @return array{status_url:string, pdf_url:string}
+     * @param list<array{item_id:int,product_id:int,name:string,qty:int}> $items
      */
-    private function statusLinks(int $id): array
+    private function renderConfirmation(\WC_Order $order, array $items, int $id, string $hash): string
     {
         $row = $this->repository->find($id);
+        $url = is_object($row) ? $this->status->statusUrl($row, true) : '';
 
-        return [
-            'status_url' => is_object($row) ? $this->status->statusUrl($row, true) : '',
+        ob_start();
+        $this->template('confirmation.php', [
+            'order'      => $order,
+            'items'      => $items,
+            'id'         => $id,
+            'hash'       => $hash,
+            'status_url' => $url,
             'pdf_url'    => is_object($row) ? $this->status->pdfUrl($row, true) : '',
-        ];
+        ]);
+        if (is_object($row)) {
+            /** This action is documented in src/Frontend/RequestStatus.php */
+            do_action('withdraw/request_view', $row, $order, $url);
+        }
+        return (string) ob_get_clean();
+    }
+
+    /**
+     * Links to the status page of every request on the order, keyed, or ''
+     * when there are none.
+     */
+    private function requestLinks(\WC_Order $order): string
+    {
+        $rows = $this->repository->forOrder($order->get_id(), (string) $order->get_billing_email());
+        if ($rows === []) {
+            return '';
+        }
+
+        $links = [];
+        foreach ($rows as $row) {
+            $url = $this->status->statusUrl($row, true);
+            if ($url !== '') {
+                $links[] = ['id' => (int) $row->id, 'status' => RequestRepository::statusLabel((string) $row->status), 'url' => $url];
+            }
+        }
+
+        ob_start();
+        $this->template('request-links.php', ['links' => $links]);
+        return (string) ob_get_clean();
     }
 
     /** @param array<string, mixed> $vars */

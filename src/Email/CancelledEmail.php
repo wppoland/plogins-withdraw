@@ -33,16 +33,21 @@ final class CancelledEmail extends AbstractWithdrawEmail
             '{request_id}'   => '',
         ];
 
-        add_action('withdraw/cancelled', [$this, 'triggerFromCancel'], 10, 1);
+        add_action('withdraw/cancelled', [$this, 'triggerFromCancel'], 10, 3);
 
         parent::__construct();
 
         $this->recipient = EmailService::effectiveAdminRecipient();
     }
 
-    public function triggerFromCancel(int $id): void
+    /**
+     * @param string $by 'shop' when the shop recorded a cancellation it received
+     *                   by post or phone: it already knows, so nothing is sent.
+     */
+    public function triggerFromCancel(int $id, mixed $order = null, string $by = 'customer'): void
     {
-        if (! $this->prepare($id)) {
+        unset($order);
+        if ($by === 'shop' || ! $this->prepare($id)) {
             return;
         }
         // prepare() addresses the customer; this one goes to the shop.

@@ -27,6 +27,7 @@ final class RequestsAdmin implements HasHooks
     {
         add_action('admin_menu', [$this, 'addMenuPage']);
         add_action('admin_post_withdraw_set_status', [$this, 'handleStatusChange']);
+        add_action('admin_post_withdraw_mark_cancelled', [$this, 'handleMarkCancelled']);
         add_action('admin_post_withdraw_export_csv', [$this, 'handleExportCsv']);
     }
 
@@ -142,6 +143,36 @@ final class RequestsAdmin implements HasHooks
                 // message for a correction they never see.
                 $this->repository->updateStatus($id, $status, $note);
             }
+        }
+
+        wp_safe_redirect(add_query_arg(['page' => self::PAGE, 'updated' => '1'], admin_url('admin.php')));
+        exit;
+    }
+
+    /**
+     * The customer cancelled outside the site (by post, by phone): the shop
+     * records it. Same rule as the customer's own cancel, pending only and
+     * atomic (RequestRepository::cancel()), and the same withdraw/cancelled,
+     * so add-ons close what they opened. No email: no customer message answers
+     * a cancellation, and the shop notice would tell the shop what it just did.
+     */
+    public function handleMarkCancelled(): void
+    {
+        if (! current_user_can('manage_woocommerce')) {
+            wp_die(esc_html__('Permission denied.', 'plogins-withdraw'));
+        }
+
+        $id = isset($_POST['request_id']) ? absint(wp_unslash($_POST['request_id'])) : 0;
+        check_admin_referer('withdraw_mark_cancelled_' . $id);
+
+        if ($id > 0 && $this->repository->cancel($id)) {
+            $this->announceStatusChange($id, 'cancelled', 'pending');
+
+            $request = $this->repository->find($id);
+            $order   = is_object($request) ? wc_get_order((int) $request->order_id) : false;
+
+            /** This action is documented in src/Frontend/RequestStatus.php */
+            do_action('withdraw/cancelled', $id, $order instanceof \WC_Order ? $order : null, 'shop');
         }
 
         wp_safe_redirect(add_query_arg(['page' => self::PAGE, 'updated' => '1'], admin_url('admin.php')));
@@ -582,7 +613,7 @@ final class RequestsAdmin implements HasHooks
     {
         $note = (string) ($request->admin_note ?? '');
 
-        // Only the customer cancels, and a cancellation is final.
+        // A cancellation is final.
         if ($request->status === 'cancelled') {
             echo '<mark class="order-status status-cancelled"><span>' . esc_html(RequestRepository::statusLabel('cancelled')) . '</span></mark>';
             return;
@@ -604,6 +635,14 @@ final class RequestsAdmin implements HasHooks
             <?php endif; ?>
             <button type="submit" class="button button-small"><?php echo esc_html__('Save', 'plogins-withdraw'); ?></button>
         </form>
+        <?php if ($request->status === 'pending') : ?>
+            <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="margin-top:6px">
+                <?php wp_nonce_field('withdraw_mark_cancelled_' . (int) $request->id); ?>
+                <input type="hidden" name="action" value="withdraw_mark_cancelled">
+                <input type="hidden" name="request_id" value="<?php echo (int) $request->id; ?>">
+                <button type="submit" class="button button-small button-link-delete" onclick="return window.confirm(this.dataset.confirm);" data-confirm="<?php echo esc_attr__('Mark this request as cancelled by the customer? This cannot be undone.', 'plogins-withdraw'); ?>"><?php echo esc_html__('Customer cancelled (by post or phone)', 'plogins-withdraw'); ?></button>
+            </form>
+        <?php endif; ?>
         <?php
     }
 }
