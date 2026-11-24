@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Plogins Withdraw - EU Right of Withdrawal & Returns for "
 "WooCommerce 0.1.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/plogins-withdraw\n"
-"POT-Creation-Date: 2026-11-24T12:23:02+00:00\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/withdraw\n"
+"POT-Creation-Date: 2026-11-24T15:30:22+00:00\n"
 "PO-Revision-Date: 2026-07-02T09:24:51+00:00\n"
 "Last-Translator: motylanogha <szatkowski.mariusz@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -64,7 +64,6 @@ msgstr "Odstąpienie"
 #: src/Admin/OrderColumn.php:139 src/Admin/RequestsAdmin.php:488
 #: src/Service/AcknowledgementPdf.php:115
 #: templates/withdraw-request-status.php:36
-#, php-format
 msgid "Withdrawal request #%d"
 msgstr "Wniosek o odstąpienie #%d"
 
@@ -118,7 +117,6 @@ msgstr "Wnioski o odstąpienie od umowy"
 
 #. translators: 1: request id, 2: new status
 #: src/Admin/RequestsAdmin.php:78
-#, php-format
 msgid "Withdrawal declaration #%1$d marked as %2$s."
 msgstr "Oświadczenie o odstąpieniu #%1$d oznaczone jako %2$s."
 
@@ -149,7 +147,6 @@ msgstr "E-mail lub numer zamówienia"
 
 #. translators: %s: number of withdrawal requests
 #: src/Admin/RequestsAdmin.php:347
-#, php-format
 msgid "%s request"
 msgid_plural "%s requests"
 msgstr[0] "%s wniosek"
@@ -162,7 +159,7 @@ msgstr "ID"
 
 #: src/Admin/RequestsAdmin.php:369 src/Admin/RequestsAdmin.php:503
 #: src/Service/AcknowledgementPdf.php:80
-#: templates/emails/withdraw-accepted.php:62
+#: templates/emails/withdraw-accepted.php:63
 #: templates/emails/withdraw-new-request.php:49
 #: templates/myaccount/withdraw-requests.php:43
 #: templates/myaccount/withdraw-requests.php:60
@@ -246,7 +243,6 @@ msgstr ""
 
 #. translators: %s: order number as the customer typed it
 #: src/Admin/RequestsAdmin.php:509
-#, php-format
 msgid "Not matched to an order. The customer gave: %s"
 msgstr ""
 
@@ -266,7 +262,7 @@ msgstr ""
 msgid "Name on the contract"
 msgstr "Imię i nazwisko na umowie"
 
-#: src/Admin/RequestsAdmin.php:535 templates/emails/withdraw-accepted.php:67
+#: src/Admin/RequestsAdmin.php:535 templates/emails/withdraw-accepted.php:68
 #: templates/emails/withdraw-new-request.php:64
 msgid "Declared on"
 msgstr "Data oświadczenia"
@@ -373,7 +369,6 @@ msgstr "Żądania:"
 
 #. translators: 1: pending, 2: accepted, 3: processed, 4: rejected
 #: src/Admin/Settings.php:172
-#, php-format
 msgid "%1$d pending, %2$d accepted, %3$d processed, %4$d rejected"
 msgstr "%1$d w toku, %2$d zaakceptowane, %3$d przetworzone, %4$d odrzucone"
 
@@ -708,7 +703,6 @@ msgstr ""
 
 #. translators: %s: the sentence the customer will read
 #: src/Admin/Settings.php:369
-#, php-format
 msgid "The customer will read: %s"
 msgstr "Klient przeczyta: %s"
 
@@ -864,7 +858,6 @@ msgstr ""
 
 #. translators: %s: the statutory Article 16(m) consent sentence
 #: src/Admin/Settings.php:430
-#, php-format
 msgid "The checkbox always ends with: %s"
 msgstr "Pole wyboru zawsze kończy się tekstem: %s"
 
@@ -884,7 +877,6 @@ msgstr ""
 
 #. translators: %s: partner plugin name, linked to its search on the Add Plugins screen.
 #: src/Admin/Settings.php:453
-#, php-format
 msgid ""
 "Install %s, a free plugin, to handle returns, repairs and warranty "
 "complaints alongside statutory 14-day withdrawals."
@@ -902,15 +894,13 @@ msgstr ""
 
 #. translators: %s: partner plugin name, linked to its search on the Add Plugins screen.
 #: src/Admin/Settings.php:473
-#, php-format
 msgid ""
 "Install %s, a free plugin, to handle Omnibus 30-day lowest prices, GPSR "
 "product safety, deposit schemes (Pfand) and local fonts."
 msgstr ""
 
 #. translators: %s: order number as the customer typed it
-#: src/Email/AbstractWithdrawEmail.php:112
-#, php-format
+#: src/Email/AbstractWithdrawEmail.php:113
 msgid "%s (not matched)"
 msgstr ""
 
@@ -956,7 +946,6 @@ msgstr ""
 
 #. translators: 1: order number, 2: link URL, 3: number of minutes the link stays valid
 #: src/Email/AccessLinkEmail.php:75
-#, php-format
 msgid ""
 "Somebody asked to withdraw from order #%1$s.\n"
 "\n"
@@ -986,12 +975,12 @@ msgstr "Twój odnośnik do odstąpienia od zamówienia #{order_number}"
 msgid "Your withdrawal link"
 msgstr "Twój odnośnik do odstąpienia"
 
-#: src/Email/AcknowledgementEmail.php:31 src/Email/AcknowledgementEmail.php:189
+#: src/Email/AcknowledgementEmail.php:30 src/Email/AcknowledgementEmail.php:180
 #: src/Service/EmailService.php:113 templates/form-unmatched.php:24
 msgid "Withdrawal declaration received"
 msgstr "Otrzymano oświadczenie o odstąpieniu"
 
-#: src/Email/AcknowledgementEmail.php:32
+#: src/Email/AcknowledgementEmail.php:31
 msgid ""
 "Sent to the customer the moment a withdrawal declaration is recorded. It "
 "repeats the declaration back and states when it was submitted, which is what "
@@ -1003,8 +992,7 @@ msgstr ""
 "11a ust. 4, więc wyłącz go tylko wtedy, gdy wysyłasz własne potwierdzenie."
 
 #. translators: %d: withdrawal request id
-#: src/Email/AcknowledgementEmail.php:87
-#, php-format
+#: src/Email/AcknowledgementEmail.php:86
 msgid ""
 "The withdrawal acknowledgement for declaration #%d could not be delivered. "
 "The declaration itself is recorded."
@@ -1012,16 +1000,16 @@ msgstr ""
 "Nie udało się dostarczyć potwierdzenia odstąpienia dla oświadczenia #%d. "
 "Samo oświadczenie zostało zarejestrowane."
 
-#: src/Email/AcknowledgementEmail.php:178
+#: src/Email/AcknowledgementEmail.php:169
 msgid "We received your withdrawal declaration"
 msgstr ""
 
-#: src/Email/AcknowledgementEmail.php:184 src/Email/ProcessedEmail.php:33
+#: src/Email/AcknowledgementEmail.php:175 src/Email/ProcessedEmail.php:33
 #: src/Email/RejectedEmail.php:33 src/Email/UnderReviewEmail.php:38
 msgid "Your withdrawal request for order #{order_number}"
 msgstr "Twój wniosek o odstąpienie od zamówienia #{order_number}"
 
-#: src/Email/AcknowledgementEmail.php:194
+#: src/Email/AcknowledgementEmail.php:185
 msgid ""
 "Keep this message: it is your confirmation that the declaration reached us, "
 "and the date above is the date it takes effect from."
@@ -1075,7 +1063,6 @@ msgstr "Odbiorcy"
 
 #. translators: %s: the address this message goes to when the field is left empty
 #: src/Email/NewRequestEmail.php:83
-#, php-format
 msgid ""
 "Comma-separated. Leave blank to use %s, which is the notification address "
 "set under WooCommerce, Withdrawal."
@@ -1163,7 +1150,6 @@ msgstr ""
 
 #. translators: %d: withdrawal request id
 #: src/Frontend/RequestStatus.php:95
-#, php-format
 msgid "The customer cancelled withdrawal declaration #%d."
 msgstr ""
 
@@ -1241,7 +1227,7 @@ msgid "Acknowledgement of withdrawal"
 msgstr ""
 
 #: src/Service/AcknowledgementPdf.php:78
-#: templates/emails/withdraw-accepted.php:58
+#: templates/emails/withdraw-accepted.php:59
 #: templates/emails/withdraw-new-request.php:45
 msgid "Request"
 msgstr "Wniosek"
@@ -1256,7 +1242,6 @@ msgstr ""
 
 #. translators: %s: date and time the PDF was generated
 #: src/Service/AcknowledgementPdf.php:109
-#, php-format
 msgid "Generated on %s. The status above is the status at that moment."
 msgstr ""
 
@@ -1363,7 +1348,6 @@ msgstr "(nazwa i adres sprzedawcy)"
 
 #. translators: %s: the trader's name, address and contact details, each on its own line
 #: src/Service/StatutoryText.php:99
-#, php-format
 msgid ""
 "Model withdrawal form\n"
 "(complete and return this form only if you wish to withdraw from the "
@@ -1386,7 +1370,6 @@ msgstr ""
 
 #. translators: %s: the trader's name, address and contact details, each on its own line
 #: src/Service/StatutoryText.php:107
-#, php-format
 msgid ""
 "Model withdrawal form\n"
 "(complete and return this form only if you wish to withdraw from the "
@@ -1426,7 +1409,6 @@ msgstr ""
 
 #. translators: 1: number of days, 2: number of days
 #: src/Service/StatutoryText.php:131
-#, php-format
 msgid ""
 "You have the right to withdraw from this contract within %1$d days without "
 "giving any reason. The withdrawal period will expire after %2$d days from "
@@ -1441,7 +1423,6 @@ msgstr ""
 
 #. translators: 1: number of days, 2: number of days
 #: src/Service/StatutoryText.php:138
-#, php-format
 msgid ""
 "You have the right to withdraw from this contract within %1$d days without "
 "giving any reason. The withdrawal period will expire after %2$d days from "
@@ -1450,7 +1431,6 @@ msgstr ""
 
 #. translators: %s: the trader's name, address and contact details
 #: src/Service/StatutoryText.php:145
-#, php-format
 msgid ""
 "To exercise the right of withdrawal, you must inform us of your decision to "
 "withdraw from this contract by an unequivocal statement. Our details are:\n"
@@ -1567,7 +1547,6 @@ msgstr "Proszę wybrać przynajmniej jedną pozycję, z której chcesz się wyco
 
 #. translators: 1: item list, 2: order number, 3: order date, 4: consumer name, 5: consumer email
 #: src/Service/WithdrawalService.php:267
-#, php-format
 msgid ""
 "I hereby give notice that I withdraw from my contract of sale of the "
 "following goods:\n"
@@ -1596,7 +1575,6 @@ msgstr "Zaznacz oświadczenie, aby potwierdzić, że odstępujesz od umowy."
 
 #. translators: 1: request id, 2: item list
 #: src/Service/WithdrawalService.php:388
-#, php-format
 msgid ""
 "Withdrawal declaration #%1$d received.\n"
 "%2$s"
@@ -1616,7 +1594,6 @@ msgstr "Podaj prawidłowy adres e-mail."
 
 #. translators: 1: goods as the consumer described them, 2: order number as typed, 3: consumer name, 4: consumer email
 #: src/Service/WithdrawalService.php:465
-#, php-format
 msgid ""
 "I hereby give notice that I withdraw from my contract of sale of the "
 "following goods:\n"
@@ -1699,7 +1676,6 @@ msgstr "Otrzymano wniosek o odstąpienie"
 
 #. translators: 1: request id, 2: order number
 #: templates/confirmation.php:25
-#, php-format
 msgid ""
 "Your withdrawal request #%1$d for order #%2$s has been recorded. We have "
 "emailed you a confirmation and will follow up with the next steps."
@@ -1727,7 +1703,6 @@ msgstr "Treści cyfrowe: prawo do odstąpienia"
 
 #. translators: %s: date and time the consent was given
 #: templates/consent-notice.php:26
-#, php-format
 msgid "Given at checkout on %s."
 msgstr "Udzielona w kasie %s."
 
@@ -1740,20 +1715,18 @@ msgstr ""
 "momentu nadal możesz od niej odstąpić."
 
 #. translators: 1: withdrawal request id, 2: order number
-#: templates/emails/plain/withdraw-accepted.php:49
+#: templates/emails/plain/withdraw-accepted.php:50
 #: templates/emails/plain/withdraw-new-request.php:37
-#, php-format
 msgid "Request #%1$d, order #%2$s."
 msgstr "Wniosek #%1$d, zamówienie #%2$s."
 
 #. translators: %s: submission date and time
-#: templates/emails/plain/withdraw-accepted.php:57
+#: templates/emails/plain/withdraw-accepted.php:58
 #: templates/emails/plain/withdraw-new-request.php:59
-#, php-format
 msgid "Declared on %s."
 msgstr "Oświadczenie złożone %s."
 
-#: templates/emails/plain/withdraw-accepted.php:65
+#: templates/emails/plain/withdraw-accepted.php:66
 #: templates/emails/plain/withdraw-acknowledgement.php:75
 #: templates/emails/plain/withdraw-new-request.php:67
 #: templates/emails/withdraw-acknowledgement.php:92
@@ -1762,9 +1735,8 @@ msgid "Items withdrawn from"
 msgstr "Pozycje objęte odstąpieniem"
 
 #. translators: 1: number of days, 2: the last date the goods may be sent back
-#: templates/emails/plain/withdraw-accepted.php:76
-#: templates/emails/withdraw-accepted.php:94
-#, php-format
+#: templates/emails/plain/withdraw-accepted.php:77
+#: templates/emails/withdraw-accepted.php:95
 msgid ""
 "Please send the goods back without undue delay and in any case within %1$d "
 "days of the day you told us you were withdrawing, that is by %2$s."
@@ -1773,9 +1745,8 @@ msgstr ""
 "w którym poinformowałeś nas o odstąpieniu, czyli do %2$s."
 
 #. translators: %d: number of days
-#: templates/emails/plain/withdraw-accepted.php:83
-#: templates/emails/withdraw-accepted.php:103
-#, php-format
+#: templates/emails/plain/withdraw-accepted.php:84
+#: templates/emails/withdraw-accepted.php:104
 msgid ""
 "Please send the goods back without undue delay and in any case within %d "
 "days of the day you told us you were withdrawing."
@@ -1783,19 +1754,26 @@ msgstr ""
 "Odeślij towar bez zbędnej zwłoki, a w każdym razie w ciągu %d dni od dnia, w "
 "którym poinformowałeś nas o odstąpieniu."
 
-#: templates/emails/plain/withdraw-accepted.php:89
-#: templates/emails/withdraw-accepted.php:111
+#: templates/emails/plain/withdraw-accepted.php:90
+#: templates/emails/withdraw-accepted.php:112
 msgid "Send them to:"
 msgstr "Wyślij go na adres:"
 
-#: templates/emails/plain/withdraw-accepted.php:97
-#: templates/emails/withdraw-accepted.php:120
+#: templates/emails/plain/withdraw-accepted.php:98
+#: templates/emails/withdraw-accepted.php:121
 msgid ""
 "We will refund you using the same means of payment you used, unless we have "
 "expressly agreed otherwise."
 msgstr ""
 "Zwrócimy płatność przy użyciu tego samego sposobu płatności, którego użyłeś, "
 "chyba że wyraźnie uzgodniliśmy inaczej."
+
+#: templates/emails/plain/withdraw-accepted.php:101
+#: templates/emails/plain/withdraw-status.php:41
+#: templates/emails/withdraw-accepted.php:124
+#: templates/emails/withdraw-status.php:52
+msgid "View withdrawal request"
+msgstr ""
 
 #: templates/emails/plain/withdraw-acknowledgement.php:39
 #: templates/emails/withdraw-acknowledgement.php:42
@@ -1813,26 +1791,23 @@ msgstr ""
 #. translators: %s: order number
 #: templates/emails/plain/withdraw-acknowledgement.php:44
 #: templates/emails/withdraw-acknowledgement.php:49
-#, php-format
 msgid "We received your withdrawal declaration for order #%s."
 msgstr "Otrzymaliśmy Twoje oświadczenie o odstąpieniu od zamówienia #%s."
 
 #. translators: %s: submission date and time
 #: templates/emails/plain/withdraw-acknowledgement.php:52
 #: templates/emails/withdraw-acknowledgement.php:61
-#, php-format
 msgid "Submitted on %s."
 msgstr "Złożone %s."
 
 #. translators: %s: SHA-256 verification hash
 #: templates/emails/plain/withdraw-acknowledgement.php:64
 #: templates/emails/withdraw-acknowledgement.php:78
-#, php-format
 msgid "Receipt verification code: %s"
 msgstr ""
 
 #: templates/emails/plain/withdraw-acknowledgement.php:70
-#: templates/emails/withdraw-accepted.php:54
+#: templates/emails/withdraw-accepted.php:55
 #: templates/emails/withdraw-acknowledgement.php:87
 msgid "Your declaration"
 msgstr "Twoje oświadczenie"
@@ -1842,7 +1817,6 @@ msgstr "Twoje oświadczenie"
 #: templates/emails/plain/withdraw-new-request.php:81
 #: templates/emails/withdraw-acknowledgement.php:110
 #: templates/emails/withdraw-new-request.php:95
-#, php-format
 msgid "Reason given: %s"
 msgstr "Podany powód: %s"
 
@@ -1860,13 +1834,11 @@ msgstr "Klient złożył oświadczenie o odstąpieniu."
 
 #. translators: %s: the name the customer gave on the declaration
 #: templates/emails/plain/withdraw-new-request.php:45
-#, php-format
 msgid "Name on the contract: %s"
 msgstr "Imię i nazwisko na umowie: %s"
 
 #. translators: %s: customer email address
 #: templates/emails/plain/withdraw-new-request.php:52
-#, php-format
 msgid "Customer: %s"
 msgstr "Klient: %s"
 
@@ -1889,9 +1861,8 @@ msgstr ""
 "wrócą do Ciebie lub klient udowodni, że je odesłał."
 
 #. translators: 1: withdrawal request id, 2: order number
-#: templates/emails/plain/withdraw-status.php:34
-#: templates/emails/withdraw-status.php:43
-#, php-format
+#: templates/emails/plain/withdraw-status.php:35
+#: templates/emails/withdraw-status.php:44
 msgid "This concerns withdrawal request #%1$d for order #%2$s."
 msgstr "Dotyczy wniosku o odstąpienie #%1$d dla zamówienia #%2$s."
 
@@ -1905,13 +1876,11 @@ msgstr "Otwórz dziennik wniosków o odstąpienie"
 
 #. translators: %s: order number
 #: templates/form-items.php:30
-#, php-format
 msgid "Withdraw from order #%s"
 msgstr "Wycofaj się z zamówienia #%s"
 
 #. translators: %s: date
 #: templates/form-items.php:41
-#, php-format
 msgid ""
 "The withdrawal period ended on %s. You can still send the declaration; the "
 "shop will review it."
@@ -1919,7 +1888,6 @@ msgstr ""
 
 #. translators: %s: date
 #: templates/form-items.php:43
-#, php-format
 msgid "Withdrawal is possible until %s."
 msgstr "Odstąpienie od umowy jest możliwe do %s."
 
@@ -1937,7 +1905,6 @@ msgstr "Wycofaj ilość"
 
 #. translators: %s: product
 #: templates/form-items.php:111
-#, php-format
 msgid "Withdraw quantity for %s"
 msgstr "Wycofaj ilość dla %s"
 
@@ -1982,7 +1949,6 @@ msgstr ""
 
 #. translators: %d: number of days
 #: templates/form-lookup.php:33
-#, php-format
 msgid ""
 "You have the right to withdraw from this contract within %d days without "
 "giving any reason."
@@ -2036,7 +2002,6 @@ msgstr "Potwierdź odstąpienie"
 
 #. translators: %s: date and time of submission
 #: templates/form-unmatched.php:29
-#, php-format
 msgid ""
 "We received your declaration on %s. It did not match an order automatically, "
 "so we will match it by hand and reply to the address you gave. Keep a copy "
@@ -2063,7 +2028,6 @@ msgstr ""
 
 #. translators: %d: number of minutes the link stays valid
 #: templates/link-sent.php:27
-#, php-format
 msgid ""
 "If that order exists and the email you gave is the billing address on it, we "
 "have sent a withdrawal link to that address. The link works for %d minutes. "
@@ -2109,7 +2073,6 @@ msgstr ""
 
 #. translators: 1: withdrawal request id, 2: status
 #: templates/request-links.php:30
-#, php-format
 msgid "Request #%1$d: %2$s"
 msgstr ""
 
@@ -2121,7 +2084,6 @@ msgstr ""
 
 #. translators: 1: order number, 2: status
 #: templates/withdraw-request-status.php:50
-#, php-format
 msgid "Order #%1$s. Status: %2$s."
 msgstr ""
 

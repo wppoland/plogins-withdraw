@@ -5,7 +5,7 @@ Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
 Requires Plugins: woocommerce
-Stable tag: 1.13.0
+Stable tag: 1.13.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,7 +23,7 @@ It is a **request-and-log** plugin: it records the customer's withdrawal declara
 * **Full or partial withdrawal**: the customer chooses how many of each item to withdraw from, and can come back for the rest of the order later: each line offers only what earlier declarations do not already cover.
 * **Withdrawal button in My Account**: a "Withdraw from contract here" button under the order details and the same action on the orders list, both linking to your withdrawal page with the order pre-filled, while the order is within the withdrawal period. The link also goes into the processing and completed order emails.
 * **Withdrawals tab in My Account**: signed-in customers see their own withdrawal requests (date, order, items and status), with a link to withdraw from the rest of an order while that is still possible. Only requests on orders placed under their own account are listed.
-* **Status page with cancel**: each request has a status page showing what was declared, the steps (received, under review, accepted or rejected, processed), the date it was received and the date of its last change. Signed-in customers open it from the Withdrawals tab, guests through the link in their acknowledgement email or the one-time order link, which lists every request already made on that order. While the shop has not decided yet, the customer can cancel the request in two steps; the shop gets an email and the goods can be declared again.
+* **Status page with cancel**: each request has a status page showing what was declared, the steps (received, under review, accepted or rejected, processed), the date it was received and the date of its last change. Signed-in customers open it from the Withdrawals tab, guests through the link in their acknowledgement or status-change emails or the one-time order link, which lists every request already made on that order. While the shop has not decided yet, the customer can cancel the request in two steps; the shop gets an email and the goods can be declared again.
 * **PDF copy of the acknowledgement**: a PDF with the shop's name and address, the request number, the date and time received, the order, the items, the declaration as submitted and the current status. Download it from the status page or the confirmation screen; it is also attached to the acknowledgement email. Built in, no PDF library needed, and it prints Polish, German and other EU letters as they are.
 * **Withdrawal link block**: a "Withdrawal link" block for the block editor and the Site Editor, so a block theme can carry the link in its footer on every page. It follows the same form page and link text settings as the shortcode, and the text can be changed per block.
 * **Withdrawal-period check**: configurable period (statutory minimum 14 days), measured from delivery (order completion, or a real delivery date from the `withdraw/delivery_date` filter) or, if never completed, from the order date. An order of only virtual products (services, digital content) counts from the order date, the day the contract is concluded (Directive 2011/83/EU Art. 9(2)(a) and (c)). Counted under Regulation 1182/71 Art. 3: the start day does not count, the period ends at midnight of its last day, and a last day on a Saturday or Sunday moves to the Monday. Optional grace days, and an advisory mode that accepts a late declaration and flags it instead of refusing it.
@@ -105,6 +105,10 @@ Yes. Orders are read through the WooCommerce order API, which is HPOS-compatible
 Plogins Withdraw is fully translatable and ships the `plogins-withdraw.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.13.1 =
+* New: the four status-change emails sent to the customer (accepted, rejected, processed and under review) now link to the request's status page, with the guest key, when the request belongs to an order.
+* Fixed: the request log and detail screen no longer repeat `id="_wpnonce"` across status and cancel forms.
 
 = 1.13.0 =
 * New: the shop can mark a pending request as cancelled by the customer, for a cancellation that arrived by post or phone ("Customer cancelled (by post or phone)" in the request log, after a confirmation). It fires `withdraw/cancelled` like the customer's own cancel, with a third argument `'shop'`, adds an order note and sends no email: no customer message answers a cancellation, and the shop notice is skipped because the shop made the change.

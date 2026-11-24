@@ -15,6 +15,7 @@
  * @var int            $request_id
  * @var string         $body_text
  * @var string         $admin_note
+ * @var string         $status_url
  * @var string         $email_heading
  * @var string         $additional_content
  * @var bool           $plain_text
@@ -46,6 +47,10 @@ do_action('woocommerce_email_header', $email_heading, $email); // phpcs:ignore W
     ));
     ?>
 </p>
+
+<?php if (! empty($status_url)) : ?>
+    <p><a href="<?php echo esc_url($status_url); ?>"><?php echo esc_html__('View withdrawal request', 'plogins-withdraw'); ?></a></p>
+<?php endif; ?>
 
 <?php
 if ($additional_content !== '') {

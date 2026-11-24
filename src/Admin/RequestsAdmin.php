@@ -620,7 +620,7 @@ final class RequestsAdmin implements HasHooks
         }
         ?>
         <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start">
-            <?php wp_nonce_field('withdraw_set_status'); ?>
+            <input type="hidden" name="_wpnonce" value="<?php echo esc_attr(wp_create_nonce('withdraw_set_status')); ?>">
             <input type="hidden" name="action" value="withdraw_set_status">
             <input type="hidden" name="request_id" value="<?php echo (int) $request->id; ?>">
             <select name="status">
@@ -637,7 +637,7 @@ final class RequestsAdmin implements HasHooks
         </form>
         <?php if ($request->status === 'pending') : ?>
             <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="margin-top:6px">
-                <?php wp_nonce_field('withdraw_mark_cancelled_' . (int) $request->id); ?>
+                <input type="hidden" name="_wpnonce" value="<?php echo esc_attr(wp_create_nonce('withdraw_mark_cancelled_' . (int) $request->id)); ?>">
                 <input type="hidden" name="action" value="withdraw_mark_cancelled">
                 <input type="hidden" name="request_id" value="<?php echo (int) $request->id; ?>">
                 <button type="submit" class="button button-small button-link-delete" onclick="return window.confirm(this.dataset.confirm);" data-confirm="<?php echo esc_attr__('Mark this request as cancelled by the customer? This cannot be undone.', 'plogins-withdraw'); ?>"><?php echo esc_html__('Customer cancelled (by post or phone)', 'plogins-withdraw'); ?></button>

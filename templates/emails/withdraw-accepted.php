@@ -24,6 +24,7 @@
  * @var string         $return_address
  * @var string         $return_cost_text
  * @var bool           $goods_back
+ * @var string         $status_url
  * @var string         $email_heading
  * @var string         $additional_content
  * @var bool           $plain_text
@@ -118,6 +119,10 @@ do_action('woocommerce_email_header', $email_heading, $email); // phpcs:ignore W
 <?php endif; ?>
 
 <p><?php echo esc_html__('We will refund you using the same means of payment you used, unless we have expressly agreed otherwise.', 'plogins-withdraw'); ?></p>
+
+<?php if (! empty($status_url)) : ?>
+    <p><a href="<?php echo esc_url($status_url); ?>"><?php echo esc_html__('View withdrawal request', 'plogins-withdraw'); ?></a></p>
+<?php endif; ?>
 
 <?php
 if ($additional_content !== '') {

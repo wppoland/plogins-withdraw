@@ -9,6 +9,7 @@
  * @var int            $request_id
  * @var string         $body_text
  * @var string         $admin_note
+ * @var string         $status_url
  * @var string         $email_heading
  * @var string         $additional_content
  * @var bool           $plain_text
@@ -35,6 +36,10 @@ echo esc_html(sprintf(
     $request_id,
     $order_number,
 )) . "\n\n";
+
+if (! empty($status_url)) {
+    echo esc_html__('View withdrawal request', 'plogins-withdraw') . ': ' . esc_url_raw($status_url) . "\n\n";
+}
 
 if ($additional_content !== '') {
     echo esc_html(wp_strip_all_tags(wptexturize($additional_content))) . "\n\n";

@@ -18,6 +18,7 @@
  * @var string         $return_address
  * @var string         $return_cost_text
  * @var bool           $goods_back
+ * @var string         $status_url
  * @var string         $email_heading
  * @var string         $additional_content
  * @var bool           $plain_text
@@ -95,6 +96,10 @@ if (($goods_back ?? true) && $return_cost_text !== '') {
 }
 
 echo esc_html__('We will refund you using the same means of payment you used, unless we have expressly agreed otherwise.', 'plogins-withdraw') . "\n\n";
+
+if (! empty($status_url)) {
+    echo esc_html__('View withdrawal request', 'plogins-withdraw') . ': ' . esc_url_raw($status_url) . "\n\n";
+}
 
 if ($additional_content !== '') {
     echo esc_html(wp_strip_all_tags(wptexturize($additional_content))) . "\n\n";

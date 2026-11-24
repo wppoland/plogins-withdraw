@@ -85,6 +85,7 @@ abstract class AbstractStatusEmail extends AbstractWithdrawEmail
             // rejection, optional otherwise, and printed either way: a customer
             // told only that the answer is no cannot do anything with it.
             'admin_note' => trim((string) ($this->request->admin_note ?? '')),
+            'status_url' => $this->statusUrl(),
         ];
     }
 }
