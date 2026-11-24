@@ -83,8 +83,8 @@ final class RequestRepository
      */
     public function updateStatus(int $id, string $status, ?string $note = null): bool
     {
-        // Cancelled belongs to the customer (cancel()): the shop can neither
-        // set it, which would skip withdraw/cancelled, nor undo it, which would
+        // Cancelled only goes through cancel(), from pending, so
+        // withdraw/cancelled always fires; it is never undone, which would
         // count the cancelled goods again.
         if ($status === 'cancelled' || ! in_array($status, self::STATUSES, true)) {
             return false;
@@ -393,6 +393,31 @@ final class RequestRepository
                 array_merge([Migrator::table()], $clean, [max(1, $limit), max(0, $offset)]),
             ),
         );
+
+        return is_array($rows) ? array_values($rows) : [];
+    }
+
+    /**
+     * Every request on one order made from its billing address, newest first:
+     * what a one-time order link may open the status page for.
+     *
+     * @return list<object>
+     */
+    public function forOrder(int $orderId, string $email): array
+    {
+        if ($orderId < 1 || $email === '') {
+            return [];
+        }
+
+        global $wpdb;
+
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+        $rows = $wpdb->get_results($wpdb->prepare(
+            'SELECT * FROM %i WHERE order_id = %d AND LOWER(customer_email) = %s ORDER BY id DESC LIMIT 50',
+            Migrator::table(),
+            $orderId,
+            strtolower(trim($email)),
+        ));
 
         return is_array($rows) ? array_values($rows) : [];
     }

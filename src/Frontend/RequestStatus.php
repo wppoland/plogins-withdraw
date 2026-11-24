@@ -99,15 +99,17 @@ final class RequestStatus implements HasHooks
         do_action('withdraw/status_changed', $id, 'cancelled', 'pending');
 
         /**
-         * Fires once a customer has cancelled a pending withdrawal request.
+         * Fires once a pending withdrawal request has been cancelled.
          *
          * The shop notification is a WooCommerce email listening here. A
          * returns add-on can close whatever it opened for the request.
          *
          * @param int            $id    Request id.
          * @param \WC_Order|null $order The order, or null for a declaration that matched none.
+         * @param string         $by    'customer' here; 'shop' when the shop recorded a
+         *                              cancellation it received by post or phone.
          */
-        do_action('withdraw/cancelled', $id, $order);
+        do_action('withdraw/cancelled', $id, $order, 'customer');
 
         return true;
     }
@@ -236,6 +238,19 @@ final class RequestStatus implements HasHooks
             'withdraw_can_cancel' => $request->status === 'pending',
             'withdraw_pdf_url'    => $this->pdfUrl($request, $key !== ''),
         ], '', WITHDRAW_DIR . 'templates/');
+
+        /**
+         * Fires under a withdrawal request its customer is looking at: the
+         * status page and the confirmation screen right after the declaration.
+         * Only ever after the viewer was authorised for this request, so an
+         * add-on can print a section there and take a POST of its own (with
+         * its own nonce) sent back to $url.
+         *
+         * @param object         $request The request row.
+         * @param \WC_Order|null $order   The order, or null for a declaration that matched none.
+         * @param string         $url     This request's status page, keyed for a guest.
+         */
+        do_action('withdraw/request_view', $request, $order instanceof \WC_Order ? $order : null, $this->statusUrl($request, $key !== ''));
 
         return (string) ob_get_clean();
     }
