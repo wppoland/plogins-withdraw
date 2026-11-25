@@ -28,6 +28,7 @@ final class Settings implements HasHooks
     public function registerHooks(): void
     {
         add_action('admin_menu', [$this, 'addMenuPage']);
+        add_filter('plugin_action_links_' . plugin_basename(\WITHDRAW_FILE), [$this, 'actionLinks']);
         add_action('admin_init', [$this, 'registerSettings']);
         add_action('admin_enqueue_scripts', [$this, 'enqueueAssets']);
         add_action('admin_notices', [$this, 'renderSetupNotice']);
@@ -72,6 +73,24 @@ final class Settings implements HasHooks
             self::PAGE,
             [$this, 'renderPage'],
         );
+    }
+
+    /**
+     * Shortcuts to the plugin's screens on the Plugins list.
+     *
+     * @param array<int|string, string> $links
+     * @return array<int|string, string>
+     */
+    public function actionLinks(array $links): array
+    {
+        array_unshift(
+            $links,
+            sprintf('<a href="%s">%s</a>', esc_url(admin_url('admin.php?page=' . self::PAGE)), esc_html__('Settings', 'plogins-withdraw')),
+            sprintf('<a href="%s">%s</a>', esc_url(admin_url('admin.php?page=' . RequestsAdmin::PAGE)), esc_html__('Withdrawal Requests', 'plogins-withdraw')),
+            sprintf('<a href="%s">%s</a>', esc_url(admin_url('admin.php?page=wc-settings&tab=email')), esc_html__('Emails', 'plogins-withdraw')),
+        );
+
+        return $links;
     }
 
     public function enqueueAssets(string $hook): void
